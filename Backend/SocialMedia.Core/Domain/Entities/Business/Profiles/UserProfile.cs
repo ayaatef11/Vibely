@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SocialMedia.Infrastructure.Domain.Entities.Base;
-using SocialMedia.Infrastructure.Domain.Entities.Security;
-
-namespace SocialMedia.Core.Domain.Entities.Business.Profiles;
+﻿namespace SocialMedia.Core.Domain.Entities.Business.Profiles;
 public class UserProfile : BaseEntity<Guid>
 {
     public int PostCount { set; get; }
@@ -21,4 +17,12 @@ public class UserProfile : BaseEntity<Guid>
     public string? BackgroundImageContentType { get; set; }
     public Guid SocialMediaUserId { set; get; }
     public User SocialMediaUser { set; get; }
+    public ICollection<Post> Posts { set; get; } = new List<Post>();
+    public ICollection<Share> Shares { set; get; } = new List<Share>();
+    public ICollection<Story> Stories { set; get; } = new List<Story>();
+  
+    public ICollection<Comment> Comments { set; get; } = new List<Comment>();
+    public ICollection<PostLikes> Reacts { set; get; } = new List<PostLikes>();
+    public ICollection<CommentLikes> CommentLikes { set; get; } = new List<CommentLikes>();
+
 }

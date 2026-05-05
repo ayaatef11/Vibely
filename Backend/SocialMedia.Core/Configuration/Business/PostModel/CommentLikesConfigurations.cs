@@ -9,16 +9,12 @@ public class CommentLikesConfigurations : IEntityTypeConfiguration<CommentLikes>
     {
         builder.ToTable("CommentLikes").HasKey(x => x.Id);
 
-        builder.HasOne(x => x.User).
-            WithMany(x => x.CommentLikes).
-            HasForeignKey(x => x.SocialMediaUserId).
-            OnDelete(DeleteBehavior.Restrict).
-            IsRequired(true);
+        //builder.HasOne(x => x.Profile).
+        //    WithMany(x => x.CommentLikes).
+        //    HasForeignKey(x => x.ProfileId).
+        //    OnDelete(DeleteBehavior.Restrict).
+        //    IsRequired(true);
 
-        builder.HasOne(x => x.Comment).
-            WithMany(x => x.CommentLikes).
-            HasForeignKey(x => x.CommentId).
-            OnDelete(DeleteBehavior.Restrict).
-            IsRequired(true);
+   
     }
 }

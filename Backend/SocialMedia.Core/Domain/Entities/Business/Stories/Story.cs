@@ -1,4 +1,6 @@
-﻿namespace SocialMedia.Infrastructure.Domain.Entities.Business.Stories;
+﻿using SocialMedia.Core.Domain.Entities.Business.Profiles;
+
+namespace SocialMedia.Infrastructure.Domain.Entities.Business.Stories;
 public class Story : BaseEntity<Guid>
 {
     public string? Text { get; set; }
@@ -7,8 +9,8 @@ public class Story : BaseEntity<Guid>
     public string? ImageContentType { get; set; }
     public string? VideoContentType { get; set; }
 
-    public Guid UserId { set; get; }
-    public User User { set; get; }
+    public Guid ProfileId { set; get; }
+    public UserProfile Profile { set; get; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 }

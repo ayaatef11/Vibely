@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace SocialMedia.Infrastructure.Persistence.Configuration.Business.PostModel;
     public class CommentConfigurations : IEntityTypeConfiguration<Comment>
@@ -16,10 +17,14 @@ namespace SocialMedia.Infrastructure.Persistence.Configuration.Business.PostMode
                 .IsRequired(true);
 
             // relationship  one to many between User and Comment
-            builder.HasOne(x => x.User).
+            builder.HasOne(x => x.Profile).
                 WithMany(x => x.Comments).
-                HasForeignKey(x => x.UserId).
+                HasForeignKey(x => x.ProfileId).
                 OnDelete(DeleteBehavior.Restrict).
                 IsRequired(true);
-        }
+    builder.HasMany(c => c.CommentLikes)
+    .WithOne(cl=>cl.Comment)
+    .HasForeignKey(cl => cl.CommentId)
+    .OnDelete(DeleteBehavior.Cascade);
+    }
     }

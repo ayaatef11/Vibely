@@ -14,9 +14,9 @@ public class ShareConfigurations : IEntityTypeConfiguration<Share>
             .OnDelete(DeleteBehavior.Restrict)
             .IsRequired(true);
 
-        builder.HasOne(x => x.SocialMediaUser)
+        builder.HasOne(x => x.Profile)
            .WithMany(x => x.Shares)
-           .HasForeignKey(x => x.SocialMediaUserId)
+           .HasForeignKey(x => x.ProfileId)
            .OnDelete(DeleteBehavior.Restrict)
            .IsRequired(true);
     }

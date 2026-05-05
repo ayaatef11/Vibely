@@ -13,10 +13,9 @@ public class PostConfigurations : IEntityTypeConfiguration<Post>
     {
         builder.ToTable("Post").HasKey(x => x.Id);
 
-        // relationship  one to many between User and Post
-        builder.HasOne(x => x.SocialMediaUser).
+        builder.HasOne(x => x.Profile).
             WithMany(x => x.Posts).
-            HasForeignKey(x => x.SocialMediaUserId).
+            HasForeignKey(x => x.ProfileId).
             OnDelete(DeleteBehavior.Restrict).
             IsRequired(true);
     }

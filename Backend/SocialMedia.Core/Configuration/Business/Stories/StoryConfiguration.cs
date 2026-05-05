@@ -3,17 +3,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialMedia.Infrastructure.Domain.Entities.Business.Stories;
 
 namespace SocialMedia.Infrastructure.Persistence.Configuration.Business.Stories;
-    public class StoryConfiguration : IEntityTypeConfiguration<Story>
+public class StoryConfiguration : IEntityTypeConfiguration<Story>
+{
+    public void Configure(EntityTypeBuilder<Story> builder)
     {
-        public void Configure(EntityTypeBuilder<Story> builder)
-        {
-            builder.ToTable("Story").HasKey(x=>x.Id);
+        builder.ToTable("Story").HasKey(x => x.Id);
 
-            builder.HasOne(x => x.User)
-                .WithMany(x => x.Stories)
-                .HasForeignKey(x=>x.UserId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired(false);
-        }
+        builder.HasOne(x => x.Profile)
+            .WithMany(x => x.Stories)
+            .HasForeignKey(x => x.ProfileId)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
     }
+}
 

@@ -16,9 +16,9 @@ public class PostLikesConfigurations : IEntityTypeConfiguration<PostLikes>
             IsRequired(true);
 
         // relationship  one to many between User and react
-        builder.HasOne(x => x.SocialMediaUser).
+        builder.HasOne(x => x.Profile).
             WithMany(x => x.Reacts).
-            HasForeignKey(x => x.SocialMediaUserId).
+            HasForeignKey(x => x.ProfileId).
             OnDelete(DeleteBehavior.Restrict).
             IsRequired(true);
     }

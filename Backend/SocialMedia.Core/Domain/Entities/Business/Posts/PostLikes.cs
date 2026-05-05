@@ -1,21 +1,13 @@
-﻿using SocialMedia.Infrastructure.Domain.Entities.Base;
-using SocialMedia.Infrastructure.Domain.Entities.Security;
+﻿using SocialMedia.Core.Domain.Entities.Business.Profiles; 
 using SocialMedia.Infrastructure.Domain.Enums;
 
-namespace SocialMedia.Infrastructure.Domain.Entities.Business.Posts
+namespace SocialMedia.Infrastructure.Domain.Entities.Business.Posts;
+public sealed class PostLikes : BaseEntity<Guid>
 {
-    public sealed class PostLikes : BaseEntity<Guid>
-    {
-        #region Fields
-        public ReactionType ReactionType { set; get; }
-        #endregion
+    public ReactionType ReactionType { set; get; }
 
-        #region Relationships
-        public Post Post { set; get; }
-        public Guid PostId { set; get; }
-        public Guid SocialMediaUserId { set; get; }
-        public User SocialMediaUser { set; get; }
-        #endregion
-    }
+    public Post Post { set; get; }
+    public Guid PostId { set; get; }
+    public Guid ProfileId { set; get; }
+    public UserProfile Profile { set; get; }
 }
-

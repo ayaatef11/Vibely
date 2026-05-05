@@ -1,4 +1,5 @@
-﻿using SocialMedia.Infrastructure.Domain.Enums;
+﻿using SocialMedia.Core.Domain.Entities.Business.Profiles;
+using SocialMedia.Infrastructure.Domain.Enums;
 
 namespace SocialMedia.Infrastructure.Domain.Entities.Business.Posts;
 public sealed class Post : BaseEntity<Guid>
@@ -15,8 +16,8 @@ public sealed class Post : BaseEntity<Guid>
     public string? SaverIds {  set; get; }
     public bool IsSaved { set; get; } = false;
     public bool IsReel { set; get; } = false;
-    public Guid SocialMediaUserId { set; get; }
-    public User SocialMediaUser { set; get; }
+    public Guid ProfileId { set; get; }
+    public UserProfile Profile { set; get; }
     public ICollection<PostLikes>? Reacts { set; get; } = new List<PostLikes>();
     public ICollection<Share>? Shares { set; get; } = new List<Share>();
     public ICollection<Image>? Images { set; get; } = new List<Image>();
