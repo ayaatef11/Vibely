@@ -1,88 +1,47 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Core.Domain.DTOs.Requests.Post;
+using SocialMedia.Infrastructure.Domain.Entities.Business.Posts;
 
 namespace SocialMedia.API.Controllers;
 [ApiController]
 [Route("api/post")]
-public partial class PostController(IPostService _PostService,IMainRepository<Post>_PostRepository) : ControllerBase
+public partial class PostController(IPostService _PostService,IMainRepository<Post>_PostRepository,IProfileService _profileService) : ControllerBase
 {
     [HttpPost("add")]
     public async Task<IActionResult> Add(CreatePostDTO post)
     {
-        var _post = new Post()
-        {
-            Id=Guid.NewGuid(),
-            ShareCount = 0,
-            ReactsCount = 0,
-            FeelingState = 0,
-            CommentsCount = 0,
-            Text = post.Text,
-            Title = post.Title,
-            CreatedAt = DateTime.UtcNow,
-            SocialMediaUserId = post.SocialMediaUserId,
-            MediaUrls= System.Text.Json.JsonSerializer.Serialize(
-    await Task.WhenAll(post.Media.Select(m => PhotoHelper.Upload_photo(m)))
-)
-        };
-
-        var addPostOperation = await _PostRepository.CreateAsync(_post);
-        return addPostOperation == "Created" ?
-            Ok(new Result
-            {
-                Message = "Post Added Suceessfully"
-            }) :
-            BadRequest(addPostOperation);
+       var result=await _PostService.AddPost(post);
+        return Ok(result);
     }
 
     [HttpPut("edit")]
     public async Task<IActionResult> Update(UpdatePostDTO post)
     {
-        var _post = await _PostRepository.GetAsync(post.Id);
-        if (_post == null)
-            return NotFound("Post not found");
-
-        _post.Text = post.Text;
-        _post.Title = post.Title;
-        _post.FeelingState = post.FeelingState;
-        var updatePostOperation = await _PostRepository.UpdateAsync(_post, post.Id);
-
-        return updatePostOperation == "Updated" ?
-            Ok(new Result
-            {
-                Message = "Post Updated Suceessfully"
-            }) :
-            BadRequest(updatePostOperation);
+        var result=await _PostService.EditPost(post);
+        return  Ok(result);
     }
 
-    [HttpGet("user/{id}")]
-    public async Task<IActionResult> GetPostsForUser(Guid id)
+    [HttpGet("user/{profileId}")]
+    public async Task<IActionResult> GetPostsForUser(Guid profileId)
+    { 
+        var result = await _PostService.GetUserPostsAsync(profileId);
+
+        return result != null ? Ok(result) :NotFound(new Result{Message = "No Posts Found for this User"});
+    }
+    [HttpGet("{postId}")]
+    public async Task<IActionResult> GetPost(Guid postId)
     {
-        if (id == Guid.Empty)
-            return BadRequest("Invalid User ID");
+        var result = await _PostService.GetPost(postId);
 
-        var result = await _PostService.GetUserPostsAsync(id);
-
-        return result != null ? Ok(result) :
-            NotFound(new Result
-        {
-            Message = "No Posts Found for this User"
-        });
+        return result != null ? Ok(result) : NotFound(new Result { Message = "No Posts Found for this User" });
     }
 
-    
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        if (id == Guid.Empty)
-            return BadRequest("Invalid Post ID");
-
-        var deletePostOperation = await _PostRepository.DeleteAsync(id);
-
-        return deletePostOperation == "Deleted" ?
-            Ok(
-            new Result {
-                Message = "Post Deleted Suceessfully" 
-            }) :  BadRequest(deletePostOperation);
+       await  _PostService.DeletePost(id);
+        return  Ok(new Result { Message = "Post Deleted Suceessfully"}) ;
     }
     [HttpGet("get-all")]
     public async Task<IActionResult> GetAllPosts(Guid userId)

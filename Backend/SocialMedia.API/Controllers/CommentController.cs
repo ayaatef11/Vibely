@@ -1,55 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SocialMedia.Application.Abstractions.PostAbstractions;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc; 
 namespace SocialMedia.API.Controllers;
 [ApiController]
 [Route("api/Comment")]
-public class CommentController(ICommentService _CommentService, ICommentLikeService _CommentLikeService) : ControllerBase
+public class CommentController(ICommentService _CommentService, ICommentLikeService _CommentLikeService, IMapper _mapper) : ControllerBase
 {
     [HttpPost("add")]
     public async Task<IActionResult> Add(AddCommentDTO comment)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-         
-        var addCommentOperation = await _CommentService.AddComment(comment);
-        return addCommentOperation >0 ?
-            Ok(new Result
-            {
-                Message = "Comment Added Successfully"
-            }) :
-            BadRequest(addCommentOperation);
+        var result = await _CommentService.AddComment(comment);
+        return Ok(result);
     }
 
     [HttpPost("like")]
     public async Task<IActionResult> Like([FromBody] LikeCommentDTO likeComment)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
-        var likeOperation = await _CommentLikeService.LikeAsync(likeComment);
-        return likeOperation == "Liked" ?
-            Ok(new Result
-            {
-                Message = "Comment Liked Successfully"
-            }) :
-            BadRequest(likeOperation);
+        var result = await _CommentLikeService.LikeAsync(likeComment);
+        return Ok(result);
     }
 
 
     [HttpPut("edit")]
     public async Task<IActionResult> Edit(EditCommentDTO comment)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-         
-        var updateCommentOperation = await _CommentService.EditComment(comment);
-        return updateCommentOperation >=1?
-            Ok(new Result
-            {
-                Message = "Comment Updated Successfully"
-            }) :
-            updateCommentOperation==-1 ? BadRequest("Not found"):
-            BadRequest(updateCommentOperation);
+    { 
+        var result = await _CommentService.EditComment(comment);
+
+        return Ok(result);
     }
 
     [HttpDelete("dislike")]
@@ -58,32 +34,26 @@ public class CommentController(ICommentService _CommentService, ICommentLikeServ
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var dislikeOperation = await _CommentLikeService.DisLikeAsync(dislikeComment);
-        return dislikeOperation == "Disliked" ?
-            Ok(new Result
-            {
-                Message = "Comment Disliked Successfully"
-            }) :
-            BadRequest(dislikeOperation);
+        var result = await _CommentLikeService.DisLikeAsync(dislikeComment);
+        return Ok(result);
     }
 
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> Delete(Guid id)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
+    { 
         var deleteCommentOperation = await _CommentService.DeleteComment(id);
 
-        return deleteCommentOperation >=1 ? Ok("Comment Deleted Successfully") : deleteCommentOperation == -1 ? BadRequest("Not found") : BadRequest(deleteCommentOperation);
+        return deleteCommentOperation >= 1 ? Ok(new Result { Message = "Comment Deleted Successfully" }) :
+            deleteCommentOperation == -1 ? BadRequest(new Result { Message = "Not found" })
+            : BadRequest(deleteCommentOperation);
     }
     [HttpGet("{postId}")]
-    public async Task<IActionResult> GetComments([FromRoute]Guid id)
+    public async Task<IActionResult> GetComments(Guid postId)
     {
-        if (id == Guid.Empty)
-            return BadRequest("Invalid Post ID");
+        if (postId == Guid.Empty)
+            return BadRequest(new Result { Message = "Invalid Post ID" });
 
-        var comments = await _CommentService.GetComments(id);
+        var comments = await _CommentService.GetComments(postId);
         return comments != null ?
             Ok(comments) :
             NotFound(new Result

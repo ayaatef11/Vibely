@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Core.Domain.DTOs.Requests.Block;
 
 namespace SocialMedia.API.Controllers;
 [ApiController]

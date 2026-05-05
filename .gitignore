@@ -16,3 +16,4 @@ migrations/
 .vs/
 **/obj/
 **/bin/
+/Backend/SocialMedia.API/Properties/launchSettings.json

@@ -9,7 +9,7 @@ import { LoginResponse } from '../../../Models/Auth/Responses/LoginResponse';
 import { ForgetPasswordResetRequest } from '../../../Models/Auth/Requests/ForgetPasswordResetRequest';
 import { ForgetPasswordResetResponse } from '../../../Models/Auth/Responses/ForgetPasswordResetResponse';
 
-@Injectable({
+@Injectable({//make this service global
   providedIn: 'root'
 })
 export class AuthenticationService {
@@ -49,7 +49,7 @@ export class AuthenticationService {
     )
   }
 
-  private handleError(error: any) {
+  private handleError(error: any) {//to filter the error
     console.error('An error occurred:', error);
     return throwError(() => new Error(
       error.error?.message ||

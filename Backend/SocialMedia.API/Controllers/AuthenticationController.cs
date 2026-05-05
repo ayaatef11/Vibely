@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Core.Domain.DTOs.Requests.Authentication;
 namespace SocialMedia.API.Controllers;
 [ApiController]
 [Route("api/Authentication")]
@@ -40,7 +41,7 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
         if (result == "NotFound")
             return NotFound("User not found");
 
-        return Ok(result);
+        return Ok(new Result(){ Message= result });
     }
 
     [HttpPut("Forgot-Password-Reset")]

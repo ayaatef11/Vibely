@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Core.Domain.DTOs.Requests.Profiles;
 
 namespace SocialMedia.API.Controllers;
 [ApiController]
@@ -6,18 +7,13 @@ namespace SocialMedia.API.Controllers;
 public class ProfileController(IProfileService _ProfileService) : ControllerBase
 {
     [HttpPut("edit")]
-    public async Task<IActionResult> Edit(EditProfileDTO edit)
+    public async Task<IActionResult> Edit([FromForm] EditProfileDTO edit)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var editOperation = await _ProfileService.EditAsync(edit);
-        return editOperation == "Successfully" ?
-            Ok(new Result
-            {
-                Message = "Profile Updated Successfully"
-            }) :
-            BadRequest(editOperation);
+        var result = await _ProfileService.EditAsync(edit);
+        return Ok(result);
     }
     [HttpGet("followers")]
     public async Task<IActionResult>GetFollowers(Guid userId)
@@ -32,9 +28,9 @@ public class ProfileController(IProfileService _ProfileService) : ControllerBase
         return Ok(result);
     }
     [HttpGet("view")]
-    public async Task<IActionResult>ViewProfile(Guid userId)
+    public async Task<IActionResult>ViewProfile(Guid profileId)
     {
-        var result=await _ProfileService.ViewProfile(userId);
+        var result=await _ProfileService.ViewProfile(profileId);
         return Ok(result);
 
     }

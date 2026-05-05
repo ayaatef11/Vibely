@@ -7,27 +7,33 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
     [HttpGet("get-all")]
     public async Task<IActionResult> GetAllStories(Guid userId)
     {
-        var stories=await _StoryService.GetAllStories(userId);
+        var stories = await _StoryService.GetAllStories(userId);
         return Ok(stories);
     }
-    [HttpGet("get-viewers")]
-    public async Task<IActionResult>GetViewersForStory(Guid userId,Guid storyId)
+    [HttpGet("view")]
+    public async Task<IActionResult> ViewStory(Guid userId, Guid storyId)
     {
-        var viewers = await _StoryService.GetViewersForStory(userId,storyId);
+        await _StoryService.ViewStory(userId, storyId);
+        return Ok();
+    }
+    [HttpGet("get-viewers")]
+    public async Task<IActionResult> GetViewersForStory(Guid userId, Guid storyId)
+    {
+        var viewers = await _StoryService.GetViewersForStory(userId, storyId);
         return Ok(viewers);
     }
     [HttpPost("add-react")]
-    public async Task<IActionResult>ReactToStory(Guid userId, Guid storyId)
+    public async Task<IActionResult> ReactToStory(Guid userId, Guid storyId)
     {
         await _StoryService.ReactToStory(userId, storyId);
         return Ok();
     }
     [HttpPost("add-comment")]
-    public async Task<IActionResult>CommentToStory(AddCommentDTO comment)
+    public async Task<IActionResult> CommentToStory(AddCommentDTO comment)
     {
         await _StoryService.CommentToStory(comment);
         return Ok();
-    } 
+    }
     [HttpPost("add")]
     public async Task<IActionResult> Add(UploadStoryDTO story)//add signalr
     {

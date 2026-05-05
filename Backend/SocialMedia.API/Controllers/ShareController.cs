@@ -11,9 +11,17 @@ public class ShareController(ISharePostService _ShareService) : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest("Invalid Input Data");
 
-        var shareOperation = await _ShareService.Start(share);
-        return shareOperation == "Successfully" ?
-            Ok(shareOperation) : BadRequest(shareOperation);
+        var result = await _ShareService.Start(share);
+        return Ok(result);
+    }
+    [HttpGet("share/{token}")]
+    public async Task<IActionResult> OpenSharedPost(string token)
+    {
+        var share = await _ShareService.OpenSharedPost(token);
+        if (share == null)
+            return NotFound();
+
+        return Ok(share);
     }
 
     [HttpDelete("revoke")]
@@ -22,8 +30,7 @@ public class ShareController(ISharePostService _ShareService) : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest("Invalid Input Data");
 
-        var revokeShareOperation = await _ShareService.Revoke(share);
-        return revokeShareOperation == "Successfully" ?
-            Ok(revokeShareOperation) : BadRequest(revokeShareOperation);
+        var result = await _ShareService.Revoke(share);
+       return  Ok(result);
     }
 }

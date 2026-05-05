@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Core.Domain.DTOs.Requests.Followers;
 
 namespace SocialMedia.API.Controllers;
 [ApiController]
@@ -12,6 +13,20 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
             return BadRequest(ModelState);
 
         var requestOperation = await _FollowerService.RequestFollowAsync(follow);
+        return requestOperation == "Successfully" ?
+            Ok(new Result
+            {
+                Message = "Follow Sent Successfully"
+            })
+            : BadRequest(requestOperation);
+    }
+    [HttpPost("unrequest")]
+    public async Task<IActionResult> DeleteRequest(FollowDTO follow)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var requestOperation = await _FollowerService.UnrequestFollowAsync(follow);
         return requestOperation == "Successfully" ?
             Ok(new Result
             {
@@ -64,6 +79,12 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
            })
            : BadRequest(unfollowOperation);
     }
+    [HttpGet("view")]
+    public async Task<IActionResult> ViewRequests(Guid userId)
+    {
+        var result=await _FollowerService.ViewRequests(userId);
+        return Ok(result);
+    }
 
     [HttpGet("Get/{id}")]
     public async Task<IActionResult> Get(Guid id)
@@ -71,11 +92,24 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var followers = await _FollowerService.GetFollowerAsync(id);
+        var followers = await _FollowerService.GetFollowersAsync(id);
         return followers.Any() ? Ok(followers)
             : NotFound(new Result
             {
                 Message = "User Not Has Any Followes"
+            });
+    }
+    [HttpGet("Get-following/{id}")]
+    public async Task<IActionResult> GetFollowingWithStories(Guid id)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var followers = await _FollowerService.GetFollowingWithStoriesAsync(id);
+        return followers.Any() ? Ok(followers)
+            : NotFound(new Result
+            {
+                Message = "User Not Has Any followings"
             });
     }
 }
