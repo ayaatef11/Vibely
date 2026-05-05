@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SocialMedia.Core.Context;
+using SocialMedia.Core.Domain.DTOs.Requests.Authentication;
 using SocialMedia.Core.Domain.Entities.Business.Profiles;
 
 namespace SocialMedia.Application.Implementations;

@@ -1,6 +1,9 @@
-﻿namespace SocialMedia.Application.Abstractions;
+﻿using SocialMedia.Application.DTOs.Responses;
+using SocialMedia.Core.Domain.DTOs.Requests.Comment;
+
+namespace SocialMedia.Application.Abstractions;
 public interface ICommentLikeService 
 {
-    ValueTask<string> LikeAsync(LikeCommentDTO like);
-    ValueTask<string> DisLikeAsync(LikeCommentDTO like);
+    ValueTask<CommentResponse> LikeAsync(LikeCommentDTO like);
+    ValueTask<CommentResponse> DisLikeAsync(LikeCommentDTO like);
 }

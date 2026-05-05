@@ -1,10 +1,56 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore; 
-using SocialMedia.Core.Domain.DTOs.Responses;
+using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.Abstractions;
+using SocialMedia.Application.DTOs.Responses.Posts;
+using SocialMedia.Application.Helpers.Media;
+using SocialMedia.Core.Domain.DTOs.Requests.Post;
+using SocialMedia.Infrastructure.Domain.Entities.Security;
 
 namespace SocialMedia.Application.Implementations;
-public class PostService(AppdbContext _context, IMapper _mapper) : IPostService
-{   
+public class PostService(AppdbContext _context, IMapper _mapper,ProfileService _profileService, IMainRepository<Post> _PostRepository) : IPostService
+{
+    public async ValueTask<PostResponse> AddPost(CreatePostDTO post)
+    {
+        var _post = new Post()
+        {
+            Id = Guid.NewGuid(),
+            ShareCount = 0,
+            ReactsCount = 0,
+            FeelingState = 0,
+            CommentsCount = 0,
+            Text = post.Text,
+            Title = post.Title,
+            CreatedAt = DateTime.UtcNow,
+            ProfileId = post.ProfileId,
+            MediaUrls = System.Text.Json.JsonSerializer.Serialize(
+           await Task.WhenAll(post.Media.Select(m => PhotoHelper.Upload_photo(m)))
+       )
+        };
+
+        var addPostOperation = await _PostRepository.CreateAsync(_post);
+        await _profileService.updatePostsCount(post.ProfileId, true);
+        return _mapper.Map<PostResponse>(post);
+    }
+
+    public async  ValueTask<PostResponse> EditPost(UpdatePostDTO postRequest)
+    {
+        var _post = await _PostRepository.GetAsync(postRequest.Id);
+        if (_post == null)
+            throw new Exception("Post not found");
+
+        _post.Text = postRequest.Text;
+        _post.Title = postRequest.Title;
+        _post.FeelingState = postRequest.FeelingState;
+        await _PostRepository.UpdateAsync(_post, postRequest.Id);
+        return _mapper.Map<PostResponse>(_post);
+    }
+
+    public async ValueTask DeletePost(Guid id)
+    {
+        var post = await _PostRepository.GetAsync(id);
+        await _PostRepository.DeleteAsync(id);
+        await _profileService.updatePostsCount(post.ProfileId, false);
+    }
     public async ValueTask<Post?>SearchForPost(string keyword)
     {
         var post=await _context.Posts.FirstOrDefaultAsync(x => x.Title.Contains( keyword) ||(x.Text!=null && x.Text.Contains(keyword)));
@@ -34,36 +80,50 @@ public class PostService(AppdbContext _context, IMapper _mapper) : IPostService
         var likesCount = await _context.Posts.Where(s => s.Id == postId).Select(s => s.ReactsCount).FirstOrDefaultAsync();
         return likesCount;
     }
-    public async ValueTask<IEnumerable<PostResponse>> GetUserPostsAsync(Guid id)
+    public async ValueTask<IEnumerable<PostResponse>> GetUserPostsAsync(Guid profileId)
     {
-        var user = await _context.Users
+        var user = await _context.Profiles
             .Include(x => x.Posts)
-            .SingleOrDefaultAsync(x => x.Id == id);
+            .SingleOrDefaultAsync(x => x.Id == profileId);
 
         if (user == null)
             return new List<PostResponse>();
 
-        var shareIds = await _context.Shares.Where(x => x.SocialMediaUserId == id).Select(x => x.PostId).ToListAsync();
+        var shareIds = await _context.Shares.Where(x => x.ProfileId == profileId).Select(x => x.PostId).ToListAsync();
         var postShared = await _context.Posts.Where(x => shareIds.Contains(x.Id)).ToListAsync();
         var finalPosts = user.Posts.ToList();
         finalPosts.AddRange(postShared);
         var result = _mapper.Map<List<PostResponse>>(finalPosts);
         return result;
     }
-    public async ValueTask<IEnumerable<PostResponse>> GetAllPosts(Guid userId)
+    public async ValueTask<PostResponse>GetPost(Guid postId)
     {
-        var user=await _context.Users.Include(u=>u.Following).FirstOrDefaultAsync(u=>u.Id== userId);
-        if (user == null) return null;
-        var posts= await _context.Posts.Where(s=>user.Following.Select(f=>f.FollowerId).Contains(s.SocialMediaUserId) && s.IsHidden ==false)
-            .ToListAsync();
-        var result = _mapper.Map<List<PostResponse>>(posts);
+        var post=await _context.Posts.FirstOrDefaultAsync(x => x.Id == postId);
+        return _mapper.Map<PostResponse>(post);
+    }
+    public async ValueTask<IEnumerable<PostResponseWithComments>> GetAllPosts(Guid userId)
+    {
+        var profileId=await _context.Users.Where(c => c.Id == userId).Select(c=>c.ProfileId).FirstOrDefaultAsync();
+        var posts = await _context.Follows
+        .Where(f => f.FollowerId == userId)
+        .SelectMany(f => f.Following.Profile.Posts).Include(c=>c.Comments)
+        .ToListAsync();
+       
+        var result = _mapper.Map<List<PostResponseWithComments>>(posts);
+        foreach (var post in result)
+        {
+            post.IsLiked = await _context.PostLike
+                .AnyAsync(l => l.PostId == post.Id && l.ProfileId == profileId);
+        }
 
         return result;
-    }
+ }
     public async ValueTask HidePost(Guid postId)
     {
         var post=await _context.Posts.FirstOrDefaultAsync(s => s.Id == postId);
         if (post == null) return;
         post.IsHidden = true;
     }
+
+   
 }

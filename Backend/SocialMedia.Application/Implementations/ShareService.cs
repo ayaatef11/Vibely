@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SocialMedia.Application.Abstractions.PostAbstractions;
+using SocialMedia.Application.DTOs.Responses.Posts;
 using SocialMedia.Core.Context;
+using SocialMedia.Core.Domain.DTOs.Requests.Share;
 
 namespace SocialMedia.Application.Implementations;
-public class ShareService(AppdbContext _context) :  ISharePostService
+public class ShareService(AppdbContext _context,IMapper _mapper) :  ISharePostService
 {
     public async ValueTask<string> Revoke(RevokeShareDTO revoke)
     {
@@ -12,8 +15,8 @@ public class ShareService(AppdbContext _context) :  ISharePostService
         if (share == null)
             return "Share Not Found";
 
-        var _user = await _context.Users.SingleOrDefaultAsync(x => x.Id == revoke.UserId);
-        if (_user == null)
+        var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == revoke.ProfileId);
+        if (profile == null)
             return "User Not Found";
 
         var _post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == revoke.PostId);
@@ -21,7 +24,7 @@ public class ShareService(AppdbContext _context) :  ISharePostService
             return "Post Not Found";
 
         _post.ShareCount--;
-        _user.Posts.Remove(_post);
+        profile.Posts.Remove(_post);
         _context.Shares.Remove(share);
         var revokeOperation = await _context.SaveChangesAsync();
 
@@ -29,28 +32,41 @@ public class ShareService(AppdbContext _context) :  ISharePostService
             "Successfully" : "Invalid Revoke";
     }
 
-    public async ValueTask<string> Start(StartShareDTO start)
+    public async ValueTask<string?> Start(StartShareDTO start)
     {
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == start.PostId);
         if (post == null)
-            return "PostNF";
+            return null;
 
-        var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == start.UserId);
-        if (user == null)
-            return "UserNF";
-
+        var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == start.ProfileId);
+        if (profile == null)
+            return null;
+        var token = Guid.NewGuid().ToString("N");
         var share = new Share()
         {
             PostId = start.PostId,
             CreatedAt = DateTime.UtcNow,
-            SocialMediaUserId = start.UserId
+            ProfileId = start.ProfileId,
+            ShareToken = token
         };
         _context.Shares.Add(share);
         post.ShareCount++;
         _context.Posts.Update(post);
-        var shareOperation = await _context.SaveChangesAsync();
+         await _context.SaveChangesAsync();
 
-        return shareOperation > 0 ?
-            "Successfully" : "Invalid";
+        var url = $"https://localhost:7042/api/Share/share/{token}";
+
+        return url;
+    }
+    public async Task<PostResponse?> OpenSharedPost(string token)
+    {
+        var share = await _context.Shares
+            .Include(x => x.Post)
+            .FirstOrDefaultAsync(x => x.ShareToken == token);
+
+        if (share == null)
+            return null;
+
+        return _mapper.Map<PostResponse>(share.Post);
     }
 }

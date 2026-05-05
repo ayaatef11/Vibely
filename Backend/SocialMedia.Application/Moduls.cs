@@ -10,21 +10,19 @@ public static class Moduls
     {
         service.AddTransient<IUnitOfWork, UnitOfWork>();
 
-        service.AddTransient<IMailService, MailService>();
-
-        service.AddTransient<IPostService, PostService>();
-        service.AddTransient<IPostLikeService, PostLikeService>();
-        service.AddTransient<ISavePostService, SavePostService>();
-        service.AddTransient<ISharePostService, ShareService>();
-
-        service.AddTransient<ICommentService, CommentService>();
-        service.AddTransient<IProfileService, ProfileService>();
-        service.AddTransient<IBlockService, BlockService>();
-
-        service.AddTransient<ICommentLikeService, CommentLikeService>();
-        service.AddTransient<IAuthenticationService, AuthenticationService>();
-        service.AddTransient<IFollowerService, FollowerService>();
-        service.AddTransient<IStoryService, StoryService>();
+        service.AddScoped<IMailService, MailService>();
+        service.AddScoped<IUsersService, UsersService>();
+        service.AddScoped<IPostService, PostService>();
+        service.AddScoped<IPostLikeService, PostLikeService>();
+        service.AddScoped<ISavePostService, SavePostService>();
+        service.AddScoped<ISharePostService, ShareService>();
+        service.AddScoped<ICommentService, CommentService>();
+        service.AddScoped<IProfileService, ProfileService>();
+        service.AddScoped<IBlockService, BlockService>();
+        service.AddScoped<ICommentLikeService, CommentLikeService>();
+        service.AddScoped<IAuthenticationService, AuthenticationService>();
+        service.AddScoped<IFollowerService, FollowerService>();
+        service.AddScoped<IStoryService, StoryService>();
     }
 }
 

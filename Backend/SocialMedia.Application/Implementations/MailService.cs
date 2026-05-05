@@ -1,37 +1,64 @@
-﻿using System.Net.Mail;
-using System.Net;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Configuration;
+using MimeKit;
+using static Org.BouncyCastle.Math.EC.ECCurve;
+//using System.Net.Mail;
 
 namespace SocialMedia.Application.Implementations;
-public class MailService(IConfiguration _config) : IMailService
-{ 
-    public async ValueTask<string> SendMailAsync(string email, string subject, string message)
+
+public class MailService(IConfiguration _configuration) : IMailService
+{
+    public async ValueTask<string> SendMailAsync(string email, string subject, string toMessage)
     {
-        var smtpOptions = _config.GetSection("SMTP").Get<SMTPOptions>();
-
-        if (email == null || subject == null || message == null)
-            return "Invalid Data Message";
-
-        if (!(int.TryParse(smtpOptions.Port, out int PortNumber)))
-            return "Invalid Port Number";
-
-        using (var client = new SmtpClient(smtpOptions.Server, PortNumber))
+        try
         {
-            client.Credentials = new NetworkCredential(smtpOptions.UserName, smtpOptions.Password);
-            client.EnableSsl = true;
+            var smtpOptions = _configuration.GetSection("SMTP").Get<SMTPOptions>();
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(smtpOptions.UserName,smtpOptions.Email));
+            message.To.Add(new MailboxAddress("", email));
+            message.Subject = subject;
 
-            var mailMessage = new MailMessage()
+            var bodyBuilder = new BodyBuilder
             {
-                From = new MailAddress(smtpOptions.UserName),
-                Body = message,
-                IsBodyHtml = true,
-                Subject = subject
+                HtmlBody = toMessage
             };
 
-            mailMessage.To.Add(email);
-            await client.SendMailAsync(mailMessage);
-        }
+            message.Body = bodyBuilder.ToMessageBody();
+            var smtpPort = smtpOptions.Port;
 
-        return "Successfully";
+            using var client = new SmtpClient();
+
+            SecureSocketOptions sslOptions = SecureSocketOptions.StartTls;
+            if (!int.TryParse(smtpOptions.Port, out int portNumber))
+                return "Invalid Port Number";
+
+            await client.ConnectAsync(smtpOptions.Server, portNumber, sslOptions);
+
+
+            if (!client.IsConnected)
+            {
+                throw new InvalidOperationException("Failed to connect to the SMTP server.");
+            }
+
+            await client.AuthenticateAsync(smtpOptions.UserName, smtpOptions.Password);
+
+            if (!client.IsAuthenticated)
+            {
+                return "Not authenticated";
+            }
+            var response = await client.SendAsync(message);
+            await client.DisconnectAsync(true);
+            return "Successfully";
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Email Error: {ex.Message}");
+            if (ex.InnerException != null)
+                Console.WriteLine($"Inner error: {ex.InnerException.Message}");
+
+            throw new Exception("Failed to send email", ex);
+        }
     }
 }

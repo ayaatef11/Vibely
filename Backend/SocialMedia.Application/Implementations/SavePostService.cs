@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Responses.Posts;
 using SocialMedia.Core.Context;
-using SocialMedia.Core.Domain.DTOs.Responses;
+using SocialMedia.Core.Domain.DTOs.Requests.SavePosts;
 
 namespace SocialMedia.Application.Implementations;
 public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostService

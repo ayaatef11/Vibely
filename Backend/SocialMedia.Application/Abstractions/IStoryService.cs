@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SocialMedia.Core.Domain.DTOs.Requests.Comment;
+using SocialMedia.Core.Domain.DTOs.Requests.Story;
 using SocialMedia.Infrastructure.Domain.Entities.Business.Stories;
 
 namespace SocialMedia.Application.Abstractions;

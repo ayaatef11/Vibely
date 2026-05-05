@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialMedia.Core.Context;
+using SocialMedia.Core.Domain.DTOs.Requests.Comment;
+using SocialMedia.Core.Domain.DTOs.Requests.Story;
 using SocialMedia.Infrastructure.Domain.Entities.Business.Stories;
 
 namespace SocialMedia.Application.Implementations;
@@ -48,7 +50,7 @@ public class StoryService(AppdbContext _context) : IStoryService
         var comment = new Comment()
         {
             Text = commentDto.Text,
-            UserId = commentDto.UserId,
+            ProfileId = commentDto.ProfileId,
             PostId = commentDto.PostId
         };
         _context.Comments.Add(comment);
@@ -56,7 +58,7 @@ public class StoryService(AppdbContext _context) : IStoryService
     }
     public async ValueTask<string> UploadAsync(UploadStoryDTO story)
     {
-        var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == story.UserId);
+        var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == story.ProfileId);
         if (user == null)
             return "User Not Found Or Invalid User ID";
 
@@ -65,7 +67,7 @@ public class StoryService(AppdbContext _context) : IStoryService
             Id=Guid.NewGuid(),
             Text = story.Text,
             CreatedAt = DateTime.UtcNow,
-            UserId = story.UserId,
+            ProfileId = story.ProfileId,
         };
 
         if (story.Image != null)
@@ -106,9 +108,9 @@ public class StoryService(AppdbContext _context) : IStoryService
             "Failed To Delete Story";
     }
 
-    public async ValueTask<IEnumerable<Story>> GetUserStoriesAsync(Guid userId)
+    public async ValueTask<IEnumerable<Story>> GetUserStoriesAsync(Guid profileId)
     {
-        return await _context.Stories.Where(x => x.UserId == userId).ToListAsync();
+        return await _context.Stories.Where(x => x.ProfileId == profileId).ToListAsync();
     }
 }
 

@@ -1,38 +1,48 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Responses;
 using SocialMedia.Core.Context;
+using SocialMedia.Core.Domain.DTOs.Requests.Comment;
 
 namespace SocialMedia.Application.Implementations;
-public class CommentService(AppdbContext _context) :  ICommentService
+public class CommentService(AppdbContext _context,IMapper _mapper) :  ICommentService
 { 
-    public async ValueTask<int> AddComment(AddCommentDTO comment)
+    public async ValueTask<CommentResponse> AddComment(AddCommentDTO commentRequest)
     {
 
-        var _comment = new Comment()
+        var comment = new Comment()
         {
             ReactCount = 0,
-            Text = comment.Text,
-            PostId = comment.PostId,
+            Text = commentRequest.Text,
+            PostId = commentRequest.PostId,
             AddedAt = DateTime.UtcNow,
-            UserId = comment.UserId,
+            ProfileId = commentRequest.ProfileId,
         };
 
-        var post = await _context.Posts.FindAsync(comment.PostId);
+        var post = await _context.Posts.Where(c=>c.Id==commentRequest.PostId).FirstAsync();
         post.CommentsCount++;
         _context.Posts.Update(post);
 
-         await _context.Comments.AddAsync(_comment);
-       return await _context.SaveChangesAsync();
+         await _context.Comments.AddAsync(comment);
+        await _context.SaveChangesAsync();
+        var profile=await _context.Profiles.Where(c=>c.Id== commentRequest.ProfileId).FirstAsync();
+        var result = _mapper.Map<CommentResponse>(comment);
+        result.UserName=profile.UserName;
+        result.ProfileImage=profile.ProfileImage;
+        return result;
     }
 
-    public async ValueTask<int> EditComment(EditCommentDTO comment)
+    public async ValueTask<CommentResponse?> EditComment(EditCommentDTO commentRequest)
     {
-        var _comment = await _context.Comments.FindAsync(comment.Id);
+        var _comment = await _context.Comments.Where(c=>c.Id== commentRequest.Id).Include(c=>c.Profile).FirstAsync();
         if (_comment == null)
-            return -1;
+            return null;
 
-        _comment.Text = comment.Text;
+        _comment.Text = commentRequest.Text;
           _context.Comments.Update(_comment);
-        return await _context.SaveChangesAsync();
+         await _context.SaveChangesAsync();
+        var result = _mapper.Map<CommentResponse>(_comment);
+        return result;
     }
     public async ValueTask<int> DeleteComment(Guid id)
     {
@@ -41,9 +51,10 @@ public class CommentService(AppdbContext _context) :  ICommentService
         _context.Comments.Remove(comment);
         return await _context.SaveChangesAsync();
     }
-    public async ValueTask<IEnumerable<Comment>> GetComments(Guid postId)
+    public async ValueTask<IEnumerable<CommentResponse>> GetComments(Guid postId)
     {
-        return await _context.Comments.Where(x => x.PostId == postId).ToListAsync();
+        var comments = await _context.Comments.Where(x => x.PostId == postId).Include(c=>c.Profile).ToListAsync();
+        return _mapper.Map<IEnumerable<CommentResponse>>(comments);
     }
 
 

@@ -1,4 +1,6 @@
-﻿namespace SocialMedia.Application.Abstractions;
+﻿using SocialMedia.Core.Domain.DTOs.Requests.Authentication;
+
+namespace SocialMedia.Application.Abstractions;
 public interface IAuthenticationService
 {
     ValueTask<object> LoginAsync(LoginDTO login);

@@ -1,4 +1,5 @@
-﻿using SocialMedia.Core.Domain.DTOs.Responses;
+﻿using SocialMedia.Application.DTOs.Responses.Posts;
+using SocialMedia.Core.Domain.DTOs.Requests.SavePosts;
 
 namespace SocialMedia.Application.Abstractions.PostAbstractions;
 public interface ISavePostService  

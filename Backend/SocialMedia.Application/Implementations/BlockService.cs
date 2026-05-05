@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SocialMedia.Core.Context;
+using SocialMedia.Core.Domain.DTOs.Requests.Block;
 
 namespace SocialMedia.Application.Implementations;
 public class BlockService : MainRepository<Block>, IBlockService
