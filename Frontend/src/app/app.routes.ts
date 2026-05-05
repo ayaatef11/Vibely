@@ -5,12 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreatePostComponent } from './Post/create-post/create-post.component';
 import { UserPostComponent } from './Post/user-post/user-post.component';
 import { AllComponent } from './Post/SavedPosts/All/All.component';
-import { PhotosComponent } from './Post/SavedPosts/photos/photos.component';
-import { VideosComponent } from './Post/SavedPosts/videos/videos.component';
 import {  SavedReelsComponent } from './Post/SavedPosts/reels/Savedreels.component';
-import { StoriesComponent } from './Post/SavedPosts/stories/stories.component';
-import { FriendsPostsComponent } from './Post/SavedPosts/friends-posts/friends-posts.component';
-import { SavedPostDetailsComponent } from './Post/SavedPosts/saved-post-details/saved-post-details.component';
 import { AllNotificationsComponent } from './Common/Notificationss/AllNotifications/AllNotifications.component';
 import { UnReadNotificationsComponent } from './Common/Notificationss/un-read-notifications/un-read-notifications.component';
 import { CommentsNotificationsComponent } from './Common/Notificationss/comments-notifications/comments-notifications.component';
@@ -38,25 +33,25 @@ import { CommentsComponent } from './Common/comments/comments.component';
 import { NotificationsHeaderComponent } from './Common/Notificationss/notifications-header/notifications-header.component';
 import { SidebarComponent } from './Common/sidebar/sidebar.component';
 import { ReelsComponent } from './Common/reels/reels.component';
+import { CodeVerificationComponent } from './Auth/code-verification/code-verification.component';
+import { ForgetPasswordComponent } from './Auth/forget-password/forget-password.component';
 
 export const routes: Routes = [
   { path: 'signup', title: 'Sign Up', component: SignupComponent },
   { path: 'login', title: 'Sign in', component: LoginComponent },
+{path: 'verify-code', title: 'Code Verification', component: CodeVerificationComponent},
+{path: 'forget-password', title: 'Forget Password', component: ForgetPasswordComponent},
 
   { path: 'home', title: 'Home', component: DashboardComponent },
 
   { path: 'create/post', title: 'Create Post', component: CreatePostComponent },
-  { path: 'user/post', title: 'Post', component: UserPostComponent },
+  { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
 
   {
     path: 'saved-posts', title: 'Saved Posts', component: AllComponent,
     children: [
-      { path: 'all', title: 'Saved Post', component: SavedPostDetailsComponent },
-      { path: 'photos', title: 'Photos', component: PhotosComponent },
-      { path: 'videos', title: 'Videos', component: VideosComponent },
+      
       { path: 'reels', title: 'Reels', component: SavedReelsComponent },
-      { path: 'stories', title: 'Stories', component: StoriesComponent },
-      { path: 'friends', title: 'Friends', component: FriendsPostsComponent },
       // {path:'',redirectTo:'saved-posts/all'}
     ]
   },
@@ -75,7 +70,7 @@ export const routes: Routes = [
         ]
       },
       { path: 'profile/edit', component: EditProfileComponent },
-      { path: 'profile', component: ProfileComponent },
+      { path: 'profile/:id', component: ProfileComponent },
       { path: '', redirectTo: 'main/notifications', pathMatch: 'full' },
       { path: 'reels', component: ReelsComponent },
 

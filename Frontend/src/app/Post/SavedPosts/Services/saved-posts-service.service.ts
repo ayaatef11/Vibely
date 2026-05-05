@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../Environments/environment';
 import { SavePostRequest } from '../../../../Models/Posts/Requests/SavePostRequest';
 import { UnSavePostRequest } from '../../../../Models/Posts/Requests/UnSavePostRequest';
+import { PostResponse } from '../../../../Models/Posts/Responses/PostResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,8 @@ private Url=environment.apiUrl+'SavePost';
 return this.http.post(`${this.Url}/Save`,data);
   }
 
-  getPost(userId:string){
-
-return this.http.get(`${this.Url}/Get/${userId}`);
+  getSavedPosts(userId:string){
+return this.http.get<PostResponse[]>(`${this.Url}/Get/${userId}`);
   }
 
   unSavePost(data:UnSavePostRequest){

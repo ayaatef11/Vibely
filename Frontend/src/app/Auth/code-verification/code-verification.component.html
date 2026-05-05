@@ -1,0 +1,13 @@
+<div class="auth-card">
+  <h3>Reset Password</h3>
+
+  <input type="text" class="form-control mb-3"  placeholder="Enter verification code"  [(ngModel)]="code">
+
+  <input type="password" class="form-control mb-2"  placeholder="New Password"  [(ngModel)]="newPassword">
+
+  <input type="password"  class="form-control mb-3"  placeholder="Confirm Password"  [(ngModel)]="confirmPassword">
+
+  <button class="btn btn-success w-100" (click)="resetPassword()">
+    Reset Password
+  </button>
+</div>

@@ -1,4 +1,4 @@
 export interface RejectFollowRequest{
     sender:string
-    receiver:string
+    reciever:string
 }

@@ -1,5 +1,5 @@
 export interface AddCommentRequest{
     text:string
-    userId:string
+    profileId:string
     postId:string
 }

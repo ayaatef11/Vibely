@@ -1,115 +1,290 @@
 <app-sidebar></app-sidebar>
+
 <div class="main-content">
-    <div class="row">
-        <div class="col-lg-8">
-            <!-- create an animation here to view the search component  -->
-            <div  class="d-flex justify-content-between align-items-center mb-4">
-                <div  class="search-box flex-grow-1 me-3">
-                    <input type="text" class="form-control border-0" placeholder="Search" #searchInput
-                        style="border-radius: 25px; background-color: var(--logo-bubble-very-light);"
-                        (keyup.enter)="onSearch()" [(ngModel)]="searchQuery">
-                </div>
+  <div class="row">
 
-                <div *ngIf="isOpen" class="search-overlay" [@slideInOut]="isOpen ? 'in' : 'out'">
-                  <!-- here we will display the last searchs  -->
-                </div>
-                <div class="d-flex">
-                    <!-- Notification Icon -->
-                    <button class="btn btn-link btn-lg text-success me-2" [routerLink]="'/notifications'"
-                        routerLinkActive="active">
-                        <i class="fas fa-bell"></i>
-                    </button>
+    <!-- ✅ LEFT SIDE (POSTS) -->
+    <div class="col-lg-8">
 
-                    <!-- Favorites Icon -->
-                    <!-- <button class="btn btn-link btn-lg text-success me-2" [routerLink]="'/favorites'"
-                        routerLinkActive="active">
-                        <i class="fas fa-heart"></i>
-                    </button> -->
-
-                    <!-- Messages Icon -->
-                    <button class="btn btn-link btn-lg text-success me-2" [routerLink]="'/messages'"
-                        routerLinkActive="active">
-                        <i class="fas fa-envelope"></i>
-                    </button>
-
-                    <!-- Profile Icon -->
-                    <button class="btn btn-link btn-lg text-success" [routerLink]="'/home/profile'"
-                        routerLinkActive="active">
-                        <i class="fas fa-user-circle"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="d-flex mb-4 overflow-auto">
-
-                <div class="text-center me-3">
-                    <div class="story-circle">
-                        <img src="https://picsum.photos/60/60?random=1" alt="Story">
-                    </div>
-                    <div class="story-username">username</div>
-                </div>
-
-                <div class="text-center me-3">
-                    <div class="story-circle add-story">
-                        <div class="story-placeholder">
-                            <i class="fas fa-plus text-muted"></i>
-                        </div>
-                    </div>
-                    <div class="story-username">More</div>
-                </div>
-            </div>
-
-            <div class="post-card mb-4">
-                <div class="p-3">
-                    <div class="d-flex align-items-center">
-                        <img src="https://picsum.photos/40/40?random=user" alt="User" class="user-avatar me-3">
-                        <input type="text" class="form-control border-0 bg-light" placeholder="What's on your mind?"
-                            style="border-radius: 25px;">
-                        <button class="btn btn-link ms-2" style="color:var(--logo-bubble-medium)"><i
-                                class="fas fa-camera"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Posts Feed -->
-            <div class="post-card">
-                <div class="post-header d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <img src="https://picsum.photos/40/40?random=2" alt="User" class="user-avatar me-3">
-                        <strong>username</strong>
-                    </div>
-                    <button class="btn btn-link text-muted"><i class="fas fa-ellipsis-h"></i></button>
-                </div>
-                <img src="https://picsum.photos/600/400?random=post1" alt="Post" class="post-image">
-                <div class="post-actions">
-                    <button class="btn"><i class="far fa-heart"></i></button>
-                    <button class="btn"><i class="far fa-comment"></i></button>
-                    <button class="btn"><i class="far fa-share-square"></i></button>
-                    <span class="float-end text-muted">12 likes</span>
-                </div>
-                <div class="px-3 pb-3">
-                    <p class="mb-1"><strong>username</strong> Cras sit amet nibh libero, in gravida...</p>
-                    <a href="#" class="text-muted small">View all 3 comments</a>
-                </div>
-            </div>
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="search-box flex-grow-1 me-3">
+          <input type="text" class="form-control border-0" placeholder="Search" #searchInput
+            style="border-radius: 25px; background-color: var(--logo-bubble-very-light);" (keyup.enter)="onSearch()"
+            [(ngModel)]="searchQuery">
         </div>
 
-        <div class="col-lg-4">
-            <div class="suggestions-card">
-                <h6 class="mb-3">Suggestions for you</h6>
+        <div class="d-flex">
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                        <img src="https://picsum.photos/40/40?random=5" alt="User" class="user-avatar me-3">
-                        <strong>username</strong>
-                    </div>
-                    <button class="aya-button" (click)="follow()">Follow</button>
-                </div>
+          <!-- Notifications -->
+          <button class="btn btn-link btn-lg text-success me-2" [routerLink]="'/notifications'"
+            routerLinkActive="active">
+            <i class="fas fa-bell"></i>
+          </button>
 
-                <div class="suggestions-card">
-                    <h6 class="mb-3" style="font-size: 20px;">Trending</h6>
-                    <a href="#" class="trending-tag">#travel <i class="fas fa-plus float-end"></i></a>
-                </div>
+          <!-- Friend Requests -->
+          <button class="btn btn-link btn-lg text-success me-2 position-relative" (click)="toggleRequests()">
+            <i class="fas fa-user-plus"></i>
+            <span *ngIf="friendRequests.length > 0"
+              class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+              {{ friendRequests.length }}
+            </span>
+          </button>
+
+          <!-- Requests Dropdown -->
+          <div class="requests-dropdown" *ngIf="showRequests">
+
+            <div *ngIf="friendRequests.length === 0" class="p-3 text-muted">
+              No requests
             </div>
+
+            <div *ngFor="let req of friendRequests"
+              class="request-item d-flex justify-content-between align-items-center">
+
+              <div class="d-flex align-items-center">
+                <img [src]="req.profileImage || 'https://picsum.photos/40'" class="rounded-circle me-2" width="35"
+                  height="35">
+                <span>{{ req.fullName }}</span>
+              </div>
+
+              <div>
+                <button class="btn btn-sm btn-success me-1" (click)="acceptRequest(req)">Accept</button>
+                <button class="btn btn-sm btn-danger" (click)="rejectRequest(req)">Reject</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Messages -->
+          <button class="btn btn-link btn-lg text-success me-2" [routerLink]="'/messages'" routerLinkActive="active">
+            <i class="fas fa-envelope"></i>
+          </button>
+
+          <!-- Profile -->
+          <button class="btn btn-link btn-lg text-success" [routerLink]="['/home/profile', profileId]"
+            routerLinkActive="active">
+            <i class="fas fa-user-circle"></i>
+          </button>
+
         </div>
+      </div>
+
+      <!-- Stories -->
+      <div class="d-flex mb-4 overflow-auto">
+
+        <div class="text-center me-3" *ngFor="let user of usersWithStatus" (click)="viewStory(user)">
+          <div class="story-circle" [class.viewed]="!user.hasUnviewedStatus">
+            <img [src]="user.profileImage" alt="Story">
+          </div>
+          <div class="story-username">{{ user.username }}</div>
+        </div>
+
+        <div class="text-center me-3">
+          <div class="story-circle add-story">
+            <div class="story-placeholder">
+              <i class="fas fa-plus text-muted"></i>
+            </div>
+          </div>
+          <div class="story-username">More</div>
+        </div>
+
+      </div>
+
+      <!-- Create Post -->
+      <div class="post-card mb-4">
+        <div class="p-3">
+          <div class="d-flex align-items-center">
+            <img src="https://picsum.photos/40" class="user-avatar me-3" alt="User">
+            <input type="text" class="form-control border-0 bg-light" placeholder="What's on your mind?"
+              style="border-radius: 25px;">
+            <button class="btn btn-link ms-2" style="color:var(--logo-bubble-medium)">
+              <i class="fas fa-camera"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Posts Feed -->
+      <div class="post-card mb-4" *ngFor="let post of posts">
+
+        <!-- Post Header -->
+        <div class="post-header d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <img src="https://picsum.photos/40" class="user-avatar me-3" alt="User">
+            <strong>{{ post.userName }}</strong>
+          </div>
+          <button class="btn btn-link text-muted">
+            <i class="fas fa-ellipsis-h"></i>
+          </button>
+        </div>
+
+        <!-- Post Image -->
+        <img [src]="post.mediaUrls" alt="Post" class="post-image">
+
+        <!-- Post Actions -->
+        <div class="post-actions">
+          <button class="btn" (click)="toggleLike(post)">
+            <i class="fa-heart" [class.fas]="post.isLiked" [class.far]="!post.isLiked"
+              [style.color]="post.isLiked ? 'red' : 'gray'">
+            </i>
+          </button>
+          <button class="btn" (click)="toggleCommentBox(post)">
+            <i class="far fa-comment"></i>
+          </button>
+          <button class="btn" (click)="toggleSharePost(post)">
+            <i class="far fa-share-square"></i>
+          </button>
+          <span class="float-end text-muted">{{ post.reactsCount }}</span>
+        </div>
+
+        <!-- Share Link Loading -->
+        <div *ngIf="post.shareLinkLoading" class="px-3 text-muted small">
+          Generating link...
+        </div>
+
+        <!-- Share Modal -->
+        <div class="share-overlay" *ngIf="post.showShareBox">
+          <div class="share-modal">
+
+            <div class="share-header">
+              <h6>Share Post</h6>
+              <button (click)="post.showShareBox = false">✖</button>
+            </div>
+
+            <div class="share-link-box">
+              <input type="text" [value]="post.shareLink" readonly>
+              <button (click)="copyToClipboard(post.shareLink)">Copy</button>
+            </div>
+
+            <div class="share-options">
+              <div class="share-item whatsapp" (click)="shareToWhatsApp(post.shareLink)">
+                <i class="fab fa-whatsapp"></i>
+                <span>WhatsApp</span>
+              </div>
+              <div class="share-item twitter" (click)="shareToTwitter(post.shareLink)">
+                <i class="fab fa-twitter"></i>
+                <span>Twitter</span>
+              </div>
+              <div class="share-item instagram" (click)="copyToClipboard(post.shareLink)">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Post Caption & Comments -->
+        <div class="px-3 pb-3">
+          <p class="mb-1"><strong>{{ post.userName }}</strong> {{ post.text }}</p>
+
+          <a (click)="loadComments(post)" class="text-muted small" style="cursor: pointer;">
+            View all {{ post.commentsCount }} comments
+          </a>
+
+          <!-- Comments List -->
+          <div *ngIf="post.showComments" class="comments-section mt-3">
+
+            <div *ngFor="let comment of post.comments" class="comment-box d-flex mb-2">
+              <img src="https://picsum.photos/40" class="comment-avatar me-2" alt="User">
+
+              <div class="comment-content w-100">
+                <div class="comment-bubble">
+                  <strong class="comment-username">{{ comment.userName }}</strong>
+                  <p class="comment-text mb-0">{{ comment.text }}</p>
+                </div>
+
+                <!-- Comment Actions -->
+                <div class="d-flex align-items-center gap-2 mt-1">
+
+                  <!-- Like / Unlike -->
+                  <button class="btn btn-sm p-0"
+                    (click)="comment.isLiked ? dislikeComment(comment, post) : likeComment(comment, post)">
+                    <i class="fa-heart" [class.fas]="comment.isLiked" [class.far]="!comment.isLiked"
+                      [style.color]="comment.isLiked ? 'red' : 'gray'">
+                    </i>
+                  </button>
+                  <span class="small text-muted">{{ comment.reactCount }}</span>
+
+                  <!-- Edit (only own comments) -->
+                  <button class="btn btn-sm p-0 text-muted" *ngIf="comment.profileId === profileId" (click)="editComment(comment, post)">
+                    <i class="fas fa-pen small"></i>
+                  </button>
+
+                  <!-- Delete (only own comments) -->
+                  <button class="btn btn-sm p-0 text-danger" *ngIf="comment.profileId === profileId"
+                    (click)="deleteComment(post, comment)">
+                    <i class="fas fa-trash small"></i>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Comment Box -->
+        <div *ngIf="post.showCommentBox" class="mt-2 d-flex align-items-center px-3 pb-3">
+          <img src="https://picsum.photos/40" class="user-avatar me-2"
+            style="width: 35px; height: 35px; border-radius: 50%;" alt="User">
+          <input type="text" class="form-control me-2" placeholder="Write a comment..."
+            [(ngModel)]="post.newCommentText">
+          <button class="btn btn-success btn-sm" (click)="addComment(post)">Post</button>
+        </div>
+
+      </div>
     </div>
+
+    <!-- ✅ RIGHT SIDE -->
+    <div class="col-lg-4">
+
+      <!-- Suggested Users -->
+      <div class="suggestions-card mb-3">
+        <h6 class="mb-3" style="font-size: 18px;">Suggested for you</h6>
+
+        <div *ngFor="let user of suggestedUsers" class="d-flex justify-content-between align-items-center mb-2">
+
+          <div class="d-flex align-items-center" style="cursor: pointer;" (click)="viewProfile(user.profileId)">
+            <img [src]="user.profileImage || 'https://picsum.photos/40'" class="rounded-circle me-2" width="40"
+              height="40" alt="User">
+            <span>{{ user.fullName }}</span>
+          </div>
+
+          <button class="btn btn-sm" [ngClass]="user.isRequested ? 'btn-secondary' : 'btn-success'"
+            (click)="toggleFollow(user); $event.stopPropagation()">
+            {{ user.isRequested ? 'Requested' : 'Follow' }}
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Trending -->
+      <div class="suggestions-card">
+        <h6 class="mb-3" style="font-size: 20px;">Trending 🔥</h6>
+
+        <div *ngIf="trendingPosts.length === 0" class="text-muted">
+          No trending posts
+        </div>
+
+        <div *ngFor="let post of trendingPosts" class="trending-item" (click)="goToPost(post.id)">
+
+          <div class="d-flex align-items-center mb-2">
+            <img src="https://picsum.photos/35" class="rounded-circle me-2" width="35" height="35" alt="User">
+            <strong>{{ post.userName }}</strong>
+          </div>
+
+          <p class="small text-muted mb-1">
+            {{ post.text | slice:0:60 }}...
+          </p>
+
+          <div class="small text-success">
+            ❤️ {{ post.reactsCount }} likes
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

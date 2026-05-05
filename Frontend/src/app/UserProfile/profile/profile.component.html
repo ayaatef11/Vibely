@@ -2,19 +2,20 @@
     <div class="cover-photo">
         <button class="btn edit-profile-btn" [routerLink]="['edit']">Edit profile</button>
     </div>
-       <div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
+    <div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="profilePictureModalLabel">John Doe</h5>
+                    <h5 class="modal-title" id="profilePictureModalLabel">{{user.fullName}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body text-center">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face" 
-                         alt="John Doe - Full Size" class="img-fluid"  (click)="openModal()" >
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face"
+                        alt="John Doe - Full Size" class="img-fluid" (click)="openModal()">
                 </div>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" onclick="downloadImage()">
@@ -28,29 +29,47 @@
     <div class="profile-info">
         <img src="profile.jpg" alt="John Doe" class="profile-picture">
         <div class="profile-header">
-            <h1 class="profile-name">John Doe</h1>
-            <p class="profile-username">johndoe</p>
-            <p class="profile-bio">Photographer & traveler</p>
+            <h1 class="profile-name">{{user.fullName}}</h1>
+            <p class="profile-username">{{user.userName}}</p>
+            <p class="profile-bio">{{user.bio}}</p>
             <div class="profile-meta">
-                <div><i class="fas fa-map-marker-alt"></i> Los Angeles, CA</div>
-                <div><i class="fas fa-calendar-alt"></i> Joined June 2020</div>
+                <div><i class="fas fa-map-marker-alt"></i>{{user.location}}</div>
+                <div><i class="fas fa-calendar-alt" *ngIf="isWebsite"></i>{{user.website}}</div>
             </div>
         </div>
     </div>
 
     <div class="profile-stats px-3">
         <div class="stat">
-            <span class="stat-number">56</span>
+            <span class="stat-number">{{user.postCount}}</span>
             <span class="stat-label">posts</span>
         </div>
         <button class="stat" [routerLink]="['/friends/followers']">
-            <span class="stat-number">1,234</span>
+            <span class="stat-number">{{user.followerCount}}</span>
             <span class="stat-label">followers</span>
         </button>
         <button class="stat" [routerLink]="['/friends/following']">
-            <span class="stat-number">345</span>
+            <span class="stat-number">{{user.followingCount}}</span>
             <span class="stat-label">following</span>
         </button>
+        <!-- لو مش نفس المستخدم -->
+<div *ngIf="!isCurrentUser">
+
+  <!-- لو مش blocked -->
+  <button *ngIf="!isBlocked"
+          class="btn btn-danger"
+          (click)="blockUser()">
+    Block
+  </button>
+
+  <!-- لو blocked -->
+  <button *ngIf="isBlocked"
+          class="btn btn-success"
+          (click)="unblockUser()">
+    Unblock
+  </button>
+
+</div>
     </div>
 
     <div class="profile-tabs">
@@ -59,7 +78,7 @@
                 <button class="nav-link active" type="button"> Posts </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" type="button" [routerLink]="['/saved-posts/all']"> Saved</button>
+                <button class="nav-link" type="button" [routerLink]="['/saved-posts']"> Saved</button>
             </li>
         </ul>
     </div>
@@ -67,29 +86,12 @@
     <div class="tab-content">
         <div class="tab-pane fade show active">
             <div class="photo-grid">
-                <div class="photo-item">
+                <div class="photo-item" *ngFor="let post of user.posts">
                     <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=300&fit=crop"
-                        alt="Post 2">
-                </div>
-                <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=300&h=300&fit=crop"
-                        alt="Post 3">
-                </div>
-                <div class="photo-item">
-                    <img src="profile.jpg"
-                        alt="Post 4">
-                </div>
-                <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=300&fit=crop"
-                        alt="Post 5">
-                </div>
-                <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=300&fit=crop"
-                        alt="Post 6">
-                </div>
-                <div class="photo-item">
-                    <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=300&h=300&fit=crop"
-                        alt="Post 7">
+                        alt="Post" (click)="openPost(post.id)" style="cursor:pointer">
+                    <p class="small mt-1">
+                        {{ post.text }}
+                    </p>
                 </div>
             </div>
         </div>

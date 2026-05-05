@@ -1,5 +1,5 @@
 export interface RevokeSharePostRequest{
 id:string
-userId:string
+profileId:string
 postId:string
 }

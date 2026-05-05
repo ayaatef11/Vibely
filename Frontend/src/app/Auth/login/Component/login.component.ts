@@ -21,12 +21,13 @@ password:''
 constructor(private router:Router, private authService:AuthenticationService){}
 
 onSubmit(): void {
-  debugger
+  // debugger
     this.isLoading = true;
     this.errorMessage = '';
 this.authService.SignIn(this.userData).subscribe({
   next:(response)=>{
    console.log('Signin successful', response);
+    localStorage.setItem('token', response.token);
         this.isLoading = false;
         this.router.navigate(['/home']);  
       },

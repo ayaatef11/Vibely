@@ -2,6 +2,6 @@ export interface AddPostRequest{
 feelingState:number
 title:string 
 text:string 
-socialMediaUserId:string
+ProfileId:string
 mediaFiles: File[]
 }

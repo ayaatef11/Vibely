@@ -23,7 +23,7 @@ public class MainRepository<TEnity> : IMainRepository<TEnity> where TEnity : cla
         connection = _context.Database.GetDbConnection();
     }
 
-    public async ValueTask<string> CreateAsync(TEnity entity)
+    public async ValueTask<int> CreateAsync(TEnity entity)
     {
         var tableName = typeof(TEnity).Name;
         var properties = typeof(TEnity).GetProperties()
@@ -43,15 +43,15 @@ public class MainRepository<TEnity> : IMainRepository<TEnity> where TEnity : cla
 
         var result = await connection.ExecuteAsync(sql, entity);
 
-        return result > 0 ? "Created" : "Failed";
+        return result ;
     }
 
-    public async ValueTask<string> DeleteAsync(Guid id)
+    public async ValueTask<int> DeleteAsync(Guid id)
     {
         var tableName = typeof(TEnity).Name;
         var sql = $"DELETE FROM {tableName} WHERE Id =@Id";
         var result = await connection.ExecuteAsync(sql, new { Id = id });
-        return result > 0 ? "Deleted" : "Failed";
+        return result ;
     }
 
     public async ValueTask<IEnumerable<TEnity>> GetAsync()
@@ -66,7 +66,7 @@ public class MainRepository<TEnity> : IMainRepository<TEnity> where TEnity : cla
 
     }
 
-    public async ValueTask<string> UpdateAsync(TEnity entity, Guid id)
+    public async ValueTask<int> UpdateAsync(TEnity entity, Guid id)
     {
         var tableName = typeof(TEnity).Name;
 
@@ -90,7 +90,7 @@ public class MainRepository<TEnity> : IMainRepository<TEnity> where TEnity : cla
 
         var result = await connection.ExecuteAsync(sql, parameters);
 
-        return result > 0 ? "Updated" : "Failed";
+        return result;
     }
 
 }

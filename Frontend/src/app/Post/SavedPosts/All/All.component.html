@@ -1,26 +1,42 @@
-<div class="container">
-  <h2 class="mb-4">Saved Posts</h2>
+<div class="saved-container">
 
- <ul class="nav nav-tabs px-3 pt-3 mb-4" >
-  <li class="nav-item">
-    <a class="nav-link text-success  " [routerLink]="['all']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">All</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link  text-success" [routerLink]="['photos']" routerLinkActive="active">Photos</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link  text-success" [routerLink]="['videos']" routerLinkActive="active">Videos</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link  text-success" [routerLink]="['reels']" routerLinkActive="active">Reels</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link  text-success" [routerLink]="['stories']" routerLinkActive="active">Stories</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link  text-success" [routerLink]="['friends']" routerLinkActive="active">Friends' Posts</a>
-  </li>
-</ul>
-<router-outlet></router-outlet>
+  <h2 class="page-title">Saved Posts</h2>
+
+  <ul class="nav nav-tabs custom-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link active" [routerLink]="['all']">All</a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['reels']">Reels</a>
+    </li>
+  </ul>
+
+  <router-outlet></router-outlet>
+
+  <!-- Posts -->
+  <div class="posts-wrapper" *ngIf="savedPosts?.length; else emptyState">
+
+    <div class="post-card" *ngFor="let post of savedPosts">
+      <div class="post-header">
+        <div class="avatar"></div>
+        <div>
+          <h6 class="mb-0">{{ post.userName || 'User' }}</h6>
+          <small class="text-muted">Saved post</small>
+        </div>
+      </div>
+
+      <div class="post-body">
+        <p>{{ post.text }}</p>
+      </div>
+    </div>
+
+  </div>
+
+  <ng-template #emptyState>
+    <div class="empty-box">
+      <p>No saved posts yet </p>
+    </div>
+  </ng-template>
+
 </div>
-

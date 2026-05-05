@@ -4,38 +4,16 @@
         <div class="tab-content px-3">
             <div class="tab-pane fade show active">
                 <div>
-                    <div class="user-item" data-name="cameron williamson" data-handle="cameronwilliamson">
+                    <div class="user-item" data-name="cameron williamson" data-handle="cameronwilliamson" *ngFor="let user of followedUsers">
                         <div class="d-flex align-items-center">
                             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=face" alt="Cameron Williamson" class="profile-pic me-3">
                             <div class="flex-grow-1">
-                                <div class="username">Cameron Williamson</div>
-                                <div class="handle">cameronwilliamson</div>
+                                <div class="username">{{user.fullName}}</div>
+                                <div class="handle">{{user.location}}</div>
                             </div>
                             <button class="btn btn-primary btn-follow">Follow</button>
                         </div>
-                    </div>
-                    <div class="user-item" data-name="eleanor pena" data-handle="eleanorpena">
-                        <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop&crop=face" alt="Eleanor Pena" class="profile-pic me-3">
-                            <div class="flex-grow-1">
-                                <div class="username">Eleanor Pena</div>
-                                <div class="handle">eleanorpena</div>
-                            </div>
-                            <button class="btn btn-primary btn-follow">Follow</button>
-                        </div>
-                    </div>
-
-                    <div class="user-item" data-name="kristin watson" data-handle="kristinwatson">
-                        <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=120&h=120&fit=crop&crop=face" alt="Kristin Watson" class="profile-pic me-3">
-                            <div class="flex-grow-1">
-                                <div class="username">Kristin Watson</div>
-                                <div class="handle">kristinwatson</div>
-                            </div>
-                            <button class="btn btn-following">Following</button>
-                        </div>
-                    </div>
-
+                    </div>  
                 </div>
             </div>
         </div>

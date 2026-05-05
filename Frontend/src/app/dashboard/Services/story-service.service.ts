@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../Environments/environment';
-import { AddCommentRequest } from '../../../Models/Story/Requests/AddCommentRequest';
 import { DeleteStoryRequest } from '../../../Models/Story/Requests/DeleteStoryRequest';
+import { AddCommentRequest } from '../../../Models/Comments/Requests/AddCommentRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +13,15 @@ private Url=environment.apiUrl+'Story';
   getAll(userId:string){
 return this.http.get(`${this.Url}/get-all/${userId}`)
   }
+  viewStory(userId:string,storyId:string){
+    return this.http.get(`${this.Url}/view/${userId}/${storyId}`)
+  }
   getViewers(userId:string,storyId:string){
 return this.http.get(`${this.Url}/get-viewers/${userId},${storyId}`)
   }
-  addReact(userId:string,storyId:string){
-return this.http.post(`${this.Url}/add-react/${userId},${storyId}`)
-  }
+ addReact(userId: string, storyId: string) {
+  return this.http.post(`${this.Url}/add-react/${userId}/${storyId}`, {});
+}
   addComment(data: AddCommentRequest){
 return this.http.post(`${this.Url}/add-comment`,data)
   }

@@ -1,4 +1,4 @@
 export interface FollowRequest{
     sender:string
-    receiver:string
+    reciever:string
 }

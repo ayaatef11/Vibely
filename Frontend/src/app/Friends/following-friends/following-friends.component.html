@@ -3,52 +3,19 @@
     <app-friends-header></app-friends-header>
 
         <div class="tab-content px-3">
-            <div class="tab-pane fade show active"  >
+            <div class="tab-pane fade show active" *ngFor=" let user of FollowersUsers"  >
                     <div class="user-item" data-name="kristin watson" data-handle="kristinwatson">
                         <div class="d-flex align-items-center">
                             <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=120&h=120&fit=crop&crop=face" alt="Kristin Watson" class="profile-pic me-3">
                             <div class="flex-grow-1">
-                                <div class="username">Kristin Watson</div>
-                                <div class="handle">kristinwatson</div>
+                                <div class="username">{{user.fullName}}</div>
+                                <div class="handle">{{user.location}}</div>
                             </div>
                             <button class="btn btn-following">Following</button>
                         </div>
                     </div>
 
-                    <div class="user-item" data-name="guy hawkins" data-handle="guyhawkins">
-                        <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face" alt="Guy Hawkins" class="profile-pic me-3">
-                            <div class="flex-grow-1">
-                                <div class="username">Guy Hawkins</div>
-                                <div class="handle">guyhawkins</div>
-                            </div>
-                            <button class="btn btn-following">Following</button>
-                        </div>
-                    </div>
-                </div>
-
-
-                    <div class="user-item" data-name="kristin watson" data-handle="kristinwatson">
-                        <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=120&h=120&fit=crop&crop=face" alt="Kristin Watson" class="profile-pic me-3">
-                            <div class="flex-grow-1">
-                                <div class="username">Kristin Watson</div>
-                                <div class="handle">kristinwatson</div>
-                            </div>
-                            <button class="btn btn-following">Following</button>
-                        </div>
-                    </div>
-
-                    <div class="user-item" data-name="guy hawkins" data-handle="guyhawkins">
-                        <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face" alt="Guy Hawkins" class="profile-pic me-3">
-                            <div class="flex-grow-1">
-                                <div class="username">Guy Hawkins</div>
-                                <div class="handle">guyhawkins</div>
-                            </div>
-                            <button class="btn btn-following">Following</button>
-                        </div>
-                    </div>
+      
                 </div>
             </div>
    

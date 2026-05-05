@@ -7,9 +7,9 @@ import { RegisterResponse } from '../../../Models/Auth/Responses/RegisterRespons
 import { LoginRequest } from '../../../Models/Auth/Requests/LoginRequest';
 import { LoginResponse } from '../../../Models/Auth/Responses/LoginResponse';
 import { ForgetPasswordResetRequest } from '../../../Models/Auth/Requests/ForgetPasswordResetRequest';
-import { ForgetPasswordResetResponse } from '../../../Models/Auth/Responses/ForgetPasswordResetResponse';
+import {jwtDecode} from 'jwt-decode';
 
-@Injectable({//make this service global
+@Injectable({ 
   providedIn: 'root'
 })
 export class AuthenticationService {
@@ -32,23 +32,39 @@ export class AuthenticationService {
     )
   }
 
-  ForgetPasswordRequest(email: string): Observable<string> {
+  ForgetPasswordRequest(email: string)  {
     const encodedEmail = encodeURIComponent(email);
-    return this.http.post<string>(
-      `${this.Url}/Forgot-Password-Request?email=${encodedEmail}`, null
-    ).pipe(
-      catchError(this.handleError)
-    )
+    return this.http.post(`${this.Url}/Forgot-Password-Request?email=${encodedEmail}`, null ) 
   }
 
-  ForgetPasswordReset(userData: ForgetPasswordResetRequest): Observable<ForgetPasswordResetResponse> {
-    return this.http.put<ForgetPasswordResetResponse>(
-      `${this.Url}/Forgot-Password-Reset`, userData
-    ).pipe(
-      catchError(this.handleError)
-    )
+  resetPassword(userData: ForgetPasswordResetRequest) {
+    return this.http.put(`${this.Url}/Forgot-Password-Reset`, userData )
   }
 
+getUserId(): string | null {
+  const token = this.getToken();
+  if (!token) return null;
+
+  const decoded: any = jwtDecode(token);
+
+  return decoded.sub || null;
+}
+
+getProfileId(): string | null {
+  const token = this.getToken();
+  if (!token) return null;
+
+  const decoded: any = jwtDecode(token);
+
+  return decoded.ProfileId || null;
+}
+saveToken(token: string): void {
+  localStorage.setItem('token', token);
+}
+
+getToken(): string | null {
+  return localStorage.getItem('token');
+}
   private handleError(error: any) {//to filter the error
     console.error('An error occurred:', error);
     return throwError(() => new Error(

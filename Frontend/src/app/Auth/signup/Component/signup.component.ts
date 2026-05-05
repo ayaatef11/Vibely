@@ -33,6 +33,7 @@ onSubmit():void{
     this.authService.signUp(this.signUpData).subscribe({
       next: (response) => {
         console.log('Signup successful', response);
+         localStorage.setItem('token', response.token);
         this.isLoading = false;
         this.router.navigate(['/login']);  
       },

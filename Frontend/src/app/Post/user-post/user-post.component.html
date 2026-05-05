@@ -1,25 +1,123 @@
 <div class="status-feed">
-    <div class="card mb-3" *ngFor="let status of statusFeed">
-      <div class="card-header bg-white d-flex align-items-center">
-        <img [src]="status.user.profileImage" class="rounded-circle me-2" width="40" height="40" alt="Profile">
+
+  <div class="card mb-3 post-card border-0 shadow-sm">
+
+    <!-- HEADER -->
+    <div class="card-header bg-white d-flex align-items-center border-0">
+
+      <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=300&fit=crop"
+        class="rounded-circle me-2" width="42" height="42" alt="Profile">
+
+      <div class="flex-grow-1">
+        <h6 class="mb-0 fw-semibold">username</h6>
+        <small class="text-muted">{{ post.createdAt }}</small>
+      </div>
+
+    </div>
+
+    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800" class="img-fluid post-image"
+      alt="post">
+
+    <!-- ACTIONS -->
+    <div class="card-body py-2">
+
+      <div class="d-flex justify-content-between align-items-center mb-2">
+
         <div>
-          <h6 class="mb-0">{{status.user.username}}</h6>
-          <small class="text-muted">{{status.timestamp  }}</small>
+      <i class="bi fs-5 me-3"
+   [class.bi-heart-fill]="post.isLiked"
+   [class.bi-heart]="!post.isLiked"
+   [style.color]="post.isLiked ? 'red' : 'gray'"
+   (click)="toggleLike(post)">
+</i>
+          <i class="bi bi-chat fs-5 me-3" (click)="toggleCommentBox(post)"></i>
+          <i class="bi bi-send fs-5" (click)="toggleSharePost(post)"></i>
+        </div>
+
+        <i class="bi fs-5"
+   [class.bi-bookmark]="!post.isSaved"
+   [class.bi-bookmark-fill]="post.isSaved" (click)="togglePost(post.id)"></i>
+        <div *ngIf="post.shareLinkLoading">
+          Generating link...
+        </div>
+        <div class="share-overlay" *ngIf="post.showShareBox">
+
+          <div class="share-modal">
+
+            <div class="share-header">
+              <h6>Share Post</h6>
+              <button (click)="post.showShareBox=false">✖</button>
+            </div>
+
+            <div class="share-link-box">
+              <input type="text" [value]="post.shareLink" readonly>
+              <button (click)="copyToClipboard(post.shareLink)">Copy</button>
+            </div>
+
+            <div class="share-options">
+
+              <div class="share-item whatsapp" (click)="shareToWhatsApp(post.shareLink)">
+                <i class="fab fa-whatsapp"></i>
+                <span>WhatsApp</span>
+              </div>
+
+              <div class="share-item twitter" (click)="shareToTwitter(post.shareLink)">
+                <i class="fab fa-twitter"></i>
+                <span>Twitter</span>
+              </div>
+
+              <div class="share-item instagram" (click)="copyToClipboard(post.shareLink)">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
       </div>
 
-      <div class="card-body">
-        <p>{{status.text}}</p>
-        <img *ngIf="status.image" [src]="status.image" class="img-fluid rounded mb-2" alt="Status Image">
-      </div>
+      <!-- likes -->
+      <p class="mb-1 fw-semibold">{{ post.reactsCount }} likes</p>
 
-      <div class="card-footer bg-white">
-        <button class="btn btn-sm btn-outline-secondary me-2">
-          <i class="bi bi-heart"></i> {{status.likes}}
-        </button>
-        <button class="btn btn-sm btn-outline-secondary">
-          <i class="bi bi-chat"></i> Comment
+      <!-- caption -->
+      <p class="mb-1">
+        <span class="fw-semibold">username</span>
+        {{ post.text }}
+      </p>
+
+      <a (click)="loadComments(post)" class="text-muted small" style="cursor:pointer">View all
+        {{post.commentsCount}} comments</a>
+      <div *ngIf="post.showComments" class="comments-section mt-3">
+
+        <div *ngFor="let comment of post.comments" class="comment-box d-flex mb-2">
+
+          <img src="https://picsum.photos/40/40?random=2" class="comment-avatar me-2">
+
+          <div class="comment-content">
+            <div class="comment-bubble">
+              <strong class="comment-username">{{ comment.userName }}</strong>
+              <p class="comment-text mb-0">{{ comment.text }}</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div *ngIf="post.showCommentBox" class="mt-2 d-flex align-items-center">
+
+        <img src="https://picsum.photos/40/40?random=2" class="user-avatar me-2"
+          style="width:35px;height:35px;border-radius:50%">
+
+        <input type="text" class="form-control me-2" placeholder="Write a comment..." [(ngModel)]="post.newCommentText">
+
+        <button class="btn btn-success btn-sm" (click)="addComment(post)">
+          Post
         </button>
       </div>
     </div>
+
   </div>
+
+</div>
