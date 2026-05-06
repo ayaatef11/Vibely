@@ -12,13 +12,13 @@
           <a class="nav-link mb-2" [routerLink]="['/home']" routerLinkActive="active">
             <i class="fas fa-home me-2"></i> Home
           </a>
-          <a class="nav-link mb-2" routerLink="/search/all" routerLinkActive="active">
+          <a class="nav-link mb-2" routerLink="/home/search/all" routerLinkActive="active">
             <i class="fas fa-search me-2"></i> Search
           </a>
           <a class="nav-link mb-2" routerLink="reels" routerLinkActive="active">
             <i class="fas fa-video me-2"></i> Reels
           </a>
-          <a class="nav-link mb-2" routerLink="/chat/friend" routerLinkActive="active">
+          <a class="nav-link mb-2" routerLink="/home/chat/friend" routerLinkActive="active">
             <i class="fas fa-envelope me-2"></i> Messages
           </a>
           <a class="nav-link mb-2" routerLink="profile" routerLinkActive="active">
@@ -33,7 +33,7 @@
         </nav>
         
         <div class="mt-4">
-          <button class="new-post-btn">New Post</button>
+          <button class="new-post-btn"routerLink="/create/post" routerLinkActive="active">New Post</button>
         </div>
       </div>
     </div>

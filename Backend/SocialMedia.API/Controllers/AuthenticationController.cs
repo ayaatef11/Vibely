@@ -59,4 +59,10 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
 
         return Ok(resetOperation);
     }
+    //change password api
+    //apply two factor authentication
+    //cahnge token timeout based on user session timeout needed
+    //send emails or notification when someone login based on user request
+    //make it multilingual
+
 }

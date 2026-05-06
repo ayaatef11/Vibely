@@ -5,7 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreatePostComponent } from './Post/create-post/create-post.component';
 import { UserPostComponent } from './Post/user-post/user-post.component';
 import { AllComponent } from './Post/SavedPosts/All/All.component';
-import {  SavedReelsComponent } from './Post/SavedPosts/reels/Savedreels.component';
+import { SavedReelsComponent } from './Post/SavedPosts/reels/Savedreels.component';
 import { AllNotificationsComponent } from './Common/Notificationss/AllNotifications/AllNotifications.component';
 import { UnReadNotificationsComponent } from './Common/Notificationss/un-read-notifications/un-read-notifications.component';
 import { CommentsNotificationsComponent } from './Common/Notificationss/comments-notifications/comments-notifications.component';
@@ -24,10 +24,7 @@ import { NotFoundComponent } from './Common/not-found/not-found.component';
 import { SettingsComponent } from './Common/settings/settings.component';
 import { AccountComponent } from './Common/settings/account/account.component';
 import { PrivacyAndSecurityComponent } from './Common/settings/privacy-and-security/privacy-and-security.component';
-import { NotificationsComponent } from './Common/settings/notifications/notifications.component';
 import { PreferencesComponent } from './Common/settings/preferences/preferences.component';
-import { BillingComponent } from './Common/settings/billing/billing.component';
-import { SupportComponent } from './Common/settings/support/support.component';
 import { SettingsProfileComponent } from './Common/settings/settings-profile/settings-profile.component';
 import { CommentsComponent } from './Common/comments/comments.component';
 import { NotificationsHeaderComponent } from './Common/Notificationss/notifications-header/notifications-header.component';
@@ -39,17 +36,14 @@ import { ForgetPasswordComponent } from './Auth/forget-password/forget-password.
 export const routes: Routes = [
   { path: 'signup', title: 'Sign Up', component: SignupComponent },
   { path: 'login', title: 'Sign in', component: LoginComponent },
-{path: 'verify-code', title: 'Code Verification', component: CodeVerificationComponent},
-{path: 'forget-password', title: 'Forget Password', component: ForgetPasswordComponent},
-
-  // { path: 'home', title: 'Home', component: DashboardComponent },
-
- { path: 'create/post', title: 'Create Post', component: CreatePostComponent },
+  { path: 'verify-code', title: 'Code Verification', component: CodeVerificationComponent },
+  { path: 'forget-password', title: 'Forget Password', component: ForgetPasswordComponent },
+  { path: 'create/post', title: 'Create Post', component: CreatePostComponent },
 
   {
     path: 'saved-posts', title: 'Saved Posts', component: AllComponent,
     children: [
-      
+
       { path: 'reels', title: 'Reels', component: SavedReelsComponent },
     ]
   },
@@ -57,13 +51,12 @@ export const routes: Routes = [
   {
     path: 'home', title: 'Main', component: SidebarComponent,
     children: [
-       {
-      path: '',
-      component: DashboardComponent // 👈 ده الصفحة الرئيسية
-    }, 
-  { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
-  { path: 'chat/view', component: ChatsComponent },
-  { path: 'chat/friend', component: FriendChatComponent },
+      {
+        path: '', component: DashboardComponent
+      },
+      { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
+      { path: 'chat/view', component: ChatsComponent },
+      { path: 'chat/friend', component: FriendChatComponent },
 
       {
         path: 'notifications', title: 'Notifications', component: NotificationsHeaderComponent,
@@ -79,6 +72,11 @@ export const routes: Routes = [
       { path: 'profile/:id', component: ProfileComponent },
       { path: '', redirectTo: 'notifications', pathMatch: 'full' },
       { path: 'reels', component: ReelsComponent },
+     
+      { path: 'search/all', title: 'Search', component: SearchComponent },
+      { path: 'search/people', component: SearchPeopleComponent },
+      { path: 'search/posts', component: SearchPostsComponent },
+      { path: 'search/tags', component: SearchTagsComponent },
 
     ]
   },
@@ -86,25 +84,13 @@ export const routes: Routes = [
   { path: 'friends/following', title: 'Following', component: FollowingFriendsComponent },
 
 
-  { path: 'search/all', title: 'Search', component: SearchComponent },
-  { path: 'search/people', component: SearchPeopleComponent },
-  { path: 'search/posts', component: SearchPostsComponent },
-  { path: 'search/tags', component: SearchTagsComponent },
-
-
-
-  
-
   {
     path: 'settings', component: SettingsComponent,
     children: [
       { path: '', redirectTo: 'account', pathMatch: 'full' },
       { path: 'account', component: AccountComponent },
       { path: 'privacy', component: PrivacyAndSecurityComponent },
-      { path: 'notifications', component: NotificationsComponent },
       { path: 'preferences', component: PreferencesComponent },
-      { path: 'billing', component: BillingComponent },
-      { path: 'support', component: SupportComponent },
       { path: 'profile', component: SettingsProfileComponent }
     ]
   },
