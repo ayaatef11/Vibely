@@ -1,16 +1,19 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SocialMedia.Application.DTOs.Requests.Authentication;
 using SocialMedia.Core.Context;
 using SocialMedia.Core.Domain.DTOs.Requests.Authentication;
 using SocialMedia.Core.Domain.Entities.Business.Profiles;
+using SocialMedia.Infrastructure.Domain.Entities.Security;
+using System.Reflection.Metadata.Ecma335;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace SocialMedia.Application.Implementations;
-public class AuthenticationService(UserManager<User> _userManager, IConfiguration _configuration, AppdbContext _context,
-        IMailService _mailService) : IAuthenticationService
+public class AuthenticationService(UserManager<User> _userManager,IConfiguration _configuration, AppdbContext _context,
+        IMailService _emailService) : IAuthenticationService
 {
-    public async ValueTask<object> SignUpAsync(RegisterDTO register)
+    public async ValueTask<object> SignUpAsync(RegisterDTO register,int? timeOutInMinutes)
     {
         var SocialMediaUser = new User()
         {
@@ -39,11 +42,58 @@ public class AuthenticationService(UserManager<User> _userManager, IConfiguratio
         SocialMediaUser.ProfileId = _profile.Id;
         var createProfileOperation = await _context.SaveChangesAsync();
 
-        return createProfileOperation > 0 ? GenerateTokenHelper.GenerateToken(SocialMediaUser, _configuration) :
+        return createProfileOperation > 0 ? GenerateTokenHelper.GenerateToken(SocialMediaUser, _configuration, timeOutInMinutes) :
             "Invalid Create Profile";
     }
 
-    public async ValueTask<object> LoginAsync(LoginDTO login)
+    public async Task ChangePassword(Guid userId,ChangePasswordRequest request)
+    {
+        var user=await _context.Users.FirstOrDefaultAsync(u=>u.Id== userId);
+        if (user==null) throw new Exception("User is not found");
+        var result=await _userManager.ChangePasswordAsync(user, request.OldPassword,request.NewPassword);
+        if (!result.Succeeded) { throw new Exception("Error has occurred"); }
+    }
+    public async Task EnableTwoFA(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+
+        await _userManager.ResetAuthenticatorKeyAsync(user);
+
+        var key = await _userManager.GetAuthenticatorKeyAsync(user);
+
+        var issuer = "MySocialApp";
+
+        var otpauth = $"otpauth://totp/{issuer}:{user.Email}?secret={key}&issuer={issuer}&digits=6";
+
+        //return Ok(new
+        //{
+        //    secret = key,
+        //    qrCodeUrl = otpauth
+        //});
+    }
+    public class Verify2FARequest
+    {
+        public string UserId { get; set; }
+        public string Code { get; set; }
+    }
+
+    public async Task VerifyTwoFA(Verify2FARequest request)
+    {
+        var user = await _userManager.FindByIdAsync(request.UserId);
+
+        var isValid = await _userManager.VerifyTwoFactorTokenAsync(
+            user, _userManager.Options.Tokens.AuthenticatorTokenProvider,
+            request.Code
+        );
+
+        //if (!isValid)
+        //    return BadRequest("Invalid code");
+
+        await _userManager.SetTwoFactorEnabledAsync(user, true);
+
+        //return Ok("2FA enabled successfully");
+    }
+    public async ValueTask<object> LoginAsync(LoginDTO login,int? timeOutInMinutes)
     {
         var user = await _userManager.FindByNameAsync(login.UserName);
         if (user == null)
@@ -53,20 +103,52 @@ public class AuthenticationService(UserManager<User> _userManager, IConfiguratio
 
         if (!passwordCheck)
             return "Invalid password";
+        //        var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(
+        //    code,
+        //    false,
+        //    false
+        //);
+        /*var result = await _signInManager.PasswordSignInAsync(
+    model.Email,
+    model.Password,
+    false,
+    lockoutOnFailure: false
+);
 
-        return GenerateTokenHelper.GenerateToken(user, _configuration);
+if (result.RequiresTwoFactor)
+{
+    return "2FA_REQUIRED";
+}*/
+        await _emailService.SendMailAsync(user.Email, "New login to your account ", "There is a new login to your account");
+        return GenerateTokenHelper.GenerateToken(user, _configuration, timeOutInMinutes);
+    } 
+
+    public async Task<SessionResponse> ChangeSessionTimeOut(Guid userId,int timeOut)
+    {
+        var user=await _context.Users.FirstOrDefaultAsync(u=>u.Id == userId);
+        if (user is null) return null;
+        string token =  GenerateTokenHelper.GenerateToken(user, _configuration, timeOut).Token;
+        return new SessionResponse
+        {
+            Token = token,
+            TimeOut = timeOut
+        };
     }
-
+    public class SessionResponse
+    {
+       public string Token { get; set; }
+        public int TimeOut {  get; set; }
+    }
     public async ValueTask<string> RequestForgotPasswordAsync(string email)
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
         if (user == null)
             return "NotFound";
 
-        return await ForgotPassword.GenerateConfirmationCode(user, _mailService, _userManager);
+        return await ForgotPassword.GenerateConfirmationCode(user, _emailService, _userManager);
     }
 
-    public async ValueTask<object> ResetPasswordAsync(ForgotPasswordDTO forgotPassword)
+    public async ValueTask<object> ResetPasswordAsync(ForgotPasswordDTO forgotPassword,int? timeOutInMinutes)
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == forgotPassword.Email);
         if (user == null)
@@ -84,7 +166,7 @@ public class AuthenticationService(UserManager<User> _userManager, IConfiguratio
             return resetResult.Errors.Select(e => e.Description).ToList();
 
         await _userManager.RemoveAuthenticationTokenAsync(user, "ConfirmationCode", "ConfirmationCode");
-        return GenerateTokenHelper.GenerateToken(user, _configuration);
+        return GenerateTokenHelper.GenerateToken(user, _configuration, timeOutInMinutes);
     }
 
    

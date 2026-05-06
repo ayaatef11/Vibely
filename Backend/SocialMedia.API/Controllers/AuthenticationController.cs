@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Application.DTOs.Requests.Authentication;
 using SocialMedia.Core.Domain.DTOs.Requests.Authentication;
 namespace SocialMedia.API.Controllers;
 [ApiController]
@@ -6,37 +7,35 @@ namespace SocialMedia.API.Controllers;
 public class AuthenticationController(IAuthenticationService _authenticationService) : ControllerBase
 {
     [HttpPost("signUp")]
-    public async Task<IActionResult> SignUp(RegisterDTO register)
+    public async Task<IActionResult> SignUp(RegisterDTO register, int timeOutInMinutes)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(register);
+        var result = await _authenticationService.SignUpAsync(register,timeOutInMinutes);
+        return Ok(result);
+    }
 
-        var siginUpOperation = await _authenticationService.SignUpAsync(register);
-        return Ok(siginUpOperation);
+    [HttpPost("change-password")]
+    public async Task<IActionResult> ChangePassword(Guid userId,ChangePasswordRequest request)
+    {
+        await _authenticationService.ChangePassword(userId,request);
+        return Ok();
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDTO login)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(login);
-
-        var loginOperation = await _authenticationService.LoginAsync(login);
-        if (loginOperation == "NotFound")
+    { 
+        var result = await _authenticationService.LoginAsync(login, login.timeOutInMinutes);
+        if (result == "NotFound")
             return BadRequest("User Not Found");
 
-        if (loginOperation == "InvalidPassword")
+        if (result == "InvalidPassword")
             return BadRequest("Invalid Password");
 
-        return Ok(loginOperation);
+        return Ok(result);
     }
 
     [HttpPost("Forgot-Password-Request")]
     public async Task<IActionResult> RequestForgotPassword(string email)
-    {
-        if (string.IsNullOrEmpty(email))
-            return BadRequest("Email is required");
-
+    { 
         var result = await _authenticationService.RequestForgotPasswordAsync(email);
         if (result == "NotFound")
             return NotFound("User not found");
@@ -46,23 +45,17 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
 
     [HttpPut("Forgot-Password-Reset")]
     public async Task<IActionResult> ResetPassword(ForgotPasswordDTO forgotPassword)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(forgotPassword);
-
-        var resetOperation = await _authenticationService.ResetPasswordAsync(forgotPassword);
-        if (resetOperation == "NotFound")
+    { 
+        var result = await _authenticationService.ResetPasswordAsync(forgotPassword,forgotPassword.timeOutInMinutes);
+        if (result == "NotFound")
             return NotFound("User not found Or Invalid Email Address");
 
-        if (resetOperation == "InvalidCode")
+        if (result == "InvalidCode")
             return BadRequest("Invalid confirmation code");
 
-        return Ok(resetOperation);
+        return Ok(result);
     }
-    //change password api
-    //apply two factor authentication
-    //cahnge token timeout based on user session timeout needed
-    //send emails or notification when someone login based on user request
+
     //make it multilingual
 
 }

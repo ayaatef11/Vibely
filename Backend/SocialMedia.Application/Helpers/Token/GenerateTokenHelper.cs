@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace SocialMedia.Application.Helpers.Token;
 public static class GenerateTokenHelper
 {
-    public static object GenerateToken(User user, IConfiguration config)
+    public static TokenResponse GenerateToken(User user, IConfiguration config,int? timeOutInMinutes)
     {
         var JwtOption = config.GetSection("JWT").Get<JWTOption>();
 
@@ -36,12 +36,16 @@ public static class GenerateTokenHelper
             issuer: JwtOption.Issuer,
             signingCredentials: creds,
             audience: JwtOption.Audience,
-            expires: DateTime.Now.AddMinutes(int.Parse(JwtOption.ExpireTime))
+            expires: DateTime.Now.AddMinutes(timeOutInMinutes??int.Parse(JwtOption.ExpireTime))
         );
 
-        return new
+        return new TokenResponse
         {
             Token = new JwtSecurityTokenHandler().WriteToken(token),
         };
     }
+}
+public class TokenResponse
+{
+    public string Token {  get; set; }
 }
