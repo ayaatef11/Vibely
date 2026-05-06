@@ -317,19 +317,7 @@ togglePostMenu(post: any) {
 @HostListener('document:click')
 onDocumentClick() {
   this.posts.forEach((p: any) => p.showMenu = false);
-}
-  openCreatePost() {
-    this.showCreatePostModal = true;
-  }
-
-  closeCreatePost() {
-    this.showCreatePostModal = false;
-    this.newPostTitle = '';
-    this.newPostText = '';
-    this.newPostFeeling = 1;
-    this.newPostImagePreview = null;
-    this.newPostImageFile = null;
-  }
+} 
 
   onImageSelected(event: any) {
     const file = event.target.files[0];
@@ -340,12 +328,7 @@ onDocumentClick() {
     const reader = new FileReader();
     reader.onload = (e: any) => this.newPostImagePreview = e.target.result;
     reader.readAsDataURL(file);
-  }
-
-  removeImage() {
-    this.newPostImagePreview = null;
-    this.newPostImageFile = null;
-  }
+  } 
 
   addPost() {
     this.router.navigate(['create/post'])

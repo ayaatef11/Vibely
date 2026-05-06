@@ -3,7 +3,7 @@
 <div class="main-content">
   <div class="row">
 
-    <!-- ✅ LEFT SIDE (POSTS) -->
+    <!--  LEFT SIDE (POSTS) -->
     <div class="col-lg-8">
 
       <!-- Header -->
@@ -17,13 +17,14 @@
         <div class="d-flex">
 
           <!-- Notifications -->
-          <button class="btn btn-link btn-lg  me-2" [routerLink]="'/notifications'"
-            routerLinkActive="active" style="color:var(--logo-dark-green)">
+          <button class="btn btn-link btn-lg  me-2" [routerLink]="'/notifications'" routerLinkActive="active"
+            style="color:var(--logo-dark-green)">
             <i class="fas fa-bell"></i>
           </button>
 
           <!-- Friend Requests -->
-          <button class="btn btn-link btn-lg   me-2 position-relative" (click)="toggleRequests()" style="color:var(--logo-dark-green)">
+          <button class="btn btn-link btn-lg   me-2 position-relative" (click)="toggleRequests()"
+            style="color:var(--logo-dark-green)">
             <i class="fas fa-user-plus"></i>
             <span *ngIf="friendRequests.length > 0"
               class="badge bg-danger position-absolute top-0 start-100 translate-middle">
@@ -48,7 +49,8 @@
               </div>
 
               <div>
-                <button class="btn btn-sm  me-1" (click)="acceptRequest(req)" style="background-color:var(--logo-dark-green);color:white">Accept</button>
+                <button class="btn btn-sm  me-1" (click)="acceptRequest(req)"
+                  style="background-color:var(--logo-dark-green);color:white">Accept</button>
                 <button class="btn btn-sm btn-danger" (click)="rejectRequest(req)">Reject</button>
               </div>
 
@@ -56,13 +58,14 @@
           </div>
 
           <!-- Messages -->
-          <button class="btn btn-link btn-lg  me-2" [routerLink]="'/messages'" routerLinkActive="active" style="color:var(--logo-dark-green)">
+          <button class="btn btn-link btn-lg  me-2" [routerLink]="'/messages'" routerLinkActive="active"
+            style="color:var(--logo-dark-green)">
             <i class="fas fa-envelope"></i>
           </button>
 
           <!-- Profile -->
-          <button class="btn btn-link btn-lg " [routerLink]="['/home/profile', profileId]"
-            routerLinkActive="active" style="color:var(--logo-dark-green)">
+          <button class="btn btn-link btn-lg " [routerLink]="['/home/profile', profileId]" routerLinkActive="active"
+            style="color:var(--logo-dark-green)">
             <i class="fas fa-user-circle"></i>
           </button>
 
@@ -90,182 +93,181 @@
 
       </div>
 
-       
-<div class="post-card mb-4">
-  <div class="p-3">
-    <div class="d-flex align-items-center">
-      <img src="https://picsum.photos/40" class="user-avatar me-3" alt="User">
 
-      <!--  Clicking the input navigate to create post page  -->
-      <input type="text"
-             class="form-control border-0 bg-light"
-             placeholder="What's on your mind?"
-             style="border-radius: 25px; cursor: pointer;"  readonly  (click)="addPost()">
+      <div class="post-card mb-4">
+        <div class="p-3">
+          <div class="d-flex align-items-center">
+            <img src="https://picsum.photos/40" class="user-avatar me-3" alt="User">
 
-      <!-- Camera button also   -->
-      <button class="btn btn-link ms-2"  style="color:var(--logo-bubble-medium)" (click)="addPost()">
-        <i class="fas fa-camera"></i>
-      </button>
-    </div>
-  </div>
-</div>
+            <!--  Clicking the input navigate to create post page  -->
+            <input type="text" class="form-control border-0 bg-light" placeholder="What's on your mind?"
+              style="border-radius: 25px; cursor: pointer;" readonly (click)="addPost()">
 
+            <!-- Camera button also   -->
+            <button class="btn btn-link ms-2" style="color:var(--logo-bubble-medium)" (click)="addPost()">
+              <i class="fas fa-camera"></i>
+            </button>
+          </div>
+        </div>
+      </div>
 
 
       <!-- Posts Feed -->
-       <ng-container *ngFor="let post of posts">
-      <div class="post-card mb-4"  *ngIf="!post.isHidden">
+      <ng-container *ngFor="let post of posts">
+        <div class="post-card mb-4" *ngIf="!post.isHidden">
 
-        <!-- Post Header -->
-        <div class="post-header d-flex justify-content-between align-items-center">
-  <div class="d-flex align-items-center">
-    <img src="https://picsum.photos/40" class="user-avatar me-3" alt="User">
-    <strong>{{ post.userName }}</strong>
-  </div>
-
-  <!-- Three Dots Button -->
-  <div class="position-relative">
-    <button class="btn btn-link text-muted p-0"   (click)="togglePostMenu(post); $event.stopPropagation()">
-      <i class="fas fa-ellipsis-h"></i>
-    </button>
-
-    <!-- Dropdown Menu -->
-    <div class="post-menu-dropdown" *ngIf="post.showMenu">
-
-      <ng-container *ngIf="post.profileId === profileId">
-        <button class="post-menu-item" (click)="editPost(post); post.showMenu = false">
-          <i class="fas fa-pen me-2 text-primary"></i> Edit Post
-        </button>
-        <button class="post-menu-item text-danger" (click)="deletePost(post.id); post.showMenu = false">
-          <i class="fas fa-trash me-2"></i> Delete Post
-        </button>
-      </ng-container>
-
-      <ng-container *ngIf="post.profileId !== profileId">
-        <button class="post-menu-item" (click)="hidePost(post); post.showMenu = false">
-          <i class="fas fa-eye-slash me-2 text-muted"></i> Hide Post
-        </button>
-      </ng-container>
-
-    </div>
-  </div> 
-        </div>
-
-        <!-- Post Image -->
-        <img [src]="post.mediaUrls" alt="Post" class="post-image">
-
-        <!-- Post Actions -->
-        <div class="post-actions">
-          <button class="btn" (click)="toggleLike(post)">
-            <i class="fa-heart" [class.fas]="post.isLiked" [class.far]="!post.isLiked"
-              [style.color]="post.isLiked ? 'red' : 'gray'">
-            </i>
-          </button>
-          <button class="btn" (click)="toggleCommentBox(post)">
-            <i class="far fa-comment"></i>
-          </button>
-          <button class="btn" (click)="toggleSharePost(post)">
-            <i class="far fa-share-square"></i>
-          </button>
-          <span class="float-end text-muted">{{ post.reactsCount }}</span>
-        </div>
-
-        <!-- Share Link Loading -->
-        <div *ngIf="post.shareLinkLoading" class="px-3 text-muted small">
-          Generating link...
-        </div>
-
-        <!-- Share Modal -->
-        <div class="share-overlay" *ngIf="post.showShareBox">
-          <div class="share-modal">
-
-            <div class="share-header">
-              <h6>Share Post</h6>
-              <button (click)="post.showShareBox = false">✖</button>
+          <!-- Post Header -->
+          <div class="post-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+              <img src="https://picsum.photos/40" class="user-avatar me-3" alt="User">
+              <strong>{{ post.userName }}</strong>
             </div>
 
-            <div class="share-link-box">
-              <input type="text" [value]="post.shareLink" readonly>
-              <button (click)="copyToClipboard(post.shareLink)">Copy</button>
-            </div>
+            <!-- Three Dots Button -->
+            <div class="position-relative">
+              <button class="btn btn-link text-muted p-0" (click)="togglePostMenu(post); $event.stopPropagation()">
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
 
-            <div class="share-options">
-              <div class="share-item whatsapp" (click)="shareToWhatsApp(post.shareLink)">
-                <i class="fab fa-whatsapp"></i>
-                <span>WhatsApp</span>
-              </div>
-              <div class="share-item twitter" (click)="shareToTwitter(post.shareLink)">
-                <i class="fab fa-twitter"></i>
-                <span>Twitter</span>
-              </div>
-              <div class="share-item instagram" (click)="copyToClipboard(post.shareLink)">
-                <i class="fab fa-instagram"></i>
-                <span>Instagram</span>
-              </div>
-            </div>
+              <!-- Dropdown Menu -->
+              <div class="post-menu-dropdown" *ngIf="post.showMenu">
 
-          </div>
-        </div>
-
-        <!--  Comments -->
-        <div class="px-3 pb-3">
-          <p class="mb-1"><strong>{{ post.userName }}</strong> {{ post.text }}</p>
-
-          <a (click)="loadComments(post)" class="text-muted small" style="cursor: pointer;">
-            View all {{ post.commentsCount }} comments
-          </a>
-
-          <!-- Comments List -->
-          <div *ngIf="post.showComments" class="comments-section mt-3">
-
-            <div *ngFor="let comment of post.comments" class="comment-box d-flex mb-2">
-              <img src="https://picsum.photos/40" class="comment-avatar me-2" alt="User">
-
-              <div class="comment-content w-100">
-                <div class="comment-bubble">
-                  <strong class="comment-username">{{ comment.userName }}</strong>
-                  <p class="comment-text mb-0">{{ comment.text }}</p>
-                </div>
-
-                <!-- Comment Actions -->
-                <div class="d-flex align-items-center gap-2 mt-1">
-
-                  <!-- Like / Unlike -->
-                  <button class="btn btn-sm p-0" (click)="comment.isLiked ? dislikeComment(comment, post) : likeComment(comment, post)">
-                    <i class="fa-heart" [class.fas]="comment.isLiked" [class.far]="!comment.isLiked"
-                      [style.color]="comment.isLiked ? 'red' : 'gray'">
-                    </i>
+                <ng-container *ngIf="post.profileId === profileId">
+                  <button class="post-menu-item" (click)="editPost(post); post.showMenu = false">
+                    <i class="fas fa-pen me-2 text-primary"></i> Edit Post
                   </button>
-                  <span class="small text-muted">{{ comment.reactCount }}</span>
-
-                  <!-- Edit (only own comments) -->
-                  <button class="btn btn-sm p-0 text-muted" *ngIf="comment.profileId === profileId" (click)="editComment(comment, post)">
-                    <i class="fas fa-pen small"></i>
+                  <button class="post-menu-item text-danger" (click)="deletePost(post.id); post.showMenu = false">
+                    <i class="fas fa-trash me-2"></i> Delete Post
                   </button>
+                </ng-container>
 
-                  <!-- Delete (only own comments) -->
-                  <button class="btn btn-sm p-0 text-danger" *ngIf="comment.profileId === profileId"
-                    (click)="deleteComment(post, comment)">
-                    <i class="fas fa-trash small"></i>
+                <ng-container *ngIf="post.profileId !== profileId">
+                  <button class="post-menu-item" (click)="hidePost(post); post.showMenu = false">
+                    <i class="fas fa-eye-slash me-2 text-muted"></i> Hide Post
                   </button>
+                </ng-container>
 
-                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Add Comment Box -->
-        <div *ngIf="post.showCommentBox" class="mt-2 d-flex align-items-center px-3 pb-3">
-          <img src="https://picsum.photos/40" class="user-avatar me-2"
-            style="width: 35px; height: 35px; border-radius: 50%;" alt="User">
-          <input type="text" class="form-control me-2" placeholder="Write a comment..."
-            [(ngModel)]="post.newCommentText">
-          <button class="btn  btn-sm" (click)="addComment(post)" style="color:var(--logo-dark-green)">Post</button>
-        </div>
+          <!-- Post Image -->
+          <img [src]="post.mediaUrls" alt="Post" class="post-image">
 
-      </div>
-</ng-container>
+          <!-- Post Actions -->
+          <div class="post-actions">
+            <button class="btn" (click)="toggleLike(post)">
+              <i class="fa-heart" [class.fas]="post.isLiked" [class.far]="!post.isLiked"
+                [style.color]="post.isLiked ? 'red' : 'gray'">
+              </i>
+            </button>
+            <button class="btn" (click)="toggleCommentBox(post)">
+              <i class="far fa-comment"></i>
+            </button>
+            <button class="btn" (click)="toggleSharePost(post)">
+              <i class="far fa-share-square"></i>
+            </button>
+            <span class="float-end text-muted">{{ post.reactsCount }}</span>
+          </div>
+
+          <!-- Share Link Loading -->
+          <div *ngIf="post.shareLinkLoading" class="px-3 text-muted small">
+            Generating link...
+          </div>
+
+          <!-- Share Modal -->
+          <div class="share-overlay" *ngIf="post.showShareBox">
+            <div class="share-modal">
+
+              <div class="share-header">
+                <h6>Share Post</h6>
+                <button (click)="post.showShareBox = false">✖</button>
+              </div>
+
+              <div class="share-link-box">
+                <input type="text" [value]="post.shareLink" readonly>
+                <button (click)="copyToClipboard(post.shareLink)">Copy</button>
+              </div>
+
+              <div class="share-options">
+                <div class="share-item whatsapp" (click)="shareToWhatsApp(post.shareLink)">
+                  <i class="fab fa-whatsapp"></i>
+                  <span>WhatsApp</span>
+                </div>
+                <div class="share-item twitter" (click)="shareToTwitter(post.shareLink)">
+                  <i class="fab fa-twitter"></i>
+                  <span>Twitter</span>
+                </div>
+                <div class="share-item instagram" (click)="copyToClipboard(post.shareLink)">
+                  <i class="fab fa-instagram"></i>
+                  <span>Instagram</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!--  Comments -->
+          <div class="px-3 pb-3">
+            <p class="mb-1"><strong>{{ post.userName }}</strong> {{ post.text }}</p>
+
+            <a (click)="loadComments(post)" class="text-muted small" style="cursor: pointer;">
+              View all {{ post.commentsCount }} comments
+            </a>
+
+            <!-- Comments List -->
+            <div *ngIf="post.showComments" class="comments-section mt-3">
+
+              <div *ngFor="let comment of post.comments" class="comment-box d-flex mb-2">
+                <img src="https://picsum.photos/40" class="comment-avatar me-2" alt="User">
+
+                <div class="comment-content w-100">
+                  <div class="comment-bubble">
+                    <strong class="comment-username">{{ comment.userName }}</strong>
+                    <p class="comment-text mb-0">{{ comment.text }}</p>
+                  </div>
+
+                  <!-- Comment Actions -->
+                  <div class="d-flex align-items-center gap-2 mt-1">
+
+                    <!-- Like / Unlike -->
+                    <button class="btn btn-sm p-0"
+                      (click)="comment.isLiked ? dislikeComment(comment, post) : likeComment(comment, post)">
+                      <i class="fa-heart" [class.fas]="comment.isLiked" [class.far]="!comment.isLiked"
+                        [style.color]="comment.isLiked ? 'red' : 'gray'">
+                      </i>
+                    </button>
+                    <span class="small text-muted">{{ comment.reactCount }}</span>
+
+                    <!-- Edit (only own comments) -->
+                    <button class="btn btn-sm p-0 text-muted" *ngIf="comment.profileId === profileId"
+                      (click)="editComment(comment, post)">
+                      <i class="fas fa-pen small"></i>
+                    </button>
+
+                    <!-- Delete (only own comments) -->
+                    <button class="btn btn-sm p-0 text-danger" *ngIf="comment.profileId === profileId"
+                      (click)="deleteComment(post, comment)">
+                      <i class="fas fa-trash small"></i>
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add Comment Box -->
+          <div *ngIf="post.showCommentBox" class="mt-2 d-flex align-items-center px-3 pb-3">
+            <img src="https://picsum.photos/40" class="user-avatar me-2"
+              style="width: 35px; height: 35px; border-radius: 50%;" alt="User">
+            <input type="text" class="form-control me-2" placeholder="Write a comment..."
+              [(ngModel)]="post.newCommentText">
+            <button class="btn  btn-sm" (click)="addComment(post)" style="color:var(--logo-dark-green)">Post</button>
+          </div>
+
+        </div>
+      </ng-container>
     </div>
 
     <!-- RIGHT SIDE -->
@@ -284,7 +286,7 @@
           </div>
 
           <button class="btn btn-sm" [ngClass]="user.isRequested ? 'btn-secondary' : 'btn-success'"
-            (click)="toggleFollow(user); $event.stopPropagation()" >
+            (click)="toggleFollow(user); $event.stopPropagation()">
             {{ user.isRequested ? 'Requested' : 'Follow' }}
           </button>
 

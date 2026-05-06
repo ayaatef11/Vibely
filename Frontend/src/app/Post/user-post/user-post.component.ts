@@ -1,6 +1,6 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PostServiceService } from '../create-post/Services/post-service.service';
 import { DislikeRequest } from '../../../Models/Reacts/Requests/DislikeRequest';
 import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
@@ -15,63 +15,100 @@ import { FormsModule } from '@angular/forms';
 import { SavedPostsServiceService } from '../SavedPosts/Services/saved-posts-service.service';
 import { SavePostRequest } from '../../../Models/Posts/Requests/SavePostRequest';
 import { UnSavePostRequest } from '../../../Models/Posts/Requests/UnSavePostRequest';
+import { SidebarComponent } from '../../Common/sidebar/sidebar.component';
+import { EditPostRequest } from '../../../Models/Posts/Requests/EditPostRequest';
 
 @Component({
   selector: 'app-user-post',
   standalone: true,
-  imports: [FormsModule,NgFor, NgIf],
+  imports: [RouterModule, FormsModule, SidebarComponent, NgFor, NgIf],
   templateUrl: './user-post.component.html',
   styleUrl: './user-post.component.css'
 })
 export class UserPostComponent {
 
-  constructor(private route: ActivatedRoute, private savedPostService:SavedPostsServiceService,private likeService: LikesServiceService, private authService: AuthenticationService, private commentService: CommentServiceService, private shareService: SharePostServiceService, private postService: PostServiceService) { }
-
-  post!: PostResponse;
-  ngOnInit() {
+  constructor(private router: Router, private route: ActivatedRoute, private savedPostService: SavedPostsServiceService, private likeService: LikesServiceService, private authService: AuthenticationService, private commentService: CommentServiceService, private shareService: SharePostServiceService, private postService: PostServiceService) { }
+ngOnInit() {
     const postId = this.route.snapshot.paramMap.get('id');
 
     if (postId) {
       this.loadPost(postId);
     }
   }
+  //********************************************VARIABLES******************************************* */
+  post!: PostResponse;
+  profileId = this.authService.getProfileId() ?? '1'
+  isEditOpen = false;
 
-  loadPost(id: string) {
-    this.postService.getPost(id).subscribe(res => {
+editData: EditPostRequest = {
+  id: '',
+  title: '',
+  text: '',
+  feelingState: 0
+};
+
+
+  
+//************************FUNCTIONS********************************************** */
+
+  loadPost(postId: string) {
+    this.postService.getPost(postId).subscribe(res => {
       this.post = res;
     });
   }
-  
-togglePost(postId:string){
-  const userId=this.authService.getUserId()??'1'
+  editPost(post: any) {
+    this.editData = {
+      id: post.id,
+      feelingState: post.feelingState,
+      title: post.title,
+      text: post.text
+    };
+    this.isEditOpen = true;
+    this.postService.editPost(post).subscribe()
+  }
+
+  deletePost() {
+     
+    this.postService.deletePost(this.post.id).subscribe(() => {
+      this.router.navigate(['/home/profile', this.profileId])
+    })
+  }
+
+  togglePostMenu() {
+    this.post.showMenu = !this.post.showMenu;
+  }
+
+  togglePost(postId: string) {
+    const userId = this.authService.getUserId() ?? '1'
     this.post.isSaved = !this.post.isSaved;
 
-  if(!this.post.isSaved){
-     let req: UnSavePostRequest={
-userId:userId,
-postId:postId
-   }
-  this.savedPostService.unSavePost(req).subscribe({
-    next:(res:any)=>{
-      if(res.message=="Successfully"){
-        this.post.isSaved=false;
+    if (!this.post.isSaved) {
+      let req: UnSavePostRequest = {
+        userId: userId,
+        postId: postId
       }
-    }
-  })
-}else{
-   let req: SavePostRequest={
-userId:userId,
-postId:postId
-   }
-  this.savedPostService.savePost(req).subscribe({
-    next:(res:any)=>{
-      if(res.message=="Post saved successfully"){
-        this.post.isSaved=true;
+      this.savedPostService.unSavePost(req).subscribe({
+        next: (res: any) => {
+          if (res.message == "Successfully") {
+            this.post.isSaved = false;
+          }
+        }
+      })
+    } else {
+      let req: SavePostRequest = {
+        userId: userId,
+        postId: postId
       }
+      this.savedPostService.savePost(req).subscribe({
+        next: (res: any) => {
+          if (res.message == "Post saved successfully") {
+            this.post.isSaved = true;
+          }
+        }
+      })
     }
-  })
-}}
- 
+  }
+
   toggleSharePost(post: any) {
     // debugger
     post.showShareBox = true;

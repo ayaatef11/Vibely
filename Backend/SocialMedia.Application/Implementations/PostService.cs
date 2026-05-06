@@ -52,13 +52,13 @@ public class PostService(AppdbContext _context, IMapper _mapper,IProfileService 
         await _PostRepository.DeleteAsync(id);
         await _profileService.updatePostsCount(post.ProfileId, false);
     }
-    public async ValueTask<Post?>SearchForPost(string keyword)
+    public async ValueTask<PostResponse?>SearchForPost(string keyword)
     {
         var post=await _context.Posts.FirstOrDefaultAsync(x => x.Title.Contains( keyword) ||(x.Text!=null && x.Text.Contains(keyword)));
-        return post;
+        return _mapper.Map<PostResponse>(post);
     }
 
-    public async ValueTask<IEnumerable<Post>> GetTrendingPosts()//for public pages
+    public async ValueTask<IEnumerable<PostResponse>> GetTrendingPosts()//for public pages
     {
         var trendingPosts=await _context.Posts.Select(p => new 
         {
@@ -69,7 +69,7 @@ public class PostService(AppdbContext _context, IMapper _mapper,IProfileService 
             .Take(10)
             .Select(x=>x.Post)
             .ToListAsync();
-        return trendingPosts;
+        return _mapper.Map<IEnumerable<PostResponse>>(trendingPosts);
     }
     public async ValueTask<long> GetSharesCount(Guid postId)
     {

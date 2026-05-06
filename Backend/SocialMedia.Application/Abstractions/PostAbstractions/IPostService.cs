@@ -8,10 +8,10 @@ public interface IPostService
     ValueTask<PostResponse> EditPost(UpdatePostDTO post);
     ValueTask DeletePost(Guid id);
     ValueTask<IEnumerable<PostResponse>> GetUserPostsAsync(Guid id);
-    ValueTask<Post?> SearchForPost(string keyword);
+    ValueTask<PostResponse?> SearchForPost(string keyword);
     ValueTask<IEnumerable<PostResponseWithComments>> GetAllPosts(Guid userId);
     ValueTask<PostResponse> GetPost(Guid postId);
-    ValueTask<IEnumerable<Post>> GetTrendingPosts();
+    ValueTask<IEnumerable<PostResponse>> GetTrendingPosts();
     ValueTask<long> GetSharesCount(Guid postId);
     ValueTask<long> GetLikesCount(Guid postId);
     ValueTask HidePost(Guid postId);

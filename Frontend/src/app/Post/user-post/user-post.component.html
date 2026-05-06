@@ -1,3 +1,5 @@
+<app-sidebar></app-sidebar>
+
 <div class="status-feed">
 
   <div class="card mb-3 post-card border-0 shadow-sm">
@@ -14,7 +16,25 @@
       </div>
 
     </div>
+ <div class="position-relative">
+              <button class="btn btn-link text-muted p-0" (click)="togglePostMenu(); $event.stopPropagation()">
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
 
+              <!-- Dropdown Menu -->
+              <div class="post-menu-dropdown" *ngIf="post.showMenu"  (click)="$event.stopPropagation()">
+
+                <ng-container >
+                  <button class="post-menu-item" (click)="editPost(post); post.showMenu = false">
+                    <i class="fas fa-pen me-2 text-primary"></i> Edit Post
+                  </button>
+                  <button class="post-menu-item text-danger" (click)="deletePost(); post.showMenu = false;$event.stopPropagation()">
+                    <i class="fas fa-trash me-2"></i> Delete Post
+                  </button>
+                </ng-container> 
+
+              </div>
+            </div>
     <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800" class="img-fluid post-image"
       alt="post">
 

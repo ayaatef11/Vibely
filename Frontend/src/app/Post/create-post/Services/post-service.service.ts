@@ -33,17 +33,13 @@ export class PostServiceService {
   }
 
   editPost(data: EditPostRequest) {
-    return this.http.put(`${this.Url}/edit`, data).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.put(`${this.Url}/edit`, data);
   }
 
   getUserPosts(profileId: string) {
     let params = new HttpParams()
       .set('profileId', profileId)
-    return this.http.get(`${this.Url}/user`, { params }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(`${this.Url}/user`, { params });
   }
 
   getPost(postId: string) {
@@ -51,65 +47,41 @@ export class PostServiceService {
   }
 
   deletePost(id: string) {
-    let params = new HttpParams().set('id', id)
-    return this.http.get(`${this.Url}`, { params }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.delete(`${this.Url}/${id}`);
   }
 
   getAllPosts(userId: string) {
     let params = new HttpParams().set('userId', userId)
-    return this.http.get<PostResponse[]>(`${this.Url}/get-all`, { params }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<PostResponse[]>(`${this.Url}/get-all`, { params });
   }
 
   searchPosts(keyword: string) {
     let params = new HttpParams()
       .set('keyword', keyword)
-    return this.http.get(`${this.Url}/show-posts`, { params }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(`${this.Url}/show-posts`, { params })
+    ;
   }
 
   getTrendingPosts() {
-    return this.http.get(`${this.Url}/trending-posts`).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(`${this.Url}/trending-posts`);
   }
 
   getSharesCount(postId: string) {
     let params = new HttpParams()
       .set('postId', postId)
-    return this.http.get(`${this.Url}/shares-count`, { params }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(`${this.Url}/shares-count`, { params });
   }
 
   getLikesCount(postId: string) {
     let params = new HttpParams()
       .set('postId', postId)
-    return this.http.get(`${this.Url}/likes-count`, { params }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(`${this.Url}/likes-count`, { params });
   }
 
   hidePost(postId: string) {
     let params = new HttpParams().set('postId', postId)
-    return this.http.get(`${this.Url}/hide-post`, { params }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get(`${this.Url}/hide-post`, { params });
   }
 
 
-
-
-  private handleError(error: any) {
-    console.error('An error occurred:', error);
-    return throwError(() => new Error(
-      error.error?.message ||
-      error.message ||
-      'An unknown error occurred'
-    ));
-  }
 }

@@ -52,7 +52,6 @@ export const routes: Routes = [
     children: [
       
       { path: 'reels', title: 'Reels', component: SavedReelsComponent },
-      // {path:'',redirectTo:'saved-posts/all'}
     ]
   },
 
