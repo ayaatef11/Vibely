@@ -8,6 +8,7 @@ import { LoginRequest } from '../../../Models/Auth/Requests/LoginRequest';
 import { LoginResponse } from '../../../Models/Auth/Responses/LoginResponse';
 import { ForgetPasswordResetRequest } from '../../../Models/Auth/Requests/ForgetPasswordResetRequest';
 import {jwtDecode} from 'jwt-decode';
+import { ChangePasswordRequest } from '../../../Models/Auth/Requests/ChangePasswordRequest';
 
 @Injectable({ 
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class AuthenticationService {
     ).pipe(
       catchError(this.handleError)
     )
+  }
+
+  changePassword(data:ChangePasswordRequest,userId:string){
+    return this.http.post(`${this.Url}/change-password?userId=${userId}`,data)
   }
 
   ForgetPasswordRequest(email: string)  {

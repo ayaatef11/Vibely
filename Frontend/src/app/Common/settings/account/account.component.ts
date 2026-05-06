@@ -1,12 +1,36 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from '../../../Auth/Services/authentication-service.service';
+import { ChangePasswordRequest } from '../../../../Models/Auth/Requests/ChangePasswordRequest';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './account.component.html',
   styleUrl: './account.component.css'
 })
 export class AccountComponent {
+  constructor(private authService:AuthenticationService){}
+  userId=this.authService.getUserId()??'1'
+
+  model:ChangePasswordRequest={
+oldPassword:'',
+newPassword:'',
+confirmNewPassword:''
+}
+changePassword() {
+this.authService.changePassword(this.model,this.userId).subscribe(
+  (next)=>{
+  this.model={
+    oldPassword:'',
+    newPassword:'',
+    confirmNewPassword:''
+  }
+},
+(err)=>{
+console.error(err)
+});
+}
 
 }

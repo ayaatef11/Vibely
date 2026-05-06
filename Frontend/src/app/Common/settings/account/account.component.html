@@ -8,17 +8,17 @@
         <form>
             <div class="mb-3">
                 <label class="form-label">Current Password</label>
-                <input type="password" class="form-control">
+                <input type="password" class="form-control" name="oldPassword" [(ngModel)]="model.oldPassword">
             </div>
             <div class="mb-3">
                 <label class="form-label">New Password</label>
-                <input type="password" class="form-control">
+                <input type="password" class="form-control" name="newPassword" [(ngModel)]="model.newPassword">
             </div>
             <div class="mb-3">
                 <label class="form-label">Confirm New Password</label>
-                <input type="password" class="form-control">
+                <input type="password" class="form-control" name="confirmNewPassword" [(ngModel)]="model.confirmNewPassword">
             </div>
-            <button type="submit" class="btn btn-success">Update Password</button>
+            <button type="submit" class="btn btn-success" (click)="changePassword()">Update Password</button>
         </form>
     </div>
 </div>
