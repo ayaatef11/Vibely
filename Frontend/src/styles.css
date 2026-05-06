@@ -1,13 +1,9 @@
 :root { 
-  --bg-light: #fafafa;
-  --bg-dark: #262626;
-  --text-white: #ffffff;
-
-  --border-color: #dbdbdb;
-
+  
   --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
- 
+  --bg-color: #ffffff;
+  --text-color: #121212;
   --logo-bubble-very-light: #d5d3dc;  
   --logo-bubble-light: #826ee7;
   --logo-bubble-medium: #4e19a9;
@@ -25,12 +21,34 @@
     var(--logo-bubble-medium) 100%
   );
 }
+.dark-theme {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+   --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
+ 
+  --logo-bubble-very-light: #d5d3dc;  
+  --logo-bubble-light: #826ee7;
+  --logo-bubble-medium: #4e19a9;
+  --logo-bubble-dark: #119265;
+  --logo-dark-green: #290478;
+
+  --logo-main-gradient: linear-gradient(180deg, 
+    var(--logo-bubble-light) 0%, 
+    var(--logo-bubble-medium) 50%, 
+    var(--logo-dark-green) 100%
+  );
+  
+  --logo-bubble-gradient: linear-gradient(135deg, 
+    var(--logo-bubble-light) 0%, 
+    var(--logo-bubble-medium) 100%
+  );
+}
 
 body {
   font-family: var(--font-main);
-  background-color: var(--bg-light);
-  color: var(--text-dark);
+  background-color: var(--bg-color);
+  color: var( --text-color);
   margin: 0;
   padding: 0;
    height: 100%;
