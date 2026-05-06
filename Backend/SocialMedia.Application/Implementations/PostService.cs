@@ -7,9 +7,9 @@ using SocialMedia.Core.Domain.DTOs.Requests.Post;
 using SocialMedia.Infrastructure.Domain.Entities.Security;
 
 namespace SocialMedia.Application.Implementations;
-public class PostService(AppdbContext _context, IMapper _mapper,ProfileService _profileService, IMainRepository<Post> _PostRepository) : IPostService
+public class PostService(AppdbContext _context, IMapper _mapper,IProfileService _profileService, IMainRepository<Post> _PostRepository) : IPostService
 {
-    public async ValueTask<PostResponse> AddPost(CreatePostDTO post)
+    public async ValueTask<PostResponse> AddPost(CreatePostDTO postRequest)
     {
         var _post = new Post()
         {
@@ -18,18 +18,19 @@ public class PostService(AppdbContext _context, IMapper _mapper,ProfileService _
             ReactsCount = 0,
             FeelingState = 0,
             CommentsCount = 0,
-            Text = post.Text,
-            Title = post.Title,
+            Text = postRequest.Text,
+            Title = postRequest.Title,
             CreatedAt = DateTime.UtcNow,
-            ProfileId = post.ProfileId,
-            MediaUrls = System.Text.Json.JsonSerializer.Serialize(
-           await Task.WhenAll(post.Media.Select(m => PhotoHelper.Upload_photo(m)))
-       )
+            ProfileId = postRequest.ProfileId,
+            MediaUrls = (postRequest.Media != null && postRequest.Media.Any())
+    ? System.Text.Json.JsonSerializer.Serialize(
+        await Task.WhenAll(postRequest.Media.Select(m => PhotoHelper.Upload_photo(m)))
+      ): null       
         };
 
         var addPostOperation = await _PostRepository.CreateAsync(_post);
-        await _profileService.updatePostsCount(post.ProfileId, true);
-        return _mapper.Map<PostResponse>(post);
+        await _profileService.updatePostsCount(postRequest.ProfileId, true);
+        return _mapper.Map<PostResponse>(_post);
     }
 
     public async  ValueTask<PostResponse> EditPost(UpdatePostDTO postRequest)
@@ -123,6 +124,7 @@ public class PostService(AppdbContext _context, IMapper _mapper,ProfileService _
         var post=await _context.Posts.FirstOrDefaultAsync(s => s.Id == postId);
         if (post == null) return;
         post.IsHidden = true;
+        await _context.SaveChangesAsync();
     }
 
    

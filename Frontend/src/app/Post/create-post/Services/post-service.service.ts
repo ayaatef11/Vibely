@@ -25,11 +25,11 @@ export class PostServiceService {
 
     const formData = new FormData();
 
-    data.mediaFiles.forEach(file => {
-      formData.append('Media', file);
-    });
+    // data.mediaFiles.forEach(file => {
+    //   formData.append('Media', file);
+    // });
 
-    return this.http.post(`${this.Url}/add`, formData, { params });
+    return this.http.post<PostResponse>(`${this.Url}/add`, formData, { params });
   }
 
   editPost(data: EditPostRequest) {

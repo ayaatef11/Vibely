@@ -16,7 +16,8 @@ public static class GenerateTokenHelper
                 new Claim(JwtRegisteredClaimNames.Sub,user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
-                new Claim("ProfileId",user.ProfileId.ToString())
+                new Claim("ProfileId",user.ProfileId.ToString()),
+                new Claim("UserName",user.UserName.ToString())
             };
         
         var _roles = user.Roles.ToList();

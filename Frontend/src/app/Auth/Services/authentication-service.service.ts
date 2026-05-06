@@ -58,6 +58,14 @@ getProfileId(): string | null {
 
   return decoded.ProfileId || null;
 }
+getUserName(): string | null {
+  const token = this.getToken();
+  if (!token) return null;
+
+  const decoded: any = jwtDecode(token);
+
+  return decoded.UserName || null;
+}
 saveToken(token: string): void {
   localStorage.setItem('token', token);
 }

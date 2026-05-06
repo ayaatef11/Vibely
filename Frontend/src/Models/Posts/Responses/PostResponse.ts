@@ -15,12 +15,14 @@ export interface PostResponse{
     isSaved: boolean
     isReel: boolean
     isLiked:boolean
+    profileId:string
+    comments:CommentResponse[] 
     showComments:boolean
     userName:string
-    comments:CommentResponse[]
     showCommentBox:boolean
     newCommentText:string
     showShareBox:boolean
     shareLink: string
     shareLinkLoading:boolean
+    showMenu:boolean
 }

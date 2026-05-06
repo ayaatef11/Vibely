@@ -25,6 +25,7 @@ import { EditCommentRequest } from '../../Models/Comments/Requests/EditCommentRe
 import { CommentResponse } from '../../Models/Posts/Responses/CommentResponse';
 import { AddPostRequest } from '../../Models/Posts/Requests/AddPostRequest';
 import { EditPostRequest } from '../../Models/Posts/Requests/EditPostRequest';
+import { debug } from 'console';
 
 @Component({
   selector: 'app-dashboard',
@@ -73,14 +74,24 @@ export class DashboardComponent {
   trendingPosts: PostResponse[] = [];
   userId!: string
   profileId!: string
+  newPostText!: string
+  newPostTitle!: string
+  showCreatePostModal = false;
+  currentUserName:string=this.authService.getUserName()??'1'
+  newPostFeeling = 1;
+  newPostImagePreview: string | null = null;
+  newPostImageFile: File | null = null;
+
   //****************************** functions *************************************** */
   viewProfile(profileId: string) {
     debugger
     this.router.navigate(['/home/profile', profileId]);
   }
+
   goToPost(postId: string) {
     this.router.navigate(['/post', postId]);
   }
+  
   loadTrendingPosts() {
     this.postService.getTrendingPosts().subscribe({
       next: (res: any) => {
@@ -293,14 +304,52 @@ export class DashboardComponent {
     });
   }
   ///**************************************post **************** */
-  addPost(post: any) {
-    const req: AddPostRequest = {
-      feelingState: 1,
-      title: post.title,
-      text: post.text,
-      ProfileId: this.profileId
-    }
-    this.postService.addPost(req).subscribe()
+// Toggle menu open/close
+togglePostMenu(post: any) {
+  // Close all other open menus first
+  this.posts.forEach((p: any) => {
+    if (p.id !== post.id) p.showMenu = false;
+  });
+  post.showMenu = !post.showMenu;
+}
+
+// Close menu when clicking anywhere outside
+@HostListener('document:click')
+onDocumentClick() {
+  this.posts.forEach((p: any) => p.showMenu = false);
+}
+  openCreatePost() {
+    this.showCreatePostModal = true;
+  }
+
+  closeCreatePost() {
+    this.showCreatePostModal = false;
+    this.newPostTitle = '';
+    this.newPostText = '';
+    this.newPostFeeling = 1;
+    this.newPostImagePreview = null;
+    this.newPostImageFile = null;
+  }
+
+  onImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+    this.newPostImageFile = file;
+
+    // Show preview
+    const reader = new FileReader();
+    reader.onload = (e: any) => this.newPostImagePreview = e.target.result;
+    reader.readAsDataURL(file);
+  }
+
+  removeImage() {
+    this.newPostImagePreview = null;
+    this.newPostImageFile = null;
+  }
+
+  addPost() {
+    this.router.navigate(['create/post'])
+   
   }
 
   editPost(post: any) {
@@ -316,13 +365,17 @@ export class DashboardComponent {
   deletePost(postId: string) {
     this.postService.deletePost(postId).subscribe()
   }
-  hidePost(postId: string) {
-    this.postService.hidePost(postId).subscribe()
+  hidePost(post: PostResponse) {
+    this.postService.hidePost(post.id).subscribe({
+      next(res){
+post.isHidden=true;
+      }
+    })
   }
   searchPosts(keyword: string) {
     this.postService.searchPosts(keyword).subscribe()
   }
-  
+
   toggleLike(post: any) {
     // debugger
     if (post.isLiked) {
@@ -347,10 +400,12 @@ export class DashboardComponent {
   }
 
   loadPosts() {
+    // debugger
     this.userId = this.authService.getUserId() ?? '1'
     this.profileId = this.authService.getProfileId() ?? '1'
     this.postService.getAllPosts(this.userId).subscribe({
       next: (res: PostResponse[]) => {
+        console.log(res)
         this.posts = res.map((post: any) => {
           let images = [];
           try {
@@ -361,11 +416,11 @@ export class DashboardComponent {
 
           return {
             ...post,
-            imageUrl: images.length ? images[0] : null,
-            comments: [],
-            showComments: false,
-            showCommentBox: false,
-            showShareBox: false
+            // imageUrl: images.length ? images[0] : null,
+            // comments: [],
+            // showComments: false,
+            // showCommentBox: false,
+            // showShareBox: false
           };
         });
       },

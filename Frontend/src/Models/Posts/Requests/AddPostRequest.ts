@@ -3,5 +3,5 @@ feelingState:number
 title:string 
 text:string 
 ProfileId:string
-mediaFiles: File[]
+media: File[] | null
 }

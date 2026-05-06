@@ -144,12 +144,12 @@
 }
 
 .media-upload-area:hover {
-  border-color: #1877f2;
+  border-color:var(--logo-bubble-dark);
   background-color: #f7f9fc;
 }
 
 .media-upload-area.dragover {
-  border-color: #1877f2;
+  border-color: var(--logo-bubble-dark);
   background-color: #e7f3ff;
 }
 
@@ -218,7 +218,7 @@
 }
 
 .option-btn.tag i {
-  color: #1877f2;
+  color: var(--logo-bubble-dark);
 }
 
 .option-btn.feeling i {
@@ -249,7 +249,7 @@
 }
 
 .btn-post {
-  background: #1877f2;
+  background: var(--logo-bubble-dark);
   border: none;
   color: white;
   padding: 0.75rem 2rem;
@@ -260,7 +260,7 @@
 }
 
 .btn-post:hover {
-  background-color: #166fe5;
+  background-color:var(--logo-bubble-medium);
 }
 
 .btn-post:disabled {

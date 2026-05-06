@@ -8,11 +8,11 @@
   --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
  
-  --logo-bubble-very-light: #d3dcd8;  
-  --logo-bubble-light: #6EE7B7;
-  --logo-bubble-medium: #10B981;
-  --logo-bubble-dark: #10B981;
-  --logo-dark-green: #047857;
+  --logo-bubble-very-light: #d5d3dc;  
+  --logo-bubble-light: #826ee7;
+  --logo-bubble-medium: #4e19a9;
+  --logo-bubble-dark: #441192;
+  --logo-dark-green: #290478;
 
   --logo-main-gradient: linear-gradient(180deg, 
     var(--logo-bubble-light) 0%, 

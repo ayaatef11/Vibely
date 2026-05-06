@@ -18,4 +18,6 @@ public class PostResponse
     public bool IsSaved { set; get; } 
     public bool IsReel { set; get; }
     public bool IsLiked { get; set; } = false;
+    public Guid ProfileId { set; get; }
+
 }

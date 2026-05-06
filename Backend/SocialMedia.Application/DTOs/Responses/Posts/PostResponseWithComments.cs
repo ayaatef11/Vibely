@@ -22,5 +22,6 @@ public class PostResponseWithComments
     public bool IsSaved { set; get; }
     public bool IsReel { set; get; }
     public bool IsLiked { get; set; } = false;
+    public Guid ProfileId { get; set; }
     public ICollection<CommentResponse>?Comments { set; get; }
 }

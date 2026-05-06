@@ -5,7 +5,7 @@ using SocialMedia.Infrastructure.Domain.Entities.Business.Posts;
 namespace SocialMedia.API.Controllers;
 [ApiController]
 [Route("api/post")]
-public partial class PostController(IPostService _PostService,IMainRepository<Post>_PostRepository,IProfileService _profileService) : ControllerBase
+public partial class PostController(IPostService _PostService) : ControllerBase
 {
     [HttpPost("add")]
     public async Task<IActionResult> Add(CreatePostDTO post)
