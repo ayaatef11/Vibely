@@ -16,25 +16,17 @@
                 <form>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">First Name</label>
-                            <input type="text" class="form-control" value="John">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Last Name</label>
-                            <input type="text" class="form-control" value="Doe">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" name="fullName" [(ngModel)]="currentUser.fullName">
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" value="john.doe@example.com">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Phone</label>
-                        <input type="tel" class="form-control" value="+1 (555) 123-4567">
+                        <label class="form-label">User Name</label>
+                        <input type="email" class="form-control" name="userName" [(ngModel)]="currentUser.userName">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Bio</label>
-                        <textarea class="form-control" rows="3" placeholder="Tell us about yourself..."></textarea>
+                        <textarea class="form-control" rows="3" name="bio" [(ngModel)]="currentUser.bio"></textarea>
                     </div>
                 </form>
             </div>
@@ -48,24 +40,23 @@
             <i class="fas fa-map-marker-alt me-2 text-success"></i>Location
         </h5>
     </div>
+
     <div class="card-body">
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label class="form-label">Country</label>
-                <select class="form-select">
+                <select class="form-select" [(ngModel)]="currentUser.location">
+                    <option [ngValue]="null" disabled selected>
+                        Select Country
+                    </option>
                     <option>United States</option>
                     <option>Canada</option>
                     <option>United Kingdom</option>
                 </select>
             </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Timezone</label>
-                <select class="form-select">
-                    <option>UTC-5 (Eastern Time)</option>
-                    <option>UTC-8 (Pacific Time)</option>
-                    <option>UTC+0 (GMT)</option>
-                </select>
-            </div>
         </div>
+    </div>
+    <div>
+        <button class="btn btn-success sm-3" (click)="editProfile()">Save </button>
     </div>
 </div>
