@@ -3,43 +3,70 @@ import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileRespo
 import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
 import { ProfileServiceService } from '../Services/profile-service.service';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Router } from '@angular/router';
+import { EditProfileRequest } from '../../../Models/Profiles/Requests/EditProfileRequest';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [FormsModule],
+  imports: [RouterModule, FormsModule],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })
 export class EditProfileComponent {
-  constructor(private authService:AuthenticationService,private profileService:ProfileServiceService){}
-user!:ProfileResponse;
-ngOnInit(){
-this.loadProfile()
-}
-editProfile() {
-   const req = {
-    userId: this.authService.getUserId() ?? '',
-    fullName: this.user.fullName,
-    userName: this.user.userName,
-    bio: this.user.bio,
-    location: this.user.location,
-    website: this.user.website,
-    profileImage: [], 
-    backgroundImage: []
-  };
+  constructor(private router: Router, private authService: AuthenticationService, private profileService: ProfileServiceService) { }
+  ngOnInit() {
+    this.loadProfile()
+  }
 
-  this.profileService.editProfile(req).subscribe({
-    next: (res) => {
-      console.log("Profile updated");
-    },
-    error: (err) => {
-      console.error(err);
-    }
-  });
-}
-loadProfile() {
-    
+  //**********************************variables***************************************** */
+  user: ProfileResponse = {
+    id: '',
+    fullName: '',
+    userName: '',
+    postCount: 0,
+    followerCount: 0,
+    followingCount: 0,
+    bio: '',
+    location: '',
+    website: '',
+    profileImage: '',
+    backgroundImage: '',
+    socialMediaUserId: '',
+    profileImageContentType: ' ',
+    backgroundImageContentType: ' ',
+    posts: []
+  };
+  userId = this.authService.getUserId() ?? ''
+profileId=this.authService.getProfileId()??''
+  //**********************************functions***************************** */  
+  editProfile() {
+    console.log(this.user)
+    const req: EditProfileRequest = {
+      userId: this.authService.getUserId() ?? '',
+      fullName: this.user.fullName,
+      userName: this.user.userName,
+      bio: this.user.bio,
+      location: this.user.location,
+      website: this.user.website,
+      profileImage: [],
+      backgroundImage: []
+    };
+
+    this.profileService.editProfile(req).subscribe({
+      next: (res: ProfileResponse) => {
+        console.log("Profile updated");
+        this.router.navigate(['/home/profile',this.profileId])
+
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+  }
+
+  loadProfile() {
+
     const profileId = this.authService.getProfileId() ?? '1';
 
     this.profileService.viewProfile(profileId).subscribe({

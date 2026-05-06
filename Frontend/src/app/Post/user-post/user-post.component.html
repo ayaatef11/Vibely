@@ -16,25 +16,45 @@
       </div>
 
     </div>
- <div class="position-relative">
-              <button class="btn btn-link text-muted p-0" (click)="togglePostMenu(); $event.stopPropagation()">
-                <i class="fas fa-ellipsis-h"></i>
-              </button>
+    <div class="position-relative">
+      <button class="btn btn-link text-muted p-0" (click)="togglePostMenu(); $event.stopPropagation()">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
 
-              <!-- Dropdown Menu -->
-              <div class="post-menu-dropdown" *ngIf="post.showMenu"  (click)="$event.stopPropagation()">
+      <!-- Dropdown Menu -->
+      <div class="post-menu-dropdown" *ngIf="post.showMenu" (click)="$event.stopPropagation()">
 
-                <ng-container >
-                  <button class="post-menu-item" (click)="editPost(post); post.showMenu = false">
-                    <i class="fas fa-pen me-2 text-primary"></i> Edit Post
-                  </button>
-                  <button class="post-menu-item text-danger" (click)="deletePost(); post.showMenu = false;$event.stopPropagation()">
-                    <i class="fas fa-trash me-2"></i> Delete Post
-                  </button>
-                </ng-container> 
+        <div>
+          <button class="post-menu-item" (click)="openEdit(); post.showMenu = false;$event.stopPropagation()">
+            <i class="fas fa-pen me-2 text-primary"></i> Edit Post
+          </button>
+          <button class="post-menu-item text-danger"
+            (click)="deletePost(); post.showMenu = false;$event.stopPropagation()">
+            <i class="fas fa-trash me-2"></i> Delete Post
+          </button>
+        </div>
+        <div class="edit-overlay" *ngIf="isEditOpen">
 
-              </div>
+          <div class="edit-modal">
+
+            <h5>Edit Post</h5>
+
+            <input type="text" class="form-control mb-2" placeholder="Title" [(ngModel)]="editData.title">
+
+            <textarea class="form-control mb-2" rows="3" placeholder="What's on your mind?" [(ngModel)]="editData.text"></textarea>
+
+            <input type="number" class="form-control mb-3" placeholder="Feeling" [(ngModel)]="editData.feelingState">
+
+            <div class="d-flex justify-content-end gap-2">
+              <button class="btn btn-secondary" (click)="closeEdit()">Cancel</button>
+              <button class="btn btn-success" (click)="saveEdit()">Save</button>
             </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
     <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800" class="img-fluid post-image"
       alt="post">
 
@@ -44,19 +64,15 @@
       <div class="d-flex justify-content-between align-items-center mb-2">
 
         <div>
-      <i class="bi fs-5 me-3"
-   [class.bi-heart-fill]="post.isLiked"
-   [class.bi-heart]="!post.isLiked"
-   [style.color]="post.isLiked ? 'red' : 'gray'"
-   (click)="toggleLike(post)">
-</i>
+          <i class="bi fs-5 me-3" [class.bi-heart-fill]="post.isLiked" [class.bi-heart]="!post.isLiked"
+            [style.color]="post.isLiked ? 'red' : 'gray'" (click)="toggleLike(post)">
+          </i>
           <i class="bi bi-chat fs-5 me-3" (click)="toggleCommentBox(post)"></i>
           <i class="bi bi-send fs-5" (click)="toggleSharePost(post)"></i>
         </div>
 
-        <i class="bi fs-5"
-   [class.bi-bookmark]="!post.isSaved"
-   [class.bi-bookmark-fill]="post.isSaved" (click)="togglePost(post.id)"></i>
+        <i class="bi fs-5" [class.bi-bookmark]="!post.isSaved" [class.bi-bookmark-fill]="post.isSaved"
+          (click)="togglePost(post.id)"></i>
         <div *ngIf="post.shareLinkLoading">
           Generating link...
         </div>

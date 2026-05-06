@@ -56,16 +56,27 @@ editData: EditPostRequest = {
       this.post = res;
     });
   }
-  editPost(post: any) {
+
+  openEdit() {
     this.editData = {
-      id: post.id,
-      feelingState: post.feelingState,
-      title: post.title,
-      text: post.text
+      id: this.post.id,
+      feelingState: this.post.feelingState,
+      title: this.post.title,
+      text: this.post.text
     };
     this.isEditOpen = true;
-    this.postService.editPost(post).subscribe()
+   
   }
+
+  saveEdit(){
+ this.postService.editPost(this.editData).subscribe((res:PostResponse)=>{
+this.post=res;
+    });
+  }
+
+  closeEdit() {
+  this.isEditOpen = false;
+}
 
   deletePost() {
      

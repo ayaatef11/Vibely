@@ -70,7 +70,7 @@ unblockUser() {
 }
 
 openPost(postId: string) {
-  this.router.navigate(['/user/post', postId]);
+  this.router.navigate(['/home/user/post', postId]);
 }
 
 

@@ -33,13 +33,13 @@ export class PostServiceService {
   }
 
   editPost(data: EditPostRequest) {
-    return this.http.put(`${this.Url}/edit`, data);
+    return this.http.put<PostResponse>(`${this.Url}/edit`, data);
   }
 
   getUserPosts(profileId: string) {
     let params = new HttpParams()
       .set('profileId', profileId)
-    return this.http.get(`${this.Url}/user`, { params });
+    return this.http.get<PostResponse[]>(`${this.Url}/user`, { params });
   }
 
   getPost(postId: string) {
@@ -63,7 +63,7 @@ export class PostServiceService {
   }
 
   getTrendingPosts() {
-    return this.http.get(`${this.Url}/trending-posts`);
+    return this.http.get<PostResponse[]>(`${this.Url}/trending-posts`);
   }
 
   getSharesCount(postId: string) {

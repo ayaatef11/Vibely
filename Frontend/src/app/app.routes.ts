@@ -42,10 +42,9 @@ export const routes: Routes = [
 {path: 'verify-code', title: 'Code Verification', component: CodeVerificationComponent},
 {path: 'forget-password', title: 'Forget Password', component: ForgetPasswordComponent},
 
-  { path: 'home', title: 'Home', component: DashboardComponent },
+  // { path: 'home', title: 'Home', component: DashboardComponent },
 
-  { path: 'create/post', title: 'Create Post', component: CreatePostComponent },
-  { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
+ { path: 'create/post', title: 'Create Post', component: CreatePostComponent },
 
   {
     path: 'saved-posts', title: 'Saved Posts', component: AllComponent,
@@ -58,6 +57,14 @@ export const routes: Routes = [
   {
     path: 'home', title: 'Main', component: SidebarComponent,
     children: [
+       {
+      path: '',
+      component: DashboardComponent // 👈 ده الصفحة الرئيسية
+    }, 
+  { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
+  { path: 'chat/view', component: ChatsComponent },
+  { path: 'chat/friend', component: FriendChatComponent },
+
       {
         path: 'notifications', title: 'Notifications', component: NotificationsHeaderComponent,
         children: [
@@ -70,7 +77,7 @@ export const routes: Routes = [
       },
       { path: 'profile/edit', component: EditProfileComponent },
       { path: 'profile/:id', component: ProfileComponent },
-      { path: '', redirectTo: 'main/notifications', pathMatch: 'full' },
+      { path: '', redirectTo: 'notifications', pathMatch: 'full' },
       { path: 'reels', component: ReelsComponent },
 
     ]
@@ -86,9 +93,7 @@ export const routes: Routes = [
 
 
 
-  { path: 'chat/view', component: ChatsComponent },
-  { path: 'chat/friend', component: FriendChatComponent },
-
+  
 
   {
     path: 'settings', component: SettingsComponent,

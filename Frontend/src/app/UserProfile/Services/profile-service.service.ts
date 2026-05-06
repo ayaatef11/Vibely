@@ -30,7 +30,7 @@ if (!data.backgroundImage || data.backgroundImage.length === 0) {
   formData.append('BackgroundImage', new Blob());
 }
 
-  return this.http.put(`${this.Url}/edit`, formData);
+  return this.http.put<ProfileResponse>(`${this.Url}/edit`, formData);
   }
 
   getFollowers(userId: string) {

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="cover-photo">
-        <button class="btn edit-profile-btn" [routerLink]="['edit']">Edit profile</button>
+        <button class="btn edit-profile-btn" [routerLink]="['/home/profile/edit']">Edit profile</button>
     </div>
     <div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel"
         aria-hidden="true">
@@ -52,21 +52,15 @@
             <span class="stat-number">{{user.followingCount}}</span>
             <span class="stat-label">following</span>
         </button>
-        <!-- لو مش نفس المستخدم -->
+        <!-- if not same user-->
 <div *ngIf="!isCurrentUser">
 
-  <!-- لو مش blocked -->
-  <button *ngIf="!isBlocked"
-          class="btn btn-danger"
-          (click)="blockUser()">
-    Block
+  <!-- if not blocked -->
+  <button *ngIf="!isBlocked"  class="btn btn-danger"  (click)="blockUser()">  Block
   </button>
 
-  <!-- لو blocked -->
-  <button *ngIf="isBlocked"
-          class="btn btn-success"
-          (click)="unblockUser()">
-    Unblock
+  <!-- if blocked -->
+  <button *ngIf="isBlocked"  class="btn btn-success"  (click)="unblockUser()">  Unblock
   </button>
 
 </div>
