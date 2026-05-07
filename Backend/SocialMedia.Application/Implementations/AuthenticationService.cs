@@ -2,12 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SocialMedia.Application.DTOs.Requests.Authentication;
+using SocialMedia.Application.DTOs.Responses.Auth;
 using SocialMedia.Core.Context;
 using SocialMedia.Core.Domain.DTOs.Requests.Authentication;
-using SocialMedia.Core.Domain.Entities.Business.Profiles;
-using SocialMedia.Infrastructure.Domain.Entities.Security;
-using System.Reflection.Metadata.Ecma335;
-using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
+using SocialMedia.Core.Domain.Entities.Business.Profiles; 
 
 namespace SocialMedia.Application.Implementations;
 public class AuthenticationService(UserManager<User> _userManager,IConfiguration _configuration, AppdbContext _context,
@@ -53,7 +51,7 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
         var result=await _userManager.ChangePasswordAsync(user, request.OldPassword,request.NewPassword);
         if (!result.Succeeded) { throw new Exception("Error has occurred"); }
     }
-    public async Task EnableTwoFA(Guid userId)
+    public async Task<EnableTwoFAResponse> EnableTwoFA(Guid userId)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
 
@@ -61,37 +59,28 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
 
         var key = await _userManager.GetAuthenticatorKeyAsync(user);
 
-        var issuer = "MySocialApp";
+        var issuer = "Vibely";
 
         var otpauth = $"otpauth://totp/{issuer}:{user.Email}?secret={key}&issuer={issuer}&digits=6";
 
-        //return Ok(new
-        //{
-        //    secret = key,
-        //    qrCodeUrl = otpauth
-        //});
-    }
-    public class Verify2FARequest
-    {
-        public string UserId { get; set; }
-        public string Code { get; set; }
-    }
+        
+        return new EnableTwoFAResponse
+        {
+            Secret = key,
+            QrCodeUrl = otpauth
+        };
+    }  
 
     public async Task VerifyTwoFA(Verify2FARequest request)
     {
         var user = await _userManager.FindByIdAsync(request.UserId);
 
-        var isValid = await _userManager.VerifyTwoFactorTokenAsync(
-            user, _userManager.Options.Tokens.AuthenticatorTokenProvider,
-            request.Code
-        );
+        var isValid = await _userManager.VerifyTwoFactorTokenAsync(user, _userManager.Options.Tokens.AuthenticatorTokenProvider,request.Code);
 
-        //if (!isValid)
-        //    return BadRequest("Invalid code");
+        if (!isValid)
+            throw new Exception("Invalid code");
 
         await _userManager.SetTwoFactorEnabledAsync(user, true);
-
-        //return Ok("2FA enabled successfully");
     }
     public async ValueTask<object> LoginAsync(LoginDTO login,int? timeOutInMinutes)
     {
@@ -134,11 +123,7 @@ if (result.RequiresTwoFactor)
             TimeOut = timeOut
         };
     }
-    public class SessionResponse
-    {
-       public string Token { get; set; }
-        public int TimeOut {  get; set; }
-    }
+   
     public async ValueTask<string> RequestForgotPasswordAsync(string email)
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);

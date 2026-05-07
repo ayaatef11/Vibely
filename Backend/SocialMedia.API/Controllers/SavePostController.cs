@@ -7,10 +7,7 @@ public class SavePostController(ISavePostService _SavePostService) : ControllerB
 
     [HttpPost("Save")]
     public async Task<IActionResult> Save(SavePostDTO savePost)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
+    { 
         var saveOperation = await _SavePostService.SaveAsync(savePost);
         return saveOperation == "Successfully" ?
             Ok(new Result
@@ -22,10 +19,7 @@ public class SavePostController(ISavePostService _SavePostService) : ControllerB
 
     [HttpGet("Get/{userId}")]
     public async Task<IActionResult> Get(Guid userId)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
+    { 
         var posts = await _SavePostService.GetPosts(userId);
         return posts.Any() ?
             Ok(posts) :
@@ -37,10 +31,7 @@ public class SavePostController(ISavePostService _SavePostService) : ControllerB
 
     [HttpDelete("UnSave")]
     public async Task<IActionResult> UnSave(SavePostDTO savePost)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
+    { 
         var unSaveOperation = await _SavePostService.UnSaveAsync(savePost);
         return unSaveOperation == "Successfully" ?
             Ok(unSaveOperation) :

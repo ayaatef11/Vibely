@@ -31,9 +31,6 @@ public class CommentController(ICommentService _CommentService, ICommentLikeServ
     [HttpDelete("dislike")]
     public async Task<IActionResult> Dislike(LikeCommentDTO dislikeComment)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         var result = await _CommentLikeService.DisLikeAsync(dislikeComment);
         return Ok(result);
     }

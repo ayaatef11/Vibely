@@ -8,9 +8,7 @@ public class ShareController(ISharePostService _ShareService) : ControllerBase
     [HttpPost("Start")]
     public async Task<IActionResult> Start(StartShareDTO share)
     {
-        if (!ModelState.IsValid)
-            return BadRequest("Invalid Input Data");
-
+        
         var result = await _ShareService.Start(share);
         return Ok(result);
     }
@@ -26,10 +24,7 @@ public class ShareController(ISharePostService _ShareService) : ControllerBase
 
     [HttpDelete("revoke")]
     public async Task<IActionResult> Revoke(RevokeShareDTO share)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest("Invalid Input Data");
-
+    { 
         var result = await _ShareService.Revoke(share);
        return  Ok(result);
     }

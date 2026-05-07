@@ -52,9 +52,7 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
     [HttpGet("get/{id}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
+      
         var stories = await _StoryService.GetUserStoriesAsync(id);
         return stories.Any() ?
             Ok(stories) :
@@ -66,10 +64,7 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
 
     [HttpDelete("delete")]
     public async Task<IActionResult> Delete(DeleteStoryDTO story)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
+    { 
         var deleteOperation = await _StoryService.DeleteAsync(story);
         return deleteOperation == "Deleted" ?
             Ok(deleteOperation) :

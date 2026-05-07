@@ -8,10 +8,7 @@ public class ProfileController(IProfileService _ProfileService) : ControllerBase
 {
     [HttpPut("edit")]
     public async Task<IActionResult> Edit([FromForm] EditProfileDTO edit)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
+    { 
         var result = await _ProfileService.EditAsync(edit);
         return Ok(result);
     }

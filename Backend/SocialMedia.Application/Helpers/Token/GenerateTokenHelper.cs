@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SocialMedia.Application.DTOs.Responses.Auth;
 
 namespace SocialMedia.Application.Helpers.Token;
 public static class GenerateTokenHelper
@@ -44,8 +45,4 @@ public static class GenerateTokenHelper
             Token = new JwtSecurityTokenHandler().WriteToken(token),
         };
     }
-}
-public class TokenResponse
-{
-    public string Token {  get; set; }
 }

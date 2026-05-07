@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SocialMedia.Core.Domain.DTOs.Requests.Block;
 
 namespace SocialMedia.API.Controllers;
 [ApiController]
@@ -10,10 +9,7 @@ public class BlocksController(IBlockService _BlockService) : ControllerBase
     [HttpPost("block")]
     public async Task<IActionResult> Block(BlockDTO block)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
-        var blockOperation = await _BlockService.BlockAsync(block);
+       var blockOperation = await _BlockService.BlockAsync(block);
 
         if (blockOperation == "UserFF")
             return BadRequest(new Result
@@ -44,9 +40,6 @@ public class BlocksController(IBlockService _BlockService) : ControllerBase
     [HttpDelete("unblock")]
     public async Task<IActionResult> UnBlock(BlockDTO block)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         var unBlockOperation = await _BlockService.UnBlockAsync(block);
         if (unBlockOperation == "UserNB")
             return Ok(new Result
@@ -65,9 +58,6 @@ public class BlocksController(IBlockService _BlockService) : ControllerBase
     [HttpGet("GetBlockedUsers/{BlockerId}")]
     public async Task<IActionResult> GetBlockedUser(Guid BlockerId)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         var blockedUsers = await _BlockService.GetBlockedUserAsync(BlockerId);
 
         return blockedUsers.Any() ? Ok(blockedUsers) :
