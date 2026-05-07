@@ -5,7 +5,7 @@ import { AuthenticationService } from '../../Auth/Services/authentication-servic
 import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BlocksServiceService } from '../../Common/comments/Services/blocks-service.service';
+import { BlocksServiceService } from '../../Common/Services/blocks-service.service';
 declare var bootstrap: any;
 
 @Component({

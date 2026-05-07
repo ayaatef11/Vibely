@@ -26,7 +26,6 @@ import { AccountComponent } from './Common/settings/account/account.component';
 import { PrivacyAndSecurityComponent } from './Common/settings/privacy-and-security/privacy-and-security.component';
 import { PreferencesComponent } from './Common/settings/preferences/preferences.component';
 import { SettingsProfileComponent } from './Common/settings/settings-profile/settings-profile.component';
-import { CommentsComponent } from './Common/comments/comments.component';
 import { NotificationsHeaderComponent } from './Common/Notificationss/notifications-header/notifications-header.component';
 import { SidebarComponent } from './Common/sidebar/sidebar.component';
 import { ReelsComponent } from './Common/reels/reels.component';
@@ -94,8 +93,6 @@ export const routes: Routes = [
       { path: 'profile', component: SettingsProfileComponent }
     ]
   },
-
-  { path: 'comments', component: CommentsComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'home' }

@@ -1,21 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { LoginRequest } from '../../../../Models/Auth/Requests/LoginRequest';
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { TokenResponse } from '../../../../Models/Auth/Responses/TokenResponse';
 import { NgIf } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, FormsModule,NgIf],
+  imports: [RouterModule, FormsModule,NgIf,TranslateModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
-  constructor(private router: Router, private authService: AuthenticationService) { }
-
+export class LoginComponent implements OnInit{
+  constructor(private router: Router, private authService: AuthenticationService,private translate:TranslateService ) { }
+ ngOnInit() {
+    console.log('current lang:', this.translate.currentLang);
+    console.log('test key:', this.translate.instant('LOGIN.LogIn'));
+  }
   //***************************VARIABLES********************* */
   userData: LoginRequest = {
     userName: '',

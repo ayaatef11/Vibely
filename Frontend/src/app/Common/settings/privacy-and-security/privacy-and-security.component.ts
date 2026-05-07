@@ -6,10 +6,11 @@ import { Verify2FARequest } from '../../../../Models/Auth/Requests/Verify2FARequ
 import { NgIf } from '@angular/common';
 import { EnableTwoFAResponse } from '../../../../Models/Auth/Responses/EnableTwoFAResponse';
 import QRCode from 'qrcode';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-privacy-and-security',
   standalone: true,
-  imports: [FormsModule,NgIf],
+  imports: [FormsModule,NgIf,TranslateModule],
   templateUrl: './privacy-and-security.component.html',
   styleUrl: './privacy-and-security.component.css'
 })

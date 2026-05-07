@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LanguageServiceService } from '../../../dashboard/Services/language-service.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-preferences',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,TranslateModule],
   templateUrl: './preferences.component.html',
   styleUrl: './preferences.component.css'
 })
 export class PreferencesComponent {
-  constructor(){}
+  constructor(private languageService:LanguageServiceService){}
   ngOnInit() {
+    this.selectedLanguage = localStorage.getItem('lang') || 'en';
   const savedTheme = localStorage.getItem('theme')??'light';
 this.selectedTheme=savedTheme;
   if (savedTheme === 'dark') {
@@ -31,7 +34,7 @@ this.selectedTheme=savedTheme;
 //***********************VARIABLES**************** */
 isDark = false;
 selectedTheme: string = 'light';
-
+selectedLanguage: string = 'en'; 
 ///*****************FUNCTIONS************* */
 onThemeChange(event: any) {
   const value = event.target.value;
@@ -56,4 +59,8 @@ onThemeChange(event: any) {
     localStorage.setItem('theme', 'auto');
   }
 }
+ onLanguageChange(event: any) {
+    this.languageService.setLanguage(event.target.value);
+  }
+
 }

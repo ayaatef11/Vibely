@@ -1,27 +1,27 @@
 <form  #signInForm="ngForm" (ngSubmit)="onSubmit()" class="container mt-4 shadow justify-content-center align-items-center ">
-  <h1 class="mb-4">Log In</h1>
+  <h1 class="mb-4">{{ 'LOGIN.LOGIN' | translate }}</h1>
   <div class="mb-4">
-    <label class="form-label">User Name</label>
-    <input type="text" placeholder="User Name" name="userName" [(ngModel)]="userData.userName" class="form-control" required>
+    <label class="form-label">{{ 'LOGIN.USER_NAME' | translate }}</label>
+    <input type="text" placeholder="{{ 'LOGIN.USER_NAME' | translate }}" name="userName" [(ngModel)]="userData.userName" class="form-control" required>
   </div>
 
   <div class="mb-4">
-    <label class="form-label">Password</label>
-    <input type="password" placeholder="Password" name="password" [(ngModel)]="userData.password" class="form-control" required>
+    <label class="form-label">{{ 'LOGIN.PASSWORD' | translate }}</label>
+    <input type="password" placeholder="{{ 'LOGIN.PASSWORD' | translate }}" name="password" [(ngModel)]="userData.password" class="form-control" required>
   </div>
 
-  <button class="btn btn-success  w-100" type="submit">Log In</button>
+  <button class="btn btn-success  w-100" type="submit">{{ 'LOGIN.LOGIN' | translate }}</button>
 <div class="text-end mt-2">
   <a [routerLink]="['/forget-password']" class="text-success small">
-    Forgot Password?
+    {{ 'LOGIN.FORGETPASSWORD' | translate }}?
   </a>
 </div>
 </form>
 <div *ngIf="is2FALoginModalOpen" class="otp-overlay">
   <div class="otp-modal">
-    <h5>Two-Factor Authentication</h5>
-    <p>Enter the 6-digit code from your authenticator app</p>
+    <h5>{{ 'LOGIN.TWO_FA_APP' | translate }}</h5>
+    <p>{{ 'LOGIN.AUTH_APP_DIGITS' | translate }}</p>
     <input  [(ngModel)]="verificationCode" placeholder="••••••"   maxlength="6"  class="otp-input"  />
-    <button class="otp-btn" (click)="verifyLogin2FA()">  Verify </button>
+    <button class="otp-btn" (click)="verifyLogin2FA()">  {{ 'LOGIN.VERIFY' | translate }} </button>
   </div>
 </div>

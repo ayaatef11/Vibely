@@ -1,25 +1,71 @@
 <div class="settings-card card">
+
     <div class="card-header">
         <h5 class="card-title mb-0">
-            <i class="fas fa-key me-2 text-success"></i>Change Password
+            <i class="fas fa-key me-2 text-success"></i>
+            {{ 'CHANGE_PASSWORD.TITLE' | translate }}
         </h5>
     </div>
+
     <div class="card-body">
+
         <form>
+
             <div class="mb-3">
-                <label class="form-label">Current Password</label>
-                <input type="password" class="form-control" name="oldPassword" [(ngModel)]="model.oldPassword">
+
+                <label class="form-label">
+                    {{ 'CHANGE_PASSWORD.CURRENT' | translate }}
+                </label>
+
+                <input
+                    type="password"
+                    class="form-control"
+                    name="oldPassword"
+                    [(ngModel)]="model.oldPassword"
+                >
+
             </div>
+
             <div class="mb-3">
-                <label class="form-label">New Password</label>
-                <input type="password" class="form-control" name="newPassword" [(ngModel)]="model.newPassword">
+
+                <label class="form-label">
+                    {{ 'CHANGE_PASSWORD.NEW' | translate }}
+                </label>
+
+                <input
+                    type="password"
+                    class="form-control"
+                    name="newPassword"
+                    [(ngModel)]="model.newPassword"
+                >
+
             </div>
+
             <div class="mb-3">
-                <label class="form-label">Confirm New Password</label>
-                <input type="password" class="form-control" name="confirmNewPassword" [(ngModel)]="model.confirmNewPassword">
+
+                <label class="form-label">
+                    {{ 'CHANGE_PASSWORD.CONFIRM' | translate }}
+                </label>
+
+                <input
+                    type="password"
+                    class="form-control"
+                    name="confirmNewPassword"
+                    [(ngModel)]="model.confirmNewPassword"
+                >
+
             </div>
-            <button type="submit" class="btn btn-success" (click)="changePassword()">Update Password</button>
+
+            <button
+                type="submit"
+                class="btn btn-success"
+                (click)="changePassword()"
+            >
+                {{ 'CHANGE_PASSWORD.BUTTON' | translate }}
+            </button>
+
         </form>
+
     </div>
+
 </div>
- 

@@ -1,62 +1,144 @@
 <div class="settings-card card">
+
     <div class="card-header">
         <h5 class="card-title mb-0">
-            <i class="fas fa-user me-2 text-success"></i>Profile Information
+            <i class="fas fa-user me-2 text-success"></i>
+            {{ 'SETTINGS_PROFILE.PROFILE_INFORMATION' | translate }}
         </h5>
     </div>
+
     <div class="card-body">
+
         <div class="row">
+
             <div class="col-md-3 text-center">
-                <img src="https://picsum.photos/150/150?random=profile" alt="Profile" class="profile-avatar mb-3">
+
+                <img
+                    src="https://picsum.photos/150/150?random=profile"
+                    alt="Profile"
+                    class="profile-avatar mb-3"
+                >
+
                 <div>
-                    <button class="btn btn-outline-success btn-sm">Change Photo</button>
+                    <button class="btn btn-outline-success btn-sm">
+                        {{ 'SETTINGS_PROFILE.CHANGE_PHOTO' | translate }}
+                    </button>
                 </div>
+
             </div>
+
             <div class="col-md-9">
+
                 <form>
+
                     <div class="row">
+
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Full Name</label>
-                            <input type="text" class="form-control" name="fullName" [(ngModel)]="currentUser.fullName">
+                            <label class="form-label">
+                                {{ 'SETTINGS_PROFILE.FULL_NAME' | translate }}
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                name="fullName"
+                                [(ngModel)]="currentUser.fullName"
+                            >
                         </div>
+
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label">User Name</label>
-                        <input type="email" class="form-control" name="userName" [(ngModel)]="currentUser.userName">
+
+                        <label class="form-label">
+                            {{ 'SETTINGS_PROFILE.USERNAME' | translate }}
+                        </label>
+
+                        <input
+                            type="email"
+                            class="form-control"
+                            name="userName"
+                            [(ngModel)]="currentUser.userName"
+                        >
+
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label">Bio</label>
-                        <textarea class="form-control" rows="3" name="bio" [(ngModel)]="currentUser.bio"></textarea>
+
+                        <label class="form-label">
+                            {{ 'SETTINGS_PROFILE.BIO' | translate }}
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            rows="3"
+                            name="bio"
+                            [(ngModel)]="currentUser.bio"
+                        ></textarea>
+
                     </div>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
 <div class="settings-card card">
+
     <div class="card-header">
+
         <h5 class="card-title mb-0">
-            <i class="fas fa-map-marker-alt me-2 text-success"></i>Location
+            <i class="fas fa-map-marker-alt me-2 text-success"></i>
+            {{ 'SETTINGS_PROFILE.LOCATION' | translate }}
         </h5>
+
     </div>
 
     <div class="card-body">
+
         <div class="row">
+
             <div class="col-md-6 mb-3">
-                <label class="form-label">Country</label>
+
+                <label class="form-label">
+                    {{ 'SETTINGS_PROFILE.COUNTRY' | translate }}
+                </label>
+
                 <select class="form-select" [(ngModel)]="currentUser.location">
+
                     <option [ngValue]="null" disabled selected>
-                        Select Country
+                        {{ 'SETTINGS_PROFILE.SELECT_COUNTRY' | translate }}
                     </option>
-                    <option>United States</option>
-                    <option>Canada</option>
-                    <option>United Kingdom</option>
+
+                    <option>
+                        {{ 'SETTINGS_PROFILE.COUNTRIES.USA' | translate }}
+                    </option>
+
+                    <option>
+                        {{ 'SETTINGS_PROFILE.COUNTRIES.CANADA' | translate }}
+                    </option>
+
+                    <option>
+                        {{ 'SETTINGS_PROFILE.COUNTRIES.UK' | translate }}
+                    </option>
+
                 </select>
+
             </div>
+
         </div>
+
     </div>
+
     <div>
-        <button class="btn btn-success sm-3" (click)="editProfile()">Save </button>
+        <button class="btn btn-success sm-3" (click)="editProfile()">
+            {{ 'SETTINGS_PROFILE.SAVE' | translate }}
+        </button>
     </div>
+
 </div>

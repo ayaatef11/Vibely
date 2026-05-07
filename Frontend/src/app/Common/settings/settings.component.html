@@ -1,23 +1,40 @@
 <div class="settings-header">
+
     <div class="container">
+
         <div class="row align-items-center">
+
             <div class="col">
+
                 <h1 class="h2 mb-0">
-                    <i class="fas fa-cog me-2"></i>Settings
+                    <i class="fas fa-cog me-2"></i>
+                    {{ 'SETTINGS_PAGE.TITLE' | translate }}
                 </h1>
-                <p class="mb-0 opacity-75">Manage your account and application preferences</p>
-            </div> 
+
+                <p class="mb-0 opacity-75">
+                    {{ 'SETTINGS_PAGE.SUBTITLE' | translate }}
+                </p>
+
+            </div>
+
         </div>
-    </div>
-</div>
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-lg-3 col-md-6">
-      <app-settings-sidebar></app-settings-sidebar>
+
     </div>
 
-    <div class="col-lg-9 col-md-8">
-      <router-outlet></router-outlet>
+</div>
+
+<div class="container mt-4">
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-6">
+            <app-settings-sidebar></app-settings-sidebar>
+        </div>
+
+        <div class="col-lg-9 col-md-8">
+            <router-outlet></router-outlet>
+        </div>
+
     </div>
-  </div>
+
 </div>

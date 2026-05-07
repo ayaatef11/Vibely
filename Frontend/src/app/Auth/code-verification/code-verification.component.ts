@@ -3,11 +3,12 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../Services/authentication-service.service';
 import { ForgetPasswordResetRequest } from '../../../Models/Auth/Requests/ForgetPasswordResetRequest';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-code-verification',
   standalone: true,
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule,TranslateModule],
   templateUrl: './code-verification.component.html',
   styleUrl: './code-verification.component.css'
 })

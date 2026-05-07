@@ -1,78 +1,185 @@
 <div class="settings-card card">
+
     <div class="card-header">
         <h5 class="card-title mb-0">
-            <i class="fas fa-shield-alt me-2 text-success"></i>Security Settings
+            <i class="fas fa-shield-alt me-2 text-success"></i>
+            {{ 'PRIVACY_SECURITY.TITLE' | translate }}
         </h5>
     </div>
+
     <div class="card-body">
 
         <div class="settings-item">
+
             <div class="d-flex justify-content-between align-items-center">
+
                 <div>
-                    <h6 class="mb-1">Two-Factor Authentication</h6>
-                    <p class="text-muted mb-0 small">Add an extra layer of security to your account</p>
+                    <h6 class="mb-1">
+                        {{ 'PRIVACY_SECURITY.TWO_FACTOR' | translate }}
+                    </h6>
+
+                    <p class="text-muted mb-0 small">
+                        {{ 'PRIVACY_SECURITY.TWO_FACTOR_DESC' | translate }}
+                    </p>
                 </div>
+
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" [(ngModel)]="is2FAEnabled" (change)="toggle2FA()">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [(ngModel)]="is2FAEnabled"
+                        (change)="toggle2FA()"
+                    >
                 </div>
+
             </div>
+
         </div>
-        <div class="modal d-block" *ngIf="is2FAModalOpen" style="background: rgba(0,0,0,0.5);">
+
+        <div
+            class="modal d-block"
+            *ngIf="is2FAModalOpen"
+            style="background: rgba(0,0,0,0.5);"
+        >
 
             <div class="modal-dialog modal-dialog-centered">
+
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title">Setup Two-Factor Authentication</h5>
-                        <button class="btn-close" (click)="close2FAModal()"></button>
+
+                        <h5 class="modal-title">
+                            {{ 'PRIVACY_SECURITY.SETUP_2FA' | translate }}
+                        </h5>
+
+                        <button
+                            class="btn-close"
+                            (click)="close2FAModal()"
+                        ></button>
+
                     </div>
 
                     <div class="modal-body text-center">
-                        <img *ngIf="qrImage" [src]="qrImage" class="img-fluid mb-3" />
+
+                        <img
+                            *ngIf="qrImage"
+                            [src]="qrImage"
+                            class="img-fluid mb-3"
+                        />
+
                         <p class="text-muted">
-                            Scan QR code using Google Authenticator then enter the code below
+                            {{ 'PRIVACY_SECURITY.SCAN_QR' | translate }}
                         </p>
 
-                        <input type="text" class="form-control" placeholder="Enter 6-digit code"
-                            [(ngModel)]="verificationCode" />
+                        <input
+                            type="text"
+                            class="form-control"
+                            [placeholder]="'PRIVACY_SECURITY.CODE_PLACEHOLDER' | translate"
+                            [(ngModel)]="verificationCode"
+                        />
 
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" (click)="close2FAModal()">Cancel</button>
-                        <button class="btn btn-success" (click)="verify2FASetup()">Verify</button>
+
+                        <button
+                            class="btn btn-secondary"
+                            (click)="close2FAModal()"
+                        >
+                            {{ 'PRIVACY_SECURITY.CANCEL' | translate }}
+                        </button>
+
+                        <button
+                            class="btn btn-success"
+                            (click)="verify2FASetup()"
+                        >
+                            {{ 'PRIVACY_SECURITY.VERIFY' | translate }}
+                        </button>
+
                     </div>
 
                 </div>
+
             </div>
-        </div>
-        <div class="settings-item">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h6 class="mb-1">Login Notifications</h6>
-                    <p class="text-muted mb-0 small">Get notified when someone logs into your account</p>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" [(ngModel)]="selectedLoginNotifications"
-                        (change)="changeNotificationsSettings()">
-                </div>
-            </div>
+
         </div>
 
         <div class="settings-item">
+
             <div class="d-flex justify-content-between align-items-center">
+
                 <div>
-                    <h6 class="mb-1">Session Timeout</h6>
-                    <p class="text-muted mb-0 small">Automatically log out after inactivity</p>
+
+                    <h6 class="mb-1">
+                        {{ 'PRIVACY_SECURITY.LOGIN_NOTIFICATIONS' | translate }}
+                    </h6>
+
+                    <p class="text-muted mb-0 small">
+                        {{ 'PRIVACY_SECURITY.LOGIN_NOTIFICATIONS_DESC' | translate }}
+                    </p>
+
                 </div>
-                <select class="form-select" [(ngModel)]="selectedTimeOut" (change)="changeSessionTimeOut()"
-                    style="width: auto;">
-                    <option [value]="15">15 minutes</option>
-                    <option [value]="30">30 minutes</option>
-                    <option [value]="60">1 hour</option>
-                    <option [value]="120">2 hours</option>
-                </select>
+
+                <div class="form-check form-switch">
+
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        [(ngModel)]="selectedLoginNotifications"
+                        (change)="changeNotificationsSettings()"
+                    >
+
+                </div>
+
             </div>
+
         </div>
+
+        <div class="settings-item">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <h6 class="mb-1">
+                        {{ 'PRIVACY_SECURITY.SESSION_TIMEOUT' | translate }}
+                    </h6>
+
+                    <p class="text-muted mb-0 small">
+                        {{ 'PRIVACY_SECURITY.SESSION_TIMEOUT_DESC' | translate }}
+                    </p>
+
+                </div>
+
+                <select
+                    class="form-select"
+                    [(ngModel)]="selectedTimeOut"
+                    (change)="changeSessionTimeOut()"
+                    style="width: auto;"
+                >
+
+                    <option [value]="15">
+                        {{ 'PRIVACY_SECURITY.TIMEOUT_15' | translate }}
+                    </option>
+
+                    <option [value]="30">
+                        {{ 'PRIVACY_SECURITY.TIMEOUT_30' | translate }}
+                    </option>
+
+                    <option [value]="60">
+                        {{ 'PRIVACY_SECURITY.TIMEOUT_60' | translate }}
+                    </option>
+
+                    <option [value]="120">
+                        {{ 'PRIVACY_SECURITY.TIMEOUT_120' | translate }}
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>

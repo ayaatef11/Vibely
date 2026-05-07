@@ -5,10 +5,11 @@ import { Router, RouterModule } from '@angular/router';
 import { RegisterRequest } from '../../../../Models/Auth/Requests/RegisterRequest';
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { NgIf } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule, RouterModule, NgIf],
+  imports: [FormsModule, RouterModule, NgIf,TranslateModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })

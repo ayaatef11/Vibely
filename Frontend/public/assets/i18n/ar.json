@@ -1,0 +1,180 @@
+{
+  "HOME": {
+    "SEARCH": "بحث",
+    "WHATS_ON_MIND": "ماذا يدور في ذهنك؟",
+    "SUGGESTED": "مقترح لك",
+    "TRENDING": "الأكثر تداولاً",
+    "FOLLOW": "متابعة",
+    "REQUESTED": "تم الإرسال",
+    "VIEW_COMMENTS": "عرض كل التعليقات",
+    "WRITE_COMMENT": "اكتب تعليقاً...",
+    "POST": "نشر",
+    "EDIT_POST": "تعديل المنشور",
+    "DELETE_POST": "حذف المنشور",
+    "HIDE_POST": "إخفاء المنشور",
+    "SHARE": "مشاركة المنشور",
+    "NO_TRENDING": "لا توجد منشورات رائجة"
+  },
+  "CREATE_POST": {
+    "TITLE": "إنشاء منشور",
+    "PLACEHOLDER": "ماذا يدور في ذهنك؟",
+    "ADD_PHOTO": "أضف صوراً أو مقاطع فيديو",
+    "CANCEL": "إلغاء",
+    "POST_BTN": "نشر"
+  },
+  "SETTINGS": {
+    "LANGUAGE": "اللغة"
+  },
+  "SIGNUP": {
+    "TITLE": "إنشاء حساب",
+    "NAME": "الاسم",
+    "NAME_PLACEHOLDER": "الاسم",
+    "EMAIL": "البريد الإلكتروني",
+    "EMAIL_PLACEHOLDER": "البريد الإلكتروني",
+    "USERNAME": "اسم المستخدم",
+    "USERNAME_PLACEHOLDER": "اسم المستخدم",
+    "PASSWORD": "كلمة المرور",
+    "PASSWORD_PLACEHOLDER": "كلمة المرور",
+    "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "تأكيد كلمة المرور",
+    "LOCATION": "الموقع",
+    "LOCATION_PLACEHOLDER": "الموقع",
+    "BUTTON": "إنشاء حساب",
+    "OR": "أو",
+    "GOOGLE": "المتابعة باستخدام جوجل",
+    "HAVE_ACCOUNT": "هل لديك حساب؟",
+    "SIGNIN": "تسجيل الدخول",
+    "ERRORS": {
+      "NAME_REQUIRED": "الاسم مطلوب",
+      "NAME_MIN": "يجب أن يحتوي الاسم على 3 أحرف على الأقل",
+      "EMAIL_REQUIRED": "البريد الإلكتروني مطلوب",
+      "EMAIL_INVALID": "يرجى إدخال بريد إلكتروني صحيح",
+      "USERNAME_REQUIRED": "اسم المستخدم مطلوب",
+      "USERNAME_MIN": "يجب أن يحتوي اسم المستخدم على 3 أحرف على الأقل",
+      "PASSWORD_REQUIRED": "كلمة المرور مطلوبة",
+      "PASSWORD_MIN": "يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل",
+      "CONFIRM_REQUIRED": "يرجى تأكيد كلمة المرور",
+      "PASSWORD_NOT_MATCH": "كلمتا المرور غير متطابقتين",
+      "LOCATION_MIN": "يجب أن يحتوي الموقع على 3 أحرف على الأقل"
+    }
+  },
+  "LOGIN": {
+    "LOGIN": "تسجيل الدخول",
+    "USER_NAME": "اسم المستخدم",
+    "PASSWORD": "كلمة المرور",
+    "FORGETPASSWORD": "هل نسيت كلمة المرور",
+    "TWO_FA_APP": "تطبيق التحقق بخطوتين",
+    "AUTH_APP_DIGITS": "ادخل الكود المكون من 6 ارقام من خلال تطبيق التحقق",
+    "VERIFY": "تحقق"
+  },
+  "FORGOT_PASSWORD": {
+    "TITLE": "نسيت كلمة المرور",
+    "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
+    "SEND_CODE": "إرسال الكود"
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "إعادة تعيين كلمة المرور",
+    "CODE_PLACEHOLDER": "أدخل رمز التحقق",
+    "NEW_PASSWORD_PLACEHOLDER": "كلمة المرور الجديدة",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "تأكيد كلمة المرور",
+    "BUTTON": "إعادة تعيين كلمة المرور"
+  },
+  "NOT_FOUND": {
+    "MESSAGE": "عذرًا! الصفحة التي تبحث عنها غير موجودة.",
+    "BACK_HOME": "العودة إلى الرئيسية"
+  },
+  "SEARCH": {
+    "PLACEHOLDER": "بحث",
+    "CANCEL": "إلغاء",
+    "ALL": "الكل",
+    "PEOPLE": "الأشخاص",
+    "POSTS": "المنشورات",
+    "TAGS": "الوسوم"
+  },
+  "SIDEBAR": {
+    "HOME": "الرئيسية",
+    "SEARCH": "بحث",
+    "REELS": "ريلز",
+    "MESSAGES": "الرسائل",
+    "PROFILE": "الملف الشخصي",
+    "NOTIFICATIONS": "الإشعارات",
+    "SETTINGS": "الإعدادات",
+    "NEW_POST": "منشور جديد"
+  },
+  "SETTINGS_NAV": {
+    "PROFILE": "الملف الشخصي",
+    "ACCOUNT": "الحساب",
+    "PRIVACY": "الخصوصية والأمان",
+    "PREFERENCES": "التفضيلات"
+  },
+  "SETTINGS_PROFILE": {
+    "PROFILE_INFORMATION": "معلومات الملف الشخصي",
+    "CHANGE_PHOTO": "تغيير الصورة",
+    "FULL_NAME": "الاسم الكامل",
+    "USERNAME": "اسم المستخدم",
+    "BIO": "نبذة تعريفية",
+    "LOCATION": "الموقع",
+    "COUNTRY": "الدولة",
+    "SELECT_COUNTRY": "اختر الدولة",
+    "SAVE": "حفظ",
+
+    "COUNTRIES": {
+      "USA": "الولايات المتحدة",
+      "CANADA": "كندا",
+      "UK": "المملكة المتحدة"
+    }
+  },
+  "PRIVACY_SECURITY": {
+    "TITLE": "إعدادات الأمان",
+
+    "TWO_FACTOR": "المصادقة الثنائية",
+    "TWO_FACTOR_DESC": "أضف طبقة حماية إضافية إلى حسابك",
+
+    "SETUP_2FA": "إعداد المصادقة الثنائية",
+
+    "SCAN_QR": "قم بمسح رمز QR باستخدام Google Authenticator ثم أدخل الرمز بالأسفل",
+
+    "CODE_PLACEHOLDER": "أدخل الرمز المكون من 6 أرقام",
+
+    "CANCEL": "إلغاء",
+    "VERIFY": "تحقق",
+
+    "LOGIN_NOTIFICATIONS": "إشعارات تسجيل الدخول",
+    "LOGIN_NOTIFICATIONS_DESC": "احصل على إشعار عند تسجيل الدخول إلى حسابك",
+
+    "SESSION_TIMEOUT": "مهلة الجلسة",
+    "SESSION_TIMEOUT_DESC": "تسجيل الخروج تلقائيًا بعد فترة من عدم النشاط",
+
+    "TIMEOUT_15": "15 دقيقة",
+    "TIMEOUT_30": "30 دقيقة",
+    "TIMEOUT_60": "ساعة واحدة",
+    "TIMEOUT_120": "ساعتان"
+  },
+  "PREFERENCES": {
+    "APPEARANCE": "المظهر",
+    "THEME": "السمة",
+    "LIGHT": "فاتح",
+    "DARK": "داكن",
+    "AUTO": "تلقائي",
+    "LANGUAGE": "اللغة",
+    "ENGLISH": "الإنجليزية",
+    "ARABIC": "العربية"
+  },
+  "CHANGE_PASSWORD": {
+    "TITLE": "تغيير كلمة المرور",
+    "CURRENT": "كلمة المرور الحالية",
+    "NEW": "كلمة المرور الجديدة",
+    "CONFIRM": "تأكيد كلمة المرور الجديدة",
+    "BUTTON": "تحديث كلمة المرور"
+  },
+  "SETTINGS_PAGE": {
+    "TITLE": "الإعدادات",
+    "SUBTITLE": "إدارة حسابك وتفضيلات التطبيق"
+  }
+}
+
+
+
+
+
+

@@ -1,0 +1,202 @@
+{
+  "HOME": {
+    "SEARCH": "Search",
+    "WHATS_ON_MIND": "What's on your mind?",
+    "SUGGESTED": "Suggested for you",
+    "TRENDING": "Trending",
+    "FOLLOW": "Follow",
+    "REQUESTED": "Requested",
+    "VIEW_COMMENTS": "View all comments",
+    "WRITE_COMMENT": "Write a comment...",
+    "POST": "Post",
+    "EDIT_POST": "Edit Post",
+    "DELETE_POST": "Delete Post",
+    "HIDE_POST": "Hide Post",
+    "SHARE": "Share Post",
+    "NO_TRENDING": "No trending posts"
+  },
+  "CREATE_POST": {
+    "TITLE": "Create Post",
+    "PLACEHOLDER": "What's on your mind?",
+    "ADD_PHOTO": "Add photos/videos",
+    "CANCEL": "Cancel",
+    "POST_BTN": "Post"
+  },
+  "SETTINGS": {
+    "LANGUAGE": "Language"
+  },
+  "SIGNUP": {
+    "TITLE": "Sign Up",
+
+    "NAME": "Name",
+    "NAME_PLACEHOLDER": "Name",
+
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Email",
+
+    "USERNAME": "User Name",
+    "USERNAME_PLACEHOLDER": "Username",
+
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Password",
+
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
+
+    "LOCATION": "Location",
+    "LOCATION_PLACEHOLDER": "Location",
+
+    "BUTTON": "Sign Up",
+
+    "OR": "or",
+
+    "GOOGLE": "Continue with Google",
+
+    "HAVE_ACCOUNT": "Do you have an account?",
+
+    "SIGNIN": "Sign In",
+
+    "ERRORS": {
+      "NAME_REQUIRED": "Name is required",
+      "NAME_MIN": "Name must be at least 3 characters",
+
+      "EMAIL_REQUIRED": "Email is required",
+      "EMAIL_INVALID": "Please enter a valid email",
+
+      "USERNAME_REQUIRED": "Username is required",
+      "USERNAME_MIN": "Username must be at least 3 characters",
+
+      "PASSWORD_REQUIRED": "Password is required",
+      "PASSWORD_MIN": "Password must be at least 6 characters",
+
+      "CONFIRM_REQUIRED": "Please confirm your password",
+
+      "PASSWORD_NOT_MATCH": "Passwords do not match",
+
+      "LOCATION_MIN": "Location must be at least 3 characters"
+    }
+  },
+  "LOGIN":{
+    "LOGIN":"Log In",
+    "USER_NAME":" User Name",
+"PASSWORD":"Password",
+"FORGETPASSWORD":"ForgetPassword",
+"TWO_FA_APP":"Two-Factor Authentication",
+"AUTH_APP_DIGITS":"Enter the 6-digit code from your authenticator app",
+"VERIFY":"Verify"
+  },
+  "FORGOT_PASSWORD": {
+    "TITLE": "Forgot Password",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "SEND_CODE": "Send Code"
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "Reset Password",
+    "CODE_PLACEHOLDER": "Enter verification code",
+    "NEW_PASSWORD_PLACEHOLDER": "New Password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
+    "BUTTON": "Reset Password"
+  },
+   "NOT_FOUND": {
+    "MESSAGE": "Oops! The page you're looking for doesn't exist.",
+    "BACK_HOME": "Back to Home"
+  }, 
+  "SEARCH": {
+    "PLACEHOLDER": "Search",
+    "CANCEL": "Cancel",
+    "ALL": "All",
+    "PEOPLE": "People",
+    "POSTS": "Posts",
+    "TAGS": "Tags"
+  },
+  
+  "SIDEBAR": {
+    "HOME": "Home",
+    "SEARCH": "Search",
+    "REELS": "Reels",
+    "MESSAGES": "Messages",
+    "PROFILE": "Profile",
+    "NOTIFICATIONS": "Notifications",
+    "SETTINGS": "Settings",
+    "NEW_POST": "New Post"
+  }, 
+  "SETTINGS_NAV": {
+    "PROFILE": "Profile",
+    "ACCOUNT": "Account",
+    "PRIVACY": "Privacy & Security",
+    "PREFERENCES": "Preferences"
+  },
+  "SETTINGS_PROFILE": {
+    "PROFILE_INFORMATION": "Profile Information",
+    "CHANGE_PHOTO": "Change Photo",
+    "FULL_NAME": "Full Name",
+    "USERNAME": "User Name",
+    "BIO": "Bio",
+    "LOCATION": "Location",
+    "COUNTRY": "Country",
+    "SELECT_COUNTRY": "Select Country",
+    "SAVE": "Save",
+
+    "COUNTRIES": {
+      "USA": "United States",
+      "CANADA": "Canada",
+      "UK": "United Kingdom"
+    }
+  },
+  "PRIVACY_SECURITY": {
+    "TITLE": "Security Settings",
+
+    "TWO_FACTOR": "Two-Factor Authentication",
+    "TWO_FACTOR_DESC": "Add an extra layer of security to your account",
+
+    "SETUP_2FA": "Setup Two-Factor Authentication",
+
+    "SCAN_QR": "Scan QR code using Google Authenticator then enter the code below",
+
+    "CODE_PLACEHOLDER": "Enter 6-digit code",
+
+    "CANCEL": "Cancel",
+    "VERIFY": "Verify",
+
+    "LOGIN_NOTIFICATIONS": "Login Notifications",
+    "LOGIN_NOTIFICATIONS_DESC": "Get notified when someone logs into your account",
+
+    "SESSION_TIMEOUT": "Session Timeout",
+    "SESSION_TIMEOUT_DESC": "Automatically log out after inactivity",
+
+    "TIMEOUT_15": "15 minutes",
+    "TIMEOUT_30": "30 minutes",
+    "TIMEOUT_60": "1 hour",
+    "TIMEOUT_120": "2 hours"
+  },
+  "PREFERENCES": {
+    "APPEARANCE": "Appearance",
+    "THEME": "Theme",
+    "LIGHT": "Light",
+    "DARK": "Dark",
+    "AUTO": "Auto",
+    "LANGUAGE": "Language",
+    "ENGLISH": "English",
+    "ARABIC": "Arabic"
+  },
+  "CHANGE_PASSWORD": {
+    "TITLE": "Change Password",
+    "CURRENT": "Current Password",
+    "NEW": "New Password",
+    "CONFIRM": "Confirm New Password",
+    "BUTTON": "Update Password"
+  },
+  "SETTINGS_PAGE": {
+    "TITLE": "Settings",
+    "SUBTITLE": "Manage your account and application preferences"
+  }
+}
+
+
+
+
+
+
+
+
+

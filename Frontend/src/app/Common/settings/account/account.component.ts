@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from '../../../Auth/Services/authentication-service.service';
 import { ChangePasswordRequest } from '../../../../Models/Auth/Requests/ChangePasswordRequest';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,TranslateModule],
   templateUrl: './account.component.html',
   styleUrl: './account.component.css'
 })

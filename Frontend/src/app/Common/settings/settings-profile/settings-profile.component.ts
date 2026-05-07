@@ -4,11 +4,12 @@ import { ProfileResponse } from '../../../../Models/Profiles/Responses/ProfileRe
 import { ProfileServiceService } from '../../../UserProfile/Services/profile-service.service';
 import { FormsModule } from '@angular/forms';
 import { EditProfileRequest } from '../../../../Models/Profiles/Requests/EditProfileRequest';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-settings-profile',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,TranslateModule],
   templateUrl: './settings-profile.component.html',
   styleUrl: './settings-profile.component.css'
 })

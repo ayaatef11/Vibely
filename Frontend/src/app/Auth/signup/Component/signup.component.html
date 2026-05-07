@@ -1,67 +1,136 @@
-<form (ngSubmit)="onSubmit()" class="container mt-4 shadow justify-content-center align-items-center" #signUpForm="ngForm">
-  <h1 class="mb-4">Sign Up</h1>
-  
+<form  (ngSubmit)="onSubmit()" class="container mt-4 shadow justify-content-center align-items-center" #signUpForm="ngForm">
+
+  <h1 class="mb-4">{{ 'SIGNUP.TITLE' | translate }}</h1>
+
   <div class="mb-4">
-    <label class="form-label">Name</label>
-    <input placeholder="Name" [(ngModel)]="signUpData.fullName" #name="ngModel" name="fullName" minlength="3" class="form-control" required>
+    <label class="form-label">{{ 'SIGNUP.NAME' | translate }}</label>
+
+    <input [placeholder]="'SIGNUP.NAME_PLACEHOLDER' | translate"
+      [(ngModel)]="signUpData.fullName" #name="ngModel" name="fullName" minlength="3" class="form-control" required >
+
     <div *ngIf="name.invalid && (name.dirty || name.touched)" class="error-message">
-      <div *ngIf="name.errors?.['required']">Name is required</div>
-      <div *ngIf="name.errors?.['minlength']">Name must be at least 3 characters</div>
+      <div *ngIf="name.errors?.['required']">
+        {{ 'SIGNUP.ERRORS.NAME_REQUIRED' | translate }}
+      </div>
+
+      <div *ngIf="name.errors?.['minlength']">
+        {{ 'SIGNUP.ERRORS.NAME_MIN' | translate }}
+      </div>
     </div>
   </div>
 
   <div class="mb-4">
-    <label class="form-label">Email</label>
-    <input placeholder="Email" type="email" [(ngModel)]="signUpData.email" #email="ngModel" name="email" class="form-control" required email>
+    <label class="form-label">{{ 'SIGNUP.EMAIL' | translate }}</label>
+
+    <input
+      [placeholder]="'SIGNUP.EMAIL_PLACEHOLDER' | translate"  type="email"
+      [(ngModel)]="signUpData.email" #email="ngModel"  name="email" class="form-control"  required email>
+
     <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error-message">
-      <div *ngIf="email.errors?.['required']">Email is required</div>
-      <div *ngIf="email.errors?.['email']">Please enter a valid email</div>
+      <div *ngIf="email.errors?.['required']">
+        {{ 'SIGNUP.ERRORS.EMAIL_REQUIRED' | translate }}
+      </div>
+
+      <div *ngIf="email.errors?.['email']">
+        {{ 'SIGNUP.ERRORS.EMAIL_INVALID' | translate }}
+      </div>
     </div>
   </div>
 
   <div class="mb-4">
-    <label class="form-label">User Name</label>
-    <input placeholder="Username" [(ngModel)]="signUpData.userName" #userName="ngModel" name="userName" minlength="3" class="form-control" required>
+    <label class="form-label">{{ 'SIGNUP.USERNAME' | translate }}</label>
+
+    <input
+      [placeholder]="'SIGNUP.USERNAME_PLACEHOLDER' | translate"
+      [(ngModel)]="signUpData.userName"
+      #userName="ngModel"
+      name="userName"
+      minlength="3"
+      class="form-control"
+      required
+    >
+
     <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="error-message">
-      <div *ngIf="userName.errors?.['required']">Username is required</div>
-      <div *ngIf="userName.errors?.['minlength']">Username must be at least 3 characters</div>
+      <div *ngIf="userName.errors?.['required']">
+        {{ 'SIGNUP.ERRORS.USERNAME_REQUIRED' | translate }}
+      </div>
+
+      <div *ngIf="userName.errors?.['minlength']">
+        {{ 'SIGNUP.ERRORS.USERNAME_MIN' | translate }}
+      </div>
     </div>
   </div>
 
   <div class="mb-4">
-    <label class="form-label">Password</label>
-    <input type="password" placeholder="Password" [(ngModel)]="signUpData.password" #password="ngModel" name="password" minlength="6" class="form-control" required>
+    <label class="form-label">{{ 'SIGNUP.PASSWORD' | translate }}</label>
+
+    <input
+      type="password" [placeholder]="'SIGNUP.PASSWORD_PLACEHOLDER' | translate" [(ngModel)]="signUpData.password"
+      #password="ngModel" name="password" minlength="6" class="form-control" required >
+
     <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error-message">
-      <div *ngIf="password.errors?.['required']">Password is required</div>
-      <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</div>
+      <div *ngIf="password.errors?.['required']">
+        {{ 'SIGNUP.ERRORS.PASSWORD_REQUIRED' | translate }}
+      </div>
+
+      <div *ngIf="password.errors?.['minlength']">
+        {{ 'SIGNUP.ERRORS.PASSWORD_MIN' | translate }}
+      </div>
     </div>
   </div>
 
   <div class="mb-4">
-    <label class="form-label">Confirm Password</label>
-    <input type="password" placeholder="Confirm Password" [(ngModel)]="signUpData.confirmPassword" #confirmPassword="ngModel" name="confirmPassword" class="form-control" required>
+    <label class="form-label">{{ 'SIGNUP.CONFIRM_PASSWORD' | translate }}</label>
+
+    <input
+      type="password" [placeholder]="'SIGNUP.CONFIRM_PASSWORD_PLACEHOLDER' | translate" [(ngModel)]="signUpData.confirmPassword" #confirmPassword="ngModel"name="confirmPassword" class="form-control"
+      required
+    >
+
     <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)" class="error-message">
-      <div *ngIf="confirmPassword.errors?.['required']">Please confirm your password</div>
+      <div *ngIf="confirmPassword.errors?.['required']">
+        {{ 'SIGNUP.ERRORS.CONFIRM_REQUIRED' | translate }}
+      </div>
     </div>
+
     <div *ngIf="signUpData.password !== signUpData.confirmPassword && confirmPassword.touched" class="error-message">
-      Passwords do not match
+      {{ 'SIGNUP.ERRORS.PASSWORD_NOT_MATCH' | translate }}
     </div>
   </div>
 
   <div class="mb-4">
-    <label class="form-label">Location</label>
-    <input placeholder="Location" [(ngModel)]="signUpData.location" #location="ngModel" name="location" minlength="3" class="form-control">
+    <label class="form-label">{{ 'SIGNUP.LOCATION' | translate }}</label>
+
+    <input
+      [placeholder]="'SIGNUP.LOCATION_PLACEHOLDER' | translate"
+      [(ngModel)]="signUpData.location" #location="ngModel" name="location" minlength="3" class="form-control" >
+
     <div *ngIf="location.invalid && (location.dirty || location.touched)" class="error-message">
-      <div *ngIf="location.errors?.['minlength']">Location must be at least 3 characters</div>
+      <div *ngIf="location.errors?.['minlength']">
+        {{ 'SIGNUP.ERRORS.LOCATION_MIN' | translate }}
+      </div>
     </div>
   </div>
 
-  <button type="submit" class="btn btn-success w-100">Sign Up</button>
-  <p class="text-center my-3">or</p>
-  <button type="button" class="btn btn-outline-success w-100">
-    <i class="bi bi-google me-2"></i> Continue with Google
+  <button type="submit" class="btn btn-success w-100">
+    {{ 'SIGNUP.BUTTON' | translate }}
   </button>
-    <p class="mb-0"> Do you have an account?<a [routerLink]="['/login']" class="text-success">
-      Sign In</a>
+
+  <p class="text-center my-3">
+    {{ 'SIGNUP.OR' | translate }}
   </p>
+
+  <button type="button" class="btn btn-outline-success w-100">
+    <i class="bi bi-google me-2"></i>
+    {{ 'SIGNUP.GOOGLE' | translate }}
+  </button>
+
+  <p class="mb-0">
+    {{ 'SIGNUP.HAVE_ACCOUNT' | translate }}
+
+    <a [routerLink]="['/login']" class="text-success">
+      {{ 'SIGNUP.SIGNIN' | translate }}
+    </a>
+  </p>
+
 </form>

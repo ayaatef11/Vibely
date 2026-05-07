@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from '../Services/authentication-service.service';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forget-password',
   standalone: true,
-  imports: [RouterModule,FormsModule],
+  imports: [RouterModule,FormsModule,TranslateModule],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.css'
 })

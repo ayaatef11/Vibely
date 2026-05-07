@@ -1,47 +1,101 @@
-  <div class="container-fluid">
+<div class="container-fluid">
   <div class="row">
-    
-    <div class="col-lg-3 col-md-4 ">
+
+    <div class="col-lg-3 col-md-4">
+
       <div class="sidebar p-3">
+
         <div class="logo d-flex align-items-center mb-4">
           <img src="logo3.png" alt="Logo">
           <span class="ms-2 fw-bold">ibely</span>
         </div>
-        
+
         <nav class="nav flex-column">
-          <a class="nav-link mb-2" [routerLink]="['/home']" routerLinkActive="active">
-            <i class="fas fa-home me-2"></i> Home
+
+          <a
+            class="nav-link mb-2"
+            [routerLink]="['/home']"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-home me-2"></i>
+            {{ 'SIDEBAR.HOME' | translate }}
           </a>
-          <a class="nav-link mb-2" routerLink="/home/search/all" routerLinkActive="active">
-            <i class="fas fa-search me-2"></i> Search
+
+          <a
+            class="nav-link mb-2"
+            routerLink="/home/search/all"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-search me-2"></i>
+            {{ 'SIDEBAR.SEARCH' | translate }}
           </a>
-          <a class="nav-link mb-2" routerLink="reels" routerLinkActive="active">
-            <i class="fas fa-video me-2"></i> Reels
+
+          <a
+            class="nav-link mb-2"
+            routerLink="reels"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-video me-2"></i>
+            {{ 'SIDEBAR.REELS' | translate }}
           </a>
-          <a class="nav-link mb-2" routerLink="/home/chat/friend" routerLinkActive="active">
-            <i class="fas fa-envelope me-2"></i> Messages
+
+          <a
+            class="nav-link mb-2"
+            routerLink="/home/chat/friend"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-envelope me-2"></i>
+            {{ 'SIDEBAR.MESSAGES' | translate }}
           </a>
-          <a class="nav-link mb-2" routerLink="profile" routerLinkActive="active">
-            <i class="fas fa-user me-2"></i> Profile
+
+          <a
+            class="nav-link mb-2"
+            routerLink="profile"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-user me-2"></i>
+            {{ 'SIDEBAR.PROFILE' | translate }}
           </a>
-          <a class="nav-link mb-2" routerLink="notifications" routerLinkActive="active">
-            <i class="fas fa-bell me-2"></i> Notifications
+
+          <a
+            class="nav-link mb-2"
+            routerLink="notifications"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-bell me-2"></i>
+            {{ 'SIDEBAR.NOTIFICATIONS' | translate }}
           </a>
-          <a class="nav-link mb-2" routerLink="/settings" routerLinkActive="active">
-            <i class="fas fa-cog me-2"></i> Settings
+
+          <a
+            class="nav-link mb-2"
+            routerLink="/settings"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-cog me-2"></i>
+            {{ 'SIDEBAR.SETTINGS' | translate }}
           </a>
+
         </nav>
-        
+
         <div class="mt-4">
-          <button class="new-post-btn"routerLink="/create/post" routerLinkActive="active">New Post</button>
+          <button
+            class="new-post-btn"
+            routerLink="/create/post"
+            routerLinkActive="active"
+          >
+            {{ 'SIDEBAR.NEW_POST' | translate }}
+          </button>
         </div>
+
       </div>
+
     </div>
-    
+
     <div class="col-lg-9 col-md-8">
       <div class="main-content">
         <router-outlet></router-outlet>
       </div>
     </div>
+
   </div>
 </div>

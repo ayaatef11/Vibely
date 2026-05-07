@@ -1,16 +1,43 @@
 <div class="settings-nav p-3">
-    <nav class="nav nav-pills flex-column">
-        <a class="nav-link active" [routerLink]="['profile']" data-bs-toggle="pill">
-            <i class="fas fa-user me-2"></i>Profile
-        </a>
-        <a class="nav-link" [routerLink]="['account']" data-bs-toggle="pill">
-            <i class="fas fa-user-cog me-2"></i>Account
-        </a>
-        <a class="nav-link" [routerLink]="['privacy']" data-bs-toggle="pill">
-            <i class="fas fa-shield-alt me-2"></i>Privacy & Security
-        </a> 
-        <a class="nav-link" [routerLink]="['preferences']" data-bs-toggle="pill">
-            <i class="fas fa-sliders-h me-2"></i>Preferences
-        </a>  
-    </nav>
+
+  <nav class="nav nav-pills flex-column">
+
+    <a
+      class="nav-link active"
+      [routerLink]="['profile']"
+      data-bs-toggle="pill"
+    >
+      <i class="fas fa-user me-2"></i>
+      {{ 'SETTINGS_NAV.PROFILE' | translate }}
+    </a>
+
+    <a
+      class="nav-link"
+      [routerLink]="['account']"
+      data-bs-toggle="pill"
+    >
+      <i class="fas fa-user-cog me-2"></i>
+      {{ 'SETTINGS_NAV.ACCOUNT' | translate }}
+    </a>
+
+    <a
+      class="nav-link"
+      [routerLink]="['privacy']"
+      data-bs-toggle="pill"
+    >
+      <i class="fas fa-shield-alt me-2"></i>
+      {{ 'SETTINGS_NAV.PRIVACY' | translate }}
+    </a>
+
+    <a
+      class="nav-link"
+      [routerLink]="['preferences']"
+      data-bs-toggle="pill"
+    >
+      <i class="fas fa-sliders-h me-2"></i>
+      {{ 'SETTINGS_NAV.PREFERENCES' | translate }}
+    </a>
+
+  </nav>
+
 </div>
