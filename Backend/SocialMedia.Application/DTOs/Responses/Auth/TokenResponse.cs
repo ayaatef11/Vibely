@@ -1,5 +1,6 @@
 ﻿namespace SocialMedia.Application.DTOs.Responses.Auth;
 public class TokenResponse
 {
-    public string Token { get; set; }
+    public bool Requires2FA { get; set; } = false;
+    public string? Token { get; set; }
 }

@@ -48,19 +48,24 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
         var result =await  _authenticationService.ChangeSessionTimeOut(userId, timeOut);
             return Ok(result);
     }
-    [HttpPost("enable-2fa")]
+    [HttpGet("enable-2fa")]
     public async Task<IActionResult> EnableTwoFA(Guid userId)
     {
         var result =await _authenticationService.EnableTwoFA(userId);
         return Ok(result);
     }
+    [HttpPost("verify-2fa-setup")]
+    public async Task<IActionResult> VerifyTwoFASetUp(Verify2FARequest request)
+    {
+         await _authenticationService.VerifyTwoFASetUp(request);
+        return Ok();
+    }
     [HttpPost("verify-2fa")]
     public async Task<IActionResult> VerifyTwoFA(Verify2FARequest request)
     {
-         await _authenticationService.VerifyTwoFA(request);
-        return Ok();
+       var result= await _authenticationService.VerifyTwoFA(request);
+        return Ok(result);
     }
-
     //make it multilingual
     ///SIGNOUT
 }

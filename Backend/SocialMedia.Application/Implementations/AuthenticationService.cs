@@ -61,23 +61,15 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
 
         if (!passwordCheck)
             throw new Exception( "Invalid password");
-  /*      //        var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(
-        //    code,
-        //    false,
-        //    false
-        //);
-        var result = await _signInManager.PasswordSignInAsync(
-    model.Email,
-    model.Password,
-    false,
-    lockoutOnFailure: false
-);
-
-if (result.RequiresTwoFactor)
-{
-    return "2FA_REQUIRED";
-}*/
-       if(request.IsLoginNotificationsEnabled)  await _emailService.SendMailAsync(user.Email, "New login to your account ", "There is a new login to your account");
+        if (user.TwoFactorEnabled)
+        {
+            return new TokenResponse
+            {
+                Requires2FA = true,
+                Token =null
+            };
+        }
+        if (request.IsLoginNotificationsEnabled)  await _emailService.SendMailAsync(user.Email, "New login to your account ", "There is a new login to your account");
         return GenerateTokenHelper.GenerateToken(user, _configuration, timeOutInMinutes);
     } 
 
@@ -143,7 +135,7 @@ if (result.RequiresTwoFactor)
         };
     }
 
-    public async Task VerifyTwoFA(Verify2FARequest request)
+    public async Task VerifyTwoFASetUp(Verify2FARequest request)
     {
         var user = await _userManager.FindByIdAsync(request.UserId);
 
@@ -153,5 +145,17 @@ if (result.RequiresTwoFactor)
             throw new Exception("Invalid code");
 
         await _userManager.SetTwoFactorEnabledAsync(user, true);
+    }
+    public async Task<TokenResponse> VerifyTwoFA(Verify2FARequest request)
+    {
+        var user = await _userManager.FindByIdAsync(request.UserId);
+
+        var isValid = await _userManager.VerifyTwoFactorTokenAsync(user, _userManager.Options.Tokens.AuthenticatorTokenProvider, request.Code);
+
+        if (!isValid)
+            throw new Exception("Invalid code");
+
+        return GenerateTokenHelper.GenerateToken(user, _configuration,null);
+
     }
 }

@@ -17,3 +17,11 @@
   </a>
 </div>
 </form>
+<div *ngIf="is2FALoginModalOpen" class="otp-overlay">
+  <div class="otp-modal">
+    <h5>Two-Factor Authentication</h5>
+    <p>Enter the 6-digit code from your authenticator app</p>
+    <input  [(ngModel)]="verificationCode" placeholder="••••••"   maxlength="6"  class="otp-input"  />
+    <button class="otp-btn" (click)="verifyLogin2FA()">  Verify </button>
+  </div>
+</div>

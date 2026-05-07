@@ -12,7 +12,7 @@ public interface IAuthenticationService
     ValueTask<string> RequestForgotPasswordAsync(string email);
     Task<SessionResponse> ChangeSessionTimeOut(Guid userId, int timeOut);
     Task<EnableTwoFAResponse> EnableTwoFA(Guid userId);
-    Task VerifyTwoFA(Verify2FARequest request);
-
+    Task VerifyTwoFASetUp(Verify2FARequest request);
+    Task<TokenResponse> VerifyTwoFA(Verify2FARequest request);
     ValueTask<TokenResponse> ResetPasswordAsync(ForgotPasswordRequest forgotPassword, int? timeOutInMinutes);
 }

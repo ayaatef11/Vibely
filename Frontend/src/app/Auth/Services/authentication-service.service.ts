@@ -9,6 +9,8 @@ import { jwtDecode } from 'jwt-decode';
 import { ChangePasswordRequest } from '../../../Models/Auth/Requests/ChangePasswordRequest';
 import { SessionResponse } from '../../../Models/Auth/Responses/SessionResponse';
 import { TokenResponse } from '../../../Models/Auth/Responses/TokenResponse';
+import { Verify2FARequest } from '../../../Models/Auth/Requests/Verify2FARequest';
+import { EnableTwoFAResponse } from '../../../Models/Auth/Responses/EnableTwoFAResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +48,18 @@ export class AuthenticationService {
     return this.http.get<SessionResponse>(`${this.Url}/change-session-timeout?userId=${userId}&timeOut=${timeOut}`)
   }
 
+  enable2FA(userId: string):Observable<EnableTwoFAResponse> {
+    return this.http.get<EnableTwoFAResponse>(`${this.Url}/enable-2fa?userId=${userId}`)
+  }
+
+  verify2FASetup(data: Verify2FARequest) {
+    return this.http.post(`${this.Url}/verify-2fa-setup`, data)
+  }
+
+  verify2FA(data: Verify2FARequest) :Observable<TokenResponse>{
+    return this.http.post<TokenResponse>(`${this.Url}/verify-2fa`, data)
+  }
+  
   getUserId(): string | null {
     const token = this.getToken();
     if (!token) return null;
@@ -74,21 +88,21 @@ export class AuthenticationService {
   saveToken(token: string): void {
     localStorage.setItem('token', token);
   }
-SaveSessionTimeOut(timeOut: string): void {
+  SaveSessionTimeOut(timeOut: string): void {
     localStorage.setItem('session-time-out', timeOut);
   }
-saveLoginNotificationsSettings(isEnabled:string){
-localStorage.setItem('is-login-notifications-enabled',isEnabled)
-}
+  saveLoginNotificationsSettings(isEnabled: string) {
+    localStorage.setItem('is-login-notifications-enabled', isEnabled)
+  }
   getToken(): string | null {
     return localStorage.getItem('token');
   }
-   getSessionTimeOut(): string | null {
+  getSessionTimeOut(): string | null {
     return localStorage.getItem('session-time-out');
   }
-  getNotificationsSettings():string | null{
-   return localStorage.getItem('is-login-notifications-enabled')
- 
+  getNotificationsSettings(): string | null {
+    return localStorage.getItem('is-login-notifications-enabled')
+
   }
   private handleError(error: any) {//to filter the error
     console.error('An error occurred:', error);
