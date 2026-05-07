@@ -4,7 +4,7 @@ A full-stack real-time social application built with **.NET 9** and **Angular 18
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -19,18 +19,18 @@ A full-stack real-time social application built with **.NET 9** and **Angular 18
 
 ---
 
-## ✨ Features
+##  Features
 
-- 💬 **Real-Time Messaging** — Instant communication between users powered by SignalR
-- 👥 **User Presence** — Live online/offline status tracking
-- 🔔 **Live Notifications** — Real-time event broadcasting
-- 📡 **WebSocket Fallback** — Graceful degradation with Long Polling
-- ⚖️ **Load Balancing** — Kubernetes distributes traffic across multiple replicas
-- 🔄 **Auto-Scaling** — Kubernetes HPA scales pods based on load
+-  **Real-Time Messaging** — Instant communication between users powered by SignalR
+-  **User Presence** — Live online/offline status tracking
+-  **Live Notifications** — Real-time event broadcasting
+-  **WebSocket Fallback** — Graceful degradation with Long Polling
+-  **Load Balancing** — Kubernetes distributes traffic across multiple replicas
+-  **Auto-Scaling** — Kubernetes HPA scales pods based on load
 
 ---
 
-## 🔄 CI/CD Pipeline
+##  CI/CD Pipeline
 
 ### Continuous Integration (CI)
 Every push or pull request to `main` triggers:
@@ -50,7 +50,8 @@ After a successful CI run:
 
 ---
 
-## 🚀 Getting Started
+
+##  Getting Started
 
 ### Prerequisites
 - .NET 9 SDK
@@ -97,7 +98,7 @@ ng serve
 
 ---
 
-## 🧪 Running Tests
+##  Running Tests
 
 ```bash
 # Run all tests
@@ -114,7 +115,7 @@ dotnet test Vibely.IntegrationTests
 
 ---
 
-## ☸️ Kubernetes Deployment
+##  Kubernetes Deployment
 
 ```bash
 # Apply all manifests
@@ -154,7 +155,7 @@ kubectl rollout status deployment/vibely-client
                       └─────────────────┘
 ```
 
-## 📁 Project Structure
+##  Project Structure
 ```bash
  Vibely/
 ├── Vibely.API/                        # .NET 9 Web API
@@ -186,10 +187,12 @@ kubectl rollout status deployment/vibely-client
 └── Dockerfile.client                  # Angular Docker image
 ```
 
-## 🌐 Live Demo
+##  Live Demo
 
 > The application is live and deployed on Kubernetes:
 
 **App** → `https://vibely.yourdomain.com`
 **API Swagger** → `https://api.vibely.yourdomain.com/swagger`
+
+
 <img width="500" height="450" alt="image" src="https://github.com/user-attachments/assets/6a235b42-bcce-4364-b7bf-e2d8b9897b57" />
