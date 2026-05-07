@@ -23,7 +23,7 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
         return result;
     }
 
-    public async ValueTask<string> SaveAsync(SavePostDTO savePost)
+    public async ValueTask<string> SaveAsync(SavePostRequest savePost)
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == savePost.UserId);
         if (user == null)
@@ -48,7 +48,7 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
             "Failed To Save Post";
     }
 
-    public async ValueTask<string> UnSaveAsync(SavePostDTO savePost)
+    public async ValueTask<string> UnSaveAsync(SavePostRequest savePost)
     {
         var user = await _context.Users.
           SingleOrDefaultAsync(x => x.Id == savePost.UserId);

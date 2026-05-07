@@ -1,5 +1,5 @@
 ﻿namespace SocialMedia.Core.Domain.DTOs.Requests.Story;
-public class DeleteStoryDTO
+public class DeleteStoryRequest
 {
     public Guid UserId { set; get; }
     public Guid StoryId { set; get; }

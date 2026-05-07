@@ -4,11 +4,11 @@ using SocialMedia.Core.Domain.DTOs.Requests.Followers;
 namespace SocialMedia.Application.Abstractions;
 public interface IFollowerService
 {
-    ValueTask<string> UnFollowAsync(FollowDTO follow);
-    ValueTask<string> AcceptFollowAsync(FollowDTO follow);
-    ValueTask<string> RequestFollowAsync(FollowDTO follow);
-    ValueTask<string> UnrequestFollowAsync(FollowDTO follow);
-    ValueTask<string> RejectFollowAsync(FollowDTO followr);
+    ValueTask<string> UnFollowAsync(FollowRequest follow);
+    ValueTask<string> AcceptFollowAsync(FollowRequest follow);
+    ValueTask<string> RequestFollowAsync(FollowRequest follow);
+    ValueTask<string> UnrequestFollowAsync(FollowRequest follow);
+    ValueTask<string> RejectFollowAsync(FollowRequest followr);
     ValueTask<ICollection<UserResponse>> GetFollowersAsync(Guid userId);
     ValueTask<ICollection<UserResponseWithStories>> GetFollowingWithStoriesAsync(Guid userId);
     Task<List<UserResponse>> ViewRequests(Guid userId);

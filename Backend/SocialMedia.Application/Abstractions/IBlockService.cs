@@ -3,7 +3,7 @@
 namespace SocialMedia.Application.Abstractions;
 public interface IBlockService  
 {
-    ValueTask<string> BlockAsync(BlockDTO block);
-    ValueTask<string> UnBlockAsync(BlockDTO block);
+    ValueTask<string> BlockAsync(BlockRequest block);
+    ValueTask<string> UnBlockAsync(BlockRequest block);
     ValueTask<IEnumerable<User>> GetBlockedUserAsync(Guid id);
 }

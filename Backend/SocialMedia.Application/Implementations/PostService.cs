@@ -9,7 +9,7 @@ using SocialMedia.Infrastructure.Domain.Entities.Security;
 namespace SocialMedia.Application.Implementations;
 public class PostService(AppdbContext _context, IMapper _mapper,IProfileService _profileService, IMainRepository<Post> _PostRepository) : IPostService
 {
-    public async ValueTask<PostResponse> AddPost(CreatePostDTO postRequest)
+    public async ValueTask<PostResponse> AddPost(CreatePostRequest postRequest)
     {
         var _post = new Post()
         {
@@ -33,7 +33,7 @@ public class PostService(AppdbContext _context, IMapper _mapper,IProfileService 
         return _mapper.Map<PostResponse>(_post);
     }
 
-    public async  ValueTask<PostResponse> EditPost(UpdatePostDTO postRequest)
+    public async  ValueTask<PostResponse> EditPost(UpdatePostRequest postRequest)
     {
         var _post = await _PostRepository.GetAsync(postRequest.Id);
         if (_post == null)

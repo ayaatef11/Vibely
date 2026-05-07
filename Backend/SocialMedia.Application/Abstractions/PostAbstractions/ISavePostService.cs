@@ -4,7 +4,7 @@ using SocialMedia.Core.Domain.DTOs.Requests.SavePosts;
 namespace SocialMedia.Application.Abstractions.PostAbstractions;
 public interface ISavePostService  
 {
-    ValueTask<string> SaveAsync(SavePostDTO savePost);
+    ValueTask<string> SaveAsync(SavePostRequest savePost);
     ValueTask<IEnumerable<PostResponse>> GetPosts(Guid userId);
-    ValueTask<string> UnSaveAsync(SavePostDTO savePost);
+    ValueTask<string> UnSaveAsync(SavePostRequest savePost);
 }

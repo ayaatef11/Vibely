@@ -8,14 +8,14 @@ namespace SocialMedia.API.Controllers;
 public partial class PostController(IPostService _PostService) : ControllerBase
 {
     [HttpPost("add")]
-    public async Task<IActionResult> Add(CreatePostDTO post)
+    public async Task<IActionResult> Add(CreatePostRequest post)
     {
        var result=await _PostService.AddPost(post);
         return Ok(result);
     }
 
     [HttpPut("edit")]
-    public async Task<IActionResult> Update(UpdatePostDTO post)
+    public async Task<IActionResult> Update(UpdatePostRequest post)
     {
         var result=await _PostService.EditPost(post);
         return  Ok(result);

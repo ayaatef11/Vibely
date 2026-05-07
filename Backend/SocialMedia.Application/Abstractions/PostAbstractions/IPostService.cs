@@ -4,8 +4,8 @@ using SocialMedia.Core.Domain.DTOs.Requests.Post;
 namespace SocialMedia.Application.Abstractions.PostAbstractions;
 public interface IPostService  
 {
-    ValueTask<PostResponse> AddPost(CreatePostDTO  post);
-    ValueTask<PostResponse> EditPost(UpdatePostDTO post);
+    ValueTask<PostResponse> AddPost(CreatePostRequest  post);
+    ValueTask<PostResponse> EditPost(UpdatePostRequest post);
     ValueTask DeletePost(Guid id);
     ValueTask<IEnumerable<PostResponse>> GetUserPostsAsync(Guid id);
     ValueTask<PostResponse?> SearchForPost(string keyword);

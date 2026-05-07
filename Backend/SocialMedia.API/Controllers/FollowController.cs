@@ -7,7 +7,7 @@ namespace SocialMedia.API.Controllers;
 public class FollowController(IFollowerService _FollowerService) : ControllerBase
 {
     [HttpPost("request")]
-    public async Task<IActionResult> SendRequest(FollowDTO follow)
+    public async Task<IActionResult> SendRequest(FollowRequest follow)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -21,7 +21,7 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
             : BadRequest(requestOperation);
     }
     [HttpPost("unrequest")]
-    public async Task<IActionResult> DeleteRequest(FollowDTO follow)
+    public async Task<IActionResult> DeleteRequest(FollowRequest follow)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -36,7 +36,7 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
     }
 
     [HttpPut("accept")]
-    public async Task<IActionResult> Accept(FollowDTO follow)
+    public async Task<IActionResult> Accept(FollowRequest follow)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -51,7 +51,7 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
     }
 
     [HttpPut("reject")]
-    public async Task<IActionResult> Reject(FollowDTO follow)
+    public async Task<IActionResult> Reject(FollowRequest follow)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -66,7 +66,7 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
     }
 
     [HttpDelete("unfollow")]
-    public async Task<IActionResult> UnFollow(FollowDTO follow)
+    public async Task<IActionResult> UnFollow(FollowRequest follow)
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

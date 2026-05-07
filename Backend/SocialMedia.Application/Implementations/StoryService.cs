@@ -45,7 +45,7 @@ public class StoryService(AppdbContext _context) : IStoryService
         await _context.SaveChangesAsync();
     }
    
-    public async ValueTask CommentToStory(AddCommentDTO commentDto)
+    public async ValueTask CommentToStory(AddCommentRequest commentDto)
     {
         var comment = new Comment()
         {
@@ -56,7 +56,7 @@ public class StoryService(AppdbContext _context) : IStoryService
         _context.Comments.Add(comment);
         await _context.SaveChangesAsync();
     }
-    public async ValueTask<string> UploadAsync(UploadStoryDTO story)
+    public async ValueTask<string> UploadAsync(UploadStoryRequest story)
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == story.ProfileId);
         if (user == null)
@@ -90,7 +90,7 @@ public class StoryService(AppdbContext _context) : IStoryService
         return uploadOperation > 0 ? "Uploaded" :  "Failed To Upload Story";
     }
 
-    public async ValueTask<string> DeleteAsync(DeleteStoryDTO story)
+    public async ValueTask<string> DeleteAsync(DeleteStoryRequest story)
     {
         var user = await _context.Users
             .FirstOrDefaultAsync(x => x.Id == story.UserId);

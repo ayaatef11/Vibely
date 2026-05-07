@@ -4,7 +4,7 @@ using SocialMedia.Core.Domain.DTOs.Requests.Share;
 namespace SocialMedia.Application.Abstractions.PostAbstractions;
 public interface ISharePostService
 {
-    ValueTask<string> Start(StartShareDTO start);
-    ValueTask<string> Revoke(RevokeShareDTO revoke);
+    ValueTask<string> Start(StartShareRequest start);
+    ValueTask<string> Revoke(RevokeShareRequest revoke);
     Task<PostResponse?> OpenSharedPost(string token);
 }

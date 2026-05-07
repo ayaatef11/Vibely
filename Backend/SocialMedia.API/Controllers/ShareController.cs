@@ -6,7 +6,7 @@ namespace SocialMedia.API.Controllers;
 public class ShareController(ISharePostService _ShareService) : ControllerBase
 {
     [HttpPost("Start")]
-    public async Task<IActionResult> Start(StartShareDTO share)
+    public async Task<IActionResult> Start(StartShareRequest share)
     {
         
         var result = await _ShareService.Start(share);
@@ -23,7 +23,7 @@ public class ShareController(ISharePostService _ShareService) : ControllerBase
     }
 
     [HttpDelete("revoke")]
-    public async Task<IActionResult> Revoke(RevokeShareDTO share)
+    public async Task<IActionResult> Revoke(RevokeShareRequest share)
     { 
         var result = await _ShareService.Revoke(share);
        return  Ok(result);

@@ -3,6 +3,6 @@
 namespace SocialMedia.Application.Abstractions.PostAbstractions;
 public interface IPostLikeService  
 {
-    ValueTask<string> LikeAsync(LikeDTO like);
-    ValueTask<string> DisLikeAsync(DisLikeDTO like);
+    ValueTask<string> LikeAsync(LikeRequest like);
+    ValueTask<string> DisLikeAsync(DisLikeRequest like);
 }

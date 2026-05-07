@@ -1,7 +1,6 @@
 ﻿namespace SocialMedia.Core.Domain.DTOs.Requests.Share;
-public class RevokeShareDTO
+public class StartShareRequest
 {
-    public Guid Id { set; get; }
     public Guid ProfileId { set; get; }
     public Guid PostId { set; get; }
 }

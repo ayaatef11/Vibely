@@ -7,7 +7,7 @@ using SocialMedia.Core.Domain.DTOs.Requests.Comment;
 namespace SocialMedia.Application.Implementations;
 public class CommentService(AppdbContext _context,IMapper _mapper) :  ICommentService
 { 
-    public async ValueTask<CommentResponse> AddComment(AddCommentDTO commentRequest)
+    public async ValueTask<CommentResponse> AddComment(AddCommentRequest commentRequest)
     {
 
         var comment = new Comment()
@@ -32,7 +32,7 @@ public class CommentService(AppdbContext _context,IMapper _mapper) :  ICommentSe
         return result;
     }
 
-    public async ValueTask<CommentResponse?> EditComment(EditCommentDTO commentRequest)
+    public async ValueTask<CommentResponse?> EditComment(EditCommentRequest commentRequest)
     {
         var _comment = await _context.Comments.Where(c=>c.Id== commentRequest.Id).Include(c=>c.Profile).FirstAsync();
         if (_comment == null)

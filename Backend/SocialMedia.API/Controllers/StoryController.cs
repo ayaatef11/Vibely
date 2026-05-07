@@ -29,13 +29,13 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
         return Ok();
     }
     [HttpPost("add-comment")]
-    public async Task<IActionResult> CommentToStory(AddCommentDTO comment)
+    public async Task<IActionResult> CommentToStory(AddCommentRequest comment)
     {
         await _StoryService.CommentToStory(comment);
         return Ok();
     }
     [HttpPost("add")]
-    public async Task<IActionResult> Add(UploadStoryDTO story)//add signalr
+    public async Task<IActionResult> Add(UploadStoryRequest story)//add signalr
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
@@ -63,7 +63,7 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
     }
 
     [HttpDelete("delete")]
-    public async Task<IActionResult> Delete(DeleteStoryDTO story)
+    public async Task<IActionResult> Delete(DeleteStoryRequest story)
     { 
         var deleteOperation = await _StoryService.DeleteAsync(story);
         return deleteOperation == "Deleted" ?

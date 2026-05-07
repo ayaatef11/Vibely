@@ -5,7 +5,7 @@ using SocialMedia.Core.Domain.DTOs.Requests.Followers;
 namespace SocialMedia.Application.Implementations;
 public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollowerService
 { 
-    public async ValueTask<string> AcceptFollowAsync(FollowDTO follow)
+    public async ValueTask<string> AcceptFollowAsync(FollowRequest follow)
     {
         var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Sender);
         if (_sender == null)
@@ -51,7 +51,7 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
     var result = _mapper.Map<List<UserResponseWithStories>>(users);
         return result;
     }
-    public async ValueTask<string> RejectFollowAsync(FollowDTO follow)
+    public async ValueTask<string> RejectFollowAsync(FollowRequest follow)
     {
         var _sender = await _context.Users.SingleOrDefaultAsync(x => x.Id == follow.Sender);
         if (_sender == null)
@@ -72,7 +72,7 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
             "Rejected" : "Invalid";
     }
 
-    public async ValueTask<string> RequestFollowAsync(FollowDTO follow)
+    public async ValueTask<string> RequestFollowAsync(FollowRequest follow)
     {
         var _sender = await _context.Users.SingleOrDefaultAsync(x => x.Id == follow.Sender);
         if (_sender == null)
@@ -102,7 +102,7 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
     }
 
 
-    public async ValueTask<string> UnFollowAsync(FollowDTO follow)
+    public async ValueTask<string> UnFollowAsync(FollowRequest follow)
     {
         var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Sender);
         if (_sender == null)
@@ -125,7 +125,7 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
             "Successfully" : "Invalid";
     }
 
-    public async  ValueTask<string> UnrequestFollowAsync(FollowDTO follow)
+    public async  ValueTask<string> UnrequestFollowAsync(FollowRequest follow)
     {
         var _sender = await _context.Users.SingleOrDefaultAsync(x => x.Id == follow.Sender);
         if (_sender == null)

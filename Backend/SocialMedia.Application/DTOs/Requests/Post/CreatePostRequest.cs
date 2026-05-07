@@ -1,10 +1,12 @@
-﻿using SocialMedia.Infrastructure.Domain.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using SocialMedia.Infrastructure.Domain.Enums;
 
 namespace SocialMedia.Core.Domain.DTOs.Requests.Post;
-public class UpdatePostDTO
+public class CreatePostRequest
 {
-    public Guid Id { set; get; }
     public FeelingState? FeelingState { set; get; }
     public string Title { set; get; } = string.Empty;
     public string? Text { set; get; } = string.Empty;
+    public Guid ProfileId { set; get; }
+    public List<IFormFile>?Media {  set; get; }
 }

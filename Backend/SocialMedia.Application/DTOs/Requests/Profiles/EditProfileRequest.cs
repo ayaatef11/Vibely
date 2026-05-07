@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 
 namespace SocialMedia.Core.Domain.DTOs.Requests.Profiles;
-public class EditProfileDTO
+public class EditProfileRequest
 {
     public Guid UserId { get; set; }
     public string? Bio { get; set; } = string.Empty;

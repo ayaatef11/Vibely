@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Core.Domain.DTOs.Requests.Followers
 {
-    public class FollowDTO
+    public class FollowRequest
     {
         public Guid Sender { set; get; }
         public Guid Reciever { set;get; }   

@@ -7,7 +7,7 @@ public class BlocksController(IBlockService _BlockService) : ControllerBase
 {
 
     [HttpPost("block")]
-    public async Task<IActionResult> Block(BlockDTO block)
+    public async Task<IActionResult> Block(BlockRequest block)
     {
        var blockOperation = await _BlockService.BlockAsync(block);
 
@@ -38,7 +38,7 @@ public class BlocksController(IBlockService _BlockService) : ControllerBase
     }
 
     [HttpDelete("unblock")]
-    public async Task<IActionResult> UnBlock(BlockDTO block)
+    public async Task<IActionResult> UnBlock(BlockRequest block)
     {
         var unBlockOperation = await _BlockService.UnBlockAsync(block);
         if (unBlockOperation == "UserNB")

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 
 namespace SocialMedia.Core.Domain.DTOs.Requests.Story;
-public class UploadStoryDTO
+public class UploadStoryRequest
 {
     public string? Text { get; set; }
     public IFormFile? Image { set; get; }

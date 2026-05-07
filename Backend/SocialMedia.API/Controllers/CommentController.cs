@@ -6,14 +6,14 @@ namespace SocialMedia.API.Controllers;
 public class CommentController(ICommentService _CommentService, ICommentLikeService _CommentLikeService, IMapper _mapper) : ControllerBase
 {
     [HttpPost("add")]
-    public async Task<IActionResult> Add(AddCommentDTO comment)
+    public async Task<IActionResult> Add(AddCommentRequest comment)
     {
         var result = await _CommentService.AddComment(comment);
         return Ok(result);
     }
 
     [HttpPost("like")]
-    public async Task<IActionResult> Like([FromBody] LikeCommentDTO likeComment)
+    public async Task<IActionResult> Like([FromBody] LikeCommentRequest likeComment)
     {
         var result = await _CommentLikeService.LikeAsync(likeComment);
         return Ok(result);
@@ -21,7 +21,7 @@ public class CommentController(ICommentService _CommentService, ICommentLikeServ
 
 
     [HttpPut("edit")]
-    public async Task<IActionResult> Edit(EditCommentDTO comment)
+    public async Task<IActionResult> Edit(EditCommentRequest comment)
     { 
         var result = await _CommentService.EditComment(comment);
 
@@ -29,7 +29,7 @@ public class CommentController(ICommentService _CommentService, ICommentLikeServ
     }
 
     [HttpDelete("dislike")]
-    public async Task<IActionResult> Dislike(LikeCommentDTO dislikeComment)
+    public async Task<IActionResult> Dislike(LikeCommentRequest dislikeComment)
     {
         var result = await _CommentLikeService.DisLikeAsync(dislikeComment);
         return Ok(result);

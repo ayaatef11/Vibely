@@ -9,7 +9,7 @@ using SocialMedia.Core.Domain.DTOs.Requests.Share;
 namespace SocialMedia.Application.Implementations;
 public class ShareService(AppdbContext _context,IMapper _mapper) :  ISharePostService
 {
-    public async ValueTask<string> Revoke(RevokeShareDTO revoke)
+    public async ValueTask<string> Revoke(RevokeShareRequest revoke)
     {
         var share = await _context.Shares.SingleOrDefaultAsync(x => x.Id == revoke.Id);
         if (share == null)
@@ -32,7 +32,7 @@ public class ShareService(AppdbContext _context,IMapper _mapper) :  ISharePostSe
             "Successfully" : "Invalid Revoke";
     }
 
-    public async ValueTask<string?> Start(StartShareDTO start)
+    public async ValueTask<string?> Start(StartShareRequest start)
     {
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == start.PostId);
         if (post == null)

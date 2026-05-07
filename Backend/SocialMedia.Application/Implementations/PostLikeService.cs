@@ -5,7 +5,7 @@ using SocialMedia.Core.Domain.DTOs.Requests.Like;
 namespace SocialMedia.Application.Implementations;
 public class PostLikeService(AppdbContext _context) :   IPostLikeService
 {
-    public async ValueTask<string> DisLikeAsync(DisLikeDTO like)
+    public async ValueTask<string> DisLikeAsync(DisLikeRequest like)
     {
         var _like = await _context.PostLike.FirstOrDefaultAsync(x => x.PostId == like.PostId && x.ProfileId ==like.ProfileId);
         if (_like == null)
@@ -23,7 +23,7 @@ public class PostLikeService(AppdbContext _context) :   IPostLikeService
             "Successfully" : "Invalid";
     }
 
-    public async ValueTask<string> LikeAsync(LikeDTO like)
+    public async ValueTask<string> LikeAsync(LikeRequest like)
     {
         var _react = new PostLikes()
         {

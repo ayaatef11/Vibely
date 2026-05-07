@@ -8,7 +8,7 @@ using SocialMedia.Core.Domain.DTOs.Requests.Comment;
 namespace SocialMedia.Application.Implementations;
 public class CommentLikeService(AppdbContext _context,IMapper _mapper) :  ICommentLikeService
 {
-    public async ValueTask<CommentResponse> DisLikeAsync(LikeCommentDTO like)
+    public async ValueTask<CommentResponse> DisLikeAsync(LikeCommentRequest like)
     {
         var _like = await _context.CommentLikes.SingleOrDefaultAsync(x => x.CommentId == like.CommentId);
         if (_like == null)
@@ -32,7 +32,7 @@ public class CommentLikeService(AppdbContext _context,IMapper _mapper) :  IComme
         return _mapper.Map<CommentResponse>(comment);
     }
 
-    public async ValueTask<CommentResponse> LikeAsync(LikeCommentDTO like)
+    public async ValueTask<CommentResponse> LikeAsync(LikeCommentRequest like)
     {
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == like.PostId);
         if (post == null)

@@ -7,7 +7,7 @@ namespace SocialMedia.API.Controllers;
 public class LikeController(IPostLikeService _PostLikeService) : ControllerBase
 {   
     [HttpPost("like")]
-    public async Task<IActionResult> Like(LikeDTO like)
+    public async Task<IActionResult> Like(LikeRequest like)
     {
         var likeOperation = await _PostLikeService.LikeAsync(like);
 
@@ -17,7 +17,7 @@ public class LikeController(IPostLikeService _PostLikeService) : ControllerBase
     }
 
     [HttpDelete("dislike")]
-    public async Task<IActionResult> Dislike(DisLikeDTO like)
+    public async Task<IActionResult> Dislike(DisLikeRequest like)
     {
         var likeOperation = await _PostLikeService.DisLikeAsync(like);
 

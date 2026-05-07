@@ -2,7 +2,7 @@
 
 namespace SocialMedia.Core.Domain.DTOs.Requests.Comment
 {
-    public class DisLikeCommentDTO
+    public class DisLikeCommentRequest
     {
         public Guid UserId { set; get; }
         public Guid PostId { set; get; }

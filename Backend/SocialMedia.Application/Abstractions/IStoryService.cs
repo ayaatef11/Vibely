@@ -10,8 +10,8 @@ public interface IStoryService
     ValueTask ViewStory(Guid userId, Guid storyId);
     ValueTask<IEnumerable<StoryView>> GetViewersForStory(Guid userId, Guid storyId);
     ValueTask ReactToStory(Guid userId, Guid storyId);
-    ValueTask CommentToStory(AddCommentDTO comment);
-    ValueTask<string> UploadAsync(UploadStoryDTO story);
-    ValueTask<string> DeleteAsync(DeleteStoryDTO story);
+    ValueTask CommentToStory(AddCommentRequest comment);
+    ValueTask<string> UploadAsync(UploadStoryRequest story);
+    ValueTask<string> DeleteAsync(DeleteStoryRequest story);
     ValueTask<IEnumerable<Story>> GetUserStoriesAsync(Guid userId);
 }

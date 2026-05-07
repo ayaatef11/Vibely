@@ -1,6 +1,6 @@
 ﻿namespace SocialMedia.Core.Domain.DTOs.Requests.Comment
 {
-    public class EditCommentDTO
+    public class EditCommentRequest
     {
         public Guid Id { set; get; }
         public string Text { get; set; }

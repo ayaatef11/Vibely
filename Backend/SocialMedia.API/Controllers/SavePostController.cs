@@ -6,7 +6,7 @@ public class SavePostController(ISavePostService _SavePostService) : ControllerB
 {
 
     [HttpPost("Save")]
-    public async Task<IActionResult> Save(SavePostDTO savePost)
+    public async Task<IActionResult> Save(SavePostRequest savePost)
     { 
         var saveOperation = await _SavePostService.SaveAsync(savePost);
         return saveOperation == "Successfully" ?
@@ -30,7 +30,7 @@ public class SavePostController(ISavePostService _SavePostService) : ControllerB
     }
 
     [HttpDelete("UnSave")]
-    public async Task<IActionResult> UnSave(SavePostDTO savePost)
+    public async Task<IActionResult> UnSave(SavePostRequest savePost)
     { 
         var unSaveOperation = await _SavePostService.UnSaveAsync(savePost);
         return unSaveOperation == "Successfully" ?

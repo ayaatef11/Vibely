@@ -31,7 +31,7 @@ public class ProfileService(AppdbContext _context,IMapper _mapper) :  IProfileSe
         var result =_mapper.Map<ProfileResponse>(profile); 
         return result;
     }
-    public async ValueTask<ProfileResponse?> EditAsync(EditProfileDTO request)
+    public async ValueTask<ProfileResponse?> EditAsync(EditProfileRequest request)
     {
         var profile = await _context.Profiles.
             FirstOrDefaultAsync(x => x.SocialMediaUserId == request.UserId);

@@ -14,7 +14,7 @@ public class BlockService : MainRepository<Block>, IBlockService
         this.config = config;
     }
 
-    public async ValueTask<string> BlockAsync(BlockDTO block)
+    public async ValueTask<string> BlockAsync(BlockRequest block)
     {
         var foundBlock = await context.Blocks.SingleOrDefaultAsync
             (x => x.BlockerId == block.BlockerId && x.BlockedId == block.BlockedId);
@@ -41,7 +41,7 @@ public class BlockService : MainRepository<Block>, IBlockService
             "Successfully" : "Invalid";
     }
 
-    public async ValueTask<string> UnBlockAsync(BlockDTO block)
+    public async ValueTask<string> UnBlockAsync(BlockRequest block)
     {
         var blocked = await context.Blocks.
             SingleOrDefaultAsync(x => x.BlockedId == block.BlockedId && x.BlockerId == block.BlockerId);

@@ -1,7 +1,7 @@
 ﻿using SocialMedia.Infrastructure.Domain.Enums;
 
 namespace SocialMedia.Core.Domain.DTOs.Requests.Comment;
-public class LikeCommentDTO
+public class LikeCommentRequest
 {
     public Guid ProfileId { set; get; }
     public Guid PostId { set; get; }
