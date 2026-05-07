@@ -132,7 +132,10 @@ kubectl rollout status deployment/vibely-api
 kubectl rollout status deployment/vibely-client
 ```
 
-### Kubernetes Architecture┌─────────────────────────┐
+### Kubernetes Architecture
+```bash
+
+                    ┌─────────────────────────┐
                     │   LoadBalancer Service   │
                     └────────────┬────────────┘
                                  │
@@ -149,10 +152,11 @@ kubectl rollout status deployment/vibely-client
                       │   SQL Server    │
                       │  (StatefulSet)  │
                       └─────────────────┘
----
+```
 
 ## 📁 Project Structure
-Vibely/
+```bash
+ Vibely/
 ├── Vibely.API/                        # .NET 9 Web API
 │   ├── Hubs/                          # SignalR Hubs
 │   │   └── ChatHub.cs
@@ -180,7 +184,7 @@ Vibely/
 ├── docker-compose.yml
 ├── Dockerfile.api                     # API Docker image
 └── Dockerfile.client                  # Angular Docker image
----
+```
 
 ## 🌐 Live Demo
 
