@@ -77,12 +77,18 @@ export class AuthenticationService {
 SaveSessionTimeOut(timeOut: string): void {
     localStorage.setItem('session-time-out', timeOut);
   }
-
+saveLoginNotificationsSettings(isEnabled:string){
+localStorage.setItem('is-login-notifications-enabled',isEnabled)
+}
   getToken(): string | null {
     return localStorage.getItem('token');
   }
    getSessionTimeOut(): string | null {
     return localStorage.getItem('session-time-out');
+  }
+  getNotificationsSettings():string | null{
+   return localStorage.getItem('is-login-notifications-enabled')
+ 
   }
   private handleError(error: any) {//to filter the error
     console.error('An error occurred:', error);

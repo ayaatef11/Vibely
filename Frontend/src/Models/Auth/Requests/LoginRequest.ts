@@ -1,5 +1,6 @@
 export interface LoginRequest {
   userName: string
   password: string
-  timeOutInMinutes?: number |null
+  timeOutInMinutes?: number |null,
+  isLoginNotificationsEnabled:boolean
 }

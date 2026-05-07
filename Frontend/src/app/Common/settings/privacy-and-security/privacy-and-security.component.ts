@@ -14,10 +14,13 @@ export class PrivacyAndSecurityComponent {
 constructor(private authService:AuthenticationService){}
 ngOnInit(){
   this.selectedTimeOut=Number.parseInt(this.authService.getSessionTimeOut()??'30',10);
+ 
+  this.selectedLoginNotifications =this.authService.getNotificationsSettings() === 'true';
 }
 //****************VARIABLES************************************ */
 userId=this.authService.getUserId()??'1'
 selectedTimeOut!:number;
+selectedLoginNotifications!:boolean;
 ///**********************FUNCTIONS**************************** */
 changeSessionTimeOut(){ 
   this.authService.changeSessionTimeOut(this.userId,this.selectedTimeOut).subscribe(
@@ -26,6 +29,10 @@ changeSessionTimeOut(){
     this.authService.SaveSessionTimeOut(res.timeOut.toString());
     this.authService.saveToken(res.token);
   })
+}
+
+changeNotificationsSettings(){
+  this.authService.saveLoginNotificationsSettings(this.selectedLoginNotifications.toString())
 }
 
 }

@@ -36,6 +36,7 @@ export class SignupComponent {
     this.authService.signUp(this.signUpData).subscribe({
       next: (res) => {
         this.authService.saveToken(res.token)
+        this.authService.saveLoginNotificationsSettings('false')
         this.isLoading = false;
         this.router.navigate(['/login']);
       },

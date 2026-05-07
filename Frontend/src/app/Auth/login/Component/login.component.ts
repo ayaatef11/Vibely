@@ -18,7 +18,8 @@ export class LoginComponent {
   userData: LoginRequest = {
     userName: '',
     password: '',
-    timeOutInMinutes:Number(this.authService.getSessionTimeOut())
+    timeOutInMinutes:Number(this.authService.getSessionTimeOut()),
+    isLoginNotificationsEnabled:this.authService.getNotificationsSettings()==='true'
   }
   isLoading = false;
   errorMessage = '';
