@@ -26,7 +26,7 @@ public class AppdbContext : IdentityDbContext<User, Role, Guid>
     public DbSet<PostLikes> PostLike { set; get; }
     public DbSet<Report> Reports { set; get; }
     public DbSet<CommentLikes> CommentLikes { set; get; }
-
+    public DbSet<Message> Messages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
