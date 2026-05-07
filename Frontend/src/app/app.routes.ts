@@ -19,7 +19,6 @@ import { SearchTagsComponent } from './Common/search/search-tags/search-tags.com
 import { EditProfileComponent } from './UserProfile/edit-profile/edit-profile.component';
 import { ProfileComponent } from './UserProfile/profile/profile.component';
 import { FriendChatComponent } from './Chatting/friend-chat/friend-chat.component';
-import { ChatsComponent } from './Chatting/chats/chats.component';
 import { NotFoundComponent } from './Common/not-found/not-found.component';
 import { SettingsComponent } from './Common/settings/settings.component';
 import { AccountComponent } from './Common/settings/account/account.component';
@@ -54,7 +53,6 @@ export const routes: Routes = [
         path: '', component: DashboardComponent
       },
       { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
-      { path: 'chat/view', component: ChatsComponent },
       { path: 'chat/friend', component: FriendChatComponent },
 
       {

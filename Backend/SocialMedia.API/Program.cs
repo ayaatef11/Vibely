@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SocialMedia.API.Mapper;
 using SocialMedia.Application.Hubs;
+using SocialMedia.Application.Implementations;
 using SocialMedia.Core.Context;
 using SocialMedia.Core.Hubs;
 using System.Text;
@@ -95,7 +96,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
-
+builder.Services.AddScoped<IChatService, ChatService>();
 var app = builder.Build();
 app.MapHub<ChatHub>("/chatHub");
 if (app.Environment.IsDevelopment())
