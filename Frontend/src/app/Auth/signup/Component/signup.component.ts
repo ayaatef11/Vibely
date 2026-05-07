@@ -8,34 +8,36 @@ import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule,RouterModule,NgIf],
+  imports: [FormsModule, RouterModule, NgIf],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  signUpData:RegisterRequest={
-  userName: '',
-  fullName: '',
-  email: '',
-  password: '',
-  confirmPassword:'',
-  location: '' 
+  constructor(private authService: AuthenticationService, private router: Router) { }
+
+  //****************************VARIABLES********************************************* */
+  signUpData: RegisterRequest = {
+    userName: '',
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    location: '',
+    timeOutInMinutes: Number(this.authService.getSessionTimeOut())
   }
   isLoading = false;
   errorMessage = '';
 
-constructor(private authService:AuthenticationService,private router:Router){}
-
-onSubmit():void{
+  //**********************************FUNCTIONS*********************************** */
+  onSubmit(): void {
     this.isLoading = true;
     this.errorMessage = '';
 
     this.authService.signUp(this.signUpData).subscribe({
-      next: (response) => {
-        console.log('Signup successful', response);
-         localStorage.setItem('token', response.token);
+      next: (res) => {
+        this.authService.saveToken(res.token)
         this.isLoading = false;
-        this.router.navigate(['/login']);  
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Signup error', error);

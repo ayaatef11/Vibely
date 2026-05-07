@@ -7,36 +7,39 @@ import { AuthenticationService } from '../../Services/authentication-service.ser
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule,FormsModule],
+  imports: [RouterModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-userData:LoginRequest={
-userName:'',
-password:''
-}
+  constructor(private router: Router, private authService: AuthenticationService) { }
+
+  //***************************VARIABLES********************* */
+  userData: LoginRequest = {
+    userName: '',
+    password: '',
+    timeOutInMinutes:Number(this.authService.getSessionTimeOut())
+  }
   isLoading = false;
   errorMessage = '';
-constructor(private router:Router, private authService:AuthenticationService){}
 
-onSubmit(): void {
-  // debugger
+  //*****************************FUNCTIONS***************************************** */
+  onSubmit(): void {
+    // debugger
     this.isLoading = true;
     this.errorMessage = '';
-this.authService.SignIn(this.userData).subscribe({
-  next:(response)=>{
-   console.log('Signin successful', response);
-    localStorage.setItem('token', response.token);
+    this.authService.SignIn(this.userData).subscribe({
+      next: (res) => {
+this.authService.saveToken(res.token)
         this.isLoading = false;
-        this.router.navigate(['/home']);  
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         console.error('Signin error', error);
         this.errorMessage = error.message || 'Signin failed';
         this.isLoading = false;
       }
-})
+    })
 
-}
+  }
 }

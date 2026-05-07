@@ -12,8 +12,11 @@ import { FormsModule } from '@angular/forms';
 })
 export class ForgetPasswordComponent {
   constructor(private authService:AuthenticationService,private router:Router){}
+
+  //**************************VARIABLES********************************** */
 email: string = '';
 
+//*************************FUNCTIONS***************** */
 requestReset() {
   debugger
   this.authService.ForgetPasswordRequest(this.email).subscribe({

@@ -5,6 +5,7 @@ export interface RegisterRequest{
   password: string
   confirmPassword:string
   location: string  
+  timeOutInMinutes?:number | null
 }
 
 

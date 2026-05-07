@@ -7,9 +7,9 @@ namespace SocialMedia.API.Controllers;
 public class AuthenticationController(IAuthenticationService _authenticationService) : ControllerBase
 {
     [HttpPost("signUp")]
-    public async Task<IActionResult> SignUp(RegisterDTO register, int timeOutInMinutes)
+    public async Task<IActionResult> SignUp(RegisterDTO register)
     {
-        var result = await _authenticationService.SignUpAsync(register,timeOutInMinutes);
+        var result = await _authenticationService.SignUpAsync(register,register.TimeOutInMinutes);
         return Ok(result);
     }
 
@@ -17,12 +17,7 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
     public async Task<IActionResult> Login(LoginDTO login)
     { 
         var result = await _authenticationService.LoginAsync(login, login.timeOutInMinutes);
-        if (result == "NotFound")
-            return BadRequest("User Not Found");
-
-        if (result == "InvalidPassword")
-            return BadRequest("Invalid Password");
-
+        
         return Ok(result);
     }
 
@@ -30,22 +25,14 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
     public async Task<IActionResult> RequestForgotPassword(string email)
     { 
         var result = await _authenticationService.RequestForgotPasswordAsync(email);
-        if (result == "NotFound")
-            return NotFound("User not found");
-
-        return Ok(new Result(){ Message= result });
+        return Ok(result);
     }
 
     [HttpPut("Forgot-Password-Reset")]
     public async Task<IActionResult> ResetPassword(ForgotPasswordDTO forgotPassword)
     { 
         var result = await _authenticationService.ResetPasswordAsync(forgotPassword,forgotPassword.timeOutInMinutes);
-        if (result == "NotFound")
-            return NotFound("User not found Or Invalid Email Address");
-
-        if (result == "InvalidCode")
-            return BadRequest("Invalid confirmation code");
-
+    
         return Ok(result);
     }
 
@@ -75,5 +62,5 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
     }
 
     //make it multilingual
-
+    ///SIGNOUT
 }
