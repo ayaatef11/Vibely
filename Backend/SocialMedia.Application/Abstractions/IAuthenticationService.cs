@@ -6,13 +6,13 @@ using static SocialMedia.Application.Implementations.AuthenticationService;
 namespace SocialMedia.Application.Abstractions;
 public interface IAuthenticationService
 {
-    ValueTask<TokenResponse> LoginAsync(LoginDTO login,int? timeOutInMinutes);
+    ValueTask<TokenResponse> LoginAsync(LoginRequest login,int? timeOutInMinutes);
     Task ChangePassword(Guid userId, ChangePasswordRequest request);
-    ValueTask<TokenResponse> SignUpAsync(RegisterDTO register, int? timeOutInMinutes);
+    ValueTask<TokenResponse> SignUpAsync(RegisterRequest register, int? timeOutInMinutes);
     ValueTask<string> RequestForgotPasswordAsync(string email);
     Task<SessionResponse> ChangeSessionTimeOut(Guid userId, int timeOut);
     Task<EnableTwoFAResponse> EnableTwoFA(Guid userId);
     Task VerifyTwoFA(Verify2FARequest request);
 
-    ValueTask<TokenResponse> ResetPasswordAsync(ForgotPasswordDTO forgotPassword, int? timeOutInMinutes);
+    ValueTask<TokenResponse> ResetPasswordAsync(ForgotPasswordRequest forgotPassword, int? timeOutInMinutes);
 }

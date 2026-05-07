@@ -11,7 +11,7 @@ namespace SocialMedia.Application.Implementations;
 public class AuthenticationService(UserManager<User> _userManager,IConfiguration _configuration, AppdbContext _context,
         IMailService _emailService) : IAuthenticationService
 {
-    public async ValueTask<TokenResponse> SignUpAsync(RegisterDTO register,int? timeOutInMinutes)
+    public async ValueTask<TokenResponse> SignUpAsync(RegisterRequest register,int? timeOutInMinutes)
     {
         var SocialMediaUser = new User()
         {
@@ -51,13 +51,13 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
         if (!result.Succeeded) { throw new Exception("Error has occurred"); }
     }
    
-    public async ValueTask<TokenResponse> LoginAsync(LoginDTO login,int? timeOutInMinutes)
+    public async ValueTask<TokenResponse> LoginAsync(LoginRequest request,int? timeOutInMinutes)
     {
-        var user = await _userManager.FindByNameAsync(login.UserName);
+        var user = await _userManager.FindByNameAsync(request.UserName);
         if (user == null)
             throw new Exception( "NotFound");
 
-        var passwordCheck = await _userManager.CheckPasswordAsync(user, login.Password);
+        var passwordCheck = await _userManager.CheckPasswordAsync(user, request.Password);
 
         if (!passwordCheck)
             throw new Exception( "Invalid password");
@@ -77,7 +77,7 @@ if (result.RequiresTwoFactor)
 {
     return "2FA_REQUIRED";
 }*/
-        await _emailService.SendMailAsync(user.Email, "New login to your account ", "There is a new login to your account");
+       if(request.IsLoginNotificationsEnabled)  await _emailService.SendMailAsync(user.Email, "New login to your account ", "There is a new login to your account");
         return GenerateTokenHelper.GenerateToken(user, _configuration, timeOutInMinutes);
     } 
 
@@ -102,19 +102,19 @@ if (result.RequiresTwoFactor)
         return await ForgotPassword.GenerateConfirmationCode(user, _emailService, _userManager);
     }
 
-    public async ValueTask<TokenResponse> ResetPasswordAsync(ForgotPasswordDTO forgotPassword,int? timeOutInMinutes)
+    public async ValueTask<TokenResponse> ResetPasswordAsync(ForgotPasswordRequest request, int? timeOutInMinutes)
     {
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == forgotPassword.Email);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
         if (user == null)
             throw new Exception( "NotFound");
 
         var token = await _userManager.GetAuthenticationTokenAsync(user, "ConfirmationCode", "ConfirmationCode");
-        if (token != forgotPassword.Code)
+        if (token != request.Code)
             throw new Exception( "InvalidCode");
 
         var ResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
         var resetResult = await _userManager.ResetPasswordAsync(user,
-           ResetToken, forgotPassword.newPassword);
+           ResetToken, request.newPassword);
 
         if (!resetResult.Succeeded)
             throw new Exception( resetResult.Errors.Select(e => e.Description).ToList().ToString());

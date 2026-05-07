@@ -1,5 +1,5 @@
 ﻿namespace SocialMedia.Core.Domain.DTOs.Requests.Authentication;
-public class RegisterDTO
+public class RegisterRequest
 {
     public string UserName { set; get; }
     public string FullName { set; get; }

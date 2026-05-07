@@ -7,16 +7,16 @@ namespace SocialMedia.API.Controllers;
 public class AuthenticationController(IAuthenticationService _authenticationService) : ControllerBase
 {
     [HttpPost("signUp")]
-    public async Task<IActionResult> SignUp(RegisterDTO register)
+    public async Task<IActionResult> SignUp(RegisterRequest register)
     {
         var result = await _authenticationService.SignUpAsync(register,register.TimeOutInMinutes);
         return Ok(result);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginDTO login)
+    public async Task<IActionResult> Login(LoginRequest login)
     { 
-        var result = await _authenticationService.LoginAsync(login, login.timeOutInMinutes);
+        var result = await _authenticationService.LoginAsync(login, login.TimeOutInMinutes);
         
         return Ok(result);
     }
@@ -29,7 +29,7 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
     }
 
     [HttpPut("Forgot-Password-Reset")]
-    public async Task<IActionResult> ResetPassword(ForgotPasswordDTO forgotPassword)
+    public async Task<IActionResult> ResetPassword(ForgotPasswordRequest forgotPassword)
     { 
         var result = await _authenticationService.ResetPasswordAsync(forgotPassword,forgotPassword.timeOutInMinutes);
     
