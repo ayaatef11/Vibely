@@ -17,6 +17,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 export class LoginComponent implements OnInit{
   constructor(private router: Router, private authService: AuthenticationService,private translate:TranslateService ) { }
  ngOnInit() {
+  if(this.authService.getToken()!=null)this.router.navigate(['/home'])
     console.log('current lang:', this.translate.currentLang);
     console.log('test key:', this.translate.instant('LOGIN.LogIn'));
   }

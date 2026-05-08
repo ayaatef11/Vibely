@@ -8,13 +8,13 @@ public sealed class Message : BaseEntity<Guid>
 
     public Chat Chat { get; set; } = default!;
 
-    public string SenderId { get; set; } = default!;
+    public Guid SenderId { get; set; } = default!;
 
     public string Content { get; set; } = default!;
-
     public bool IsEdited { get; set; }
 
     public bool IsDeleted { get; set; }
+    public Guid ReceiverId { get; set; }
 
     public DateTime SentAt { get; set; }
 

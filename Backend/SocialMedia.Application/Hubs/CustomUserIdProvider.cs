@@ -7,6 +7,9 @@ public class CustomUserIdProvider : IUserIdProvider
 {
     public string? GetUserId(HubConnectionContext connection)
     {
-        return connection.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var claims = connection.User?.Claims
+       .Select(c => $"{c.Type} = {c.Value}");
+        Console.WriteLine(string.Join("\n", claims ?? []));
+        return connection.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? connection.User?.FindFirst("sub")?.Value; ;
     }
 }

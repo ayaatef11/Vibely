@@ -1,32 +1,53 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Requests.Chats;
+using SocialMedia.Application.DTOs.Responses.Chats;
 using System.Security.Claims;
 
-namespace SocialMedia.API.Controllers
+namespace SocialMedia.API.Controllers;
+[Route("api/[controller]")]
+[ApiController]
+public class ChatController(IChatService _chatService) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ChatController(AppdbContext _context) : ControllerBase
-    {
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetMessages(Guid userId)
-        {
-            var currentUserId = User
-                .FindFirst(ClaimTypes.NameIdentifier)?
-                .Value;
-            Guid.TryParse(currentUserId, out var parsedUserId);
-            var messages = await _context.Messages
-                .Where(x =>
-                    (x.SenderId == parsedUserId
-                     && x.ReceiverId == userId)
-                    ||
-                    (x.SenderId == userId
-                     && x.ReceiverId == parsedUserId))
-                .OrderBy(x => x.SentAt)
-                .ToListAsync();
 
-            return Ok(messages);
-        }
+    [HttpGet]
+    public async Task<IActionResult> GetChatsAsync(Guid currentUserId)
+    {
+        var result = await _chatService.GetChatsAsync(currentUserId);
+        return Ok(result);
+    }
+
+    [HttpGet("messages")]
+    public async Task<IActionResult> GetMessagesAsync(Guid chatId, Guid userId)
+    {
+        var result = await _chatService.GetMessagesAsync(chatId, userId);
+        return Ok(result);
+    }
+    [HttpPost("{currentUserId}/{otherUserId}")]
+    public async Task<IActionResult> CreateChatAsync([FromRoute] Guid currentUserId, [FromRoute] Guid otherUserId)
+    {
+        var result = await _chatService.CreateChatAsync(currentUserId, otherUserId);
+        return Ok(result);
+    }
+
+    [HttpPost("send-message")]
+    public async Task<IActionResult> SendMessageAsync(AddMessageRequest request)
+    {
+        var result = await _chatService.SendMessageAsync(request);
+        return Ok(result);
+    }
+
+    [HttpPut("edit-message")]
+    public async Task<IActionResult> EditMessageAsync(Guid messageId, EditMessageRequest request)
+    {
+        var result = await _chatService.EditMessageAsync(messageId, request);
+        return Ok(result);
+    }
+    [HttpDelete("{messageId}")]
+    public async Task<IActionResult> DeleteMessageAsync(Guid messageId, Guid currentUserId)
+    {
+        await _chatService.DeleteMessageAsync(messageId, currentUserId);
+        return Ok();
     }
 }

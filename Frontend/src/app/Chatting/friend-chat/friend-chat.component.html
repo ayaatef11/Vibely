@@ -7,17 +7,9 @@
 
       <!-- SEARCH -->
       <div class="p-3 border-bottom">
-
         <div class="search-box position-relative">
-
           <i class="fas fa-search search-icon"></i>
-
-          <input
-            type="text"
-            class="form-control search-input"
-            placeholder="Search contacts..."
-          >
-
+          <input  type="text"  class="form-control search-input"  placeholder="Search contacts...">
         </div>
 
       </div>
@@ -25,27 +17,16 @@
       <!-- CONTACTS -->
       <div class="contacts-container">
 
-        <div
-          *ngFor="let contact of contacts"
-          class="contact-item d-flex align-items-center p-3 border-bottom"
-          [class.active]="selectedContact.id === contact.id"
-          (click)="selectContact(contact)"
-        >
+        <div *ngFor="let chat of chats" class="contact-item d-flex align-items-center p-3 border-bottom"
+          [class.active]="selectedChat?.id === chat.id" (click)="selectChat(chat)">
 
           <!-- IMAGE -->
           <div class="position-relative me-3">
 
-            <img
-              [src]="contact.imageUrl"
-              [alt]="contact.name"
-              class="contact-avatar"
-            >
+            <img  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face" [alt]="chat.name" class="contact-avatar">
 
-            <div
-              *ngIf="contact.isOnline"
-              class="online-indicator">
+            <div  class="online-indicator">
             </div>
-
           </div>
 
           <!-- CONTACT INFO -->
@@ -53,20 +34,14 @@
 
             <div class="d-flex justify-content-between">
 
-              <div class="contact-name">
-                {{contact.name}}
-              </div>
+              <div class="contact-name"> {{chat.name}} </div>
 
-              <small class="text-muted">
-                now
-              </small>
+              <small class="text-muted">  now </small>
 
             </div>
 
             <p class="contact-message text-truncate mb-0">
-
-              {{contact.lastMessage}}
-
+              {{chat.lastMessage}}
             </p>
 
           </div>
@@ -81,75 +56,43 @@
     <div class="col-md-8 d-flex flex-column">
 
       <!-- EMPTY STATE -->
-      <div
-        *ngIf="!selectedContact"
-        class="h-100 d-flex justify-content-center align-items-center"
-      >
+      <div *ngIf="!selectedChat"  class="h-100 d-flex justify-content-center align-items-center" >
 
         <div class="text-center">
 
           <h3>Select a conversation</h3>
 
-          <p class="text-muted">
-            Start chatting with your friends
-          </p>
+          <p class="text-muted">  Start chatting with your friends </p>
 
         </div>
 
       </div>
 
       <!-- CHAT AREA -->
-      <ng-container *ngIf="selectedContact">
+      <ng-container *ngIf="selectedChat">
 
         <!-- CHAT HEADER -->
         <div class="chat-header d-flex align-items-center p-3 border-bottom bg-white">
 
           <div class="position-relative me-3">
 
-            <img
-              [src]="selectedContact.imageUrl"
-              class="contact-avatar"
-            >
+            <img  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face" class="contact-avatar">
 
-            <div
-              *ngIf="selectedContact.isOnline"
-              class="online-indicator">
-            </div>
+            <div  class="online-indicator"></div>
 
           </div>
 
           <div>
 
-            <h5 class="mb-0">
-
-              {{selectedContact.name}}
-
-            </h5>
-
-            <small class="text-success">
-
-              {{
-                selectedContact.isOnline
-                  ? 'Online'
-                  : 'Offline'
-              }}
-
-            </small>
+            <h5 class="mb-0"> {{selectedChat.name}} </h5>
 
           </div>
-
         </div>
 
         <!-- MESSAGES -->
-        <div
-          class="chat-body flex-grow-1 p-3"
-          #scrollContainer
-        >
+        <div  class="chat-body flex-grow-1 p-3"  #scrollContainer >
 
-          <div
-            *ngFor="let message of messages"
-            class="mb-3 d-flex"
-            [ngClass]="{
+          <div  *ngFor="let message of messages"  class="mb-3 d-flex" [ngClass]="{
               'justify-content-end':
                 message.senderId === currentUserId,
 
@@ -158,22 +101,15 @@
             }"
           >
 
-            <div
-              class="message-bubble px-3 py-2"
-              [ngClass]="{
+            <div class="message-bubble px-3 py-2" [ngClass]="{
                 'sent-message':
                   message.senderId === currentUserId,
 
                 'received-message':
                   message.senderId !== currentUserId
-              }"
-            >
+              }" >
 
-              <div>
-
-                {{message.content}}
-
-              </div>
+              <div> {{message.content}} </div>
 
               <small class="message-time">
 

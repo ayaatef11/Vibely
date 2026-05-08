@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(PostMapper));
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -46,19 +47,32 @@ builder.Services.AddSwaggerGen(options =>
 
 
 var connectionString = builder.Configuration.GetConnectionString("Connection");
-builder.Services.AddDbContext<AppdbContext>(
-    option => option.UseSqlServer(connectionString));
-
+builder.Services.AddDbContext<AppdbContext>(option => option.UseSqlServer(connectionString));
 
 builder.Services.AddInfrastructureService();
 builder.Services.AddApplicationService();
-builder.Services.AddCoreService();
 
-builder.Services.AddIdentity<User, Role>()
-    .AddEntityFrameworkStores<AppdbContext>()
-    .AddDefaultTokenProviders();
-
+//builder.Services.AddIdentity<User, Role>()//so important it overrdide addAuthetnications and support cookies so jwt doesnt work correctly
+//    .AddEntityFrameworkStores<AppdbContext>()
+//    .AddDefaultTokenProviders();
+builder.Services.AddIdentityCore<User>(options =>
+{
+  
+    options.Password.RequiredLength = 8;
+    options.Password.RequireDigit = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+})
+.AddRoles<Role>()
+.AddEntityFrameworkStores<AppdbContext>()
+.AddDefaultTokenProviders();
 builder.Services.AddHostedService<StoryCleanupService>();
+builder.Services.AddSignalR();
+
+Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+var jwtSettings = builder.Configuration.GetSection("JWT");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -67,28 +81,36 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuer = false,
             ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey =
-                new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes("SUPER_SECRET_KEY"))
+            ValidateLifetime = false,
+            ValidateIssuerSigningKey = false,
+            IssuerSigningKey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
         };
 
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context =>
             {
-                var accessToken =
-                    context.Request.Query["access_token"];
+                var accessToken =context.Request.Query["access_token"];
 
                 var path = context.HttpContext.Request.Path;
 
-                if (!string.IsNullOrEmpty(accessToken)
-                    && path.StartsWithSegments("/chatHub"))
+                if (!string.IsNullOrEmpty(accessToken)&& path.StartsWithSegments("/chatHub"))
                 {
                     context.Token = accessToken;
+                    Console.WriteLine($"Token extracted...");
                 }
 
+                return Task.CompletedTask;
+            },
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Auth failed: {context.Exception.Message}");
+                return Task.CompletedTask;
+            },
+
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine($"Token valid for: {context.Principal?.Identity?.Name}");
                 return Task.CompletedTask;
             }
         };
@@ -98,7 +120,6 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 builder.Services.AddScoped<IChatService, ChatService>();
 var app = builder.Build();
-app.MapHub<ChatHub>("/chatHub");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -114,6 +135,7 @@ app.UseCors(policy =>
            .SetIsOriginAllowed(_ => true);
 });
 
+
 app.Use(async (context, next) =>
 {
     context.Response.Headers["Cross-Origin-Opener-Policy"] = "unsafe-none";
@@ -122,6 +144,8 @@ app.Use(async (context, next) =>
 });
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<ChatHub>("/chatHub");//importatn to be after authentication to read the jwt token
 app.Run();

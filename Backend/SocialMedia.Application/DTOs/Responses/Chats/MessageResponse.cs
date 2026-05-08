@@ -1,9 +1,9 @@
 ﻿namespace SocialMedia.Application.DTOs.Responses.Chats;
-public class MessageDto
+public class MessageResponse
 {
     public Guid Id { get; set; }
 
-    public string SenderId { get; set; } = default!;
+    public Guid SenderId { get; set; } = default!;
 
     public string Content { get; set; } = default!;
 

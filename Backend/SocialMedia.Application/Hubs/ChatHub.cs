@@ -1,52 +1,29 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using SocialMedia.Application.DTOs.Requests.Chats;
+using SocialMedia.Application.DTOs.Responses.Chats;
+using SocialMedia.Core.Domain.Entities.Business.Chats;
 using System.Security.Claims;
 
 namespace SocialMedia.Core.Hubs;
-public class ChatHub (AppdbContext _context) : Hub
+[Authorize]
+public class ChatHub (IChatService _chatService) : Hub
 {
-    public async Task SendMessage(Guid receiverId,string message)
+   
+    public async Task<MessageResponse> SendMessage(AddMessageRequest request)
     {
-        var id = Context.User?
-           .FindFirst(ClaimTypes.NameIdentifier)?
-           .Value;
-        Guid.TryParse(id, out var senderId);
-        var newMessage = new Message
-        {
-            SenderId = senderId,
-            ReceiverId = receiverId,
-            Content = message
-        };
 
-        _context.Messages.Add(newMessage);
+       var messageResponse= await _chatService.SendMessageAsync(request);
 
-        await _context.SaveChangesAsync();
-
-        await Clients.User(receiverId.ToString())
-            .SendAsync("ReceiveMessage", new
-            {
-                id = newMessage.Id,
-                senderId,
-                receiverId,
-                content = message,
-                sentAt = newMessage.SentAt
-            });
+        await Clients.User(request.ReceiverId.ToString()).SendAsync("ReceiveMessage",messageResponse);
         // send back to sender too
-        await Clients.Caller
-            .SendAsync(
-                "ReceiveMessage",
-                new
-                {
-                    id = newMessage.Id,
-                    senderId,
-                    receiverId,
-                    content = message,
-                    sentAt = newMessage.SentAt
-                });
-        await Clients.User(senderId.ToString())
-            .SendAsync("MessageSent", new
+        await Clients.Caller.SendAsync("ReceiveMessage",messageResponse);
+        await Clients.User(request.SenderId.ToString()).SendAsync("MessageSent", new
             {
-                receiverId,
-                message
+                request.ReceiverId,
+                request.Content
             });
+        return messageResponse;
     }
+   
 }

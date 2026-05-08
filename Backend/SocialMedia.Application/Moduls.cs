@@ -9,7 +9,6 @@ public static class Moduls
     public static void AddApplicationService(this IServiceCollection service)
     {
         service.AddTransient<IUnitOfWork, UnitOfWork>();
-        service.AddSignalR();
 
         service.AddScoped<IMailService, MailService>();
         service.AddScoped<IUsersService, UsersService>();

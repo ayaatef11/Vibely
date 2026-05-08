@@ -1,18 +1,20 @@
-﻿using SocialMedia.Application.DTOs.Responses.Chats;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Requests.Chats;
+using SocialMedia.Application.DTOs.Responses.Chats;
+using SocialMedia.Core.Domain.Entities.Business.Chats;
 
 namespace SocialMedia.Application.Abstractions;
 public interface IChatService
 {
-    Task<Guid> CreateChatAsync(string currentUserId,string otherUserId);
+    Task<ChatResponse> CreateChatAsync(Guid currentUserId, Guid otherUserId);
 
-    Task<List<ChatDto>> GetChatsAsync(string currentUserId);
+    Task<List<ChatResponse>> GetChatsAsync(Guid currentUserId);
 
-    Task<List<MessageDto>> GetMessagesAsync(Guid chatId,string currentUserId);
+    Task<List<MessageResponse>> GetMessagesAsync(Guid chatId, Guid currentUserId);
 
-    Task<MessageDto> SendMessageAsync(Guid chatId,string senderId,string content);
+    Task<MessageResponse> SendMessageAsync(AddMessageRequest request);
 
-    Task<MessageDto> EditMessageAsync(Guid messageId,string currentUserId,string newContent);
-
-    Task DeleteMessageAsync(Guid messageId,string currentUserId);
+    Task<MessageResponse> EditMessageAsync(Guid MessageId, EditMessageRequest request);
+    Task DeleteMessageAsync(Guid messageId, Guid currentUserId);
 }
 

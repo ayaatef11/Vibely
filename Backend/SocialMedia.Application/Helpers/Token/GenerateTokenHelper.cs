@@ -19,7 +19,7 @@ public static class GenerateTokenHelper
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim("ProfileId",user.ProfileId.ToString()),
                 new Claim("UserName",user.UserName.ToString())
-            };
+        };
         
         var _roles = user.Roles.ToList();
 
@@ -37,7 +37,7 @@ public static class GenerateTokenHelper
             issuer: JwtOption.Issuer,
             signingCredentials: creds,
             audience: JwtOption.Audience,
-            expires: DateTime.Now.AddMinutes(timeOutInMinutes??int.Parse(JwtOption.ExpireTime))
+            expires: DateTime.UtcNow.AddMinutes(timeOutInMinutes??int.Parse(JwtOption.ExpireTime))
         );
 
         return new TokenResponse

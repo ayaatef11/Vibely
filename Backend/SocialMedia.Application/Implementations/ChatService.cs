@@ -1,69 +1,66 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Requests.Chats;
 using SocialMedia.Application.DTOs.Responses.Chats;
 using SocialMedia.Core.Domain.Entities.Business.Chats;
 
 namespace SocialMedia.Application.Implementations;
 
-public class ChatService(AppdbContext _context) : IChatService
+public class ChatService(AppdbContext _context,IMapper _mapper) : IChatService
 { 
-    public async Task<Guid> CreateChatAsync(string currentUserId,string otherUserId)
+    public async Task<ChatResponse> CreateChatAsync(Guid currentUserId,Guid otherUserId)
     {
-        // existing chat
-        var existingChat =
-            await _context.Chats
-            .Include(x => x.Participants)
-            .FirstOrDefaultAsync(x =>
-                x.Participants.Any(p =>
-                    p.UserId == currentUserId)  && x.Participants.Any(p =>
-                    p.UserId == otherUserId) && !x.IsGroup);
+        var existingChat = await _context.Chats.Include(x => x.Participants).FirstOrDefaultAsync(x => x.Participants.Any(p =>
+                    p.UserId == currentUserId)  && x.Participants.Any(p => p.UserId == otherUserId) && !x.IsGroup);
 
         if (existingChat != null)
         {
-            return existingChat.Id;
+            return _mapper.Map<ChatResponse>(existingChat);
         }
-
+        var currentUser =await  _context.Users.FirstAsync(u=>u.Id== currentUserId);
+        var otherUser = await _context.Users.FirstAsync(u => u.Id == otherUserId);
         var chat = new Chat
         {
             Id = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
-            IsGroup = false
+            IsGroup = false,
+            Name=otherUser.FullName
         };
 
-        chat.Participants.Add(new ChatParticipant{UserId = currentUserId});
+        chat.Participants.Add(new ChatParticipant{UserId = currentUserId,Name=currentUser.FullName});
 
-        chat.Participants.Add(new ChatParticipant{UserId = otherUserId});
+        chat.Participants.Add(new ChatParticipant{UserId = otherUserId,Name=otherUser.FullName});
 
         _context.Chats.Add(chat);
 
         await _context.SaveChangesAsync();
 
-        return chat.Id;
+        return _mapper.Map<ChatResponse>(chat);
     }
 
-    public async Task<List<ChatDto>> GetChatsAsync(string currentUserId)
+    public async Task<List<ChatResponse>> GetChatsAsync(Guid currentUserId)
     {
         var chats = await _context.Chats
             .Include(x => x.Messages)
             .Include(x => x.Participants)
-            .Where(x =>x.Participants.Any(p =>p.UserId == currentUserId))
-            .OrderByDescending(x =>x.Messages.Max(m =>(DateTime?)m.SentAt))
+            .Where(x => x.Participants.Any(p => p.UserId == currentUserId))
+            .OrderByDescending(x =>x.Messages.Select(m => (DateTime?)m.SentAt).Max())
             .ToListAsync();
-
-        return chats.Select(chat => new ChatDto
-        {
-            Id = chat.Id,
-
-            LastMessage = chat.Messages
-                .OrderByDescending(x => x.SentAt)
-                .FirstOrDefault()?.Content,
-
-            LastMessageDate = chat.Messages
-                .OrderByDescending(x => x.SentAt)
-                .FirstOrDefault()?.SentAt
-        }).ToList();
+        return chats.Select(chat => {
+            var LastMessage = chat.Messages.OrderByDescending(x => x.SentAt).FirstOrDefault();
+            return new ChatResponse
+            {
+                Id = chat.Id,
+                LastMessage = LastMessage?.Content,
+                Name = chat.Name,
+                LastMessageDate = chat.Messages.OrderByDescending(x => x.SentAt).FirstOrDefault()?.SentAt,
+                Participants=_mapper.Map<List<ChatParticipantResponse>>( chat.Participants),
+                ParticipantId=chat.Participants.First(u=>u.UserId !=currentUserId).UserId,
+            };
+       }).ToList();
     }
 
-    public async Task<List<MessageDto>> GetMessagesAsync(Guid chatId, string currentUserId)
+    public async Task<List<MessageResponse>> GetMessagesAsync(Guid chatId, Guid currentUserId)
     {
         var isParticipant = await _context.ChatParticipants.AnyAsync(x =>x.ChatId == chatId&& x.UserId == currentUserId);
 
@@ -72,60 +69,39 @@ public class ChatService(AppdbContext _context) : IChatService
             throw new Exception("Unauthorized");
         }
 
-        return await _context.Messages
-            .Where(x => x.ChatId == chatId)
-            .OrderBy(x => x.SentAt)
-            .Select(x => new MessageDto
-            {
-                Id = x.Id,
-                SenderId = x.SenderId,
-                Content = x.Content,
-                SentAt = x.SentAt,
-                IsEdited = x.IsEdited
-            })
-            .ToListAsync();
+        var messages= await _context.Messages.Where(x => x.ChatId == chatId).OrderBy(x => x.SentAt).ToListAsync();
+        return _mapper.Map<List<MessageResponse>>(messages);
     }
 
-    public async Task<MessageDto> SendMessageAsync(Guid chatId,string senderId,string receiverId, string content)
+    public async Task<MessageResponse> SendMessageAsync(AddMessageRequest request)
     {
-        //if (chatId is null) await CreateChatAsync(senderId, receiverId);
-        var message = new Message
-        {
-            Id = Guid.NewGuid(),
-            ChatId = chatId,
-            SenderId = senderId,
-            Content = content,
-            SentAt = DateTime.UtcNow
-        };
-
+        ChatResponse chat=new ChatResponse() { };
+        if (request.ChatId is null) chat =await CreateChatAsync(request.SenderId, request.ReceiverId);
+        var message =_mapper.Map<Message>(request);
+        message.Id = Guid.NewGuid();
+        message.SentAt = DateTime.UtcNow;
         _context.Messages.Add(message);
 
         await _context.SaveChangesAsync();
 
-        return new MessageDto
-        {
-            Id = message.Id,
-            SenderId = senderId,
-            Content = content,
-            SentAt = message.SentAt
-        };
+        return _mapper.Map<MessageResponse>(message);
     }
 
-    public async Task<MessageDto> EditMessageAsync(Guid messageId,string currentUserId,string newContent)
+    public async Task<MessageResponse> EditMessageAsync(Guid MessageId,EditMessageRequest request)
     {
-        var message =await _context.Messages.FirstOrDefaultAsync(x => x.Id == messageId);
+        var message =await _context.Messages.FirstOrDefaultAsync(x => x.Id == MessageId);
 
         if (message == null)
         {
             throw new Exception("Message not found");
         }
 
-        if (message.SenderId != currentUserId)
+        if (message.SenderId != request.CurrentUserId)
         {
             throw new Exception("Unauthorized");
         }
 
-        message.Content = newContent;
+        message.Content = request.NewContent;
 
         message.IsEdited = true;
 
@@ -133,7 +109,7 @@ public class ChatService(AppdbContext _context) : IChatService
 
         await _context.SaveChangesAsync();
 
-        return new MessageDto
+        return new MessageResponse
         {
             Id = message.Id,
             SenderId = message.SenderId,
@@ -143,7 +119,7 @@ public class ChatService(AppdbContext _context) : IChatService
         };
     }
 
-    public async Task DeleteMessageAsync(Guid messageId, string currentUserId)
+    public async Task DeleteMessageAsync(Guid messageId, Guid currentUserId)
     {
         var message = await _context.Messages.FirstOrDefaultAsync(x => x.Id == messageId);
 
