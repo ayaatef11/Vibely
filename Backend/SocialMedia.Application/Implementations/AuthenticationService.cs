@@ -13,7 +13,7 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
 {
     public async ValueTask<TokenResponse> SignUpAsync(RegisterRequest register,int? timeOutInMinutes)
     {
-        var SocialMediaUser = new User()
+        var User = new User()
         {
             Email = register.Email,
             UserName = register.UserName,
@@ -22,7 +22,7 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
             PasswordHash = register.Password,
         };
 
-        var addOperation = await _userManager.CreateAsync(SocialMediaUser, SocialMediaUser.PasswordHash);
+        var addOperation = await _userManager.CreateAsync(User, User.PasswordHash);
         if (!addOperation.Succeeded)
             throw new Exception( addOperation.Errors.Select(e => e.Description).ToList().ToString());
 
@@ -31,16 +31,16 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
             PostCount = 0,
             FollowerCount = 0,
             FollowingCount = 0,
-            UserName = SocialMediaUser.UserName,
-            FullName = SocialMediaUser.FullName,
-            SocialMediaUserId = SocialMediaUser.Id,
-            Location = SocialMediaUser.Location,
+            UserName = User.UserName,
+            FullName = User.FullName,
+            UserId = User.Id,
+            Location = User.Location,
         };
         await _context.Profiles.AddAsync(_profile);
-        SocialMediaUser.ProfileId = _profile.Id;
+        User.ProfileId = _profile.Id;
         await _context.SaveChangesAsync();
 
-        return GenerateTokenHelper.GenerateToken(SocialMediaUser, _configuration, timeOutInMinutes);
+        return GenerateTokenHelper.GenerateToken(User, _configuration, timeOutInMinutes);
     }
 
     public async Task ChangePassword(Guid userId,ChangePasswordRequest request)

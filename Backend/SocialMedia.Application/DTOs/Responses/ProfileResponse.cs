@@ -17,7 +17,7 @@ public class ProfileResponse
     public string UserName { set; get; } = string.Empty;
     public string? Website { set; get; } = string.Empty;
     public string? Location { set; get; } = string.Empty;
-    public Guid SocialMediaUserId { set; get; }
+    public Guid UserId { set; get; }
 
     public byte[]? ProfileImage { get; set; }
     public byte[]? BackgroundImage { get; set; }

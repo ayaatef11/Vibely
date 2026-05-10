@@ -34,7 +34,7 @@ public class ProfileService(AppdbContext _context,IMapper _mapper) :  IProfileSe
     public async ValueTask<ProfileResponse?> EditAsync(EditProfileRequest request)
     {
         var profile = await _context.Profiles.
-            FirstOrDefaultAsync(x => x.SocialMediaUserId == request.UserId);
+            FirstOrDefaultAsync(x => x.UserId == request.UserId);
 
         if (profile == null)
             return null ;

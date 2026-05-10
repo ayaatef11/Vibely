@@ -6,11 +6,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
 { 
     public async ValueTask<string> AcceptFollowAsync(FollowRequest follow)
     {
-        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Sender);
+        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Sender);
         if (_sender == null)
             throw new Exception( "Sender Not Found");
 
-        var _reciever = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Reciever);
+        var _reciever = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Reciever);
         if (_reciever == null)
             throw new Exception("Reciever Not Found");
 
@@ -52,11 +52,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
     }
     public async ValueTask<ProfileResponse> RejectFollowAsync(FollowRequest follow)
     {
-        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Sender);
+        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Sender);
         if (_sender == null)
             throw new Exception( "SenderNotFound");
 
-        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Reciever);
+        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Reciever);
         if (receiver == null)
             throw new Exception("RecieverNotFound");
 
@@ -73,11 +73,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
 
     public async ValueTask<ProfileResponse> RequestFollowAsync(FollowRequest request)
     {
-        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == request.Sender);
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == request.Sender);
         if (sender == null)
             throw new Exception( "Sender Not Found");
 
-        var receiver = await _context.Profiles.FirstOrDefaultAsync(x => x.SocialMediaUserId == request.Reciever);
+        var receiver = await _context.Profiles.FirstOrDefaultAsync(x => x.UserId == request.Reciever);
         if (receiver == null)
             throw new Exception( "Reciever Not Found");
 
@@ -103,11 +103,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
 
     public async ValueTask<ProfileResponse> UnFollowAsync(FollowRequest request)
     {
-        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == request.Sender);
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == request.Sender);
         if (sender == null)
             throw new Exception( "Sender Not Found");
 
-        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == request.Reciever);
+        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == request.Reciever);
         if (receiver == null)
             throw new Exception( "RecieverN Found");
 
@@ -126,11 +126,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
 
     public async  ValueTask<ProfileResponse> UnrequestFollowAsync(FollowRequest follow)
     {
-        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Sender);
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Sender);
         if (sender == null)
             throw new Exception( "Sender Not Found");
 
-        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Reciever);
+        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Reciever);
         if (receiver == null)
             throw new Exception( "Reciever Not Found");
 

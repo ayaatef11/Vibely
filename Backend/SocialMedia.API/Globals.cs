@@ -17,6 +17,7 @@ global using SocialMedia.Core.Domain.DTOs.Requests.Profiles;
 global using SocialMedia.Core.Domain.DTOs.Requests.SavePosts;
 global using SocialMedia.Core.Domain.DTOs.Requests.Share;
 global using SocialMedia.Core.Domain.DTOs.Requests.Story;
+global using SocialMedia.Application.DTOs.Requests.Reels;
 
 global using SocialMedia.Application.Abstractions.PostAbstractions;
 global using SocialMedia.Application.Helpers.Media;

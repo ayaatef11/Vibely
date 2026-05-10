@@ -15,8 +15,8 @@ public class UserProfile : BaseEntity<Guid>
     public byte[]? BackgroundImage { get; set; }
     public string? ProfileImageContentType { get; set; }
     public string? BackgroundImageContentType { get; set; }
-    public Guid SocialMediaUserId { set; get; }
-    public User SocialMediaUser { set; get; }
+    public Guid UserId { set; get; }
+    public User User { set; get; }
     public ICollection<Post> Posts { set; get; } = new List<Post>();
     public ICollection<Share> Shares { set; get; } = new List<Share>();
     public ICollection<Story> Stories { set; get; } = new List<Story>();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SocialMedia.Core.Domain.Entities.Business.Chats;
+using SocialMedia.Core.Domain.Entities.Business.Posts;
 using SocialMedia.Core.Domain.Entities.Business.Profiles;
 using System;
 
@@ -25,6 +26,7 @@ public class AppdbContext : IdentityDbContext<User, Role, Guid>
     public DbSet<Comment> Comments { set; get; }
     public DbSet<UserProfile> Profiles { set; get; }
     public DbSet<User> Users { set; get; }
+    public DbSet<Reels> Reels { set; get; }
     public DbSet<PostLikes> PostLike { set; get; }
     public DbSet<Report> Reports { set; get; }
     public DbSet<CommentLikes> CommentLikes { set; get; }

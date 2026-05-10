@@ -1,230 +1,79 @@
-    <!-- <div class="row justify-content-center">
-        <div class="col-md-6 d-flex align-items-end gap-3">
-            <div class="card bg-dark text-white position-relative overflow-hidden rounded-4 shadow min-vh-100" >
-                <img src="sea.jpg" class="card-img min-vh-100" alt="Reel thumbnail">
-                <div class="card-img-overlay d-flex flex-column justify-content-between p-3">
+<div class="row justify-content-center ">
+    <div class="col-lg-5">
+        <div class="reel-container position-relative">
+            <!-- Main Reel Card -->
+            <div class="card bg-dark text-white position-relative overflow-hidden reel-card shadow-lg h-100">
+                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=600&fit=crop"
+                    class="card-img reel-image h-100" alt="Reel content">
 
-                    <div class="d-flex justify-content-end">
-                        <i class="bi bi-volume-mute-fill fs-4 text-white"></i>
-                    </div>
+                <!-- Card Overlay Content -->
+                <div class="card-img-overlay d-flex flex-column justify-content-between p-0">
 
-                    <div class="position-relative text-center justify-content-center">
-                        <button class="btn btn-light btn-lg rounded-circle shadow">
-                            <i class="bi bi-play-fill fs-2"></i>
+                    <!-- Top Controls -->
+                    <div class="d-flex justify-content-end p-3">
+                        <button class="btn btn-sm" style="background: rgba(0,0,0,0.3); border: none;">
+                            <i class="bi bi-volume-mute-fill fs-5 text-white"></i>
                         </button>
                     </div>
 
-                    <div>
-                        <p class="fw-bold mb-1"> Reel Text</p>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-2 mt-2">
-                        <img src="avatar.avif" alt="Avatar" class="rounded-circle" width="30" height="30">
-                        <span class="fw-bold">User Name</span>
-                        <button class="badge bg-success">Follow</button>
-                    </div>
-
-                    <small class="text-white mt-1">Tags</small>
-                    <small class="text-white">🎵 song</small>
-                </div>
-            </div>
-            <div class="position-relative p-3 d-flex flex-wrap gap-2">
-                <button class="mb-1 btn"><i class="bi bi-heart-fill text-success"></i> 448K</button>
-                <button class="mb-1 btn"><i class="bi bi-chat-left-text-fill text-success"></i> 4,738</button>
-                <button class="mb-1 btn"><i class="bi bi-share-fill me-1 text-success"></i>Share</button>
-                <button class="mb-1 btn"><i class="bi bi-bookmark-fill me-1 text-success"></i>Save</button>
-                <button class="mb-1 btn btn-link text-success" type="button" #dropdownMenuButton data-bs-toggle="dropdown"aria-expanded="false">
-                    <i class="bi bi-three-dots fs-5" ></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item text-danger" href="#">Report</a></li>
-                    <li><a class="dropdown-item text-primary" href="#">Follow</a></li>
-                    <li><a class="dropdown-item" href="#">Go to post</a></li>
-                    <li><a class="dropdown-item" href="#">Share to...</a></li>
-                    <li><a class="dropdown-item" href="#">Copy link</a></li>
-                    <li><a class="dropdown-item" href="#">Embed</a></li>
-                    <li><a class="dropdown-item" href="#">About this account</a></li>
-                </ul>
-            </div>
-        </div>
-    </div> -->
-
-
-        <!-- <div class="row justify-content-center">
-        <div class="col-md-6 d-flex align-items-end gap-3">
-            <div class="card bg-dark text-white position-relative overflow-hidden rounded-4 shadow min-vh-100" >
- 
-                <img src="sea.jpg" class="card-img min-vh-100" alt="Reel thumbnail">
-                <div class="card-img-overlay d-flex flex-column justify-content-between p-3">
-
-                    <div class="d-flex justify-content-end">
-                        <i  class="bi bi-volume-mute-fill fs-4 text-white"></i>
-                    </div>
-
-                    <div class=" position-relative text-center  justify-content-center">
-                        <button class="btn btn-light btn-lg rounded-circle shadow">
-                            <i class="bi bi-play-fill fs-2"></i>
+                    <!-- Play Button (Center) -->
+                    <div class="position-absolute play-button">
+                        <button class="btn btn-light btn-lg rounded-circle shadow-lg">
+                            <i class="bi bi-play-fill fs-2 text-dark"></i>
                         </button>
                     </div>
 
-                    <div>
-                        <p class="fw-bold mb-1"> Reel Text</p>
-                    </div>
+                    <!-- Bottom Info -->
+                    <div class="bottom-info p-3">
+                        <p class="fw-bold mb-2 fs-6">Beautiful ocean waves at sunset 🌊</p>
 
-                    <div class="d-flex align-items-center gap-2 mt-2">
-                        <img src="avatar.avif" alt="Avatar" class="rounded-circle" width="30" height="30">
-                        <span class="fw-bold">User Name</span>
-                        <button class="badge bg-primary">Follow</button>
-                    </div>
-
-                    <small class="text-white mt-1">explore #اكسلور #فولو #لايك</small>
-                    <small class="text-white">🎵 song</small>
-                </div>
-            </div>
-            <div class="position-relative p-3 d-flex flex-wrap gap-2">
-                <button class="mb-1 btn"><i class="bi bi-heart-fill"></i> 448K</button>
-                <button class="mb-1 btn"><i class="bi bi-chat-left-text-fill"></i> 4,738</button>
-                <button class="mb-1 btn"><i class="bi bi-share-fill me-1"></i>Share</button>
-                <button class="mb-1 btn"><i class="bi bi-bookmark-fill me-1"></i>Save</button>
-                <button class="mb-1 btn btn-link text-black p-0 align-self-end" type="button" #dropdownMenuButton data-bs-toggle="dropdown"aria-expanded="false">
-                    <i class="bi bi-three-dots fs-5" ></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item text-danger" href="#">Report</a></li>
-                    <li><a class="dropdown-item text-primary" href="#">Follow</a></li>
-                    <li><a class="dropdown-item" href="#">Go to post</a></li>
-                    <li><a class="dropdown-item" href="#">Share to...</a></li>
-                    <li><a class="dropdown-item" href="#">Copy link</a></li>
-                    <li><a class="dropdown-item" href="#">Embed</a></li>
-                    <li><a class="dropdown-item" href="#">About this account</a></li>
-                </ul>
-            </div>
-        </div>
-    </div> -->
-
-    <style>
-    
-        .reel-card {
-            border-radius: 20px !important;
-        }
-        
-        .reel-image {
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .side-actions {
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .side-actions .btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            backdrop-filter: blur(10px);
-            margin-bottom: 10px;
-            border-radius: 50px;
-            padding: 8px 12px;
-        }
-        
-        .side-actions .btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            color: white;
-        }
-        
-        .play-button {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        .bottom-info {
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            padding-top: 60px;
-        }
-    </style>
-
-
-                <div class="row justify-content-center ">
-                    <div class="col-lg-5">
-                        <div class="reel-container position-relative">
-                            <!-- Main Reel Card -->
-                            <div class="card bg-dark text-white position-relative overflow-hidden reel-card shadow-lg h-100">
-                                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=600&fit=crop" 
-                                     class="card-img reel-image h-100" alt="Reel content">
-                                
-                                <!-- Card Overlay Content -->
-                                <div class="card-img-overlay d-flex flex-column justify-content-between p-0">
-                                    
-                                    <!-- Top Controls -->
-                                    <div class="d-flex justify-content-end p-3">
-                                        <button class="btn btn-sm" style="background: rgba(0,0,0,0.3); border: none;">
-                                            <i class="bi bi-volume-mute-fill fs-5 text-white"></i>
-                                        </button>
-                                    </div>
-                                    
-                                    <!-- Play Button (Center) -->
-                                    <div class="position-absolute play-button">
-                                        <button class="btn btn-light btn-lg rounded-circle shadow-lg">
-                                            <i class="bi bi-play-fill fs-2 text-dark"></i>
-                                        </button>
-                                    </div>
-                                    
-                                    <!-- Bottom Info -->
-                                    <div class="bottom-info p-3">
-                                        <p class="fw-bold mb-2 fs-6">Beautiful ocean waves at sunset 🌊</p>
-                                        
-                                        <div class="d-flex align-items-center gap-2 mb-2">
-                                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=40&h=40&fit=crop&crop=face" 
-                                                 alt="Avatar" class="rounded-circle" width="32" height="32">
-                                            <span class="fw-bold small">ocean_explorer</span>
-                                            <button class="btn btn-primary btn-sm rounded-pill px-3">Follow</button>
-                                        </div>
-                                        
-                                        <small class="text-white-50 d-block mb-1">#ocean #waves #sunset #nature</small>
-                                        <small class="text-white-50">🎵 Relaxing Ocean Sounds</small>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            
-                            <!-- Side Action Buttons -->
-                            <div class="position-absolute side-actions d-flex flex-column">
-                                <button class="btn mb-2">
-                                    <i class="bi bi-heart-fill text-danger"></i>
-                                    <small class="d-block">448K</small>
-                                </button>
-                                <button class="btn mb-2">
-                                    <i class="bi bi-chat-left-text-fill"></i>
-                                    <small class="d-block">4,738</small>
-                                </button>
-                                <button class="btn mb-2">
-                                    <i class="bi bi-share-fill"></i>
-                                    <small class="d-block">Share</small>
-                                </button>
-                                <button class="btn mb-2">
-                                    <i class="bi bi-bookmark-fill"></i>
-                                    <small class="d-block">Save</small>
-                                </button>
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown">
-                                        <i class="bi bi-three-dots-vertical"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-                                        <li><a class="dropdown-item text-danger" href="#">Report</a></li>
-                                        <li><a class="dropdown-item text-info" href="#">Follow</a></li>
-                                        <li><a class="dropdown-item" href="#">Go to post</a></li>
-                                        <li><a class="dropdown-item" href="#">Share to...</a></li>
-                                        <li><a class="dropdown-item" href="#">Copy link</a></li>
-                                        <li><a class="dropdown-item" href="#">Embed</a></li>
-                                        <li><a class="dropdown-item" href="#">About this account</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=40&h=40&fit=crop&crop=face"
+                                alt="Avatar" class="rounded-circle" width="32" height="32">
+                            <span class="fw-bold small">ocean_explorer</span>
+                            <button class="btn btn-primary btn-sm rounded-pill px-3">Follow</button>
                         </div>
+
+                        <small class="text-white-50 d-block mb-1">#ocean #waves #sunset #nature</small>
+                        <small class="text-white-50">🎵 Relaxing Ocean Sounds</small>
                     </div>
+
                 </div>
+            </div>
 
-
+            <!-- Side Action Buttons -->
+            <div class="position-absolute side-actions d-flex flex-column">
+                <button class="btn mb-2">
+                    <i class="bi bi-heart-fill text-danger"></i>
+                    <small class="d-block">448K</small>
+                </button>
+                <button class="btn mb-2">
+                    <i class="bi bi-chat-left-text-fill"></i>
+                    <small class="d-block">4,738</small>
+                </button>
+                <button class="btn mb-2">
+                    <i class="bi bi-share-fill"></i>
+                    <small class="d-block">Share</small>
+                </button>
+                <button class="btn mb-2">
+                    <i class="bi bi-bookmark-fill"></i>
+                    <small class="d-block">Save</small>
+                </button>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                        <li><a class="dropdown-item text-danger" href="#">Report</a></li>
+                        <li><a class="dropdown-item text-info" href="#">Follow</a></li>
+                        <li><a class="dropdown-item" href="#">Go to post</a></li>
+                        <li><a class="dropdown-item" href="#">Share to...</a></li>
+                        <li><a class="dropdown-item" href="#">Copy link</a></li>
+                        <li><a class="dropdown-item" href="#">Embed</a></li>
+                        <li><a class="dropdown-item" href="#">About this account</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

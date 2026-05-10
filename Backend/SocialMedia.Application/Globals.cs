@@ -20,3 +20,8 @@ global using SocialMedia.Application.Helpers.Token.JWTOptions;
 global using SocialMedia.Core.Domain.DTOs.Responses;
 global using SocialMedia.Application.Abstractions.PostAbstractions;
 global using SocialMedia.Application.Helpers.General;
+global using SocialMedia.Application.DTOs.Requests.Reels;
+global using SocialMedia.Application.DTOs.Responses.Reels;
+global using SocialMedia.Core.Domain.Entities.Business.Posts;
+global using SocialMedia.Application.UnitOfWorks;
+global using SocialMedia.Application.DTOs.Requests.Reels;
