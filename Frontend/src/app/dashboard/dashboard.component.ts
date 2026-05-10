@@ -25,31 +25,21 @@ import { CommentResponse } from '../../Models/Posts/Responses/CommentResponse';
 import { AddPostRequest } from '../../Models/Posts/Requests/AddPostRequest';
 import { EditPostRequest } from '../../Models/Posts/Requests/EditPostRequest';
 import { debug } from 'console';
+import { UserResponseWithStories } from '../../Models/Users/Responses/UserResponseWithStories';
+import { StoryResponse } from '../../Models/Story/Responses/StoryResponse';
+import { AddStoryCommentRequest } from '../../Models/Story/Requests/AddStoryCommentRequest';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [FormsModule, SidebarComponent, RouterModule, NgIf, NgFor, NgClass, SlicePipe],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css',
-  animations: [
-    trigger('slideInOut', [
-      state('in', style({
-        transform: 'translateY(0)',
-        opacity: 1
-      })),
-      state('out', style({
-        transform: 'translateY(-100%)',
-        opacity: 0
-      })),
-      transition('in => out', animate('300ms ease-in-out')),
-      transition('out => in', animate('300ms ease-in-out'))
-    ])
-  ]
+  styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  constructor(private router: Router, private userService: UserServiceService, private shareService: SharePostServiceService, private likeService: LikesServiceService, private authService: AuthenticationService, private commentService: CommentServiceService, private postService: PostServiceService, private storyService: StoryServiceService, private followService: FollowSerivceService) { }
-
+  constructor(private router: Router, private userService: UserServiceService, private shareService: SharePostServiceService, 
+    private likeService: LikesServiceService, private authService: AuthenticationService, private commentService: CommentServiceService, 
+    private postService: PostServiceService, private storyService: StoryServiceService, private followService: FollowSerivceService) { }
 
   ngOnInit(): void {
     this.loadPosts();
@@ -66,7 +56,7 @@ export class DashboardComponent {
   newStatus = '';
   selectedImage: File | null = null;
   selectedImagePreview: string | null = null;
-  usersWithStatus: any[] = [];
+  stories: StoryResponse[] = [];
   suggestedUsers: UserResponse[] = [];
   friendRequests: UserResponse[] = [];
   showRequests = false;
@@ -80,7 +70,17 @@ export class DashboardComponent {
   newPostFeeling = 1;
   newPostImagePreview: string | null = null;
   newPostImageFile: File | null = null;
+storyComment=''
+selectedUser: any;
+selectedStory: any;
+showCreateStory=false;
+activeStoryUser:any=null;
+openStory(user: any, story: StoryResponse) {
+  this.selectedUser = user;
+  this.selectedStory = story;
 
+  this.viewStory(story); // mark as viewed
+}
   //****************************** functions *************************************** */
   viewProfile(profileId: string) {
     debugger
@@ -101,7 +101,7 @@ export class DashboardComponent {
       }
     });
   }
-  /////**friend requests */
+  /////******************************friend requests **********************************/
   acceptRequest(req: UserResponse) {
 
     console.log(req)
@@ -128,9 +128,8 @@ export class DashboardComponent {
   }
 
   loadFriendRequests() {
-    const userId = this.authService.getUserId() ?? '';
 
-    this.followService.viewRequests(userId).subscribe({
+    this.followService.viewRequests(this.profileId).subscribe({
       next: (res: UserResponse[]) => {
         this.friendRequests = res;
       },
@@ -179,6 +178,7 @@ export class DashboardComponent {
       }
     });
   }
+
   ////////////***************************share******************************************* //
   toggleSharePost(post: any) {
     // debugger
@@ -436,20 +436,10 @@ post.isHidden=true;
     }
   }
   //***********************stories************************************** */
-  loadStories() {
-    const userId = this.authService.getUserId() ?? '1';
-
-    this.followService.getFollowingWithStories(userId).subscribe({
-      next: (res: any) => {
-
-        this.usersWithStatus = res.map((user: any) => ({
-          username: user.fullName,
-          profileImage: user.profileImage,
-          storyId: user.stories?.length ? user.stories[0].id : null,
-          hasUnviewedStatus: false,
-          stories: user.stories || []
-        }));
-
+  loadStories() { 
+    this.storyService.getAll(this.profileId).subscribe({
+      next: (res: StoryResponse[]) => {
+        this.stories =res;
       },
       error: (err) => {
         console.error(err);
@@ -457,10 +447,64 @@ post.isHidden=true;
     });
   }
 
-  viewStory(user: any): void {
-    const userId = '8830F83E-0549-4CA0-2707-08DEA038226A'
-    const storyId = '2'
-    this.storyService.viewStory(userId, storyId);
+  viewStory(story: StoryResponse): void {
+     
+      this.activeStoryUser = story;
+  this.storyService.viewStory(this.userId, story.id).subscribe((res:StoryResponse)=>{
+    // res.hasUnviewedStatus=false;
+  });
   }
+
+  reactToStory(storyId: string) {
+
+  this.storyService.addReact(this.userId, storyId).subscribe();
+
+}
+addStoryComment(storyId: string) {
+
+  const req: AddStoryCommentRequest = {
+    text: this.storyComment,
+    profileId:this.profileId ,
+    StoryId: storyId
+  };
+
+  this.storyService.addStoryComment(req).subscribe({
+      next: () => {
+        console.log('Comment added');
+        this.storyComment = '';
+
+      }
+    });
+}
+
+createStory() {
+  this.storyService.addStory(this.newStatus,this.profileId).subscribe({
+    next: () => {
+      console.log('Story added');
+      this.loadStories();
+      this.newStatus = '';
+    }
+  });
+}
+
+
+deleteStory(story: any) {
+
+  const req = {
+    storyId: story.id,
+    userId: this.authService.getUserId() ?? ''
+  };
+
+  this.storyService.deleteStory(req).subscribe({
+      next: () => {
+        this.loadStories();
+        // this.usersWithStatus.pop(story)
+      }
+    });
+}
+
+loadViewers(storyId: string) {
+  this.storyService.getViewers(this.userId, storyId).subscribe();
+}
 
 }

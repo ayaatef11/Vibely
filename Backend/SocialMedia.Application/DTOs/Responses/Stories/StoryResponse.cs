@@ -1,5 +1,5 @@
-﻿using SocialMedia.Core.Domain.Entities.Business.Profiles; 
-namespace SocialMedia.Application.DTOs.Responses.Story;
+﻿using SocialMedia.Core.Domain.Entities.Business.Profiles;
+namespace SocialMedia.Application.DTOs.Responses.Stories;
 public class StoryResponse
 {
     public Guid Id {  get; set; }

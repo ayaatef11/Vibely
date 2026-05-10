@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc; 
+﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Application.DTOs.Requests.Stories;
 namespace SocialMedia.API.Controllers;
 [ApiController]
 [Route("api/Story")]
@@ -13,18 +14,15 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
     [HttpPost("add")]
     public async Task<IActionResult> Add(UploadStoryRequest story)//add signalr
     {       
-        var uploadOperation = await _StoryService.UploadAsync(story);
-        return uploadOperation == "Uploaded" ? Ok(new Result
-             {
-                 Message = "Story Added Successfully"
-             }) : BadRequest(uploadOperation);
+        var result = await _StoryService.UploadAsync(story);
+        return Ok(result);
     }
 
     [HttpGet("view")]
     public async Task<IActionResult> ViewStory(Guid userId, Guid storyId)
     {
-        await _StoryService.ViewStory(userId, storyId);
-        return Ok();
+       var result= await _StoryService.ViewStory(userId, storyId);
+        return Ok(result);
     }
 
     [HttpGet("get-viewers")]
@@ -42,16 +40,16 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
     }
 
     [HttpPost("add-comment")]
-    public async Task<IActionResult> CommentToStory(AddCommentRequest comment)
+    public async Task<IActionResult> CommentToStory(AddStoryCommentRequest comment)
     {
         var result= await _StoryService.CommentToStory(comment);
         return Ok(result);
     }
 
-    [HttpGet("get/{id}")]
-    public async Task<IActionResult> Get(Guid id)
+    [HttpGet("user/{profileId}")]
+    public async Task<IActionResult> GetUserStoriesAsync(Guid profileId)
     {  
-        var result = await _StoryService.GetUserStoriesAsync(id);
+        var result = await _StoryService.GetUserStoriesAsync(profileId);
         return Ok(result);
     }
 

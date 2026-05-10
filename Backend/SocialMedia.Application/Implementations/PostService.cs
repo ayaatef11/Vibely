@@ -106,7 +106,7 @@ public class PostService(AppdbContext _context, IMapper _mapper,IProfileService 
         var profileId=await _context.Users.Where(c => c.Id == userId).Select(c=>c.ProfileId).FirstOrDefaultAsync();
         var posts = await _context.Follows
         .Where(f => f.FollowerId == userId)
-        .SelectMany(f => f.Following.Profile.Posts).Include(c=>c.Comments)
+        .SelectMany(f => f.Following.Posts).Include(c=>c.Comments)
         .ToListAsync();
        
         var result = _mapper.Map<List<PostResponseWithComments>>(posts);

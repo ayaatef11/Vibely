@@ -1,4 +1,4 @@
-﻿namespace SocialMedia.Core.Domain.DTOs.Requests.Story;
+﻿namespace SocialMedia.Core.Domain.DTOs.Requests.Stories;
 public class DeleteStoryRequest
 {
     public Guid UserId { set; get; }

@@ -3,36 +3,48 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../Environments/environment';
 import { DeleteStoryRequest } from '../../../Models/Story/Requests/DeleteStoryRequest';
 import { AddCommentRequest } from '../../../Models/Comments/Requests/AddCommentRequest';
+import { Observable } from 'rxjs';
+import { StoryResponse } from '../../../Models/Story/Responses/StoryResponse';
+import { profile } from 'console';
+import { AddStoryCommentRequest } from '../../../Models/Story/Requests/AddStoryCommentRequest';
+import { StoryCommentResponse } from '../../../Models/Story/Responses/StoryCommentResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoryServiceService {
-private Url=environment.apiUrl+'Story';
-  constructor(private http:HttpClient) { }
-  getAll(userId:string){
-return this.http.get(`${this.Url}/get-all/${userId}`)
+  private Url = environment.apiUrl + 'Story';
+  constructor(private http: HttpClient) { }
+  getAll(userId: string):Observable<StoryResponse[]> {
+    return this.http.get<StoryResponse[]>(`${this.Url}/get-all?userId=${userId}`)
   }
-  viewStory(userId:string,storyId:string){
-    return this.http.get(`${this.Url}/view/${userId}/${storyId}`)
+
+  viewStory(userId: string, storyId: string):Observable<StoryResponse> {
+    return this.http.get<StoryResponse>(`${this.Url}/view?userId=${userId}&storyId=${storyId}`)
   }
-  getViewers(userId:string,storyId:string){
-return this.http.get(`${this.Url}/get-viewers/${userId},${storyId}`)
+
+  getViewers(userId: string, storyId: string) {
+    return this.http.get(`${this.Url}/get-viewers/${userId}/${storyId}`)
   }
- addReact(userId: string, storyId: string) {
-  return this.http.post(`${this.Url}/add-react/${userId}/${storyId}`, {});
-}
-  addComment(data: AddCommentRequest){
-return this.http.post(`${this.Url}/add-comment`,data)
+
+  addReact(userId: string, storyId: string) {
+    return this.http.post(`${this.Url}/add-react?userId=${userId}&storyId=${storyId}`, {});
   }
-  addStory(text:string,userId:string){
-return this.http.get(`${this.Url}/add/${text},${userId}`)
+
+  addStoryComment(data: AddStoryCommentRequest):Observable<StoryCommentResponse> {
+    return this.http.post<StoryCommentResponse>(`${this.Url}/add-comment`, data)
   }
-  getStory(id:string){
-return this.http.get(`${this.Url}/get/${id}`)
+
+  addStory(text: string, userId: string) :Observable<StoryResponse>{
+    return this.http.post<StoryResponse>(`${this.Url}/add?Text=${text}&ProfileId=${userId}`,{})
   }
-  deleteStory(data:DeleteStoryRequest){
-return this.http.delete(`${this.Url}/delete`,{body:data})
+
+  getUserStories(profileId: string) {
+    return this.http.get(`${this.Url}/user/${profileId}`)
+  }
+
+  deleteStory(data: DeleteStoryRequest) {
+    return this.http.delete(`${this.Url}/delete`, { body: data })
 
   }
 }

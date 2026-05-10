@@ -10,8 +10,7 @@ public class User : IdentityUser<Guid>
     public Guid? ProfileId { set; get; }
     public byte[]? ProfileImage { get; set; }
 
-    public ICollection<Follow> Following { set; get; } = new List<Follow>();
-    public ICollection<Follow> Followers { set; get; } = new List<Follow>();
+
     public ICollection<Block> BlockedUsers { set; get; } = new List<Block>();
     public ICollection<Block> BlockedByUsers { set; get; } = new List<Block>();
     public ICollection<Report> ReportedUsers { set; get; } = new List<Report>();

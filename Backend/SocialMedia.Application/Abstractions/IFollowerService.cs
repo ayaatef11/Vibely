@@ -10,8 +10,8 @@ public interface IFollowerService
     ValueTask<ProfileResponse> RequestFollowAsync(FollowRequest follow);
     ValueTask<ProfileResponse> UnrequestFollowAsync(FollowRequest follow);
     ValueTask<ProfileResponse> RejectFollowAsync(FollowRequest followr);
-    ValueTask<ICollection<UserResponse>> GetFollowersAsync(Guid userId);
+    ValueTask<ICollection<UserResponse>> GetFollowersAsync(Guid profileId);
     ValueTask<ICollection<UserResponseWithStories>> GetFollowingWithStoriesAsync(Guid userId);
-    Task<List<UserResponse>> ViewRequests(Guid userId);
+    Task<List<UserResponse>> ViewRequests(Guid profileId);
 }
 

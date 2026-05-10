@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace SocialMedia.Core.Domain.DTOs.Requests.Story;
+namespace SocialMedia.Core.Domain.DTOs.Requests.Stories;
 public class UploadStoryRequest
 {
     public string? Text { get; set; }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SocialMedia.Core.Domain.Entities.Business.Chats;
 using SocialMedia.Core.Domain.Entities.Business.Posts;
 using SocialMedia.Core.Domain.Entities.Business.Profiles;
+using SocialMedia.Core.Domain.Entities.Business.Stories;
 using System;
 
 namespace SocialMedia.Core.Context;
@@ -23,6 +24,7 @@ public class AppdbContext : IdentityDbContext<User, Role, Guid>
     public DbSet<StoryView> StoryViews { set; get; }
     public DbSet<StoryReaction> StoryReactions { set; get; }
     public DbSet<Follow> Follows { set; get; }
+    public DbSet<StoryComment> StoryComments { set; get; }
     public DbSet<Comment> Comments { set; get; }
     public DbSet<UserProfile> Profiles { set; get; }
     public DbSet<User> Users { set; get; }

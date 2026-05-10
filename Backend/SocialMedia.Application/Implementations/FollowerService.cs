@@ -6,11 +6,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
 { 
     public async ValueTask<string> AcceptFollowAsync(FollowRequest follow)
     {
-        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Sender);
+        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
         if (_sender == null)
             throw new Exception( "Sender Not Found");
 
-        var _reciever = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Reciever);
+        var _reciever = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
         if (_reciever == null)
             throw new Exception("Reciever Not Found");
 
@@ -31,16 +31,17 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
         return acceptOperation > 0 ?"Accepted" : "Invalid";
     }
 
-    public async ValueTask<ICollection<UserResponse>> GetFollowersAsync(Guid userid)
+    public async ValueTask<ICollection<UserResponse>> GetFollowersAsync(Guid profileId)
     {
-        var user = await _context.Users.Include(x => x.Followers).SingleOrDefaultAsync(x => x.Id == userid);
+        var user = await _context.Profiles.Include(x => x.Followers).SingleOrDefaultAsync(x => x.Id == profileId);
         if (user == null || user.Followers.Count == 0) return new List<UserResponse>();
         var result = _mapper.Map<List<UserResponse>>(user.Followers.Select(x => x.Follower).ToList());
         return result;
     }
     public async ValueTask<ICollection<UserResponseWithStories>> GetFollowingWithStoriesAsync(Guid userid)
     { 
-        var follows = await _context.Follows.Include(f => f.Following).ThenInclude(u => u.Profile).ThenInclude(p => p.Stories).Where(f => f.FollowerId == userid).ToListAsync();
+        var follows = await _context.Follows.Include(f => f.Following).Include(c=>c.Follower).ThenInclude(c=>c.Stories)
+            .Where(f => f.FollowerId == userid).ToListAsync();
 
     if (!follows.Any())
         return new List<UserResponseWithStories>();
@@ -52,11 +53,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
     }
     public async ValueTask<ProfileResponse> RejectFollowAsync(FollowRequest follow)
     {
-        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Sender);
+        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
         if (_sender == null)
             throw new Exception( "SenderNotFound");
 
-        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Reciever);
+        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
         if (receiver == null)
             throw new Exception("RecieverNotFound");
 
@@ -73,11 +74,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
 
     public async ValueTask<ProfileResponse> RequestFollowAsync(FollowRequest request)
     {
-        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == request.Sender);
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.Sender);
         if (sender == null)
             throw new Exception( "Sender Not Found");
 
-        var receiver = await _context.Profiles.FirstOrDefaultAsync(x => x.UserId == request.Reciever);
+        var receiver = await _context.Profiles.FirstOrDefaultAsync(x => x.Id == request.Reciever);
         if (receiver == null)
             throw new Exception( "Reciever Not Found");
 
@@ -103,11 +104,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
 
     public async ValueTask<ProfileResponse> UnFollowAsync(FollowRequest request)
     {
-        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == request.Sender);
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.Sender);
         if (sender == null)
             throw new Exception( "Sender Not Found");
 
-        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == request.Reciever);
+        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.Reciever);
         if (receiver == null)
             throw new Exception( "RecieverN Found");
 
@@ -126,11 +127,11 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
 
     public async  ValueTask<ProfileResponse> UnrequestFollowAsync(FollowRequest follow)
     {
-        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Sender);
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
         if (sender == null)
             throw new Exception( "Sender Not Found");
 
-        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.UserId == follow.Reciever);
+        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
         if (receiver == null)
             throw new Exception( "Reciever Not Found");
 
@@ -145,9 +146,9 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
          if(sendFollowOperation <=0) throw new Exception( "FollowRequestFailed");
         return _mapper.Map<ProfileResponse>( receiver);
     }
-    public async Task<List<UserResponse>>ViewRequests(Guid userId)
+    public async Task<List<UserResponse>>ViewRequests(Guid profileId)
     {
-        var requests=await _context.Follows.Where(f=>f.FollowingId == userId && f.FollowState==FollowState.Pending).Include(c=>c.Follower).Select(c=>c.Follower).ToListAsync();
+        var requests=await _context.Follows.Where(f=>f.FollowingId == profileId && f.FollowState==FollowState.Pending).Include(c=>c.Follower).Select(c=>c.Follower).ToListAsync();
         return _mapper.Map<List<UserResponse>>(requests);   
     }
 }

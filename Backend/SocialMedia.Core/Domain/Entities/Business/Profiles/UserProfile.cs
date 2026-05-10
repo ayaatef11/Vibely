@@ -1,4 +1,6 @@
-﻿namespace SocialMedia.Core.Domain.Entities.Business.Profiles;
+﻿using SocialMedia.Core.Domain.Entities.Business.Stories;
+
+namespace SocialMedia.Core.Domain.Entities.Business.Profiles;
 public class UserProfile : BaseEntity<Guid>
 {
     public int PostCount { set; get; }
@@ -17,10 +19,12 @@ public class UserProfile : BaseEntity<Guid>
     public string? BackgroundImageContentType { get; set; }
     public Guid UserId { set; get; }
     public User User { set; get; }
+    public ICollection<Follow> Following { set; get; } = new List<Follow>();
+    public ICollection<Follow> Followers { set; get; } = new List<Follow>();
     public ICollection<Post> Posts { set; get; } = new List<Post>();
     public ICollection<Share> Shares { set; get; } = new List<Share>();
     public ICollection<Story> Stories { set; get; } = new List<Story>();
-  
+    public ICollection<StoryComment> storyComments { set; get; } = new List<StoryComment>();
     public ICollection<Comment> Comments { set; get; } = new List<Comment>();
     public ICollection<PostLikes> Reacts { set; get; } = new List<PostLikes>();
     public ICollection<CommentLikes> CommentLikes { set; get; } = new List<CommentLikes>();

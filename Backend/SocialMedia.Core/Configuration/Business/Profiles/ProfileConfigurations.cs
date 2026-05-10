@@ -11,8 +11,8 @@ public class ProfileConfigurations : IEntityTypeConfiguration<UserProfile>
         builder.ToTable("Profile").HasKey(x => x.Id);
 
         builder.HasOne(x => x.User)
-            .WithOne(x => x.Profile)
-            .HasForeignKey<User>(x => x.ProfileId);
+    .WithOne(x => x.Profile)
+    .HasForeignKey<UserProfile>(x => x.UserId);
     }
 }
 

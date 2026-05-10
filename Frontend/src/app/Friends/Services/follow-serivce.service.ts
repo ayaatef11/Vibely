@@ -8,6 +8,7 @@ import { UnFollowRequest } from '../../../Models/Follow/Requests/UnFollowRequest
 import { UserResponse } from '../../../Models/Users/Responses/UserResponse';
 import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
 import { Observable } from 'rxjs';
+import { UserResponseWithStories } from '../../../Models/Users/Responses/UserResponseWithStories';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,6 @@ export class FollowSerivceService {
     return this.http.post<ProfileResponse>(`${this.Url}/unrequest`, data)
   }
 
-
-
   rejectFollow(data: RejectFollowRequest): Observable<ProfileResponse> {
     return this.http.put<ProfileResponse>(`${this.Url}/reject`, data)
   }
@@ -38,15 +37,15 @@ export class FollowSerivceService {
     return this.http.delete<ProfileResponse>(`${this.Url}/unfollow`, { body: data })
   }
 
-  getFollow(id: string) {
-    return this.http.get(`${this.Url}/Get/${id}`)
+  getFollow(profileId: string):Observable<UserResponse> {
+    return this.http.get<UserResponse>(`${this.Url}/Get/${profileId}`)
   }
 
-  getFollowingWithStories(id: string) {
-    return this.http.get(`${this.Url}/Get-following/${id}`)
+  getFollowingWithStories(id: string):Observable<UserResponseWithStories[]> {
+    return this.http.get<UserResponseWithStories[]>(`${this.Url}/Get-following/${id}`)
   }
 
-  viewRequests(userId: string) {
-    return this.http.get<UserResponse[]>(`${this.Url}/view?userId=${userId}`)
+  viewRequests(profileId: string):Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(`${this.Url}/view?profileId=${profileId}`)
   }
 }
