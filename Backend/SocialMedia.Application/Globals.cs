@@ -24,4 +24,6 @@ global using SocialMedia.Application.DTOs.Requests.Reels;
 global using SocialMedia.Application.DTOs.Responses.Reels;
 global using SocialMedia.Core.Domain.Entities.Business.Posts;
 global using SocialMedia.Application.UnitOfWorks;
-global using SocialMedia.Application.DTOs.Requests.Reels;
+global using SocialMedia.Application.DTOs.Responses;
+global using SocialMedia.Application.DTOs.Responses.Story;
+global using SocialMedia.Infrastructure.Domain.Entities.Business.Stories;

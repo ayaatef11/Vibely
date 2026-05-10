@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using SocialMedia.Core.Domain.Entities.Business.Posts;
 using SocialMedia.Core.Domain.Entities.Business.Profiles;
 namespace SocialMedia.Infrastructure.Domain.Entities.Security;
 public class User : IdentityUser<Guid>
@@ -16,4 +17,6 @@ public class User : IdentityUser<Guid>
     public ICollection<Report> ReportedUsers { set; get; } = new List<Report>();
     public ICollection<Report> ReportedByUsers { set; get; } = new List<Report>();
     public ICollection<Role> Roles { set; get; } = new List<Role>();
+    public ICollection<Reels> Reals { set; get; } = new List<Reels>();
+
 }

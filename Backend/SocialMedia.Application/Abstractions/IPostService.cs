@@ -1,7 +1,7 @@
 ﻿using SocialMedia.Application.DTOs.Responses.Posts;
 using SocialMedia.Core.Domain.DTOs.Requests.Post;
 
-namespace SocialMedia.Application.Abstractions.PostAbstractions;
+namespace SocialMedia.Application.Abstractions;
 public interface IPostService  
 {
     ValueTask<PostResponse> AddPost(CreatePostRequest  post);

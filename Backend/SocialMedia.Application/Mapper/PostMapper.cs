@@ -6,6 +6,8 @@ using SocialMedia.Application.DTOs.Responses.Users;
 using SocialMedia.Core.Domain.Entities.Business.Chats;
 using SocialMedia.Application.DTOs.Responses.Chats;
 using SocialMedia.Application.DTOs.Requests.Chats;
+using SocialMedia.Infrastructure.Domain.Entities.Business.Stories;
+using SocialMedia.Application.DTOs.Responses.Story;
 namespace SocialMedia.API.Mapper;
 public class PostMapper : Profile
 {
@@ -27,6 +29,8 @@ public class PostMapper : Profile
         CreateMap<Message, MessageResponse>();
         CreateMap<Chat, ChatResponse>();
         CreateMap<ChatParticipant, ChatParticipantResponse>();
+        CreateMap<Reels, ReelsResponse>();
+        CreateMap<Story, StoryResponse>();
     }
 }
 

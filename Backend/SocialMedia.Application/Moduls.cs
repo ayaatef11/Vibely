@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SocialMedia.Application.Abstractions.PostAbstractions;
 using SocialMedia.Application.Implementations;
 using SocialMedia.Application.UnitOfWorks;
 

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SocialMedia.Application.Abstractions.PostAbstractions;
 using SocialMedia.Application.DTOs.Responses.Posts;
 using SocialMedia.Core.Context;
 using SocialMedia.Core.Domain.DTOs.Requests.Share;

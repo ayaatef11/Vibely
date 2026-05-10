@@ -1,18 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Responses;
+using SocialMedia.Application.DTOs.Responses.Story;
 using SocialMedia.Core.Context;
 using SocialMedia.Core.Domain.DTOs.Requests.Comment;
 using SocialMedia.Core.Domain.DTOs.Requests.Story;
 using SocialMedia.Infrastructure.Domain.Entities.Business.Stories;
 
 namespace SocialMedia.Application.Implementations;
-public class StoryService(AppdbContext _context) : IStoryService
+public class StoryService(AppdbContext _context,IMapper _mapper) : IStoryService
 {
-    public async ValueTask<IEnumerable<Story>> GetAllStories(Guid userId)
+    public async ValueTask<IEnumerable<StoryResponse>> GetAllStories(Guid userId)
     {
         var user = await _context.Users.FindAsync(userId);
         var friendsIds = await _context.Follows.Select(x => x.FollowerId).ToListAsync();
         var stories =await _context.Stories.Where(s => friendsIds.Contains(s.Id)).ToListAsync() ;
-        return stories;
+        return _mapper.Map<IEnumerable<StoryResponse>>(stories);
     }
     public async ValueTask ViewStory(Guid userId, Guid storyId)
     {
@@ -45,22 +48,24 @@ public class StoryService(AppdbContext _context) : IStoryService
         await _context.SaveChangesAsync();
     }
    
-    public async ValueTask CommentToStory(AddCommentRequest commentDto)
+    public async ValueTask<CommentResponse> CommentToStory(AddCommentRequest request)
     {
         var comment = new Comment()
         {
-            Text = commentDto.Text,
-            ProfileId = commentDto.ProfileId,
-            PostId = commentDto.PostId
+            Text = request.Text,
+            ProfileId = request.ProfileId,
+            PostId = request.PostId
         };
         _context.Comments.Add(comment);
         await _context.SaveChangesAsync();
+        return _mapper.Map<CommentResponse>(comment);
     }
+
     public async ValueTask<string> UploadAsync(UploadStoryRequest story)
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == story.ProfileId);
         if (user == null)
-            return "User Not Found Or Invalid User ID";
+            throw new Exception( "User Not Found or Invalid User Id");
 
         var _story = new Story()
         {
@@ -103,14 +108,13 @@ public class StoryService(AppdbContext _context) : IStoryService
 
         _context.Stories.Remove(_story);
         var deleteOperation = await _context.SaveChangesAsync();
-        return deleteOperation > 0 ?
-            "Deleted" :
-            "Failed To Delete Story";
+        return deleteOperation > 0 ? "Deleted" : "Failed To Delete Story";
     }
 
-    public async ValueTask<IEnumerable<Story>> GetUserStoriesAsync(Guid profileId)
+    public async ValueTask<IEnumerable<StoryResponse>> GetUserStoriesAsync(Guid profileId)
     {
-        return await _context.Stories.Where(x => x.ProfileId == profileId).ToListAsync();
+        var stories= await _context.Stories.Where(x => x.ProfileId == profileId).ToListAsync();
+        return _mapper.Map<IEnumerable<StoryResponse>>(stories);
     }
 }
 

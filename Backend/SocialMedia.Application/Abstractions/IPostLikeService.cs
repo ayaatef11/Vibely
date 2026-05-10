@@ -1,6 +1,6 @@
 ﻿using SocialMedia.Core.Domain.DTOs.Requests.Like;
 
-namespace SocialMedia.Application.Abstractions.PostAbstractions;
+namespace SocialMedia.Application.Abstractions;
 public interface IPostLikeService  
 {
     ValueTask<string> LikeAsync(LikeRequest like);

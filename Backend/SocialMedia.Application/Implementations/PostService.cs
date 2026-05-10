@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SocialMedia.Application.DTOs.Responses.Posts;
 using SocialMedia.Application.Helpers.Media;
-using SocialMedia.Core.Domain.DTOs.Requests.Post; 
+using SocialMedia.Core.Domain.DTOs.Requests.Post;
 
 namespace SocialMedia.Application.Implementations;
 public class PostService(AppdbContext _context, IMapper _mapper,IProfileService _profileService, IMainRepository<Post> _PostRepository) : IPostService
