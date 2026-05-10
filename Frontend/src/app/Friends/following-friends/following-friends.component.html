@@ -1,61 +1,21 @@
-
-    <div class="container-custom">
+<div class="container-custom">
     <app-friends-header></app-friends-header>
 
-        <div class="tab-content px-3">
-            <div class="tab-pane fade show active" *ngFor=" let user of FollowersUsers"  >
-                    <div class="user-item" data-name="kristin watson" data-handle="kristinwatson">
-                        <div class="d-flex align-items-center">
-                            <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=120&h=120&fit=crop&crop=face" alt="Kristin Watson" class="profile-pic me-3">
-                            <div class="flex-grow-1">
-                                <div class="username">{{user.fullName}}</div>
-                                <div class="handle">{{user.location}}</div>
-                            </div>
-                            <button class="btn btn-following">Following</button>
-                        </div>
+    <div class="tab-content px-3">
+        <div class="tab-pane fade show active" *ngFor=" let user of FollowersUsers"
+            (click)="viewProfile(user.profileId)">
+            <div class="user-item" data-name="kristin watson" data-handle="kristinwatson">
+                <div class="d-flex align-items-center">
+                    <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=120&h=120&fit=crop&crop=face"
+                        alt="Kristin Watson" class="profile-pic me-3">
+                    <div class="flex-grow-1">
+                        <div class="username">{{user.fullName}}</div>
+                        <div class="handle">{{user.location}}</div>
                     </div>
-
-      
+                    <button class="btn btn-following" (click)="$event.stopPropagation()">Following</button>
                 </div>
             </div>
-   
-   <script>
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const activeTab = document.querySelector('.tab-pane.active');
-            const userItems = activeTab.querySelectorAll('.user-item');
-            
-            userItems.forEach(item => {
-                const name = item.dataset.name.toLowerCase();
-                const handle = item.dataset.handle.toLowerCase();
-                
-                if (name.includes(searchTerm) || handle.includes(searchTerm)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
 
-        // Button interactions
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('btn-follow')) {
-                e.target.textContent = 'Following';
-                e.target.className = 'btn btn-following';
-            } else if (e.target.classList.contains('btn-following')) {
-                e.target.textContent = 'Follow';
-                e.target.className = 'btn btn-primary btn-follow';
-            }
-        });
 
-        // Clear search when switching tabs
-        document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
-            tab.addEventListener('shown.bs.tab', function() {
-                document.getElementById('searchInput').value = '';
-                document.querySelectorAll('.user-item').forEach(item => {
-                    item.style.display = 'block';
-                });
-            });
-        });
-    </script>
+        </div>
+    </div>

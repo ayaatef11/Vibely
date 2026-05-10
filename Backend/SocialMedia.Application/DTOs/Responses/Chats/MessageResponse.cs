@@ -8,6 +8,7 @@ public class MessageResponse
     public string Content { get; set; } = default!;
 
     public bool IsEdited { get; set; }
+    public bool IsDeleted { get; set; }
 
     public DateTime SentAt { get; set; }
 }

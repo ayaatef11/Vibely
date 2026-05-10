@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SocialMedia.Core.Domain.DTOs.Requests.Like;
 
 namespace SocialMedia.API.Controllers;
 [ApiController]
@@ -11,9 +10,7 @@ public class LikeController(IPostLikeService _PostLikeService) : ControllerBase
     {
         var likeOperation = await _PostLikeService.LikeAsync(like);
 
-        return likeOperation == "Successfully" ?
-             Ok("Like Added Succcessfully") :
-             BadRequest(likeOperation);
+        return likeOperation == "Successfully" ? Ok("Like Added Succcessfully") : BadRequest(likeOperation);
     }
 
     [HttpDelete("dislike")]

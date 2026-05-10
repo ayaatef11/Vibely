@@ -4,17 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../Common/sidebar/sidebar.component';
 import { Router, RouterModule } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { SearchHeaderComponent } from "../Common/search/search-header/search-header.component";
 import { CommentServiceService } from '../Common/Services/comment-service.service';
 import { FollowSerivceService } from '../Friends/Services/follow-serivce.service';
-import { PostServiceService } from '../Post/create-post/Services/post-service.service';
+import { PostServiceService } from '../Post/Services/post-service.service';
 import { StoryServiceService } from './Services/story-service.service';
 import { AuthenticationService } from '../Auth/Services/authentication-service.service';
 import { PostResponse } from '../../Models/Posts/Responses/PostResponse';
 import { LikesServiceService } from '../Common/Services/likes-service.service';
 import { DislikeRequest } from '../../Models/Reacts/Requests/DislikeRequest';
 import { LikeRequest } from '../../Models/Reacts/Requests/LikeRequest';
-import { SharePostServiceService } from '../Post/create-post/Services/share-post-service.service';
+import { SharePostServiceService } from '../Post/Services/share-post-service.service';
 import { AddCommentRequest } from '../../Models/Comments/Requests/AddCommentRequest';
 import { UserServiceService } from '../UserProfile/Services/user-service.service';
 import { FollowRequest } from '../../Models/Follow/Requests/FollowRequest';
@@ -414,15 +413,21 @@ post.isHidden=true;
   }
 
   onSearch() {
-    this.isOpen = !this.isOpen;
-    if (this.isOpen) {
-      setTimeout(() => {
-        const input = document.getElementById('searchInput');
-        if (input) input.focus();
-      }, 300);
-    }
-    this.router.navigate(['/search/all'])
+  if (!this.searchQuery.trim()) {
+    this.loadPosts();
+    return;
   }
+
+  this.postService.searchPosts(this.searchQuery).subscribe({
+    next: (res: PostResponse[]) => {
+      this.posts = res;
+    },
+    error: (err) => {
+      console.error(err);
+    }
+  });
+}
+  
 
   @HostListener('document:keydown.escape', ['$event'])
   handleEscape(event: KeyboardEvent) {

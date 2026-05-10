@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SocialMedia.Core.Domain.DTOs.Requests.Post;
-using SocialMedia.Infrastructure.Domain.Entities.Business.Posts;
 
 namespace SocialMedia.API.Controllers;
 [ApiController]
@@ -36,12 +34,11 @@ public partial class PostController(IPostService _PostService) : ControllerBase
         return result != null ? Ok(result) : NotFound(new Result { Message = "No Posts Found for this User" });
     }
 
-
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
        await  _PostService.DeletePost(id);
-        return  Ok(new Result { Message = "Post Deleted Suceessfully"}) ;
+       return  Ok(new Result { Message = "Post Deleted Suceessfully"}) ;
     }
     [HttpGet("get-all")]
     public async Task<IActionResult> GetAllPosts(Guid userId)
@@ -50,11 +47,11 @@ public partial class PostController(IPostService _PostService) : ControllerBase
         return Ok(posts) ;
     }
 
-    [HttpGet("show-posts")]
+    [HttpGet("search-posts")]
     public async Task<IActionResult> SearchForPost(string keyword)
     {
-        var post = await _PostService.SearchForPost(keyword);
-        return Ok(post);
+        var result = await _PostService.SearchForPost(keyword);
+        return Ok(result);
     }
 
     [HttpGet("trending-posts")]

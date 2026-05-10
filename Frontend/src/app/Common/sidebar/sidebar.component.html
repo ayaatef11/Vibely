@@ -13,64 +13,33 @@
         <nav class="nav flex-column">
 
           <a
-            class="nav-link mb-2"
-            [routerLink]="['/home']"
-            routerLinkActive="active"
-          >
+            class="nav-link mb-2"  [routerLink]="['/home']" routerLinkActive="active" >
             <i class="fas fa-home me-2"></i>
             {{ 'SIDEBAR.HOME' | translate }}
-          </a>
+          </a> 
 
-          <a
-            class="nav-link mb-2"
-            routerLink="/home/search/all"
-            routerLinkActive="active"
-          >
-            <i class="fas fa-search me-2"></i>
-            {{ 'SIDEBAR.SEARCH' | translate }}
-          </a>
-
-          <a
-            class="nav-link mb-2"
-            routerLink="reels"
-            routerLinkActive="active"
-          >
+          <a class="nav-link mb-2"  routerLink="reels" routerLinkActive="active" >
             <i class="fas fa-video me-2"></i>
             {{ 'SIDEBAR.REELS' | translate }}
           </a>
 
-          <a
-            class="nav-link mb-2"
-            routerLink="/home/chat/friend"
-            routerLinkActive="active"
-          >
+          <a  class="nav-link mb-2"  routerLink="/home/chat/friend" routerLinkActive="active" >
             <i class="fas fa-envelope me-2"></i>
             {{ 'SIDEBAR.MESSAGES' | translate }}
           </a>
 
-          <a
-            class="nav-link mb-2"
-            routerLink="profile"
-            routerLinkActive="active"
-          >
+          <a  class="nav-link mb-2" [routerLink]="['/home/profile/',profileId]"  routerLinkActive="active" >
             <i class="fas fa-user me-2"></i>
             {{ 'SIDEBAR.PROFILE' | translate }}
           </a>
 
           <a
-            class="nav-link mb-2"
-            routerLink="notifications"
-            routerLinkActive="active"
-          >
+            class="nav-link mb-2"  routerLink="notifications"   routerLinkActive="active" >
             <i class="fas fa-bell me-2"></i>
             {{ 'SIDEBAR.NOTIFICATIONS' | translate }}
           </a>
 
-          <a
-            class="nav-link mb-2"
-            routerLink="/settings"
-            routerLinkActive="active"
-          >
+          <a  class="nav-link mb-2" routerLink="/settings" routerLinkActive="active" >
             <i class="fas fa-cog me-2"></i>
             {{ 'SIDEBAR.SETTINGS' | translate }}
           </a>
@@ -78,12 +47,7 @@
         </nav>
 
         <div class="mt-4">
-          <button
-            class="new-post-btn"
-            routerLink="/create/post"
-            routerLinkActive="active"
-          >
-            {{ 'SIDEBAR.NEW_POST' | translate }}
+          <button class="new-post-btn" routerLink="/create/post" routerLinkActive="active" > {{ 'SIDEBAR.NEW_POST' | translate }}
           </button>
         </div>
 

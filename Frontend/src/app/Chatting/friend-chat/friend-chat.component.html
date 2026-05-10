@@ -93,31 +93,28 @@
         <div  class="chat-body flex-grow-1 p-3"  #scrollContainer >
 
           <div  *ngFor="let message of messages"  class="mb-3 d-flex" [ngClass]="{
-              'justify-content-end':
-                message.senderId === currentUserId,
+              'justify-content-end': message.senderId === currentUserId,
 
-              'justify-content-start':
-                message.senderId !== currentUserId
-            }"
-          >
+              'justify-content-start': message.senderId !== currentUserId
+            }">
 
-            <div class="message-bubble px-3 py-2" [ngClass]="{
-                'sent-message':
-                  message.senderId === currentUserId,
+            <div class="message-bubble px-3 py-2 position-relative" [ngClass]="{
+                'sent-message': message.senderId === currentUserId, 'received-message': message.senderId !== currentUserId  }" >
+<!-- OPTIONS -->
+      <div class="message-options" *ngIf="message.senderId === currentUserId && message.isDeleted===false" >
+        <button class="option-btn">⋮</button>
 
-                'received-message':
-                  message.senderId !== currentUserId
-              }" >
-
+        <div class="options-menu">
+          <button (click)="editMessage(message)">Edit</button>
+          <button (click)="deleteMessage(message)">Delete</button>
+        </div>
+      </div>
               <div> {{message.content}} </div>
 
               <small class="message-time">
 
-                {{
-                  message.sentAt
-                    | date:'shortTime'
-                }}
-
+                {{  message.sentAt| date:'shortTime' }}
+ <span *ngIf="message.isEdited"> • edited </span>
               </small>
 
             </div>

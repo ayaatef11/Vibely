@@ -1,11 +1,11 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { PostServiceService } from '../create-post/Services/post-service.service';
+import { PostServiceService } from '../Services/post-service.service';
 import { DislikeRequest } from '../../../Models/Reacts/Requests/DislikeRequest';
 import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
 import { CommentServiceService } from '../../Common/Services/comment-service.service';
-import { SharePostServiceService } from '../create-post/Services/share-post-service.service';
+import { SharePostServiceService } from '../Services/share-post-service.service';
 import { Post } from '../../../DTOS/Post';
 import { PostResponse } from '../../../Models/Posts/Responses/PostResponse';
 import { LikesServiceService } from '../../Common/Services/likes-service.service';

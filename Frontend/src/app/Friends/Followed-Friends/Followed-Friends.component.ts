@@ -5,19 +5,26 @@ import { AuthenticationService } from '../../Auth/Services/authentication-servic
 import { FollowSerivceService } from '../Services/follow-serivce.service';
 import { ProfileServiceService } from '../../UserProfile/Services/profile-service.service';
 import { NgFor, NgIf } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-followedFriends',
   standalone: true,
-  imports: [FriendsHeaderComponent,NgFor,NgIf],
+  imports: [FriendsHeaderComponent,NgFor,NgIf,RouterModule],
   templateUrl: './Followed-Friends.component.html',
   styleUrl: './Followed-Friends.component.css'
 })
 export class FollowedFriendsComponent {
-  constructor(private authService: AuthenticationService,private profileService:ProfileServiceService){}
-followedUsers!:UserResponse[]
+  constructor(private router:Router,private authService: AuthenticationService,private profileService:ProfileServiceService){}
 ngOnInit(){
   this.viewFollowed()
+}
+//*******************************VARIABLES********************************************************* */
+followedUsers!:UserResponse[]
+
+//*******************************FUNCTIONS********************************************** */
+viewProfile(profileId: string) {
+  this.router.navigate(['/home/profile', profileId]);
 }
 viewFollowed(){
   // debugger

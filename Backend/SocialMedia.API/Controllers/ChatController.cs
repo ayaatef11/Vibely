@@ -47,7 +47,7 @@ public class ChatController(IChatService _chatService) : ControllerBase
     [HttpDelete("{messageId}")]
     public async Task<IActionResult> DeleteMessageAsync(Guid messageId, Guid currentUserId)
     {
-        await _chatService.DeleteMessageAsync(messageId, currentUserId);
-        return Ok();
+       var result= await _chatService.DeleteMessageAsync(messageId, currentUserId);
+        return Ok(result);
     }
 }

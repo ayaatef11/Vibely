@@ -12,13 +12,8 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var requestOperation = await _FollowerService.RequestFollowAsync(follow);
-        return requestOperation == "Successfully" ?
-            Ok(new Result
-            {
-                Message = "Follow Sent Successfully"
-            })
-            : BadRequest(requestOperation);
+        var result = await _FollowerService.RequestFollowAsync(follow);
+        return  Ok(result);
     }
     [HttpPost("unrequest")]
     public async Task<IActionResult> DeleteRequest(FollowRequest follow)
@@ -26,13 +21,8 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var requestOperation = await _FollowerService.UnrequestFollowAsync(follow);
-        return requestOperation == "Successfully" ?
-            Ok(new Result
-            {
-                Message = "Follow Sent Successfully"
-            })
-            : BadRequest(requestOperation);
+        var result = await _FollowerService.UnrequestFollowAsync(follow);
+        return  Ok(result);
     }
 
     [HttpPut("accept")]
@@ -41,13 +31,8 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var acceptOperation = await _FollowerService.AcceptFollowAsync(follow);
-        return acceptOperation == "Accepted" ?
-           Ok(new Result
-           {
-               Message = "Follow Accepted Successfully"
-           })
-           : BadRequest(acceptOperation);
+        var result = await _FollowerService.AcceptFollowAsync(follow);
+        return  Ok(result);
     }
 
     [HttpPut("reject")]
@@ -56,13 +41,8 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var rejectOperation = await _FollowerService.RejectFollowAsync(follow);
-        return rejectOperation == "Rejected" ?
-           Ok(new Result
-           {
-               Message = "Follow Rejected Successfully"
-           })
-           : BadRequest(rejectOperation);
+        var result = await _FollowerService.RejectFollowAsync(follow);
+        return  Ok(result);
     }
 
     [HttpDelete("unfollow")]
@@ -71,13 +51,8 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var unfollowOperation = await _FollowerService.UnFollowAsync(follow);
-        return unfollowOperation == "Successfully" ?
-           Ok(new Result
-           {
-               Message = "Follow Removed Successfully"
-           })
-           : BadRequest(unfollowOperation);
+        var result = await _FollowerService.UnFollowAsync(follow);
+        return  Ok(result);
     }
     [HttpGet("view")]
     public async Task<IActionResult> ViewRequests(Guid userId)

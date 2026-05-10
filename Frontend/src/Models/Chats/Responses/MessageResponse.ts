@@ -3,5 +3,6 @@ export interface MessageResponse{
     senderId:string
     content: string
     isEdited:boolean
+    isDeleted:boolean
     sentAt: Date
 }

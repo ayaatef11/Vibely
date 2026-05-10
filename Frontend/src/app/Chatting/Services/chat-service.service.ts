@@ -14,10 +14,12 @@ import { AuthenticationService } from '../../Auth/Services/authentication-servic
 })
 export class ChatServiceService {
   constructor(private http:HttpClient){}
+
 //*********************VARIABLES************************** */
 private Url=environment.apiUrl+'Chat'
 private hubConnection!: signalR.HubConnection;
 public messages$ = new Subject<MessageResponse>();
+
   //**************************FUNCTIONS************************** */
 getChats(currentuserId:string):Observable<ChatResponse[]>{
   return this.http.get<ChatResponse[]>(`${this.Url}?currentUserId=${currentuserId}`)
@@ -30,16 +32,12 @@ getMessages(chatId:string,currentUserId:string):Observable<MessageResponse[]>{
 createChat(currentUserId:string,otherUserId:string):Observable<ChatResponse>{
   return this.http.post<ChatResponse>(`${this.Url}/${currentUserId}/${otherUserId}`,{})
 }
-
-sendMessageApi(request:AddMessageRequest):Observable<MessageResponse>{
-  return this.http.post<MessageResponse>(`${this.Url}/send-message`,request)
-}
-
+ 
 editMessage(messageId:string,request:EditMessageRequest):Observable<MessageResponse>{
   return this.http.put<MessageResponse>(`${this.Url}/edit-message?messageId=${messageId}`,request)
 }
-deleteMessage(messageId:string,currentUserId:string){
-  return this.http.delete(`${this.Url}/${messageId}?currentUserId=${currentUserId}`)
+deleteMessage(messageId:string,currentUserId:string):Observable<MessageResponse>{
+  return this.http.delete<MessageResponse>(`${this.Url}/${messageId}?currentUserId=${currentUserId}`)
 }
 
 //******************HUB********************************* */
@@ -62,16 +60,12 @@ async startConnection(token: string):Promise<void> {
   }
 
   sendMessage(request:AddMessageRequest):Promise<MessageResponse> {
-
     return this.hubConnection.invoke<MessageResponse>('SendMessage',request);
   }
 
   receiveMessage() {
 
-    this.hubConnection.on(
-      'ReceiveMessage',
-      (data: MessageResponse) => {
-console.log("hub data:",data)
+    this.hubConnection.on('ReceiveMessage',(data: MessageResponse) => {
         this.messages$.next(data);
       });
   }

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,7 +12,14 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  constructor(private authService:AuthenticationService){}
+ngOnInit(){
+this.profileId=this.authService.getProfileId()??'1';
+}
+//*****************VARIABLES**************************** */
 isSidebarOpen = true;
+profileId!:string;
+//*******************FUNCTIONS******************************* */
 toggleSidebar() {
   this.isSidebarOpen = !this.isSidebarOpen;
 }

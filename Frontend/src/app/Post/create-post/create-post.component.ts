@@ -7,10 +7,10 @@ import { UserResponse } from '../../../Models/Users/Responses/UserResponse';
 import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
 import { profile } from 'console';
 import { AddPostRequest } from '../../../Models/Posts/Requests/AddPostRequest';
-import { PostServiceService } from './Services/post-service.service';
 import { PostResponse } from '../../../Models/Posts/Responses/PostResponse';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { PostServiceService } from '../Services/post-service.service';
 
 @Component({
   selector: 'app-create-post',

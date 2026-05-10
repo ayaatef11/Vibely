@@ -6,6 +6,7 @@ import { AuthenticationService } from '../../Auth/Services/authentication-servic
 import { ChatResponse } from '../../../Models/Chats/Responses/ChatResponse';
 import { MessageResponse } from '../../../Models/Chats/Responses/MessageResponse';
 import { AddMessageRequest } from '../../../Models/Chats/Requests/AddMessageRequest';
+import { EditMessageRequest } from '../../../Models/Chats/Requests/EditMessageRequest';
 
 
 @Component({
@@ -61,5 +62,26 @@ export class FriendChatComponent {
    
     this.newMessage = '';
   }
+editMessage(message: MessageResponse) {
+  const updatedContent = prompt('Edit your message', message.content);
+
+  if (!updatedContent || updatedContent.trim() === '') return;
+const req:EditMessageRequest={
+  currentUserId:this.currentUserId,
+  newContent:updatedContent
+}
+  this.chatService.editMessage(message.id, req).subscribe((res:MessageResponse) => {
+
+    message.content = res.content;
+  });
+}
+
+deleteMessage(message: MessageResponse) {
+
+  this.chatService.deleteMessage(message.id, this.currentUserId)
+    .subscribe((res:MessageResponse) => {
+     message.content = res.content;
+    });
+}
 
 }

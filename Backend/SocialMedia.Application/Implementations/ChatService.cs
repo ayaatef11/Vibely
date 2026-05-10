@@ -119,7 +119,7 @@ public class ChatService(AppdbContext _context,IMapper _mapper) : IChatService
         };
     }
 
-    public async Task DeleteMessageAsync(Guid messageId, Guid currentUserId)
+    public async Task<MessageResponse> DeleteMessageAsync(Guid messageId, Guid currentUserId)
     {
         var message = await _context.Messages.FirstOrDefaultAsync(x => x.Id == messageId);
 
@@ -138,5 +138,6 @@ public class ChatService(AppdbContext _context,IMapper _mapper) : IChatService
         message.Content = "Message deleted";
 
         await _context.SaveChangesAsync();
+        return _mapper.Map<MessageResponse>(message);
     }
 }

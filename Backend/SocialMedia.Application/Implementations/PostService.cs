@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.Abstractions;
 using SocialMedia.Application.DTOs.Responses.Posts;
 using SocialMedia.Application.Helpers.Media;
-using SocialMedia.Core.Domain.DTOs.Requests.Post;
-using SocialMedia.Infrastructure.Domain.Entities.Security;
+using SocialMedia.Core.Domain.DTOs.Requests.Post; 
 
 namespace SocialMedia.Application.Implementations;
 public class PostService(AppdbContext _context, IMapper _mapper,IProfileService _profileService, IMainRepository<Post> _PostRepository) : IPostService
@@ -52,10 +50,11 @@ public class PostService(AppdbContext _context, IMapper _mapper,IProfileService 
         await _PostRepository.DeleteAsync(id);
         await _profileService.updatePostsCount(post.ProfileId, false);
     }
-    public async ValueTask<PostResponse?>SearchForPost(string keyword)
+    public async ValueTask<List<PostResponse>?>SearchForPost(string keyword)
     {
-        var post=await _context.Posts.FirstOrDefaultAsync(x => x.Title.Contains( keyword) ||(x.Text!=null && x.Text.Contains(keyword)));
-        return _mapper.Map<PostResponse>(post);
+        var posts=await _context.Posts.Where(x => x.Title.Contains( keyword) ||(x.Text!=null && x.Text.Contains(keyword))).ToListAsync();
+        var result = _mapper.Map<List<PostResponse>?>(posts) ;
+        return result;
     }
 
     public async ValueTask<IEnumerable<PostResponse>> GetTrendingPosts()//for public pages

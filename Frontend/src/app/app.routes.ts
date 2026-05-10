@@ -12,10 +12,6 @@ import { CommentsNotificationsComponent } from './Common/Notificationss/comments
 import { LikesNotificationsComponent } from './Common/Notificationss/likes-notifications/likes-notifications.component';
 import { FollowedFriendsComponent } from './Friends/Followed-Friends/Followed-Friends.component';
 import { FollowingFriendsComponent } from './Friends/following-friends/following-friends.component';
-import { SearchComponent } from './Common/search/search.component';
-import { SearchPeopleComponent } from './Common/search/search-people/search-people.component';
-import { SearchPostsComponent } from './Common/search/search-posts/search-posts.component';
-import { SearchTagsComponent } from './Common/search/search-tags/search-tags.component';
 import { EditProfileComponent } from './UserProfile/edit-profile/edit-profile.component';
 import { ProfileComponent } from './UserProfile/profile/profile.component';
 import { FriendChatComponent } from './Chatting/friend-chat/friend-chat.component';
@@ -68,12 +64,7 @@ export const routes: Routes = [
       { path: 'profile/edit', component: EditProfileComponent },
       { path: 'profile/:id', component: ProfileComponent },
       { path: '', redirectTo: 'notifications', pathMatch: 'full' },
-      { path: 'reels', component: ReelsComponent },
-     
-      { path: 'search/all', title: 'Search', component: SearchComponent },
-      { path: 'search/people', component: SearchPeopleComponent },
-      { path: 'search/posts', component: SearchPostsComponent },
-      { path: 'search/tags', component: SearchTagsComponent },
+      { path: 'reels', component: ReelsComponent }, 
 
     ]
   },

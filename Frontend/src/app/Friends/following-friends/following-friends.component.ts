@@ -5,19 +5,43 @@ import { AuthenticationService } from '../../Auth/Services/authentication-servic
 import { ProfileComponent } from '../../UserProfile/profile/profile.component';
 import { ProfileServiceService } from '../../UserProfile/Services/profile-service.service';
 import { NgFor, NgIf } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { FollowSerivceService } from '../Services/follow-serivce.service';
+import { FollowRequest } from '../../../Models/Follow/Requests/FollowRequest';
+import { UnFollowRequest } from '../../../Models/Follow/Requests/UnFollowRequest';
 
 @Component({
   selector: 'app-following-friends',
   standalone: true,
-  imports: [FriendsHeaderComponent,NgFor,NgIf],
+  imports: [FriendsHeaderComponent,NgFor,NgIf,RouterModule],
   templateUrl: './following-friends.component.html',
   styleUrl: './following-friends.component.css'
 })
 export class FollowingFriendsComponent {
-  constructor(private authService:AuthenticationService,private profileService:ProfileServiceService){}
-FollowersUsers!:UserResponse[]
-ngOnInit(){
+  constructor(private router:Router,private followService:FollowSerivceService,private authService:AuthenticationService,private profileService:ProfileServiceService){}
+  ngOnInit(){
   this.viewFollowing()
+}
+//*************************VARIABLES************************************** */
+FollowersUsers!:UserResponse[]
+currentUserId=this.authService.getUserId()??'1';
+//*****************************FUNCTIONS****************************************** */
+viewProfile(profileId: string) {
+  this.router.navigate(['/home/profile', profileId]);
+}
+requestFollow(id:string){
+  const req:FollowRequest={
+    sender:this.currentUserId,
+    reciever:id
+  };
+this.followService.requestFollow(req).subscribe();
+}
+unfollow(id:string){
+const  req: UnFollowRequest={
+  sender:this.currentUserId,
+  reciever:id
+};
+this.followService.unfollow(req).subscribe();
 }
 viewFollowing(){
   // debugger

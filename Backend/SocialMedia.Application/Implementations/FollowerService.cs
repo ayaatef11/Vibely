@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Responses.Users;
-using SocialMedia.Core.Domain.DTOs.Requests.Followers;
+using SocialMedia.Application.DTOs.Responses.Users; 
 namespace SocialMedia.Application.Implementations;
 public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollowerService
 { 
@@ -9,20 +8,20 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
     {
         var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Sender);
         if (_sender == null)
-            return "Sender Not Found";
+            throw new Exception( "Sender Not Found");
 
         var _reciever = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Reciever);
         if (_reciever == null)
-            return "Reciever Not Found";
+            throw new Exception("Reciever Not Found");
 
         var _follow = await _context.Follows.SingleOrDefaultAsync
             (x => x.FollowerId == follow.Sender && x.FollowingId == follow.Reciever);
 
         if (_follow == null)
-            return "Follow Found";
+            throw new Exception("Follow Found");
 
         if (_follow.FollowState == FollowState.Accepted)
-            return "Follow Already Accepted";
+            throw new Exception("Follow Already Accepted");
 
         _follow.FollowState = FollowState.Accepted;
         _sender.FollowingCount++;
@@ -51,101 +50,100 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
     var result = _mapper.Map<List<UserResponseWithStories>>(users);
         return result;
     }
-    public async ValueTask<string> RejectFollowAsync(FollowRequest follow)
+    public async ValueTask<ProfileResponse> RejectFollowAsync(FollowRequest follow)
     {
-        var _sender = await _context.Users.SingleOrDefaultAsync(x => x.Id == follow.Sender);
+        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Sender);
         if (_sender == null)
-            return "SenderNotFound";
+            throw new Exception( "SenderNotFound");
 
-        var _reciever = await _context.Users.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
-        if (_reciever == null)
-            return "RecieverNotFound";
+        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Reciever);
+        if (receiver == null)
+            throw new Exception("RecieverNotFound");
 
         var existedFollow = await _context.Follows.SingleOrDefaultAsync(x => x.FollowerId == follow.Sender && x.FollowingId == follow.Reciever);
         if (existedFollow == null)
-            return "FollowNot Found";
+            throw new Exception("FollowNot Found");
 
         _context.Follows.Remove(existedFollow);
         var rejectOperation = await _context.SaveChangesAsync();
 
-        return rejectOperation > 0 ?
-            "Rejected" : "Invalid";
+        if( rejectOperation <= 0 ) throw new Exception("Invalid");
+        return _mapper.Map<ProfileResponse>(receiver);
     }
 
-    public async ValueTask<string> RequestFollowAsync(FollowRequest follow)
+    public async ValueTask<ProfileResponse> RequestFollowAsync(FollowRequest request)
     {
-        var _sender = await _context.Users.SingleOrDefaultAsync(x => x.Id == follow.Sender);
-        if (_sender == null)
-            return "Sender Not Found";
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == request.Sender);
+        if (sender == null)
+            throw new Exception( "Sender Not Found");
 
-        var _receiver = await _context.Users.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
-        if (_receiver == null)
-            return "RecieverNot Found";
+        var receiver = await _context.Profiles.FirstOrDefaultAsync(x => x.SocialMediaUserId == request.Reciever);
+        if (receiver == null)
+            throw new Exception( "Reciever Not Found");
 
         var existedFollow = await _context.Follows
-            .AnyAsync(x => x.FollowerId == follow.Sender && x.FollowingId == follow.Reciever);
+            .AnyAsync(x => x.FollowerId == request.Sender && x.FollowingId == request.Reciever);
 
-        if (existedFollow)
-            return "User Already Following";
+        if (existedFollow) throw new Exception( "User Already Following");
 
-        var _follow = new Follow()
+        var follow = new Follow()
         {
-            FollowerId = follow.Sender,
-            FollowingId = follow.Reciever,
+            FollowerId = request.Sender,
+            FollowingId = request.Reciever,
             FollowState = FollowState.Pending
         };
 
-        await _context.Follows.AddAsync(_follow);
+        await _context.Follows.AddAsync(follow);
         var sendFollowOperation = await _context.SaveChangesAsync();
 
-        return sendFollowOperation > 0 ? "Successfully" : "FollowRequestFailed";
+        if( sendFollowOperation <= 0) throw new Exception("FollowRequestFailed");
+       return _mapper.Map<ProfileResponse>(receiver);
     }
 
 
-    public async ValueTask<string> UnFollowAsync(FollowRequest follow)
+    public async ValueTask<ProfileResponse> UnFollowAsync(FollowRequest request)
     {
-        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Sender);
-        if (_sender == null)
-            return "Sender Not Found";
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == request.Sender);
+        if (sender == null)
+            throw new Exception( "Sender Not Found");
 
-        var _receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Reciever);
-        if (_receiver == null)
-            return "RecieverN Found";
+        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == request.Reciever);
+        if (receiver == null)
+            throw new Exception( "RecieverN Found");
 
-        var existedFollow = await _context.Follows.SingleOrDefaultAsync(x => x.FollowerId == follow.Sender && x.FollowingId == follow.Reciever);
+        var existedFollow = await _context.Follows.SingleOrDefaultAsync(x => x.FollowerId == request.Sender && x.FollowingId == request.Reciever);
         if (existedFollow == null)
-            return "Follow Not Found";
+            throw new Exception( "Follow Not Found");
 
         _context.Follows.Remove(existedFollow);
-        _sender.FollowingCount--;
-        _receiver.FollowerCount--;
+        sender.FollowingCount--;
+        receiver.FollowerCount--;
         var unfollowOperation = await _context.SaveChangesAsync();
 
-        return unfollowOperation > 0 ?
-            "Successfully" : "Invalid";
+         if(unfollowOperation <= 0) throw new Exception( "Invalid");
+        return _mapper.Map<ProfileResponse>(receiver);
     }
 
-    public async  ValueTask<string> UnrequestFollowAsync(FollowRequest follow)
+    public async  ValueTask<ProfileResponse> UnrequestFollowAsync(FollowRequest follow)
     {
-        var _sender = await _context.Users.SingleOrDefaultAsync(x => x.Id == follow.Sender);
-        if (_sender == null)
-            return "Sender Not Found";
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Sender);
+        if (sender == null)
+            throw new Exception( "Sender Not Found");
 
-        var _receiver = await _context.Users.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
-        if (_receiver == null)
-            return "RecieverNot Found";
+        var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.SocialMediaUserId == follow.Reciever);
+        if (receiver == null)
+            throw new Exception( "Reciever Not Found");
 
         var existedFollow = await _context.Follows.Where(x => x.FollowerId == follow.Sender && x.FollowingId == follow.Reciever).FirstOrDefaultAsync();
 
         if (existedFollow == null)
-            return "Follow is not found ";
-
-      
+            throw new Exception( "Follow is not found ");
 
          _context.Follows.Remove(existedFollow);
         var sendFollowOperation = await _context.SaveChangesAsync();
 
-        return sendFollowOperation > 0 ? "Successfully" : "FollowRequestFailed";
+         if(sendFollowOperation <=0) throw new Exception( "FollowRequestFailed");
+        return _mapper.Map<ProfileResponse>( receiver);
     }
     public async Task<List<UserResponse>>ViewRequests(Guid userId)
     {

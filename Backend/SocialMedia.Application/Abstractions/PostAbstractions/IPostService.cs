@@ -8,7 +8,7 @@ public interface IPostService
     ValueTask<PostResponse> EditPost(UpdatePostRequest post);
     ValueTask DeletePost(Guid id);
     ValueTask<IEnumerable<PostResponse>> GetUserPostsAsync(Guid id);
-    ValueTask<PostResponse?> SearchForPost(string keyword);
+    ValueTask<List<PostResponse>?> SearchForPost(string keyword);
     ValueTask<IEnumerable<PostResponseWithComments>> GetAllPosts(Guid userId);
     ValueTask<PostResponse> GetPost(Guid postId);
     ValueTask<IEnumerable<PostResponse>> GetTrendingPosts();

@@ -27,11 +27,11 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == savePost.UserId);
         if (user == null)
-            return "User Not Found Or Inviald User Id";
+            throw new Exception( "User Not Found Or Inviald User Id");
 
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == savePost.PostId);
         if (post == null)
-            return "Post Not Found Or Inviald Post Id";
+            throw new Exception("Post Not Found Or Inviald Post Id");
         var saverIds = JsonHelper.ConvertToList(post.SaverIds);
 
         if (!saverIds.Contains(savePost.UserId))
@@ -50,13 +50,11 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
 
     public async ValueTask<string> UnSaveAsync(SavePostRequest savePost)
     {
-        var user = await _context.Users.
-          SingleOrDefaultAsync(x => x.Id == savePost.UserId);
+        var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == savePost.UserId);
         if (user == null)
             return "User Not Found Or Inviald User Id";
 
-        var post = await _context.Posts
-            .SingleOrDefaultAsync(x => x.Id == savePost.PostId);
+        var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == savePost.PostId);
         if (post == null)
             return "Post Not Found Or Inviald Post Id";
 
@@ -71,8 +69,6 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
 
         _context.Posts.Update(post);
         var deleteOperation = await _context.SaveChangesAsync();
-        return deleteOperation > 0 ?
-            "Successfully" :
-            "Failed To UnSave Post";
+        return deleteOperation > 0 ? "Successfully" :  "Failed To UnSave Post";
     }
 }

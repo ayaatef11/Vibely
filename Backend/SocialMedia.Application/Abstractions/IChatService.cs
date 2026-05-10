@@ -15,6 +15,6 @@ public interface IChatService
     Task<MessageResponse> SendMessageAsync(AddMessageRequest request);
 
     Task<MessageResponse> EditMessageAsync(Guid MessageId, EditMessageRequest request);
-    Task DeleteMessageAsync(Guid messageId, Guid currentUserId);
+    Task<MessageResponse> DeleteMessageAsync(Guid messageId, Guid currentUserId);
 }
 
