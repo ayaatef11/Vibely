@@ -7,7 +7,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="profilePictureModalLabel">{{user.fullName}}</h5>
+                    <h5 class="modal-title" id="profilePictureModalLabel">{{profile.fullName}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -29,41 +29,43 @@
     <div class="profile-info">
         <img src="profile.jpg" alt="John Doe" class="profile-picture">
         <div class="profile-header">
-            <h1 class="profile-name">{{user.fullName}}</h1>
-            <p class="profile-username">{{user.userName}}</p>
-            <p class="profile-bio">{{user.bio}}</p>
+            <h1 class="profile-name">{{profile.fullName}}</h1>
+            <p class="profile-username">{{profile.userName}}</p>
+            <p class="profile-bio">{{profile.bio}}</p>
             <div class="profile-meta">
-                <div><i class="fas fa-map-marker-alt"></i>{{user.location}}</div>
-                <div><i class="fas fa-calendar-alt" *ngIf="isWebsite"></i>{{user.website}}</div>
+                <div><i class="fas fa-map-marker-alt"></i>{{profile.location}}</div>
+                <div><i class="fas fa-calendar-alt" *ngIf="isWebsite"></i>{{profile.website}}</div>
             </div>
         </div>
     </div>
 
     <div class="profile-stats px-3">
         <div class="stat">
-            <span class="stat-number">{{user.postCount}}</span>
+            <span class="stat-number">{{profile.postCount}}</span>
             <span class="stat-label">posts</span>
         </div>
         <button class="stat" [routerLink]="['/friends/followers']">
-            <span class="stat-number">{{user.followerCount}}</span>
+            <span class="stat-number">{{profile.followerCount}}</span>
             <span class="stat-label">followers</span>
         </button>
         <button class="stat" [routerLink]="['/friends/following']">
-            <span class="stat-number">{{user.followingCount}}</span>
+            <span class="stat-number">{{profile.followingCount}}</span>
             <span class="stat-label">following</span>
         </button>
         <!-- if not same user-->
-<div *ngIf="!isCurrentUser">
+        <div *ngIf="!isCurrentUser">
+            <button class="btn btn-primary" (click)="openChat()">
+                <i class="fas fa-comment"></i> Message
+            </button>
+            <!-- if not blocked -->
+            <button *ngIf="!isBlocked" class="btn btn-danger" (click)="blockUser()"> Block
+            </button>
 
-  <!-- if not blocked -->
-  <button *ngIf="!isBlocked"  class="btn btn-danger"  (click)="blockUser()">  Block
-  </button>
+            <!-- if blocked -->
+            <button *ngIf="isBlocked" class="btn btn-success" (click)="unblockUser()"> Unblock
+            </button>
 
-  <!-- if blocked -->
-  <button *ngIf="isBlocked"  class="btn btn-success"  (click)="unblockUser()">  Unblock
-  </button>
-
-</div>
+        </div>
     </div>
 
     <div class="profile-tabs">
@@ -80,12 +82,10 @@
     <div class="tab-content">
         <div class="tab-pane fade show active">
             <div class="photo-grid">
-                <div class="photo-item" *ngFor="let post of user.posts">
+                <div class="photo-item" *ngFor="let post of profile.posts">
                     <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=300&fit=crop"
                         alt="Post" (click)="openPost(post.id)" style="cursor:pointer">
-                    <p class="small mt-1">
-                        {{ post.text }}
-                    </p>
+                    <p class="small mt-1">  {{ post.text }}  </p>
                 </div>
             </div>
         </div>

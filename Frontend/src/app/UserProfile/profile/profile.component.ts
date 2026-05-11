@@ -6,6 +6,7 @@ import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileRespo
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BlocksServiceService } from '../../Common/Services/blocks-service.service';
+import { ChatServiceService } from '../../Chatting/Services/chat-service.service';
 declare var bootstrap: any;
 
 @Component({
@@ -17,7 +18,7 @@ declare var bootstrap: any;
 })
 
 export class ProfileComponent {
-  constructor(private router: Router,private blocksService:BlocksServiceService,private route:ActivatedRoute,private profileService: ProfileServiceService, private authService: AuthenticationService) { }
+  constructor(private router: Router,private chatService:ChatServiceService,private blocksService:BlocksServiceService,private route:ActivatedRoute,private profileService: ProfileServiceService, private authService: AuthenticationService) { }
   
   ngOnInit(): void {
     this.loadProfile();
@@ -26,19 +27,30 @@ export class ProfileComponent {
   }
   //**************************variables**************************************** */
 
-user!: ProfileResponse;
+profile!: ProfileResponse;
 isCurrentUser: boolean = false;
 isBlocked: boolean = false;
 profileId = this.route.snapshot.paramMap.get('id')??'1';
 currentUserId=this.authService.getUserId()??'1'
+currentProfileId = this.authService.getProfileId()??'1'
 //*************************************functions********************* */
+openChat(): void {
+debugger
+  this.chatService.createChat(this.currentUserId, this.profile.userId).subscribe({
+    next: (chat) => {
+      this.router.navigate(['/home/chat/friend', chat.id]);
+    },
+    error: (err) => {
+      console.error('Failed to create or open chat:', err);
+    }
+  });
+}
  isWebsite(): number {
-  return this.user?.website ? 1 : 0;
+  return this.profile?.website ? 1 : 0;
 }
 
 checkIfCurrentUser() {
-  const currentProfileId = this.authService.getProfileId()
-  this.isCurrentUser = currentProfileId === this.profileId;
+  this.isCurrentUser = this.currentProfileId === this.profileId;
 }
 
 checkIfBlocked() {
@@ -50,7 +62,7 @@ checkIfBlocked() {
 blockUser() {
   const data = {
     blockerId: this.currentUserId,
-    blockedId: this.user.socialMediaUserId
+    blockedId: this.profile.userId
   };
 
   this.blocksService.blockUser(data).subscribe(() => {
@@ -61,7 +73,7 @@ blockUser() {
 unblockUser() {
   const data = {
     blockerId: this.currentUserId,
-    blockedId: this.user.socialMediaUserId
+    blockedId: this.profile.userId
   };
 
   this.blocksService.unblockUser(data).subscribe(() => {
@@ -75,16 +87,17 @@ openPost(postId: string) {
 
 
 loadProfile() {
-    debugger
+  debugger
     this.profileService.viewProfile(this.profileId).subscribe({
       next: (res: ProfileResponse) => {
-        this.user = res;
+        this.profile = res;
       },
       error: (err) => {
         console.error(err);
       }
     });
   }
+
 openModal() {
     const modal = new bootstrap.Modal(document.getElementById('profilePictureModal')!);
     modal.show();

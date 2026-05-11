@@ -50,6 +50,7 @@ export const routes: Routes = [
       },
       { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
       { path: 'chat/friend', component: FriendChatComponent },
+      { path: 'chat/friend/:chatId', component: FriendChatComponent },
 
       {
         path: 'notifications', title: 'Notifications', component: NotificationsHeaderComponent,

@@ -10,7 +10,7 @@ export interface ProfileResponse {
     userName: string
     website: string
     location: string
-    socialMediaUserId:string
+    userId:string
     profileImage: string
     backgroundImage: string
     profileImageContentType: string

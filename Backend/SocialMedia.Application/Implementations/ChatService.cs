@@ -46,16 +46,17 @@ public class ChatService(AppdbContext _context,IMapper _mapper) : IChatService
             .Where(x => x.Participants.Any(p => p.UserId == currentUserId))
             .OrderByDescending(x =>x.Messages.Select(m => (DateTime?)m.SentAt).Max())
             .ToListAsync();
+
         return chats.Select(chat => {
-            var LastMessage = chat.Messages.OrderByDescending(x => x.SentAt).FirstOrDefault();
+            var LastMessage = (chat.Messages!=null && chat.Messages.Any()) ?chat.Messages.OrderByDescending(x => x.SentAt).First():null;
             return new ChatResponse
             {
                 Id = chat.Id,
                 LastMessage = LastMessage?.Content,
                 Name = chat.Name,
-                LastMessageDate = chat.Messages.OrderByDescending(x => x.SentAt).FirstOrDefault()?.SentAt,
+                LastMessageDate = LastMessage?.SentAt,
                 Participants=_mapper.Map<List<ChatParticipantResponse>>( chat.Participants),
-                ParticipantId=chat.Participants.First(u=>u.UserId !=currentUserId).UserId,
+                ParticipantId=chat.Participants.FirstOrDefault(u=>u.UserId !=currentUserId)?.UserId ?? currentUserId,
             };
        }).ToList();
     }

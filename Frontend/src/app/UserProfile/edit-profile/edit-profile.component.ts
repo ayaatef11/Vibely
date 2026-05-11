@@ -32,7 +32,7 @@ export class EditProfileComponent {
     website: '',
     profileImage: '',
     backgroundImage: '',
-    socialMediaUserId: '',
+    userId: '',
     profileImageContentType: ' ',
     backgroundImageContentType: ' ',
     posts: []

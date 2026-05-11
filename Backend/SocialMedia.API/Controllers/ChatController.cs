@@ -12,7 +12,7 @@ public class ChatController(IChatService _chatService) : ControllerBase
 {
 
     [HttpGet]
-    public async Task<IActionResult> GetChatsAsync(Guid currentUserId)
+    public async Task<IActionResult> GetAllChatsAsync(Guid currentUserId)
     {
         var result = await _chatService.GetChatsAsync(currentUserId);
         return Ok(result);
