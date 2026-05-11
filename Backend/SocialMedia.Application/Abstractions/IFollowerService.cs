@@ -12,6 +12,7 @@ public interface IFollowerService
     ValueTask<ProfileResponse> RejectFollowAsync(FollowRequest followr);
     ValueTask<ICollection<UserResponse>> GetFollowersAsync(Guid profileId);
     ValueTask<ICollection<UserResponseWithStories>> GetFollowingWithStoriesAsync(Guid userId);
+    ValueTask<ICollection<ProfileResponse>> FindPeople(Guid userId);
     Task<List<UserResponse>> ViewRequests(Guid profileId);
 }
 

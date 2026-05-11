@@ -40,6 +40,13 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
         var result = await _FollowerService.UnFollowAsync(follow);
         return  Ok(result);
     }
+    [HttpGet("find-people")]
+    public async Task<IActionResult> FindPeople(Guid userId)
+    {
+
+        var result = await _FollowerService.FindPeople(userId);
+        return Ok(result);
+    }
     [HttpGet("view")]
     public async Task<IActionResult> ViewRequests(Guid profileId)
     {

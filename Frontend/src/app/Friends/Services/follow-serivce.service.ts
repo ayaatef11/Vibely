@@ -37,15 +37,20 @@ export class FollowSerivceService {
     return this.http.delete<ProfileResponse>(`${this.Url}/unfollow`, { body: data })
   }
 
-  getFollow(profileId: string):Observable<UserResponse> {
+  getFollow(profileId: string): Observable<UserResponse> {
     return this.http.get<UserResponse>(`${this.Url}/Get/${profileId}`)
   }
 
-  getFollowingWithStories(id: string):Observable<UserResponseWithStories[]> {
+  FindPeople(userId: string) {
+    return this.http.get<ProfileResponse[]>(`${this.Url}/find-people?userId=${userId}`)
+    
+  }
+
+  getFollowingWithStories(id: string): Observable<UserResponseWithStories[]> {
     return this.http.get<UserResponseWithStories[]>(`${this.Url}/Get-following/${id}`)
   }
 
-  viewRequests(profileId: string):Observable<UserResponse[]> {
+  viewRequests(profileId: string): Observable<UserResponse[]> {
     return this.http.get<UserResponse[]>(`${this.Url}/view?profileId=${profileId}`)
   }
 }

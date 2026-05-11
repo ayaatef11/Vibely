@@ -1,1 +1,73 @@
-<p>all-people works!</p>
+<div class="page-wrapper">
+  <div class="page-header">
+    <h1>Discover People</h1>
+    <p>People you might want to follow</p>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-grid" *ngIf="isLoading">
+    <div class="skeleton-card" *ngFor="let i of [1,2,3,4,5,6]"></div>
+  </div>
+
+  <!-- Error -->
+  <div class="error-state" *ngIf="error">
+    <span> {{ error }}</span>
+    <button (click)="loadPeople()">Retry</button>
+  </div>
+
+  <!-- Empty -->
+  <div class="empty-state" *ngIf="!isLoading && !error && users.length === 0">
+    <div class="empty-icon">👥</div>
+    <p>No new people to discover right now.</p>
+  </div>
+
+  <!-- Users Grid -->
+  <div class="users-grid" *ngIf="!isLoading && !error && users.length > 0">
+    <div class="user-card" *ngFor="let user of users">
+
+      <!-- Avatar -->
+      <div class="avatar">
+        <img *ngIf="user.profileImage" [src]="user.profileImage" [alt]="user.fullName" />
+        <span *ngIf="!user.profileImage">{{ getInitials(user.fullName) }}</span>
+      </div>
+
+      <!-- Info -->
+      <div class="user-info">
+        <h3 class="full-name">{{ user.fullName }}</h3>
+        <span class="username">&#64;{{ user.userName }}</span>
+        <p class="bio" *ngIf="user.bio">{{ user.bio }}</p>
+        <span class="location" *ngIf="user.location">📍 {{ user.location }}</span>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-value">{{ user.postCount }}</span>
+          <span class="stat-label">Posts</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ user.followerCount }}</span>
+          <span class="stat-label">Followers</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">{{ user.followingCount }}</span>
+          <span class="stat-label">Following</span>
+        </div>
+      </div>
+
+      <!-- Follow Button -->
+      <button
+        class="follow-btn"
+        [class.loading]="followingStates[user.id] === 'loading'"
+        [class.requested]="followingStates[user.id] === 'requested'"
+        [disabled]="followingStates[user.id] !== 'idle'"
+        (click)="follow(user.id)">
+
+        <span *ngIf="followingStates[user.id] === 'idle'">Follow</span>
+        <span *ngIf="followingStates[user.id] === 'loading'">...</span>
+        <span *ngIf="followingStates[user.id] === 'requested'">✓ Requested</span>
+      </button>
+
+    </div>
+  </div>
+</div>

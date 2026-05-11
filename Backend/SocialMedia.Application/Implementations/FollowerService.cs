@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Requests.Notifications;
-using SocialMedia.Infrastructure.Domain.Entities.Business.Posts;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.EntityFrameworkCore; 
 namespace SocialMedia.Application.Implementations;
 public class FollowerService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  IFollowerService
 { 
@@ -60,6 +57,18 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
 
     var result = _mapper.Map<List<UserResponseWithStories>>(users);
         return result;
+    }
+    public async ValueTask<ICollection<ProfileResponse>>FindPeople(Guid userId)
+    {
+        var followingIds = await _context.Follows
+        .Where(f => f.FollowerId == userId)
+        .Select(f => f.FollowingId)
+        .ToListAsync();
+         
+        var people = await _context.Profiles.Where(p => p.Id != userId && !followingIds.Contains(p.Id))
+            .ToListAsync();
+
+        return _mapper.Map<List<ProfileResponse>>(people);
     }
     public async ValueTask<ProfileResponse> RejectFollowAsync(FollowRequest follow)
     {

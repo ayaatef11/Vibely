@@ -24,6 +24,7 @@ import { SidebarComponent } from './Common/sidebar/sidebar.component';
 import { CodeVerificationComponent } from './Auth/code-verification/code-verification.component';
 import { ForgetPasswordComponent } from './Auth/forget-password/forget-password.component';
 import { SavedPostsComponent } from './Post/saved-posts/saved-posts.component';
+import { AllPeopleComponent } from './all-people/all-people.component';
 
 export const routes: Routes = [
   { path: 'signup', title: 'Sign Up', component: SignupComponent },
@@ -37,8 +38,8 @@ export const routes: Routes = [
     path: 'home', title: 'Main', component: SidebarComponent,
     children: [
       { path: '', component: DashboardComponent },
-        { path: 'saved-posts', title: 'Saved Posts', component: SavedPostsComponent},
-
+      { path: 'saved-posts', title: 'Saved Posts', component: SavedPostsComponent },
+      { path: 'find-people', title: 'Find People', component: AllPeopleComponent },
       { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
       { path: 'chat/friend', component: FriendChatComponent },
       { path: 'chat/friend/:chatId', component: FriendChatComponent },
