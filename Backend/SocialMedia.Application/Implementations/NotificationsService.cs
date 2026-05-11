@@ -1,84 +1,100 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Responses.Notifications;
-using SocialMedia.Application.Hubs;
-using SocialMedia.Core.Domain.Entities.Business.Profiles; 
+using System.Data;
 
 namespace SocialMedia.Application.Implementations;
-public class NotificationsService(AppdbContext _context, IMapper _mapper, IHubContext<NotificationsHub> _hubContext)
+public class NotificationsService(AppdbContext _context, IMapper _mapper, IHubContext<NotificationsHub> _hubContext):INotificationsService
 {
-    public async Task SendNotificationAsync(
-        Guid recipientId, Guid senderId, NotificationType type, string message, Guid? referenceId = null)
+    public async Task SendNotificationAsync(NotificationRequest request)
     {
-        if (recipientId == senderId) return;
+        if (request.RecipientId == request.SenderId) return;
 
         var notification = new Notification
         {
-            RecipientId = recipientId,
-            SenderId = senderId,
-            Type = type,
-            Message = message,
-            ReferenceId = referenceId,
+            RecipientId = request.RecipientId,
+            SenderId = request.SenderId,
+            Type = request.Type,
+            Message = request.Message,
+            ReferenceId = request.ReferenceId,
         };
 
         _context.Notifications.Add(notification);
         await _context.SaveChangesAsync();
 
-        var sender = await _context.Users.FindAsync(senderId);
+        var sender = await _context.Users.FindAsync(request.SenderId);
 
         var response = new NotificationResponse
         {
             Id = notification.Id,
-            SenderId = senderId,
+            SenderId = request.SenderId,
             SenderName = sender?.FullName ?? string.Empty,
             SenderProfilePicture = sender?.ProfileImage ?? string.Empty,
-            Type = type.ToString(),
-            Message = message,
-            ReferenceId = referenceId,
+            Type = request.Type.ToString(),
+            Message = request.Message,
+            ReferenceId = request.ReferenceId,
             IsRead = false,
             CreatedAt = notification.CreatedAt,
         };
 
-        await _hubContext.Clients.Group(recipientId.ToString()).SendAsync("ReceiveNotification", response);
+        await _hubContext.Clients.Group(request.RecipientId.ToString()).SendAsync("ReceiveNotification", response);
     }
 
-    public async Task<List<NotificationResponse>> GetNotificationsAsync(Guid userId)
+    public async Task<List<NotificationResponse>> GetNotificationsAsync(Guid profileId)
     {
         var notifications = await _context.Notifications
             .Include(n => n.Sender)
-            .Where(n => n.RecipientId == userId)
+            .Where(n => n.RecipientId == profileId)
             .OrderByDescending(n => n.CreatedAt)
             .ToListAsync();
 
-        return MapList(notifications);
+        return _mapper.Map<List<NotificationResponse>>(notifications);
     }
 
-    public async Task<List<NotificationResponse>> GetUnreadNotificationsAsync(Guid userId)
+    public async Task<List<NotificationResponse>> GetUnreadNotificationsAsync(Guid profileId)
     {
         var notifications = await _context.Notifications
             .Include(n => n.Sender)
-            .Where(n => n.RecipientId == userId && !n.IsRead)
+            .Where(n => n.RecipientId == profileId && !n.IsRead)
             .OrderByDescending(n => n.CreatedAt)
             .ToListAsync();
 
-        return MapList(notifications);
+        return _mapper.Map<List<NotificationResponse>>(notifications);
     }
 
-    public async Task<List<NotificationResponse>> GetByTypeAsync(Guid userId, NotificationType type)
+    public async Task<List<NotificationResponse>> GetByTypeAsync(Guid profileId, string type)
     {
+        var notificationType = MapType(type);
         var notifications = await _context.Notifications
             .Include(n => n.Sender)
-            .Where(n => n.RecipientId == userId && n.Type == type)
+            .Where(n => n.RecipientId == profileId && n.Type == notificationType)
             .OrderByDescending(n => n.CreatedAt)
             .ToListAsync();
 
-        return MapList(notifications);
+        return _mapper.Map<List<NotificationResponse>>(notifications);
     }
 
-    public async Task<int> GetUnreadCountAsync(Guid userId)
-        => await _context.Notifications
-            .CountAsync(n => n.RecipientId == userId && !n.IsRead);
+    private NotificationType MapType(string type)
+    {  switch (type)
+        {
+            case "NewMessage":
+                return NotificationType.NewMessage;
+            case "NewPost":
+                return NotificationType.NewPost;
+            case "FriendRequest":
+                return NotificationType.FriendRequest;
+            case "FriendRequestAccepted":
+                return NotificationType.FriendRequestAccepted;
+            case "Like":
+                return NotificationType.Like;
+            case "Comment":
+                return NotificationType.Comment;
+
+        }
+        throw new Exception("Error");
+    }
+    public async Task<int> GetUnreadCountAsync(Guid profileId)
+        => await _context.Notifications.CountAsync(n => n.RecipientId == profileId && !n.IsRead);
 
     public async Task MarkAsReadAsync(Guid notificationId)
     {
@@ -88,27 +104,15 @@ public class NotificationsService(AppdbContext _context, IMapper _mapper, IHubCo
         await _context.SaveChangesAsync();
     }
 
-    public async Task MarkAllAsReadAsync(Guid userId)
+    public async Task MarkAllAsReadAsync(Guid profileId)
     {
         var unread = await _context.Notifications
-            .Where(n => n.RecipientId == userId && !n.IsRead)
+            .Where(n => n.RecipientId == profileId && !n.IsRead)
             .ToListAsync();
 
         unread.ForEach(n => n.IsRead = true);
         await _context.SaveChangesAsync();
     }
 
-    private List<NotificationResponse> MapList(List<Notification> list) =>
-        list.Select(n => new NotificationResponse
-        {
-            Id = n.Id,
-            SenderId = n.SenderId,
-            SenderName = n.Sender?.FullName ?? string.Empty,
-            SenderProfilePicture = n.Sender?.ProfileImage ?? string.Empty,
-            Type = n.Type.ToString(),
-            Message = n.Message,
-            ReferenceId = n.ReferenceId,
-            IsRead = n.IsRead,
-            CreatedAt = n.CreatedAt,
-        }).ToList();
+  
 }

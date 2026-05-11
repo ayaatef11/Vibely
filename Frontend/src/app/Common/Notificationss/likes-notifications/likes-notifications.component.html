@@ -1,15 +1,14 @@
    <div class="  px-3">
-        <div class="notification-item">
+        <div class="notification-item" *ngFor="let notification of notifications">
             <div class="d-flex align-items-center">
                 <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
                     alt="Profile" class="profile-pic me-3">
                 <div class="flex-grow-1">
                     <div class="notification-text">
-                        <strong>user3name</strong> liked your photo
+                        <strong>{{notification.senderName}}</strong> {{notification.message}}
                     </div>
                 </div>
-                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop" alt="Photo"
-                    class="notification-image ms-2">
+                <img [src]="notification.senderProfilePicture" alt="Photo"class="notification-image ms-2">
             </div>
         </div>      
     </div>

@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.Abstractions;
-using SocialMedia.Infrastructure.Domain.Entities.Business.Posts;
+using Microsoft.EntityFrameworkCore; 
 
 namespace SocialMedia.Application.Implementations;
 public class CommentLikeService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  ICommentLikeService
@@ -55,8 +53,15 @@ public class CommentLikeService(AppdbContext _context,IMapper _mapper,INotificat
         comment.ReactCount++;
         await _context.CommentLikes.AddAsync(commentLike);
         var likeOperation = await _context.SaveChangesAsync();
-        await _notificationService.SendNotificationAsync(recipientId: profile.UserId,senderId: profile.Id,
-            type: NotificationType.Like,message: $"{profile.FullName} liked your post",referenceId: post.Id);
+        var notificationRequest = new NotificationRequest()
+        {
+            RecipientId = profile.UserId,
+            SenderId = profile.Id,
+            Type = NotificationType.Like,
+            Message = $"{profile.FullName} liked your post",
+            ReferenceId = post.Id
+        };
+        await _notificationService.SendNotificationAsync(notificationRequest);
         return _mapper.Map<CommentResponse>(comment);
     }
 }

@@ -10,6 +10,7 @@ using SocialMedia.Infrastructure.Domain.Entities.Business.Stories;
 using SocialMedia.Application.DTOs.Responses.Stories;
 using SocialMedia.Application.DTOs.Requests.Stories;
 using SocialMedia.Core.Domain.Entities.Business.Stories;
+using SocialMedia.Application.DTOs.Responses.Notifications;
 namespace SocialMedia.API.Mapper;
 public class PostMapper : Profile
 {
@@ -35,6 +36,7 @@ public class PostMapper : Profile
         CreateMap<Story, StoryResponse>();
         CreateMap<AddStoryCommentRequest, StoryComment>();
         CreateMap<StoryComment, StoryCommentResponse>();
+        CreateMap<Notification, NotificationResponse>();
     }
 }
 

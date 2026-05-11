@@ -1,38 +1,39 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc; 
-using SocialMedia.Core.Domain.Entities.Business.Profiles;
 
 namespace SocialMedia.API.Controllers;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class NotificationsController(INotificationsService _notificationService) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery] Guid userId)
+    public async Task<IActionResult> GetAll([FromQuery] Guid profileId)
     {
-        var result = await _notificationService.GetNotificationsAsync(userId);
+        var result = await _notificationService.GetNotificationsAsync(profileId);
         return Ok(result);
     }
 
     [HttpGet("unread")]
-    public async Task<IActionResult> GetUnread([FromQuery] Guid userId)
+    public async Task<IActionResult> GetUnread([FromQuery] Guid profileId)
     { 
-        var result=await _notificationService.GetUnreadNotificationsAsync(userId);
+        var result=await _notificationService.GetUnreadNotificationsAsync(profileId);
 
         return Ok(result);
     }
     [HttpGet("unread-count")]
-    public async Task<IActionResult> GetUnreadCount([FromQuery] Guid userId)
+    public async Task<IActionResult> GetUnreadCount([FromQuery] Guid profileId)
     {
-        return Ok(await _notificationService.GetUnreadCountAsync(userId));
+        var result = await _notificationService.GetUnreadCountAsync(profileId);
+        return Ok(result);
     }
 
     [HttpGet("by-type")]
-    public async Task<IActionResult> GetByType([FromQuery] Guid userId, [FromQuery] NotificationType type)
-    { 
-        return Ok(await _notificationService.GetByTypeAsync(userId, type));
+    public async Task<IActionResult> GetByType([FromQuery] Guid profileId, [FromQuery] string type)
+    {
+        var result = await _notificationService.GetByTypeAsync(profileId, type);
+        return Ok(result);
     }
 
     [HttpPut("{id}/read")]
@@ -43,9 +44,9 @@ public class NotificationsController(INotificationsService _notificationService)
     }
 
     [HttpPut("read-all")]
-    public async Task<IActionResult> MarkAllAsRead([FromQuery] Guid userId)
+    public async Task<IActionResult> MarkAllAsRead([FromQuery] Guid profileId)
     {
-        await _notificationService.MarkAllAsReadAsync(userId);
+        await _notificationService.MarkAllAsReadAsync(profileId);
         return NoContent();
     }
 }

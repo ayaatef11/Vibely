@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Requests.Notifications;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace SocialMedia.Application.Implementations;
@@ -32,16 +34,22 @@ public class PostService(AppdbContext _context, IMapper _mapper,INotificationsSe
 
         var addPostOperation = await _PostRepository.CreateAsync(post);
         await _profileService.updatePostsCount(postRequest.ProfileId, true);
-        var followerIds = await _context.Follows.Select(x => x.FollowerId).ToListAsync();
+        var followerIds = await _context.Follows.Where(x => x.FollowingId == user.Id && x.FollowerId.HasValue)
+     .Select(x => x.FollowerId!.Value).ToListAsync();
+        
         if (followerIds.Count()!=0)
         {
             foreach (var followerId in followerIds)
             {
-                await _notificationService.SendNotificationAsync(
-                    recipientId: followerId, senderId: user.Id, type: NotificationType.NewPost,
-                    message: $"{user.FullName} published a new post",
-                    referenceId: post.Id
-                );
+                var notificationRequest = new NotificationRequest()
+                {
+                    RecipientId = followerId,
+                    SenderId = user.Id,
+                    Type = NotificationType.NewPost,
+                    Message = $"{user.FullName} published a new post",
+                    ReferenceId = post.Id
+                };
+                await _notificationService.SendNotificationAsync(notificationRequest);
             }
         }
         return _mapper.Map<PostResponse>(post);

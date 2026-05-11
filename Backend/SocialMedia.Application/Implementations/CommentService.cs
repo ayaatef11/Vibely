@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Requests.Notifications;
 namespace SocialMedia.Application.Implementations;
 public class CommentService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  ICommentService
 { 
@@ -24,9 +25,15 @@ public class CommentService(AppdbContext _context,IMapper _mapper,INotifications
         var result = _mapper.Map<CommentResponse>(comment);
         result.UserName=profile.UserName;
         result.ProfileImage=profile.ProfileImage;
-        await _notificationService.SendNotificationAsync(
-    recipientId: post.Id,senderId: profile.UserId,
-    type: NotificationType.Comment,message: $"{profile.FullName} commented on your post",referenceId: post.Id);
+        var notificationRequest = new NotificationRequest()
+        {
+            RecipientId = post.Id,
+            SenderId = profile.UserId,
+            Type = NotificationType.Comment,
+            Message = $"{profile.FullName} commented on your post",
+            ReferenceId = post.Id
+        };
+        await _notificationService.SendNotificationAsync(notificationRequest);
         return result;
     }
 

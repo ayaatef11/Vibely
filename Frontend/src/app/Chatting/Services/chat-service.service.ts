@@ -43,8 +43,7 @@ deleteMessage(messageId:string,currentUserId:string):Observable<MessageResponse>
 //******************HUB********************************* */
 async startConnection(token: string):Promise<void> {
 // debugger
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7042/chatHub', {
+    this.hubConnection = new signalR.HubConnectionBuilder().withUrl(`${environment.hubUrl}chatHub`, {
         accessTokenFactory: () => token
       })
       .withAutomaticReconnect()

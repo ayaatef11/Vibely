@@ -1,13 +1,29 @@
-<div class="notification-item bg-success">
-    <div class="d-flex align-items-center">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
-            alt="Profile" class="profile-pic me-3">
-        <div class="flex-grow-1">
-            <div class="notification-text">
-                <strong>user2name</strong> mentioned you in a comment:
-            </div>
-            <div class="notification-comment">"I totally agree!"</div>
-        </div>
-        <div class="time-stamp">4h</div>
+<div class="tab-content px-3">
+
+  <p *ngIf="notifications.length === 0" class="text-muted text-center py-4">
+    No notifications yet.
+  </p>
+
+  <div
+    *ngFor="let n of notifications"
+    class="notification-item d-flex align-items-center p-3 border-bottom"
+    [class.bg-unread]="!n.isRead" (click)="markAsRead(n)" style="cursor: pointer" >
+    <!-- Sender avatar -->
+    <img
+      [src]="n.senderProfilePicture || 'assets/default-avatar.png'"
+      [alt]="n.senderName" class="profile-pic me-3"  />
+
+    <div class="flex-grow-1">
+      <div class="notification-text">
+        <strong>{{ n.senderName }}</strong> {{ n.message }}
+      </div>
+      <small class="text-muted">{{ n.createdAt | date: 'short' }}</small>
     </div>
+
+    <!-- Unread dot -->
+    <span
+      *ngIf="!n.isRead"  class="badge bg-primary rounded-circle ms-2"
+      style="width: 10px; height: 10px; padding: 0" ></span>
+  </div>
+
 </div>

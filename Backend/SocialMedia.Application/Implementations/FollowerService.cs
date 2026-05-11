@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Requests.Notifications;
+using SocialMedia.Infrastructure.Domain.Entities.Business.Posts;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace SocialMedia.Application.Implementations;
 public class FollowerService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  IFollowerService
 { 
@@ -26,9 +29,15 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
         sender.FollowingCount++;
         reciever.FollowerCount++;
         var acceptOperation = await _context.SaveChangesAsync();
-
-        await _notificationService.SendNotificationAsync(recipientId: sender.Id,senderId: reciever.Id, type: NotificationType.FriendRequestAccepted,
-    message: $"{reciever.FullName} accepted your friend request");
+        var notificationRequest = new NotificationRequest()
+        {
+            RecipientId = sender.Id,
+            SenderId = reciever.Id,
+            Type = NotificationType.FriendRequestAccepted,
+            Message = $"{reciever.FullName} accepted your friend request",
+            ReferenceId = null
+        };
+        await _notificationService.SendNotificationAsync(notificationRequest);
         return acceptOperation > 0 ?"Accepted" : "Invalid";
     }
 
@@ -99,11 +108,15 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
         var sendFollowOperation = await _context.SaveChangesAsync();
 
         if( sendFollowOperation <= 0) throw new Exception("FollowRequestFailed");
-
-        await _notificationService.SendNotificationAsync(
-    recipientId: receiver.Id,senderId: sender.Id,
-    type: NotificationType.FriendRequest,message: $"{sender.FullName} sent you a friend request",
-    referenceId: follow.Id);
+        var notificationRequest = new NotificationRequest()
+        {
+            RecipientId = receiver.Id,
+            SenderId = sender.Id,
+            Type = NotificationType.FriendRequest,
+            Message = $"{sender.FullName} sent you a friend request",
+            ReferenceId = follow.Id
+        };
+        await _notificationService.SendNotificationAsync(notificationRequest);
         return _mapper.Map<ProfileResponse>(receiver);
     }
 

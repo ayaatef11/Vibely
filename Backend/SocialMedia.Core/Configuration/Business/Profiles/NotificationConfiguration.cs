@@ -7,12 +7,12 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
     public void Configure(EntityTypeBuilder<Notification> builder)
     {
         builder.HasOne(x => x.Sender)
-                     .WithMany()
+                     .WithMany(x=>x.Senders)
                      .HasForeignKey(x => x.SenderId)
                      .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(x => x.Recipient)
-            .WithMany()
+            .WithMany(x=>x.Receivers)
             .HasForeignKey(x => x.RecipientId)
             .OnDelete(DeleteBehavior.NoAction);
     }

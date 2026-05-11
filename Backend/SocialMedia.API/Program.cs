@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SocialMedia.API.Mapper;
+using SocialMedia.Application.Abstractions;
 using SocialMedia.Application.Hubs;
 using SocialMedia.Application.Implementations;
 using SocialMedia.Core.Context;
@@ -44,6 +45,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
+builder.Services.AddScoped<INotificationsService , NotificationsService>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("Connection");
@@ -148,4 +151,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<ChatHub>("/chatHub");//importatn to be after authentication to read the jwt token
+app.MapHub<NotificationsHub>("/notificationHub");
+
 app.Run();

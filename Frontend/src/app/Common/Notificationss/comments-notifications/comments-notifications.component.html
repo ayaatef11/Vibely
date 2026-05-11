@@ -1,16 +1,15 @@
 <div> 
-    <div class="tab-content px-3">       
+    <div class="tab-content px-3" *ngFor="let notification of notifications">       
         <div class="notification-item">
                 <div class="d-flex align-items-center">
                     <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
                         alt="Profile" class="profile-pic me-3">
                     <div class="flex-grow-1">
                         <div class="notification-text">
-                            <strong>user4name</strong> commented on your post:
+                            <strong>{{notification.senderName}}</strong> {{notification.message}}
                         </div>
-                        <div class="notification-comment">"Thanks for sharing!"</div>
                     </div>
-                    <div class="time-stamp">1d</div>
+                    <div class="time-stamp">{{ notification.createdAt | date: 'short' }}</div>
                 </div>
             </div>
         

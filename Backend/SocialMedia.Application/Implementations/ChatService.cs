@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.DTOs.Requests.Notifications;
 
 namespace SocialMedia.Application.Implementations;
 
@@ -90,9 +91,15 @@ public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsSer
         _context.Messages.Add(message);
 
         await _context.SaveChangesAsync();
-        await _notificationService.SendNotificationAsync(
-    recipientId: request.ReceiverId,senderId: request.SenderId,type: NotificationType.NewMessage,
-    message: $"{sender.FullName} sent you a message", referenceId: request.ChatId );
+        var notificationRequest = new NotificationRequest()
+        {
+            RecipientId = request.ReceiverId,
+            SenderId = request.SenderId,
+            Type = NotificationType.NewMessage,
+            Message = $"{sender.FullName} sent you a message",
+            ReferenceId = request.ChatId
+        };
+        await _notificationService.SendNotificationAsync(notificationRequest );
         return _mapper.Map<MessageResponse>(message);
     }
 

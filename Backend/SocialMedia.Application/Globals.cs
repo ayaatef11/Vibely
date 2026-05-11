@@ -34,3 +34,6 @@ global using SocialMedia.Application.DTOs.Responses.Posts;
 global using SocialMedia.Application.Helpers.Media;
 global using SocialMedia.Core.Domain.DTOs.Requests.Post;
 global using SocialMedia.Application.DTOs.Responses.Users;
+global using SocialMedia.Application.DTOs.Requests.Notifications;
+global using SocialMedia.Application.DTOs.Responses.Notifications;
+global using SocialMedia.Application.Hubs;

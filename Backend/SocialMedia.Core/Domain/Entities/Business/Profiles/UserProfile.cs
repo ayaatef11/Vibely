@@ -19,6 +19,8 @@ public class UserProfile : BaseEntity<Guid>
     public string? BackgroundImageContentType { get; set; }
     public Guid UserId { set; get; }
     public User User { set; get; }
+    public ICollection<Notification> Senders { set; get; } = new List<Notification>();
+    public ICollection<Notification> Receivers { set; get; } = new List<Notification>();
     public ICollection<Follow> Following { set; get; } = new List<Follow>();
     public ICollection<Follow> Followers { set; get; } = new List<Follow>();
     public ICollection<Post> Posts { set; get; } = new List<Post>();
