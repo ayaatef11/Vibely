@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Responses.Users; 
+using Microsoft.EntityFrameworkCore; 
 namespace SocialMedia.Application.Implementations;
-public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollowerService
+public class FollowerService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  IFollowerService
 { 
     public async ValueTask<string> AcceptFollowAsync(FollowRequest follow)
     {
-        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
-        if (_sender == null)
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
+        if (sender == null)
             throw new Exception( "Sender Not Found");
 
-        var _reciever = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
-        if (_reciever == null)
+        var reciever = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
+        if (reciever == null)
             throw new Exception("Reciever Not Found");
 
         var _follow = await _context.Follows.SingleOrDefaultAsync
@@ -24,10 +23,12 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
             throw new Exception("Follow Already Accepted");
 
         _follow.FollowState = FollowState.Accepted;
-        _sender.FollowingCount++;
-        _reciever.FollowerCount++;
+        sender.FollowingCount++;
+        reciever.FollowerCount++;
         var acceptOperation = await _context.SaveChangesAsync();
 
+        await _notificationService.SendNotificationAsync(recipientId: sender.Id,senderId: reciever.Id, type: NotificationType.FriendRequestAccepted,
+    message: $"{reciever.FullName} accepted your friend request");
         return acceptOperation > 0 ?"Accepted" : "Invalid";
     }
 
@@ -53,8 +54,8 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
     }
     public async ValueTask<ProfileResponse> RejectFollowAsync(FollowRequest follow)
     {
-        var _sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
-        if (_sender == null)
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
+        if (sender == null)
             throw new Exception( "SenderNotFound");
 
         var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
@@ -98,7 +99,12 @@ public class FollowerService(AppdbContext _context,IMapper _mapper) :  IFollower
         var sendFollowOperation = await _context.SaveChangesAsync();
 
         if( sendFollowOperation <= 0) throw new Exception("FollowRequestFailed");
-       return _mapper.Map<ProfileResponse>(receiver);
+
+        await _notificationService.SendNotificationAsync(
+    recipientId: receiver.Id,senderId: sender.Id,
+    type: NotificationType.FriendRequest,message: $"{sender.FullName} sent you a friend request",
+    referenceId: follow.Id);
+        return _mapper.Map<ProfileResponse>(receiver);
     }
 
 

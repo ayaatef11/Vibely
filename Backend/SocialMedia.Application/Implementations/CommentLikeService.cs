@@ -1,62 +1,62 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using SocialMedia.Application.DTOs.Responses;
-using SocialMedia.Core.Context;
-using SocialMedia.Core.Domain.DTOs.Requests.Comment;
+using SocialMedia.Application.Abstractions;
+using SocialMedia.Infrastructure.Domain.Entities.Business.Posts;
 
 namespace SocialMedia.Application.Implementations;
-public class CommentLikeService(AppdbContext _context,IMapper _mapper) :  ICommentLikeService
+public class CommentLikeService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  ICommentLikeService
 {
-    public async ValueTask<CommentResponse> DisLikeAsync(LikeCommentRequest like)
+    public async ValueTask<CommentResponse> DisLikeAsync(LikeCommentRequest request)
     {
-        var _like = await _context.CommentLikes.SingleOrDefaultAsync(x => x.CommentId == like.CommentId);
-        if (_like == null)
+        var like = await _context.CommentLikes.SingleOrDefaultAsync(x => x.CommentId == request.CommentId);
+        if (like == null)
             throw new Exception("Like Not Found Or Invalid Like ID");
 
-        var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == like.PostId);
+        var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == request.PostId);
         if (post == null)
             throw new Exception("Post Not Found Or Invalid Post ID");
 
-        var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == like.ProfileId);
+        var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.ProfileId);
         if (profile == null)
             throw new Exception("User Not Found Or Invalid User ID");
 
-        var comment = await _context.Comments.SingleOrDefaultAsync(x => x.Id == like.CommentId);
+        var comment = await _context.Comments.SingleOrDefaultAsync(x => x.Id == request.CommentId);
         if (comment == null)
             throw new Exception("Comment Not Found Or Invalid Comment ID");
 
         comment.ReactCount--;
-        _context.CommentLikes.Remove(_like);
+        _context.CommentLikes.Remove(like);
         var dislikeOperation = await _context.SaveChangesAsync();
         return _mapper.Map<CommentResponse>(comment);
     }
 
-    public async ValueTask<CommentResponse> LikeAsync(LikeCommentRequest like)
+    public async ValueTask<CommentResponse> LikeAsync(LikeCommentRequest request)
     {
-        var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == like.PostId);
+        var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == request.PostId);
         if (post == null)
             throw new Exception( "Post Not Found Or Invalid Post ID");
 
-        var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == like.ProfileId);
+        var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.ProfileId);
         if (profile == null)
             throw new Exception( "User Not Found Or Invalid User ID");
 
-        var comment = await _context.Comments.SingleOrDefaultAsync(x => x.Id == like.CommentId);
+        var comment = await _context.Comments.SingleOrDefaultAsync(x => x.Id == request.CommentId);
         if (comment == null)
             throw new Exception( "Comment Not Found Or Invalid Comment ID");
 
         var commentLike = new CommentLikes()
         {
-            CommentId = like.CommentId,
-            ProfileId = like.ProfileId,
-            ReactionType = like.ReactionType,
+            CommentId = request.CommentId,
+            ProfileId = request.ProfileId,
+            ReactionType = request.ReactionType,
 
         };
 
         comment.ReactCount++;
         await _context.CommentLikes.AddAsync(commentLike);
         var likeOperation = await _context.SaveChangesAsync();
+        await _notificationService.SendNotificationAsync(recipientId: profile.UserId,senderId: profile.Id,
+            type: NotificationType.Like,message: $"{profile.FullName} liked your post",referenceId: post.Id);
         return _mapper.Map<CommentResponse>(comment);
     }
 }

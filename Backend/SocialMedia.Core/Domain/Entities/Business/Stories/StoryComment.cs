@@ -1,6 +1,4 @@
-﻿using SocialMedia.Core.Domain.Entities.Business.Profiles;
-
-namespace SocialMedia.Core.Domain.Entities.Business.Stories;
+﻿namespace SocialMedia.Core.Domain.Entities.Business.Stories;
 public class StoryComment:BaseEntity<Guid>
 {
     public string Text { set; get; }

@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Requests.Chats;
-using SocialMedia.Application.DTOs.Responses.Chats;
-using SocialMedia.Core.Domain.Entities.Business.Chats;
 
 namespace SocialMedia.Application.Implementations;
 
-public class ChatService(AppdbContext _context,IMapper _mapper) : IChatService
+public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) : IChatService
 { 
     public async Task<ChatResponse> CreateChatAsync(Guid currentUserId,Guid otherUserId)
     {
@@ -77,6 +74,15 @@ public class ChatService(AppdbContext _context,IMapper _mapper) : IChatService
     public async Task<MessageResponse> SendMessageAsync(AddMessageRequest request)
     {
         ChatResponse chat=new ChatResponse() { };
+        var receiver = await _context.Users.FirstOrDefaultAsync(c => c.Id == request.ReceiverId);
+        if(receiver is null)
+        {
+            throw new Exception("Receiver is not found");
+        }
+        var sender = await _context.Users.FirstOrDefaultAsync(c => c.Id == request.SenderId);
+        if (sender is null) {
+            throw new Exception("Sender is not found");
+        }
         if (request.ChatId is null) chat =await CreateChatAsync(request.SenderId, request.ReceiverId);
         var message =_mapper.Map<Message>(request);
         message.Id = Guid.NewGuid();
@@ -84,7 +90,9 @@ public class ChatService(AppdbContext _context,IMapper _mapper) : IChatService
         _context.Messages.Add(message);
 
         await _context.SaveChangesAsync();
-
+        await _notificationService.SendNotificationAsync(
+    recipientId: request.ReceiverId,senderId: request.SenderId,type: NotificationType.NewMessage,
+    message: $"{sender.FullName} sent you a message", referenceId: request.ChatId );
         return _mapper.Map<MessageResponse>(message);
     }
 

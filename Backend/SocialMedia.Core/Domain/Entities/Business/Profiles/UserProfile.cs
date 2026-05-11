@@ -13,8 +13,8 @@ public class UserProfile : BaseEntity<Guid>
     public string? Location { set; get; } = string.Empty;
 
     // images
-    public byte[]? ProfileImage { get; set; }
-    public byte[]? BackgroundImage { get; set; }
+    public string? ProfileImage { get; set; }
+    public string? BackgroundImage { get; set; }
     public string? ProfileImageContentType { get; set; }
     public string? BackgroundImageContentType { get; set; }
     public Guid UserId { set; get; }

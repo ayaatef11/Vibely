@@ -35,8 +35,8 @@ public class AppdbContext : IdentityDbContext<User, Role, Guid>
     public DbSet<Chat> Chats { get; set; }
 
     public DbSet<Message> Messages { get; set; }
-
     public DbSet<ChatParticipant> ChatParticipants { get; set; }
+    public DbSet<Notification> Notifications {  get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppdbContext).Assembly);

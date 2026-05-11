@@ -76,7 +76,7 @@ public class StoryService(AppdbContext _context,IMapper _mapper) : IStoryService
             using var imageMemoryStreem = new MemoryStream();
             await request.Image?.CopyToAsync(imageMemoryStreem);
             _story.ImageContentType = request.Image.ContentType;
-            _story.Image = imageMemoryStreem.ToArray();
+            _story.Image = imageMemoryStreem.ToArray().ToString();
         }
 
         if (request.Video != null)
@@ -84,7 +84,7 @@ public class StoryService(AppdbContext _context,IMapper _mapper) : IStoryService
             using var videoMemoryStreem = new MemoryStream();
             await request.Video?.CopyToAsync(videoMemoryStreem);
             _story.VideoContentType = request.Video?.ContentType;
-            _story.Video = videoMemoryStreem.ToArray();
+            _story.Video = videoMemoryStreem.ToArray().ToString();
         }
         await _context.Stories.AddAsync(_story);
         var uploadOperation = await _context.SaveChangesAsync();

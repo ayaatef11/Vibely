@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Responses;
-using SocialMedia.Core.Context;
-using SocialMedia.Core.Domain.DTOs.Requests.Comment;
-
+using Microsoft.EntityFrameworkCore; 
 namespace SocialMedia.Application.Implementations;
-public class CommentService(AppdbContext _context,IMapper _mapper) :  ICommentService
+public class CommentService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  ICommentService
 { 
     public async ValueTask<CommentResponse> AddComment(AddCommentRequest commentRequest)
     {
-
         var comment = new Comment()
         {
             ReactCount = 0,
@@ -29,6 +24,9 @@ public class CommentService(AppdbContext _context,IMapper _mapper) :  ICommentSe
         var result = _mapper.Map<CommentResponse>(comment);
         result.UserName=profile.UserName;
         result.ProfileImage=profile.ProfileImage;
+        await _notificationService.SendNotificationAsync(
+    recipientId: post.Id,senderId: profile.UserId,
+    type: NotificationType.Comment,message: $"{profile.FullName} commented on your post",referenceId: post.Id);
         return result;
     }
 

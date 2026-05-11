@@ -8,7 +8,7 @@ public class User : IdentityUser<Guid>
     public string Location { set; get; }
     public UserProfile? Profile { set; get; }
     public Guid? ProfileId { set; get; }
-    public byte[]? ProfileImage { get; set; }
+    public string? ProfileImage { get; set; }
 
 
     public ICollection<Block> BlockedUsers { set; get; } = new List<Block>();

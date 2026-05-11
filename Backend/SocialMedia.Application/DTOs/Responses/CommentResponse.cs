@@ -7,7 +7,7 @@ public class CommentResponse
     public DateTime AddedAt { set; get; }
     public Guid PostId { set; get; }
     public Guid ProfileId { set; get; }
-    public byte[]? ProfileImage { get; set; }
+    public string? ProfileImage { get; set; }
     public string UserName { set; get; } = string.Empty;
 
 }

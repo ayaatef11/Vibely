@@ -1,15 +1,20 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Responses.Posts;
-using SocialMedia.Application.Helpers.Media;
-using SocialMedia.Core.Domain.DTOs.Requests.Post;
+
 
 namespace SocialMedia.Application.Implementations;
-public class PostService(AppdbContext _context, IMapper _mapper,IProfileService _profileService, IMainRepository<Post> _PostRepository) : IPostService
+public class PostService(AppdbContext _context, IMapper _mapper,INotificationsService _notificationService,
+    IProfileService _profileService, IMainRepository<Post> _PostRepository) : IPostService
 {
     public async ValueTask<PostResponse> AddPost(CreatePostRequest postRequest)
     {
-        var _post = new Post()
+        var user=await _context.Users.FirstOrDefaultAsync(c=>c.ProfileId==postRequest.ProfileId);
+        if( user is null)
+        {
+            throw new Exception("User not found");
+        }
+
+        var post = new Post()
         {
             Id = Guid.NewGuid(),
             ShareCount = 0,
@@ -22,13 +27,24 @@ public class PostService(AppdbContext _context, IMapper _mapper,IProfileService 
             ProfileId = postRequest.ProfileId,
             MediaUrls = (postRequest.Media != null && postRequest.Media.Any())
     ? System.Text.Json.JsonSerializer.Serialize(
-        await Task.WhenAll(postRequest.Media.Select(m => PhotoHelper.Upload_photo(m)))
-      ): null       
+        await Task.WhenAll(postRequest.Media.Select(m => PhotoHelper.Upload_photo(m)))): null       
         };
 
-        var addPostOperation = await _PostRepository.CreateAsync(_post);
+        var addPostOperation = await _PostRepository.CreateAsync(post);
         await _profileService.updatePostsCount(postRequest.ProfileId, true);
-        return _mapper.Map<PostResponse>(_post);
+        var followerIds = await _context.Follows.Select(x => x.FollowerId).ToListAsync();
+        if (followerIds.Count()!=0)
+        {
+            foreach (var followerId in followerIds)
+            {
+                await _notificationService.SendNotificationAsync(
+                    recipientId: followerId, senderId: user.Id, type: NotificationType.NewPost,
+                    message: $"{user.FullName} published a new post",
+                    referenceId: post.Id
+                );
+            }
+        }
+        return _mapper.Map<PostResponse>(post);
     }
 
     public async  ValueTask<PostResponse> EditPost(UpdatePostRequest postRequest)

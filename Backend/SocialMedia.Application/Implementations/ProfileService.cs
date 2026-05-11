@@ -50,7 +50,7 @@ public class ProfileService(AppdbContext _context,IMapper _mapper) :  IProfileSe
             using var profileMemoryStream = new MemoryStream();
             await request.ProfileImage.CopyToAsync(profileMemoryStream);
             profile.ProfileImageContentType = request.ProfileImage.ContentType;
-            profile.ProfileImage = profileMemoryStream.ToArray();
+            profile.ProfileImage = profileMemoryStream.ToArray().ToString();
         }
 
         if (request.BackgroundImage != null)
@@ -58,7 +58,7 @@ public class ProfileService(AppdbContext _context,IMapper _mapper) :  IProfileSe
             using var backgroundMemoryStream = new MemoryStream();
             await request.BackgroundImage.CopyToAsync(backgroundMemoryStream);
             profile.BackgroundImageContentType = request.BackgroundImage.ContentType;
-            profile.BackgroundImage = backgroundMemoryStream.ToArray();
+            profile.BackgroundImage = backgroundMemoryStream.ToArray().ToString();
 
         }
         var user = await _context.Users
