@@ -23,7 +23,6 @@ import { PreferencesComponent } from './Common/settings/preferences/preferences.
 import { SettingsProfileComponent } from './Common/settings/settings-profile/settings-profile.component';
 import { NotificationsHeaderComponent } from './Common/Notificationss/notifications-header/notifications-header.component';
 import { SidebarComponent } from './Common/sidebar/sidebar.component';
-import { ReelsComponent } from './Common/reels/reels.component';
 import { CodeVerificationComponent } from './Auth/code-verification/code-verification.component';
 import { ForgetPasswordComponent } from './Auth/forget-password/forget-password.component';
 
@@ -65,7 +64,6 @@ export const routes: Routes = [
       { path: 'profile/edit', component: EditProfileComponent },
       { path: 'profile/:id', component: ProfileComponent },
       { path: '', redirectTo: 'notifications', pathMatch: 'full' },
-      { path: 'reels', component: ReelsComponent }, 
 
     ]
   },
