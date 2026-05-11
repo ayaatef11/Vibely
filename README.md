@@ -1,6 +1,6 @@
 # Vibely — Real-Time Social Platform with CI/CD
 
-A full-stack real-time social application built with **.NET 9** and **Angular 18**, featuring live messaging via **SignalR**, containerized with **Docker**, orchestrated using **Kubernetes**, and deployed automatically through a **GitHub Actions** CI/CD pipeline.
+A full-stack real-time social application built with **.NET 8** and **Angular 18**, featuring live messaging via **SignalR**, containerized with **Docker**, orchestrated using **Kubernetes**, and deployed automatically through a **GitHub Actions** CI/CD pipeline.
 
 ---
 
@@ -8,7 +8,7 @@ A full-stack real-time social application built with **.NET 9** and **Angular 18
 
 | Layer | Technology |
 |-------|-----------|
-| **Backend** | .NET 9 — Web API |
+| **Backend** | .NET 8 — Web API |
 | **Frontend** | Angular 18 |
 | **Real-Time** | SignalR — WebSocket Communication |
 | **Database** | SQL Server with Entity Framework Core |
@@ -54,7 +54,7 @@ After a successful CI run:
 ##  Getting Started
 
 ### Prerequisites
-- .NET 9 SDK
+- .NET 8 SDK
 - Node.js 20+ & Angular CLI 18
 - Docker & Docker Compose
 - Kubernetes cluster (or Minikube for local)
@@ -71,9 +71,9 @@ cd Vibely
 docker-compose up --build
 ```
 
-- **API** → `https://localhost:5001`
+- **API** → `https://localhost:7042`
 - **Angular App** → `http://localhost:4200`
-- **SignalR Hub** → `https://localhost:5001/hubs/chat`
+- **SignalR Hub** → `https://localhost:7042/hubs/chat`
 
 ### Run Without Docker
 
@@ -144,7 +144,7 @@ kubectl rollout status deployment/vibely-client
           ▼                      ▼                       ▼
   ┌──────────────┐      ┌──────────────┐       ┌──────────────┐
   │  API Pod #1  │      │  API Pod #2  │       │  API Pod #3  │
-  │  (.NET 9)    │      │  (.NET 9)    │       │  (.NET 9)    │
+  │  (.NET 8)    │      │  (.NET 8)    │       │  (.NET 8)    │
   └──────┬───────┘      └──────┬───────┘       └──────┬───────┘
          │                     │                       │
          └─────────────────────┴───────────────────────┘
@@ -158,7 +158,7 @@ kubectl rollout status deployment/vibely-client
 ##  Project Structure
 ```bash
  Vibely/
-├── Vibely.API/                        # .NET 9 Web API
+├── Vibely.API/                        # .NET 8 Web API
 │   ├── Hubs/                          # SignalR Hubs
 │   │   └── ChatHub.cs
 │   ├── Controllers/
@@ -191,7 +191,7 @@ kubectl rollout status deployment/vibely-client
 
 > The application is live and deployed on Kubernetes:
 
-**App** → `https://vibely.yourdomain.com`
+**App** → `https://vibely.domain.com`
 **API Swagger** → `https://api.vibely.yourdomain.com/swagger`
 
 
