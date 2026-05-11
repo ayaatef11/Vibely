@@ -13,7 +13,7 @@ public class ReelsController(IReelsService _reelsService) : ControllerBase
         return result == "Successfully" ? Ok(result) : BadRequest(result);
     }
 
-    [HttpGet("Get{Id}")]
+    [HttpGet("Get/{Id}")]
     public async Task<IActionResult> Get(Guid Id)
     {
         var result = await _reelsService.GetUserRealsAsync(Id);
