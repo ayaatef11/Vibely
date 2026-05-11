@@ -4,8 +4,6 @@ import { LoginComponent } from './Auth/login/Component/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CreatePostComponent } from './Post/create-post/create-post.component';
 import { UserPostComponent } from './Post/user-post/user-post.component';
-import { AllComponent } from './Post/SavedPosts/All/All.component';
-import { SavedReelsComponent } from './Post/SavedPosts/reels/Savedreels.component';
 import { AllNotificationsComponent } from './Common/Notificationss/AllNotifications/AllNotifications.component';
 import { UnReadNotificationsComponent } from './Common/Notificationss/un-read-notifications/un-read-notifications.component';
 import { CommentsNotificationsComponent } from './Common/Notificationss/comments-notifications/comments-notifications.component';
@@ -25,6 +23,7 @@ import { NotificationsHeaderComponent } from './Common/Notificationss/notificati
 import { SidebarComponent } from './Common/sidebar/sidebar.component';
 import { CodeVerificationComponent } from './Auth/code-verification/code-verification.component';
 import { ForgetPasswordComponent } from './Auth/forget-password/forget-password.component';
+import { SavedPostsComponent } from './Post/saved-posts/saved-posts.component';
 
 export const routes: Routes = [
   { path: 'signup', title: 'Sign Up', component: SignupComponent },
@@ -33,20 +32,13 @@ export const routes: Routes = [
   { path: 'forget-password', title: 'Forget Password', component: ForgetPasswordComponent },
   { path: 'create/post', title: 'Create Post', component: CreatePostComponent },
 
-  {
-    path: 'saved-posts', title: 'Saved Posts', component: AllComponent,
-    children: [
-
-      { path: 'reels', title: 'Reels', component: SavedReelsComponent },
-    ]
-  },
 
   {
     path: 'home', title: 'Main', component: SidebarComponent,
     children: [
-      {
-        path: '', component: DashboardComponent
-      },
+      { path: '', component: DashboardComponent },
+        { path: 'saved-posts', title: 'Saved Posts', component: SavedPostsComponent},
+
       { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
       { path: 'chat/friend', component: FriendChatComponent },
       { path: 'chat/friend/:chatId', component: FriendChatComponent },

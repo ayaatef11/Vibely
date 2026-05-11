@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SocialMedia.API.Mapper;
+using SocialMedia.API.Middlewares;
 using SocialMedia.Application.Abstractions;
 using SocialMedia.Application.Hubs;
 using SocialMedia.Application.Implementations;
@@ -72,7 +73,8 @@ builder.Services.AddIdentityCore<User>(options =>
 .AddDefaultTokenProviders();
 builder.Services.AddHostedService<StoryCleanupService>();
 builder.Services.AddSignalR();
-
+builder.Services.AddMemoryCache();
+builder.Services.AddSingleton<ITokenBlocklistService, TokenBlocklistService>();
 Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 var jwtSettings = builder.Configuration.GetSection("JWT");
@@ -148,9 +150,10 @@ app.Use(async (context, next) =>
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseMiddleware<TokenBlocklistMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
-app.MapHub<ChatHub>("/chatHub");//importatn to be after authentication to read the jwt token
+app.MapHub<ChatHub>("/chatHub");//important to be after authentication to read the jwt token
 app.MapHub<NotificationsHub>("/notificationHub");
 
 app.Run();

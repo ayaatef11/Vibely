@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc; 
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc; 
 namespace SocialMedia.API.Controllers;
 [Route("api/[controller]")]
 [ApiController]
@@ -10,6 +11,7 @@ public class UserController(IUsersService _usersService) : ControllerBase
         await _usersService.ReportUser(userId, reporterId);
         return Ok();
     }
+
     [HttpPost("suggest")]
     public async Task<IActionResult> SuggestUser(Guid userId)
     {
@@ -22,4 +24,6 @@ public class UserController(IUsersService _usersService) : ControllerBase
         var result = _usersService.SearchUser(keyword);
         return Ok(result);
     }
+
+  
 }

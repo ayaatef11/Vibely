@@ -1,18 +1,18 @@
-import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
 import { SavedPostsServiceService } from '../Services/saved-posts-service.service';
-import { AuthenticationService } from '../../../Auth/Services/authentication-service.service';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-saved-posts',
   standalone: true,
-  imports: [RouterModule,NgFor,NgIf],
-  templateUrl: './All.component.html',
-  styleUrl: './All.component.css'
+  imports: [NgFor,NgIf],
+  templateUrl: './saved-posts.component.html',
+  styleUrl: './saved-posts.component.css'
 })
-export class AllComponent {
- 
+export class SavedPostsComponent {
+
+
  savedPosts: any[] = [];
   userId: string = '';
 
@@ -36,3 +36,4 @@ export class AllComponent {
   }
  
 }
+

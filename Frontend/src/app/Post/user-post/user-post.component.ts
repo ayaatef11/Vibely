@@ -12,11 +12,11 @@ import { LikesServiceService } from '../../Common/Services/likes-service.service
 import { LikeRequest } from '../../../Models/Reacts/Requests/LikeRequest';
 import { AddCommentRequest } from '../../../Models/Comments/Requests/AddCommentRequest';
 import { FormsModule } from '@angular/forms';
-import { SavedPostsServiceService } from '../SavedPosts/Services/saved-posts-service.service';
 import { SavePostRequest } from '../../../Models/Posts/Requests/SavePostRequest';
 import { UnSavePostRequest } from '../../../Models/Posts/Requests/UnSavePostRequest';
 import { SidebarComponent } from '../../Common/sidebar/sidebar.component';
 import { EditPostRequest } from '../../../Models/Posts/Requests/EditPostRequest';
+import { SavedPostsServiceService } from '../Services/saved-posts-service.service';
 
 @Component({
   selector: 'app-user-post',

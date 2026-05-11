@@ -59,51 +59,59 @@ export class AuthenticationService {
   verify2FA(data: Verify2FARequest) :Observable<TokenResponse>{
     return this.http.post<TokenResponse>(`${this.Url}/verify-2fa`, data)
   }
+
+  logout() {
+    return this.http.post(`${this.Url}/logout`, {})
+  }
   
   getUserId(): string | null {
     const token = this.getToken();
     if (!token) return null;
-
     const decoded: any = jwtDecode(token);
-
     return decoded.sub || null;
   }
 
   getProfileId(): string | null {
     const token = this.getToken();
     if (!token) return null;
-
     const decoded: any = jwtDecode(token);
-
     return decoded.ProfileId || null;
   }
+
   getUserName(): string | null {
     const token = this.getToken();
     if (!token) return null;
-
     const decoded: any = jwtDecode(token);
-
     return decoded.UserName || null;
   }
+
   saveToken(token: string): void {
     localStorage.setItem('token', token);
+  }
+removeToken(): void {
+    localStorage.removeItem('token');
   }
   SaveSessionTimeOut(timeOut: string): void {
     localStorage.setItem('session-time-out', timeOut);
   }
+
   saveLoginNotificationsSettings(isEnabled: string) {
     localStorage.setItem('is-login-notifications-enabled', isEnabled)
   }
+
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+
   getSessionTimeOut(): string | null {
     return localStorage.getItem('session-time-out');
   }
+
   getNotificationsSettings(): string | null {
     return localStorage.getItem('is-login-notifications-enabled')
 
   }
+
   private handleError(error: any) {//to filter the error
     console.error('An error occurred:', error);
     return throwError(() => new Error(

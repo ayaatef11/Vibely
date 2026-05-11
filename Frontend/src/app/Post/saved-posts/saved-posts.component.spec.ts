@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SavedPostsComponent } from './All.component';
+import { SavedPostsComponent } from './saved-posts.component';
 
 describe('SavedPostsComponent', () => {
   let component: SavedPostsComponent;
@@ -10,7 +10,7 @@ describe('SavedPostsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SavedPostsComponent]
     })
-      .compileComponents();
+    .compileComponents();
 
     fixture = TestBed.createComponent(SavedPostsComponent);
     component = fixture.componentInstance;
