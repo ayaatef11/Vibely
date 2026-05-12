@@ -157,7 +157,7 @@
   position: absolute;
   top: 30px;
   right: 0;
-  background: #fff;
+  background: var(--bg-color);
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   min-width: 170px;
@@ -180,7 +180,7 @@
 }
 
 .post-menu-item:hover {
-  background-color: #f5f5f5;
+  background-color: var(--bg-color);
 }
 
 @keyframes fadeIn {
@@ -201,7 +201,7 @@
 }
 
 .edit-modal {
-  background: white;
+  background: var(--bg-color);
   padding: 20px;
   width: 400px;
   border-radius: 10px;
