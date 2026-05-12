@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Requests.Notifications;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
+using SocialMedia.Application.Helpers;
 
 namespace SocialMedia.Application.Implementations;
 public class PostService(AppdbContext _context, IMapper _mapper,INotificationsService _notificationService,
@@ -57,15 +55,15 @@ public class PostService(AppdbContext _context, IMapper _mapper,INotificationsSe
 
     public async  ValueTask<PostResponse> EditPost(UpdatePostRequest postRequest)
     {
-        var _post = await _PostRepository.GetAsync(postRequest.Id);
-        if (_post == null)
-            throw new Exception("Post not found");
+        var post = await _PostRepository.GetAsync(postRequest.Id);
+        if (post == null)
+            throw new NotFoundException("Post not found");
 
-        _post.Text = postRequest.Text;
-        _post.Title = postRequest.Title;
-        _post.FeelingState = postRequest.FeelingState;
-        await _PostRepository.UpdateAsync(_post, postRequest.Id);
-        return _mapper.Map<PostResponse>(_post);
+        post.Text = postRequest.Text;
+        post.Title = postRequest.Title;
+        post.FeelingState = postRequest.FeelingState;
+        await _PostRepository.UpdateAsync(post, postRequest.Id);
+        return _mapper.Map<PostResponse>(post);
     }
 
     public async ValueTask DeletePost(Guid id)

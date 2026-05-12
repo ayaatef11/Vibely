@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.Helpers;
 namespace SocialMedia.Application.Implementations;
 public class FollowerService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  IFollowerService
 { 
@@ -157,21 +158,21 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
     {
         var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
         if (sender == null)
-            throw new Exception( "Sender Not Found");
+            throw new NotFoundException( "Sender Not Found");
 
         var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
         if (receiver == null)
-            throw new Exception( "Reciever Not Found");
+            throw new NotFoundException( "Reciever Not Found");
 
         var existedFollow = await _context.Follows.Where(x => x.FollowerId == follow.Sender && x.FollowingId == follow.Reciever).FirstOrDefaultAsync();
 
         if (existedFollow == null)
-            throw new Exception( "Follow is not found ");
+            throw new NotFoundException( "Follow is not found ");
 
          _context.Follows.Remove(existedFollow);
         var sendFollowOperation = await _context.SaveChangesAsync();
 
-         if(sendFollowOperation <=0) throw new Exception( "FollowRequestFailed");
+         if(sendFollowOperation <=0) throw new BadRequestException( "FollowRequestFailed");
         return _mapper.Map<ProfileResponse>( receiver);
     }
     public async Task<List<ProfileResponse>>ViewRequests(Guid profileId)

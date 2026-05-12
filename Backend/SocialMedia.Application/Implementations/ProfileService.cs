@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Responses.Users;
-using SocialMedia.Core.Domain.DTOs.Requests.Profiles;
 
 namespace SocialMedia.Application.Implementations;
 public class ProfileService(AppdbContext _context,IMapper _mapper) :  IProfileService

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration; 
+using Microsoft.Extensions.Configuration;
+using SocialMedia.Application.Helpers;
 namespace SocialMedia.Application.Implementations;
 public class BlockService : MainRepository<Block>, IBlockService
 {
@@ -19,11 +20,11 @@ public class BlockService : MainRepository<Block>, IBlockService
         var foundBlocker = await context.Users.SingleOrDefaultAsync(x => x.Id == block.BlockerId);
 
         if (foundBlocked == null || foundBlocker == null)
-            throw new Exception("UserFF");
+            throw new NotFoundException("user not found");
         if (foundBlock != null)
-            throw new Exception("UserAB");
+            throw new BadRequestException("user blocked before");
 
-        if (block.BlockerId == block.BlockedId) throw new Exception("UserAA");
+        if (block.BlockerId == block.BlockedId) throw new BadRequestException("user cant block themselves");
 
 
         var _block = new Block()
@@ -34,7 +35,7 @@ public class BlockService : MainRepository<Block>, IBlockService
 
         await context.Blocks.AddAsync(_block);
         var blockOperation = await context.SaveChangesAsync();
-        if( blockOperation <= 0) throw new Exception( "Invalid");
+        if( blockOperation <= 0) throw new BadRequestException( "Invalid operation");
     }
 
     public async ValueTask UnBlockAsync(BlockRequest block)
@@ -43,12 +44,12 @@ public class BlockService : MainRepository<Block>, IBlockService
             SingleOrDefaultAsync(x => x.BlockedId == block.BlockedId && x.BlockerId == block.BlockerId);
 
         if (blocked == null)
-            throw new Exception("UserNB");
+            throw new NotFoundException("UserNB");
 
         context.Blocks.Remove(blocked);
         var unBlockOperation = await context.SaveChangesAsync();
 
-        if( unBlockOperation <= 0 )throw new Exception( "Invalid");
+        if( unBlockOperation <= 0 )throw new BadRequestException( "Invalid");
     }
 
     public async ValueTask<IEnumerable<User>> GetBlockedUserAsync(Guid id)

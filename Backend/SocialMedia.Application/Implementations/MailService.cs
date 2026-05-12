@@ -1,7 +1,8 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
-using MimeKit; 
+using MimeKit;
+using SocialMedia.Application.Helpers;
 
 namespace SocialMedia.Application.Implementations;
 
@@ -29,33 +30,29 @@ public class MailService(IConfiguration _configuration) : IMailService
 
             SecureSocketOptions sslOptions = SecureSocketOptions.StartTls;
             if (!int.TryParse(smtpOptions.Port, out int portNumber))
-                throw new Exception("Invalid Port Number");
+                throw new BadRequestException("Invalid Port Number");
 
             await client.ConnectAsync(smtpOptions.Server, portNumber, sslOptions);
 
 
             if (!client.IsConnected)
             {
-                throw new InvalidOperationException("Failed to connect to the SMTP server.");
+                throw new BadRequestException("Failed to connect to the SMTP server.");
             }
 
             await client.AuthenticateAsync(smtpOptions.UserName, smtpOptions.Password);
 
             if (!client.IsAuthenticated)
             {
-                throw new Exception( "Not authenticated");
+                throw new UnauthorizedException( "Not authenticated");
             }
             var response = await client.SendAsync(message);
             await client.DisconnectAsync(true);
 
         }
         catch (Exception ex)
-        {
-            Console.WriteLine($"Email Error: {ex.Message}");
-            if (ex.InnerException != null)
-                Console.WriteLine($"Inner error: {ex.InnerException.Message}");
-
-            throw new Exception("Failed to send email", ex);
+        { 
+            throw new BadRequestException($"Failed to send email{ex}");
         }
     }
 }

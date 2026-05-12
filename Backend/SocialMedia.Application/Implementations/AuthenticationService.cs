@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SocialMedia.Application.DTOs.Requests.Authentication;
 using SocialMedia.Application.DTOs.Responses.Auth;
+using SocialMedia.Application.Helpers;
 using SocialMedia.Core.Context;
 using SocialMedia.Core.Domain.DTOs.Requests.Authentication;
 using SocialMedia.Core.Domain.Entities.Business.Profiles; 
@@ -46,21 +47,21 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
     public async Task ChangePassword(Guid userId,ChangePasswordRequest request)
     {
         var user=await _context.Users.FirstOrDefaultAsync(u=>u.Id== userId);
-        if (user==null) throw new Exception("User is not found");
+        if (user==null) throw new NotFoundException("User is not found");
         var result=await _userManager.ChangePasswordAsync(user, request.OldPassword,request.NewPassword);
-        if (!result.Succeeded) { throw new Exception("Error has occurred"); }
+        if (!result.Succeeded) { throw new BadRequestException("Error has occurred"); }
     }
    
     public async ValueTask<TokenResponse> LoginAsync(LoginRequest request,int? timeOutInMinutes)
     {
         var user = await _userManager.FindByNameAsync(request.UserName);
         if (user == null)
-            throw new Exception( "NotFound");
+            throw new NotFoundException( "user it not found");
 
         var passwordCheck = await _userManager.CheckPasswordAsync(user, request.Password);
 
         if (!passwordCheck)
-            throw new Exception( "Invalid password");
+            throw new BadRequestException( "Invalid password");
         if (user.TwoFactorEnabled)
         {
             return new TokenResponse
@@ -76,7 +77,8 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
     public async Task<SessionResponse> ChangeSessionTimeOut(Guid userId,int timeOut)
     {
         var user=await _context.Users.FirstOrDefaultAsync(u=>u.Id == userId);
-        if (user is null) return null;
+        if (user is null)
+            throw new NotFoundException("user it not found");
         string token =  GenerateTokenHelper.GenerateToken(user, _configuration, timeOut).Token;
         return new SessionResponse
         {
@@ -89,26 +91,26 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
         if (user == null)
-            throw new Exception("NotFound");
-         await ForgotPassword.GenerateConfirmationCode(user, _emailService, _userManager);
+            throw new NotFoundException("user it not found");
+        await ForgotPassword.GenerateConfirmationCode(user, _emailService, _userManager);
     }
 
     public async ValueTask<TokenResponse> ResetPasswordAsync(ForgotPasswordRequest request, int? timeOutInMinutes)
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == request.Email);
         if (user == null)
-            throw new Exception( "NotFound");
+            throw new NotFoundException("user it not found");
 
         var token = await _userManager.GetAuthenticationTokenAsync(user, "ConfirmationCode", "ConfirmationCode");
         if (token != request.Code)
-            throw new Exception( "InvalidCode");
+            throw new BadRequestException( "Invalid Code");
 
         var ResetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
         var resetResult = await _userManager.ResetPasswordAsync(user,
            ResetToken, request.newPassword);
 
         if (!resetResult.Succeeded)
-            throw new Exception( resetResult.Errors.Select(e => e.Description).ToList().ToString());
+            throw new BadRequestException( resetResult.Errors.Select(e => e.Description).ToList().ToString());
 
         await _userManager.RemoveAuthenticationTokenAsync(user, "ConfirmationCode", "ConfirmationCode");
         return GenerateTokenHelper.GenerateToken(user, _configuration, timeOutInMinutes);
@@ -141,7 +143,7 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
         var isValid = await _userManager.VerifyTwoFactorTokenAsync(user, _userManager.Options.Tokens.AuthenticatorTokenProvider, request.Code);
 
         if (!isValid)
-            throw new Exception("Invalid code");
+            throw new BadRequestException("Invalid code");
 
         await _userManager.SetTwoFactorEnabledAsync(user, true);
     }
@@ -152,7 +154,7 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
         var isValid = await _userManager.VerifyTwoFactorTokenAsync(user, _userManager.Options.Tokens.AuthenticatorTokenProvider, request.Code);
 
         if (!isValid)
-            throw new Exception("Invalid code");
+            throw new BadRequestException("Invalid code");
 
         return GenerateTokenHelper.GenerateToken(user, _configuration,null);
 

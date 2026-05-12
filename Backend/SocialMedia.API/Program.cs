@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SocialMedia.API.Mapper;
+using SocialMedia.API.Middlewares;
+
 //using SocialMedia.API.Middlewares;
 using SocialMedia.Application.Abstractions;
 using SocialMedia.Application.Hubs;
@@ -151,6 +153,7 @@ app.Use(async (context, next) =>
 app.UseHttpsRedirection();
 app.UseAuthentication();
 //app.UseMiddleware<TokenBlocklistMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<ChatHub>("/chatHub");//important to be after authentication to read the jwt token

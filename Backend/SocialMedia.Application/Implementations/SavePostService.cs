@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.Helpers;
 namespace SocialMedia.Application.Implementations;
 public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostService
 { 
@@ -23,11 +24,11 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == savePost.UserId);
         if (user == null)
-            throw new Exception( "User Not Found Or Inviald User Id");
+            throw new NotFoundException( "User Not Found Or Inviald User Id");
 
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == savePost.PostId);
         if (post == null)
-            throw new Exception("Post Not Found Or Inviald Post Id");
+            throw new NotFoundException("Post Not Found Or Inviald Post Id");
         var saverIds = JsonHelper.ConvertToList(post.SaverIds);
 
         if (!saverIds.Contains(savePost.UserId))
@@ -46,11 +47,11 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == savePost.UserId);
         if (user == null)
-            throw new Exception ("User Not Found Or invalid User Id");
+            throw new NotFoundException("User Not Found Or invalid User Id");
 
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == savePost.PostId);
         if (post == null)
-            throw new Exception ("Post not Found or invalid Post Id");
+            throw new NotFoundException("Post not Found or invalid Post Id");
 
         var saverIds = JsonHelper.ConvertToList(post.SaverIds);
 

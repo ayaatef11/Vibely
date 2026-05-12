@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.Helpers;
 namespace SocialMedia.Application.Implementations;
 public class StoryService(AppdbContext _context,IMapper _mapper) : IStoryService
 {
@@ -59,7 +60,7 @@ public class StoryService(AppdbContext _context,IMapper _mapper) : IStoryService
     {
         var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.ProfileId);
         if (profile == null)
-            throw new Exception( "Profile Not Found or Invalid Profile Id");
+            throw new NotFoundException( "Profile Not Found or Invalid Profile Id");
 
         var _story = new Story()
         {
@@ -90,20 +91,20 @@ public class StoryService(AppdbContext _context,IMapper _mapper) : IStoryService
          return _mapper.Map<StoryResponse>( _story );
     }
 
-    public async ValueTask DeleteAsync(DeleteStoryRequest story)
+    public async ValueTask DeleteAsync(DeleteStoryRequest request)
     {
         var user = await _context.Users
-            .FirstOrDefaultAsync(x => x.Id == story.UserId);
+            .FirstOrDefaultAsync(x => x.Id == request.UserId);
         if (user == null)
-            throw new Exception( "User Not Found Or Invalid User ID");
+            throw new NotFoundException( "User Not Found Or Invalid User ID");
 
-        var _story = await _context.Stories.SingleOrDefaultAsync(x => x.Id == story.StoryId);
+        var _story = await _context.Stories.SingleOrDefaultAsync(x => x.Id == request.StoryId);
         if (_story == null)
-            throw new Exception("Story Not Found Or Invalid Story ID");
+            throw new NotFoundException("Story Not Found Or Invalid Story ID");
 
         _context.Stories.Remove(_story);
         var deleteOperation = await _context.SaveChangesAsync();
-        if( deleteOperation <= 0 ) throw new Exception("Failed To Delete Story");
+        if( deleteOperation <= 0 ) throw new BadRequestException("Failed To Delete Story");
     }
 
     public async ValueTask<IEnumerable<StoryResponse>> GetUserStoriesAsync(Guid profileId)

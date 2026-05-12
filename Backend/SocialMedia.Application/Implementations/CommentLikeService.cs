@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.Helpers;
 
 namespace SocialMedia.Application.Implementations;
 public class CommentLikeService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  ICommentLikeService
@@ -8,19 +9,19 @@ public class CommentLikeService(AppdbContext _context,IMapper _mapper,INotificat
     {
         var like = await _context.CommentLikes.SingleOrDefaultAsync(x => x.CommentId == request.CommentId);
         if (like == null)
-            throw new Exception("Like Not Found Or Invalid Like ID");
+            throw new NotFoundException("Like Not Found Or Invalid Like ID");
 
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == request.PostId);
         if (post == null)
-            throw new Exception("Post Not Found Or Invalid Post ID");
+            throw new NotFoundException("Post Not Found Or Invalid Post ID");
 
         var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.ProfileId);
         if (profile == null)
-            throw new Exception("User Not Found Or Invalid User ID");
+            throw new NotFoundException("User Not Found Or Invalid User ID");
 
         var comment = await _context.Comments.SingleOrDefaultAsync(x => x.Id == request.CommentId);
         if (comment == null)
-            throw new Exception("Comment Not Found Or Invalid Comment ID");
+            throw new NotFoundException("Comment Not Found Or Invalid Comment ID");
 
         comment.ReactCount--;
         _context.CommentLikes.Remove(like);
@@ -32,15 +33,15 @@ public class CommentLikeService(AppdbContext _context,IMapper _mapper,INotificat
     {
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == request.PostId);
         if (post == null)
-            throw new Exception( "Post Not Found Or Invalid Post ID");
+            throw new NotFoundException( "Post Not Found Or Invalid Post ID");
 
         var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.ProfileId);
         if (profile == null)
-            throw new Exception( "User Not Found Or Invalid User ID");
+            throw new NotFoundException( "User Not Found Or Invalid User ID");
 
         var comment = await _context.Comments.SingleOrDefaultAsync(x => x.Id == request.CommentId);
         if (comment == null)
-            throw new Exception( "Comment Not Found Or Invalid Comment ID");
+            throw new NotFoundException( "Comment Not Found Or Invalid Comment ID");
 
         var commentLike = new CommentLikes()
         {

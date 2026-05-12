@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.Helpers;
 namespace SocialMedia.Application.Implementations;
 public class ShareService(AppdbContext _context,IMapper _mapper) :  ISharePostService
 {
@@ -34,22 +35,22 @@ public class ShareService(AppdbContext _context,IMapper _mapper) :  ISharePostSe
     {
         var share = await _context.Shares.SingleOrDefaultAsync(x => x.Id == revoke.Id);
         if (share == null)
-            throw new Exception( "Share Not Found");
+            throw new NotFoundException("Share not Found");
 
         var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == revoke.ProfileId);
         if (profile == null)
-            throw new Exception( "User Not Found");
+            throw new NotFoundException("User not Found");
 
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == revoke.PostId);
         if (post == null)
-            throw new Exception( "Post Not Found");
+            throw new NotFoundException("Post not Found");
 
         post.ShareCount--;
         profile.Posts.Remove(post);
         _context.Shares.Remove(share);
         var revokeOperation = await _context.SaveChangesAsync();
 
-        if( revokeOperation <=0) throw new Exception( "Invalid Revoke");
+        if( revokeOperation <=0) throw new BadRequestException("Invalid Revoke");
     }
     public async Task<PostResponse?> OpenSharedPost(string token)
     {

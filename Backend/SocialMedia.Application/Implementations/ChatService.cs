@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SocialMedia.Application.DTOs.Requests.Notifications;
+using SocialMedia.Application.Helpers;
 
 namespace SocialMedia.Application.Implementations;
 
@@ -65,7 +66,7 @@ public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsSer
 
         if (!isParticipant)
         {
-            throw new Exception("Unauthorized");
+            throw new UnauthorizedException("Unauthorized");
         }
 
         var messages= await _context.Messages.Where(x => x.ChatId == chatId).OrderBy(x => x.SentAt).ToListAsync();
@@ -78,11 +79,11 @@ public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsSer
         var receiver = await _context.Users.FirstOrDefaultAsync(c => c.Id == request.ReceiverId);
         if(receiver is null)
         {
-            throw new Exception("Receiver is not found");
+            throw new NotFoundException("Receiver is not found");
         }
         var sender = await _context.Users.FirstOrDefaultAsync(c => c.Id == request.SenderId);
         if (sender is null) {
-            throw new Exception("Sender is not found");
+            throw new NotFoundException("Sender is not found");
         }
         if (request.ChatId is null) chat =await CreateChatAsync(request.SenderId, request.ReceiverId);
         var message =_mapper.Map<Message>(request);
@@ -109,12 +110,12 @@ public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsSer
 
         if (message == null)
         {
-            throw new Exception("Message not found");
+            throw new NotFoundException("Message not found");
         }
 
         if (message.SenderId != request.CurrentUserId)
         {
-            throw new Exception("Unauthorized");
+            throw new UnauthorizedException("Unauthorized");
         }
 
         message.Content = request.NewContent;
@@ -141,12 +142,12 @@ public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsSer
 
         if (message == null)
         {
-            throw new Exception("Message not found");
+            throw new NotFoundException("Message not found");
         }
 
         if (message.SenderId != currentUserId)
         {
-            throw new Exception("Unauthorized");
+            throw new UnauthorizedException("Unauthorized");
         }
 
         message.IsDeleted = true;
