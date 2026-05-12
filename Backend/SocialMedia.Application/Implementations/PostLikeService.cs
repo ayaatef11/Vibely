@@ -1,29 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SocialMedia.Core.Context;
-using SocialMedia.Core.Domain.DTOs.Requests.Like;
 
 namespace SocialMedia.Application.Implementations;
-public class PostLikeService(AppdbContext _context) :   IPostLikeService
+public class PostLikeService(AppdbContext _context) : IPostLikeService
 {
-    public async ValueTask<string> DisLikeAsync(DisLikeRequest like)
+    public async ValueTask DisLikeAsync(DisLikeRequest like)
     {
         var _like = await _context.PostLike.FirstOrDefaultAsync(x => x.PostId == like.PostId && x.ProfileId ==like.ProfileId);
         if (_like == null)
-            return "LikeNotFound";
+            throw new Exception( "LikeNotFound");
 
         var _post = await _context.Posts.FirstOrDefaultAsync(x => x.Id == like.PostId);
         if (_post == null)
-            return "PostNotFound";
+            throw new Exception("PostNotFound");
 
         _post.ReactsCount--;
         _context.PostLike.Remove(_like);
         var dislikeOperation = await _context.SaveChangesAsync();
 
-        return dislikeOperation > 0 ?
-            "Successfully" : "Invalid";
+        if( dislikeOperation <= 0) throw new Exception("Invalid");
     }
 
-    public async ValueTask<string> LikeAsync(LikeRequest like)
+    public async ValueTask LikeAsync(LikeRequest like)
     {
         var _react = new PostLikes()
         {
@@ -34,12 +31,12 @@ public class PostLikeService(AppdbContext _context) :   IPostLikeService
 
         var _post = await _context.Posts.FirstOrDefaultAsync(x => x.Id == like.PostId);
         if (_post == null)
-            return "NotFound";
+            throw new Exception("Not Found");
 
         _post.ReactsCount++;
         await _context.PostLike.AddAsync(_react);
         var likeOperation = await _context.SaveChangesAsync();
 
-        return likeOperation > 0 ?"Successfully": "Invalid Add Like";
+        if( likeOperation <= 0) throw new Exception("Invalid Add Like");
     }
 }

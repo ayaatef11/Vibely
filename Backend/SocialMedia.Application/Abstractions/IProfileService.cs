@@ -1,7 +1,4 @@
-﻿using SocialMedia.Application.DTOs.Responses.Users;
-using SocialMedia.Core.Domain.DTOs.Requests.Profiles;
-
-namespace SocialMedia.Application.Abstractions;
+﻿namespace SocialMedia.Application.Abstractions;
 public interface IProfileService 
 {
     Task<IEnumerable<UserResponse>> GetFollowers(Guid userId);

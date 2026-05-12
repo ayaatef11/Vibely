@@ -1,7 +1,4 @@
-﻿using SocialMedia.Application.DTOs.Responses.Posts;
-using SocialMedia.Core.Domain.DTOs.Requests.SavePosts;
-
-namespace SocialMedia.Application.Abstractions;
+﻿namespace SocialMedia.Application.Abstractions;
 public interface ISavePostService  
 {
     ValueTask<string> SaveAsync(SavePostRequest savePost);
