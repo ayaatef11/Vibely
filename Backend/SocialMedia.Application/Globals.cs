@@ -40,3 +40,5 @@ global using SocialMedia.Application.Hubs;
 global using SocialMedia.Application.DTOs.Requests.Authentication;
 global using SocialMedia.Application.DTOs.Responses.Auth;
 global using SocialMedia.Core.Domain.DTOs.Requests.Like;
+global using SocialMedia.Application.DTOs.Requests.Stories;
+global using SocialMedia.Core.Domain.Entities.Business.Stories;

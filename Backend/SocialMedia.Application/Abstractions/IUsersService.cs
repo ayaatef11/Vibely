@@ -1,6 +1,4 @@
-﻿using SocialMedia.Application.DTOs.Responses.Users;
-
-namespace SocialMedia.Application.Abstractions;
+﻿namespace SocialMedia.Application.Abstractions;
 public interface IUsersService
 {
     Task ReportUser(Guid userId, Guid reporterId);

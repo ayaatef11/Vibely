@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Requests.Stories;
-using SocialMedia.Core.Domain.Entities.Business.Stories;
 namespace SocialMedia.Application.Implementations;
 public class StoryService(AppdbContext _context,IMapper _mapper) : IStoryService
 {
@@ -92,20 +90,20 @@ public class StoryService(AppdbContext _context,IMapper _mapper) : IStoryService
          return _mapper.Map<StoryResponse>( _story );
     }
 
-    public async ValueTask<string> DeleteAsync(DeleteStoryRequest story)
+    public async ValueTask DeleteAsync(DeleteStoryRequest story)
     {
         var user = await _context.Users
             .FirstOrDefaultAsync(x => x.Id == story.UserId);
         if (user == null)
-            return "User Not Found Or Invalid User ID";
+            throw new Exception( "User Not Found Or Invalid User ID");
 
         var _story = await _context.Stories.SingleOrDefaultAsync(x => x.Id == story.StoryId);
         if (_story == null)
-            return "Story Not Found Or Invalid Story ID";
+            throw new Exception("Story Not Found Or Invalid Story ID");
 
         _context.Stories.Remove(_story);
         var deleteOperation = await _context.SaveChangesAsync();
-        return deleteOperation > 0 ? "Deleted" : "Failed To Delete Story";
+        if( deleteOperation <= 0 ) throw new Exception("Failed To Delete Story");
     }
 
     public async ValueTask<IEnumerable<StoryResponse>> GetUserStoriesAsync(Guid profileId)
