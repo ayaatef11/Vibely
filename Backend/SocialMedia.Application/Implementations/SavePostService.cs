@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Responses.Posts;
-using SocialMedia.Core.Context;
-using SocialMedia.Core.Domain.DTOs.Requests.SavePosts;
-
 namespace SocialMedia.Application.Implementations;
 public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostService
 { 
@@ -23,7 +19,7 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
         return result;
     }
 
-    public async ValueTask<string> SaveAsync(SavePostRequest savePost)
+    public async ValueTask SaveAsync(SavePostRequest savePost)
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == savePost.UserId);
         if (user == null)
@@ -43,20 +39,18 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
 
          _context.Posts.Update(post);
         var saveOperation = await _context.SaveChangesAsync();
-        return saveOperation > 0 ?
-            "Successfully" :
-            "Failed To Save Post";
+        if( saveOperation <= 0 )throw new Exception("Failed To Save Post");
     }
 
-    public async ValueTask<string> UnSaveAsync(SavePostRequest savePost)
+    public async ValueTask UnSaveAsync(SavePostRequest savePost)
     {
         var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == savePost.UserId);
         if (user == null)
-            return "User Not Found Or Inviald User Id";
+            throw new Exception ("User Not Found Or invalid User Id");
 
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == savePost.PostId);
         if (post == null)
-            return "Post Not Found Or Inviald Post Id";
+            throw new Exception ("Post not Found or invalid Post Id");
 
         var saverIds = JsonHelper.ConvertToList(post.SaverIds);
 
@@ -69,6 +63,6 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
 
         _context.Posts.Update(post);
         var deleteOperation = await _context.SaveChangesAsync();
-        return deleteOperation > 0 ? "Successfully" :  "Failed To UnSave Post";
+        if( deleteOperation <=0 ) throw new Exception("Failed To unsave Post");
     }
 }
