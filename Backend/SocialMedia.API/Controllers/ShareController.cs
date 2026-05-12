@@ -25,7 +25,7 @@ public class ShareController(ISharePostService _ShareService) : ControllerBase
     [HttpDelete("revoke")]
     public async Task<IActionResult> Revoke(RevokeShareRequest share)
     { 
-        var result = await _ShareService.Revoke(share);
-       return  Ok(result);
+        await _ShareService.Revoke(share);
+       return  Ok();
     }
 }

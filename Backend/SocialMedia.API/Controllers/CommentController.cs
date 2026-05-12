@@ -38,11 +38,9 @@ public class CommentController(ICommentService _CommentService, ICommentLikeServ
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> Delete(Guid id)
     { 
-        var deleteCommentOperation = await _CommentService.DeleteComment(id);
+          await _CommentService.DeleteComment(id);
 
-        return deleteCommentOperation >= 1 ? Ok(new Result { Message = "Comment Deleted Successfully" }) :
-            deleteCommentOperation == -1 ? BadRequest(new Result { Message = "Not found" })
-            : BadRequest(deleteCommentOperation);
+        return Ok();
     }
     [HttpGet("{postId}")]
     public async Task<IActionResult> GetComments(Guid postId)

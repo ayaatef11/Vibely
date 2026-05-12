@@ -1,7 +1,7 @@
 ﻿namespace SocialMedia.Application.Abstractions;
 public interface ISharePostService
 {
-    ValueTask Start(StartShareRequest start);
-    ValueTask<string> Revoke(RevokeShareRequest revoke);
+    ValueTask<string?> Start(StartShareRequest start);
+    ValueTask Revoke(RevokeShareRequest revoke);
     Task<PostResponse?> OpenSharedPost(string token);
 }

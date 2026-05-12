@@ -56,8 +56,8 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
     [HttpDelete("delete")]
     public async Task<IActionResult> Delete(DeleteStoryRequest story)
     { 
-        var deleteOperation = await _StoryService.DeleteAsync(story);
-        return deleteOperation == "Deleted" ?  Ok(deleteOperation) :  BadRequest(deleteOperation);
+       await _StoryService.DeleteAsync(story);
+        return Ok();
     }
 
 }

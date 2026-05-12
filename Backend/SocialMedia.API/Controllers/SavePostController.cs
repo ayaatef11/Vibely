@@ -8,13 +8,8 @@ public class SavePostController(ISavePostService _SavePostService) : ControllerB
     [HttpPost("Save")]
     public async Task<IActionResult> Save(SavePostRequest savePost)
     { 
-        var saveOperation = await _SavePostService.SaveAsync(savePost);
-        return saveOperation == "Successfully" ?
-            Ok(new Result
-            {
-                Message = "Post saved successfully"
-            }) :
-            BadRequest(saveOperation);
+        await _SavePostService.SaveAsync(savePost);
+        return Ok();
     }
 
     [HttpGet("Get/{userId}")]
@@ -32,9 +27,7 @@ public class SavePostController(ISavePostService _SavePostService) : ControllerB
     [HttpDelete("UnSave")]
     public async Task<IActionResult> UnSave(SavePostRequest savePost)
     { 
-        var unSaveOperation = await _SavePostService.UnSaveAsync(savePost);
-        return unSaveOperation == "Successfully" ?
-            Ok(unSaveOperation) :
-            BadRequest(unSaveOperation);
+        await _SavePostService.UnSaveAsync(savePost);
+        return Ok();
     }
 }
