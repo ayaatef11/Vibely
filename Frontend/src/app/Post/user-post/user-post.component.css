@@ -1,7 +1,7 @@
 .post-card {
   border-radius: 12px;
   overflow: hidden;
-  background: #fff;
+  background: var(--bg-color);
 }
 
 .post-image {
@@ -15,7 +15,7 @@
 }
 .comments-section {
   padding-left: 10px;
-  border-left: 2px solid #eee;
+  border-left: 2px solid var(--border-color);
 }
 
 .comment-box {
@@ -30,7 +30,7 @@
 }
 
 .comment-bubble {
-  background: #f3f4f6;
+  background: var(--bg-color);
   padding: 8px 12px;
   border-radius: 12px;
   max-width: 300px;
@@ -49,8 +49,8 @@
   color: #444;
 }
 .share-box {
-  background: #f8f9fa;
-  border: 1px solid #eee;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
   border-radius: 10px;
 }
 .share-overlay {
@@ -68,7 +68,7 @@
 
 .share-modal {
   width: 380px;
-  background: #fff;
+  background: var(--bg-color);
   border-radius: 15px;
   padding: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -107,14 +107,14 @@
 .share-link-box input {
   flex: 1;
   padding: 6px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--bg-color);
   border-radius: 8px;
 }
 
 .share-link-box button {
   margin-left: 8px;
-  background: #28a745;
-  color: white;
+  background: var(--logo-bubble-dark);
+  color: var(--bg-color);
   border: none;
   border-radius: 8px;
   padding: 6px 10px;
@@ -207,7 +207,7 @@
   border-radius: 10px;
 }
 .button-style{
-  background-color: var(--logo-bubble-dark);
+  background-color: var(--logo-bubble-dark) !important;
   color:white;
 }
 .tt-style{
