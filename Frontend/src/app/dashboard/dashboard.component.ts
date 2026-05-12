@@ -249,6 +249,8 @@ export class DashboardComponent {
     }
     post.comments.push({ text: post.newCommentText })
     post.commentsCount++;
+    post.newCommentText=''
+
   }
 
   likeComment(comment: CommentResponse, post: PostResponse) {
