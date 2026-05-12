@@ -1,6 +1,5 @@
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import {HttpClient, provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi} from '@angular/common/http';
@@ -9,6 +8,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {authenticationInterceptor} from '../Interceptors/Authentication/authentication.interceptor';
 import { Observable } from 'rxjs';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export class CustomTranslateLoader implements TranslateLoader {
   constructor(private http: HttpClient) {}
@@ -56,7 +56,11 @@ export const appConfig: ApplicationConfig = {
         }
       })
     ),
-    provideAnimationsAsync(),
-    provideToastr()
-    ]
+    provideAnimations(),
+ provideToastr({   
+    toastClass: 'ngx-toastr custom-toast',  
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    })    ]
 };

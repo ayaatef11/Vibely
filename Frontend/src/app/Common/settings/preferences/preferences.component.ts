@@ -51,11 +51,8 @@ onThemeChange(event: any) {
   }
   else {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
     this.isDark = prefersDark;
-
     document.body.classList.toggle('dark-theme', prefersDark);
-
     localStorage.setItem('theme', 'auto');
   }
 }

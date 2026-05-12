@@ -8,6 +8,7 @@ import { EditMessageRequest } from '../../../Models/Chats/Requests/EditMessageRe
 import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { ChatServiceService } from '../../Services/chat-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -18,7 +19,7 @@ import { ChatServiceService } from '../../Services/chat-service.service';
   styleUrl: './friend-chat.component.css'
 })
 export class FriendChatComponent {
-  constructor(private chatService: ChatServiceService, private route:ActivatedRoute,private authService: AuthenticationService) { }
+  constructor(private chatService: ChatServiceService, private toastService:ToastrService,private route:ActivatedRoute,private authService: AuthenticationService) { }
 
   async ngOnInit(): Promise<void> {
     const token = this.authService.getToken() ?? '1';

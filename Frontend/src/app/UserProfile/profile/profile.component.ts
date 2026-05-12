@@ -7,99 +7,100 @@ import { ChatServiceService } from '../../Services/chat-service.service';
 import { BlocksServiceService } from '../../Services/blocks-service.service';
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
+import { ToastrService } from 'ngx-toastr';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule,RouterModule,NgIf, NgFor],
+  imports: [FormsModule, RouterModule, NgIf, NgFor],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
 
 export class ProfileComponent {
-  constructor(private router: Router,private chatService:ChatServiceService,private blocksService:BlocksServiceService,
-    private route:ActivatedRoute,private profileService: ProfileServiceService, private authService: AuthenticationService) { }
-  
+  constructor(private router: Router, private chatService: ChatServiceService,private toastService:ToastrService,
+     private blocksService: BlocksServiceService, private route: ActivatedRoute, private profileService: ProfileServiceService, private authService: AuthenticationService) { }
+
   ngOnInit(): void {
     this.loadProfile();
-     this.checkIfCurrentUser();
-  this.checkIfBlocked();
+    this.checkIfCurrentUser();
+    this.checkIfBlocked();
   }
   //**************************variables**************************************** */
 
-profile!: ProfileResponse;
-isCurrentUser: boolean = false;
-isBlocked: boolean = false;
-profileId = this.route.snapshot.paramMap.get('id')??'1';
-currentUserId=this.authService.getUserId()??'1'
-currentProfileId = this.authService.getProfileId()??'1'
-//*************************************functions********************* */
-openChat(): void {
-debugger
-  this.chatService.createChat(this.currentUserId, this.profile.userId).subscribe({
-    next: (chat) => {
-      this.router.navigate(['/home/chat/friend', chat.id]);
-    },
-    error: (err) => {
-      console.error('Failed to create or open chat:', err);
-    }
-  });
-}
- isWebsite(): number {
-  return this.profile?.website ? 1 : 0;
-}
+  profile!: ProfileResponse;
+  isCurrentUser: boolean = false;
+  isBlocked: boolean = false;
+  profileId = this.route.snapshot.paramMap.get('id') ?? '1';
+  currentUserId = this.authService.getUserId() ?? '1'
+  currentProfileId = this.authService.getProfileId() ?? '1'
+  //*************************************functions********************* */
+  openChat(): void {
+    debugger
+    this.chatService.createChat(this.currentUserId, this.profile.userId).subscribe({
+      next: (chat) => {
+        this.router.navigate(['/home/chat/friend', chat.id]);
+      },
+      error: (err) => {
+        this.toastService.error('Failed to create or open chat:', err);
+      }
+    });
+  }
 
-checkIfCurrentUser() {
-  this.isCurrentUser = this.currentProfileId === this.profileId;
-}
+  isWebsite(): number {
+    return this.profile?.website ? 1 : 0;
+  }
 
-checkIfBlocked() {
-  this.blocksService.getBlockedUsers(this.currentUserId).subscribe((res: any) => {
-    this.isBlocked = res.some((u: any) => u.id === this.currentUserId);
-  });
-}
+  checkIfCurrentUser() {
+    this.isCurrentUser = this.currentProfileId === this.profileId;
+  }
 
-blockUser() {
-  const data = {
-    blockerId: this.currentUserId,
-    blockedId: this.profile.userId
-  };
+  checkIfBlocked() {
+    this.blocksService.getBlockedUsers(this.currentUserId).subscribe((res: any) => {
+      this.isBlocked = res.some((u: any) => u.id === this.currentUserId);
+    });
+  }
 
-  this.blocksService.blockUser(data).subscribe(() => {
-    this.isBlocked = true;
-  });
-}
+  blockUser() {
+    const data = {
+      blockerId: this.currentUserId,
+      blockedId: this.profile.userId
+    };
 
-unblockUser() {
-  const data = {
-    blockerId: this.currentUserId,
-    blockedId: this.profile.userId
-  };
+    this.blocksService.blockUser(data).subscribe(() => {
+      this.isBlocked = true;
+    });
+  }
 
-  this.blocksService.unblockUser(data).subscribe(() => {
-    this.isBlocked = false;
-  });
-}
+  unblockUser() {
+    const data = {
+      blockerId: this.currentUserId,
+      blockedId: this.profile.userId
+    };
 
-openPost(postId: string) {
-  this.router.navigate(['/home/user/post', postId]);
-}
+    this.blocksService.unblockUser(data).subscribe(() => {
+      this.isBlocked = false;
+    });
+  }
 
+  openPost(postId: string) {
+    this.router.navigate(['/home/user/post', postId]);
+  }
 
-loadProfile() {
-  debugger
+  loadProfile() {
+    debugger
     this.profileService.viewProfile(this.profileId).subscribe({
       next: (res: ProfileResponse) => {
         this.profile = res;
       },
       error: (err) => {
-        console.error(err);
+        this.toastService.error(err);
       }
     });
   }
 
-openModal() {
+  openModal() {
     const modal = new bootstrap.Modal(document.getElementById('profilePictureModal')!);
     modal.show();
   }

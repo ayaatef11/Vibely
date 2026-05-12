@@ -6,6 +6,7 @@ import { RegisterRequest } from '../../../../Models/Auth/Requests/RegisterReques
 import { NgIf } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../Services/authentication-service.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -14,7 +15,7 @@ import { AuthenticationService } from '../../../Services/authentication-service.
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private toastService:ToastrService,private router: Router) { }
 
   //****************************VARIABLES********************************************* */
   signUpData: RegisterRequest = {
@@ -42,7 +43,7 @@ export class SignupComponent {
         this.router.navigate(['/login']);
       },
       error: (error) => {
-        console.error('Signup error', error);
+        this.toastService.error('Signup error', error);
         this.errorMessage = error.message || 'Signup failed';
         this.isLoading = false;
       }

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import * as signalR from '@microsoft/signalr';
-import { environment } from '../../../../Environments/environment';
-import { NotificationResponse } from '../../../../Models/Notifications/Responses/NotificationResponse';
+import { environment } from '../../Environments/environment';
+import { NotificationResponse } from '../../Models/Notifications/Responses/NotificationResponse';
 
 @Injectable({
   providedIn: 'root'

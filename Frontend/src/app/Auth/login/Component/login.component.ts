@@ -6,6 +6,7 @@ import { TokenResponse } from '../../../../Models/Auth/Responses/TokenResponse';
 import { NgIf } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../Services/authentication-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +16,11 @@ import { AuthenticationService } from '../../../Services/authentication-service.
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
-  constructor(private router: Router, private authService: AuthenticationService,private translate:TranslateService ) { }
+  constructor(private router: Router,private toastService:ToastrService, private authService: AuthenticationService,private translate:TranslateService ) { }
  ngOnInit() {
-  if(this.authService.getToken()!=null)this.router.navigate(['/home'])
-    console.log('current lang:', this.translate.currentLang);
-    console.log('test key:', this.translate.instant('LOGIN.LogIn'));
+  if(this.authService.getToken()!=null){
+    this.router.navigate(['/home'])
+  }
   }
   //***************************VARIABLES********************* */
   userData: LoginRequest = {
@@ -40,7 +41,6 @@ export class LoginComponent implements OnInit{
     this.errorMessage = '';
     this.authService.SignIn(this.userData).subscribe({
       next: (res: TokenResponse) => {
-
         if (res.requires2FA) {
           this.open2FALoginModal(this.userId);
         } else {
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit{
         }
       },
       error: (error) => {
-        console.error('Signin error', error);
+        this.toastService.error('Signin error', error);
         this.errorMessage = error.message || 'Signin failed';
         this.isLoading = false;
       }
@@ -61,8 +61,8 @@ export class LoginComponent implements OnInit{
     this.userId = userId;
     this.is2FALoginModalOpen = true;
   }
-  verifyLogin2FA() {
 
+  verifyLogin2FA() {
     const data = {
       userId: this.userId,
       code: this.verificationCode
@@ -70,7 +70,6 @@ export class LoginComponent implements OnInit{
 
     this.authService.verify2FA(data).subscribe(res => {
       this.authService.saveToken(res.token);
-
       this.is2FALoginModalOpen = false;
       this.isLoading = false;
       this.router.navigate(['/home']);

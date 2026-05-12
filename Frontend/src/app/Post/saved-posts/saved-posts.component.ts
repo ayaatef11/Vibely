@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { SavedPostsServiceService } from '../../Services/saved-posts-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-saved-posts',
@@ -12,25 +13,26 @@ import { SavedPostsServiceService } from '../../Services/saved-posts-service.ser
 })
 export class SavedPostsComponent {
 
-
- savedPosts: any[] = [];
-  userId: string = '';
-
-  constructor(private savedPostService: SavedPostsServiceService,private authService:AuthenticationService) {}
+ constructor(private savedPostService: SavedPostsServiceService,private authService:AuthenticationService,private toastService:ToastrService) {}
 
   ngOnInit(): void {
     this.userId = this.authService.getUserId()??'1';
     this.getSavedPosts();
   }
+  //*******************************variables********************************** */
+ savedPosts: any[] = [];
+  userId: string = '';
 
+ 
+//*******************************functions******************************************** */
   getSavedPosts() {
     this.savedPostService.getSavedPosts(this.userId).subscribe({
       next: (res: any) => {
         this.savedPosts = res;
-        console.log('Saved posts:', res);
+        this.toastService.success('Saved posts:', res);
       },
       error: (err) => {
-        console.error('Error fetching saved posts', err);
+        this.toastService.error('Error fetching saved posts', err);
       }
     });
   }

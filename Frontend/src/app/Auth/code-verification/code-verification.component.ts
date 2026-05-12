@@ -4,6 +4,7 @@ import { ForgetPasswordResetRequest } from '../../../Models/Auth/Requests/Forget
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthenticationService } from '../../Services/authentication-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-code-verification',
@@ -13,7 +14,7 @@ import { AuthenticationService } from '../../Services/authentication-service.ser
   styleUrl: './code-verification.component.css'
 })
 export class CodeVerificationComponent {
-  constructor(private authService: AuthenticationService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private authService: AuthenticationService, private router: Router, private route: ActivatedRoute,private toastService:ToastrService) { }
 
   //*****************************VARIABLES**************************************** */
   data: ForgetPasswordResetRequest = {
@@ -29,14 +30,17 @@ export class CodeVerificationComponent {
   }
 
   resetPassword() {
-
+debugger
     if (!this.data.code) {
-      alert('Enter code first ');
+      this.toastService.error('Enter code first ');
       return;
     }
-
+if(!this.data.newPassword || this.confirmPassword){
+this.toastService.error("Enter Password first ");
+      return;
+    }
     if (this.data.newPassword !== this.confirmPassword) {
-      alert("Passwords don't match ");
+      this.toastService.error("Passwords don't match ");
       return;
     }
 
@@ -47,7 +51,7 @@ export class CodeVerificationComponent {
         this.router.navigate(['/home']);
       },
       error: (err) => {
-        console.error(err);
+        this.toastService.error(err);
       }
     });
   }

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse'; 
+import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { EditProfileRequest } from '../../../Models/Profiles/Requests/EditProfileRequest';
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-profile',
@@ -14,7 +15,8 @@ import { ProfileServiceService } from '../../Services/profile-service.service';
   styleUrl: './edit-profile.component.css'
 })
 export class EditProfileComponent {
-  constructor(private router: Router, private authService: AuthenticationService, private profileService: ProfileServiceService) { }
+  constructor(private router: Router, private authService: AuthenticationService, private toastService:ToastrService,
+    private profileService: ProfileServiceService) { }
   ngOnInit() {
     this.loadProfile()
   }
@@ -38,7 +40,7 @@ export class EditProfileComponent {
     posts: []
   };
   userId = this.authService.getUserId() ?? ''
-profileId=this.authService.getProfileId()??''
+  profileId = this.authService.getProfileId() ?? ''
   //**********************************functions***************************** */  
   editProfile() {
     console.log(this.user)
@@ -56,11 +58,11 @@ profileId=this.authService.getProfileId()??''
     this.profileService.editProfile(req).subscribe({
       next: (res: ProfileResponse) => {
         console.log("Profile updated");
-        this.router.navigate(['/home/profile',this.profileId])
+        this.router.navigate(['/home/profile', this.profileId])
 
       },
       error: (err) => {
-        console.error(err);
+        this.toastService.error(err);
       }
     });
   }
@@ -68,13 +70,12 @@ profileId=this.authService.getProfileId()??''
   loadProfile() {
 
     const profileId = this.authService.getProfileId() ?? '1';
-
     this.profileService.viewProfile(profileId).subscribe({
       next: (res: ProfileResponse) => {
         this.user = res;
       },
       error: (err) => {
-        console.error(err);
+        this.toastService.error(err);
       }
     });
   }

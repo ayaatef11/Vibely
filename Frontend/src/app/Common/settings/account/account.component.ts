@@ -3,6 +3,7 @@ import { ChangePasswordRequest } from '../../../../Models/Auth/Requests/ChangePa
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../Services/authentication-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account',
@@ -12,7 +13,7 @@ import { AuthenticationService } from '../../../Services/authentication-service.
   styleUrl: './account.component.css'
 })
 export class AccountComponent {
-  constructor(private authService:AuthenticationService){}
+  constructor(private authService:AuthenticationService,private toastService:ToastrService){}
   userId=this.authService.getUserId()??'1'
 
   model:ChangePasswordRequest={
@@ -30,7 +31,7 @@ this.authService.changePassword(this.model,this.userId).subscribe(
   }
 },
 (err)=>{
-console.error(err)
+this.toastService.error(err)
 });
 }
 

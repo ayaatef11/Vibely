@@ -5,6 +5,7 @@ import { EditProfileRequest } from '../../../../Models/Profiles/Requests/EditPro
 import { TranslateModule } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../Services/authentication-service.service';
 import { ProfileServiceService } from '../../../Services/profile-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-settings-profile',
@@ -14,7 +15,7 @@ import { ProfileServiceService } from '../../../Services/profile-service.service
   styleUrl: './settings-profile.component.css'
 })
 export class SettingsProfileComponent {
-constructor(private authService:AuthenticationService,private profileService:ProfileServiceService){}
+constructor(private authService:AuthenticationService,private profileService:ProfileServiceService,private toastService:ToastrService){}
 ngOnInit(){
   this.viewProfile();
 }
@@ -48,7 +49,7 @@ editProfile() {
 this.currentUser=res;
       },
       error: (err) => {
-        console.error(err);
+        this.toastService.error(err);
       }
     });
   }

@@ -57,9 +57,7 @@ toggle2FA() {
 
 enable2FAFlow() {
   this.authService.enable2FA(this.userId).subscribe((res:EnableTwoFAResponse) => {
-    
-    console.log("2FA enabled response:", res);
- 
+     
     this.open2FAVerificationModal(res);
   });
 }

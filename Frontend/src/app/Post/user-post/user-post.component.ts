@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { DislikeRequest } from '../../../Models/Reacts/Requests/DislikeRequest'; 
+import { DislikeRequest } from '../../../Models/Reacts/Requests/DislikeRequest';
 import { Post } from '../../../DTOS/Post';
 import { PostResponse } from '../../../Models/Posts/Responses/PostResponse';
 import { LikeRequest } from '../../../Models/Reacts/Requests/LikeRequest';
@@ -17,6 +17,7 @@ import { LikesServiceService } from '../../Services/likes-service.service';
 import { PostServiceService } from '../../Services/post-service.service';
 import { SavedPostsServiceService } from '../../Services/saved-posts-service.service';
 import { SharePostServiceService } from '../../Services/share-post-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-post',
@@ -27,10 +28,10 @@ import { SharePostServiceService } from '../../Services/share-post-service.servi
 })
 export class UserPostComponent {
 
-  constructor(private router: Router, private route: ActivatedRoute, private savedPostService: SavedPostsServiceService, private likeService: LikesServiceService, private authService: AuthenticationService, private commentService: CommentServiceService, private shareService: SharePostServiceService, private postService: PostServiceService) { }
-ngOnInit() {
+  constructor(private router: Router, private route: ActivatedRoute, private toastService: ToastrService,
+    private savedPostService: SavedPostsServiceService, private likeService: LikesServiceService, private authService: AuthenticationService, private commentService: CommentServiceService, private shareService: SharePostServiceService, private postService: PostServiceService) { }
+  ngOnInit() {
     const postId = this.route.snapshot.paramMap.get('id');
-
     if (postId) {
       this.loadPost(postId);
     }
@@ -39,17 +40,16 @@ ngOnInit() {
   post!: PostResponse;
   profileId = this.authService.getProfileId() ?? '1'
   isEditOpen = false;
+  editData: EditPostRequest = {
+    id: '',
+    title: '',
+    text: '',
+    feelingState: 0
+  };
 
-editData: EditPostRequest = {
-  id: '',
-  title: '',
-  text: '',
-  feelingState: 0
-};
 
 
-  
-//************************FUNCTIONS********************************************** */
+  //************************FUNCTIONS********************************************** */
 
   loadPost(postId: string) {
     this.postService.getPost(postId).subscribe(res => {
@@ -65,21 +65,21 @@ editData: EditPostRequest = {
       text: this.post.text
     };
     this.isEditOpen = true;
-   
+
   }
 
-  saveEdit(){
- this.postService.editPost(this.editData).subscribe((res:PostResponse)=>{
-this.post=res;
+  saveEdit() {
+    this.postService.editPost(this.editData).subscribe((res: PostResponse) => {
+      this.post = res;
     });
   }
 
   closeEdit() {
-  this.isEditOpen = false;
-}
+    this.isEditOpen = false;
+  }
 
   deletePost() {
-     
+
     this.postService.deletePost(this.post.id).subscribe(() => {
       this.router.navigate(['/home/profile', this.profileId])
     })
@@ -143,7 +143,7 @@ this.post=res;
 
   copyToClipboard(link: string) {
     navigator.clipboard.writeText(link);
-    alert("Link copied!");
+    this.toastService.success("Link copied!");
   }
 
   shareToWhatsApp(link: string) {
@@ -169,7 +169,7 @@ this.post=res;
         post.showComments = true
       },
       error: (err) => {
-        console.error(err)
+        this.toastService.error(err)
       }
     });
   }

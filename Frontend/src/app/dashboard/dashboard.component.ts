@@ -3,7 +3,7 @@ import { Component, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../Common/sidebar/sidebar.component';
 import { Router, RouterModule } from '@angular/router';
-import { animate, state, style, transition, trigger } from '@angular/animations'; 
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PostResponse } from '../../Models/Posts/Responses/PostResponse';
 import { DislikeRequest } from '../../Models/Reacts/Requests/DislikeRequest';
 import { LikeRequest } from '../../Models/Reacts/Requests/LikeRequest';
@@ -29,6 +29,7 @@ import { StoryServiceService } from '../Services/story-service.service';
 import { SharePostServiceService } from '../Services/share-post-service.service';
 import { CommentServiceService } from '../Services/comment-service.service';
 import { FollowSerivceService } from '../Services/follow-serivce.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,8 +39,8 @@ import { FollowSerivceService } from '../Services/follow-serivce.service';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  constructor(private router: Router, private userService: UserServiceService, private shareService: SharePostServiceService, 
-    private likeService: LikesServiceService, private authService: AuthenticationService, private commentService: CommentServiceService, 
+  constructor(private router: Router, private toastService: ToastrService, private userService: UserServiceService, private shareService: SharePostServiceService,
+    private likeService: LikesServiceService, private authService: AuthenticationService, private commentService: CommentServiceService,
     private postService: PostServiceService, private storyService: StoryServiceService, private followService: FollowSerivceService) { }
 
   ngOnInit(): void {
@@ -67,38 +68,36 @@ export class DashboardComponent {
   newPostText!: string
   newPostTitle!: string
   showCreatePostModal = false;
-  currentUserName:string=this.authService.getUserName()??'1'
+  currentUserName: string = this.authService.getUserName() ?? '1'
   newPostFeeling = 1;
   newPostImagePreview: string | null = null;
   newPostImageFile: File | null = null;
-storyComment=''
-selectedUser: any;
-selectedStory: any;
-showCreateStory=false;
-activeStoryUser:any=null;
-openStory(user: any, story: StoryResponse) {
-  this.selectedUser = user;
-  this.selectedStory = story;
-
-  this.viewStory(story); // mark as viewed
-}
+  storyComment = ''
+  selectedUser: any;
+  selectedStory: any;
+  showCreateStory = false;
+  activeStoryUser: any = null;
+  openStory(user: any, story: StoryResponse) {
+    this.selectedUser = user;
+    this.selectedStory = story;
+    this.viewStory(story);
+  }
   //****************************** functions *************************************** */
   viewProfile(profileId: string) {
-    
     this.router.navigate(['/home/profile', profileId]);
   }
 
   goToPost(postId: string) {
     this.router.navigate(['/home/user/post', postId]);
   }
-  
+
   loadTrendingPosts() {
     this.postService.getTrendingPosts().subscribe({
       next: (res: any) => {
         this.trendingPosts = res;
       },
       error: (err) => {
-        console.error(err);
+        this.toastService.error(err);
       }
     });
   }
@@ -134,7 +133,7 @@ openStory(user: any, story: StoryResponse) {
         this.friendRequests = res;
       },
       error: (err) => {
-        console.error(err);
+        this.toastService.error(err);
       }
     });
   }
@@ -147,8 +146,6 @@ openStory(user: any, story: StoryResponse) {
       sender: myId,
       reciever: user.id
     };
-    console.log("Data", data)
-
     if (!user.isRequested) {
       this.followService.requestFollow(data).subscribe({
         next: () => {
@@ -174,7 +171,7 @@ openStory(user: any, story: StoryResponse) {
         // console.log(this.suggestedUsers)
       },
       error: (err) => {
-        console.error(err);
+        this.toastService.error(err);
       }
     });
   }
@@ -203,7 +200,7 @@ openStory(user: any, story: StoryResponse) {
 
   copyToClipboard(link: string) {
     navigator.clipboard.writeText(link);
-    alert("Link copied!");
+    this.toastService.success("Link copied!");
   }
 
 
@@ -230,7 +227,7 @@ openStory(user: any, story: StoryResponse) {
         post.showComments = true
       },
       error: (err) => {
-        console.error(err)
+        this.toastService.error(err)
       }
     });
   }
@@ -303,20 +300,20 @@ openStory(user: any, story: StoryResponse) {
     });
   }
   ///**************************************post **************** */
-// Toggle menu open/close
-togglePostMenu(post: any) {
-  // Close all other open menus first
-  this.posts.forEach((p: any) => {
-    if (p.id !== post.id) p.showMenu = false;
-  });
-  post.showMenu = !post.showMenu;
-}
+  // Toggle menu open/close
+  togglePostMenu(post: any) {
+    // Close all other open menus first
+    this.posts.forEach((p: any) => {
+      if (p.id !== post.id) p.showMenu = false;
+    });
+    post.showMenu = !post.showMenu;
+  }
 
-// Close menu when clicking anywhere outside
-@HostListener('document:click')
-onDocumentClick() {
-  this.posts.forEach((p: any) => p.showMenu = false);
-} 
+  // Close menu when clicking anywhere outside
+  @HostListener('document:click')
+  onDocumentClick() {
+    this.posts.forEach((p: any) => p.showMenu = false);
+  }
 
   onImageSelected(event: any) {
     const file = event.target.files[0];
@@ -327,11 +324,10 @@ onDocumentClick() {
     const reader = new FileReader();
     reader.onload = (e: any) => this.newPostImagePreview = e.target.result;
     reader.readAsDataURL(file);
-  } 
+  }
 
   addPost() {
     this.router.navigate(['create/post'])
-   
   }
 
   editPost(post: any) {
@@ -347,13 +343,15 @@ onDocumentClick() {
   deletePost(postId: string) {
     this.postService.deletePost(postId).subscribe()
   }
+
   hidePost(post: PostResponse) {
     this.postService.hidePost(post.id).subscribe({
-      next(res){
-post.isHidden=true;
+      next(res) {
+        post.isHidden = true;
       }
     })
   }
+
   searchPosts(keyword: string) {
     this.postService.searchPosts(keyword).subscribe()
   }
@@ -407,27 +405,27 @@ post.isHidden=true;
         });
       },
       error: (err) => {
-        console.error(err)
+        this.toastService.error(err)
       }
     })
   }
 
   onSearch() {
-  if (!this.searchQuery.trim()) {
-    this.loadPosts();
-    return;
+    if (!this.searchQuery.trim()) {
+      this.loadPosts();
+      return;
+    }
+
+    this.postService.searchPosts(this.searchQuery).subscribe({
+      next: (res: PostResponse[]) => {
+        this.posts = res;
+      },
+      error: (err) => {
+        this.toastService.error(err);
+      }
+    });
   }
 
-  this.postService.searchPosts(this.searchQuery).subscribe({
-    next: (res: PostResponse[]) => {
-      this.posts = res;
-    },
-    error: (err) => {
-      console.error(err);
-    }
-  });
-}
-  
 
   @HostListener('document:keydown.escape', ['$event'])
   handleEscape(event: KeyboardEvent) {
@@ -436,75 +434,73 @@ post.isHidden=true;
     }
   }
   //***********************stories************************************** */
-  loadStories() { 
+  loadStories() {
     this.storyService.getAll(this.profileId).subscribe({
       next: (res: StoryResponse[]) => {
-        this.stories =res;
+        this.stories = res;
       },
       error: (err) => {
-        console.error(err);
+        this.toastService.error(err);
       }
     });
   }
 
   viewStory(story: StoryResponse): void {
-     
-      this.activeStoryUser = story;
-  this.storyService.viewStory(this.userId, story.id).subscribe((res:StoryResponse)=>{
-    // res.hasUnviewedStatus=false;
-  });
+
+    this.activeStoryUser = story;
+    this.storyService.viewStory(this.userId, story.id).subscribe((res: StoryResponse) => {
+      // res.hasUnviewedStatus=false;
+    });
   }
 
   reactToStory(storyId: string) {
+    this.storyService.addReact(this.userId, storyId).subscribe();
+  }
 
-  this.storyService.addReact(this.userId, storyId).subscribe();
+  addStoryComment(storyId: string) {
 
-}
-addStoryComment(storyId: string) {
+    const req: AddStoryCommentRequest = {
+      text: this.storyComment,
+      profileId: this.profileId,
+      StoryId: storyId
+    };
 
-  const req: AddStoryCommentRequest = {
-    text: this.storyComment,
-    profileId:this.profileId ,
-    StoryId: storyId
-  };
-
-  this.storyService.addStoryComment(req).subscribe({
+    this.storyService.addStoryComment(req).subscribe({
       next: () => {
         console.log('Comment added');
         this.storyComment = '';
-
       }
     });
-}
+  }
 
-createStory() {
-  this.storyService.addStory(this.newStatus,this.profileId).subscribe({
-    next: () => {
-      console.log('Story added');
-      this.loadStories();
-      this.newStatus = '';
-    }
-  });
-}
+  createStory() {
+    this.storyService.addStory(this.newStatus, this.profileId).subscribe({
+      next: () => {
+        console.log('Story added');
+        this.loadStories();
+        this.newStatus = '';
+      }
+    });
+  }
 
 
-deleteStory(story: any) {
+  deleteStory(story: any) {
 
-  const req = {
-    storyId: story.id,
-    userId: this.authService.getUserId() ?? ''
-  };
+    const req = {
+      storyId: story.id,
+      userId: this.authService.getUserId() ?? ''
+    };
 
-  this.storyService.deleteStory(req).subscribe({
+    this.storyService.deleteStory(req).subscribe({
       next: () => {
         this.loadStories();
         // this.usersWithStatus.pop(story)
       }
     });
-}
+  }
 
-loadViewers(storyId: string) {
-  this.storyService.getViewers(this.userId, storyId).subscribe();
-}
+  loadViewers(storyId: string) {
+    this.storyService.getViewers(this.userId, storyId).subscribe();
+  }
 
 }

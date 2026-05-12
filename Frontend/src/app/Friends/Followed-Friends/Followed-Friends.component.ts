@@ -5,6 +5,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-followedFriends',
@@ -14,7 +15,8 @@ import { ProfileServiceService } from '../../Services/profile-service.service';
   styleUrl: './Followed-Friends.component.css'
 })
 export class FollowedFriendsComponent {
-  constructor(private router:Router,private authService: AuthenticationService,private profileService:ProfileServiceService){}
+  constructor(private router:Router,private authService: AuthenticationService,
+    private profileService:ProfileServiceService,private toastService:ToastrService){}
 ngOnInit(){
   this.viewFollowed()
 }
@@ -31,7 +33,7 @@ viewFollowed(){
 
 this.profileService.getFollowers(userId).subscribe({
   next:(res:UserResponse[])=>this.followedUsers=res,
-  error:(err)=>console.error(err)
+  error:(err)=>this.toastService.error(err)
 })
 }
 

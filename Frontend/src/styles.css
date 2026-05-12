@@ -8,12 +8,12 @@
   --logo-bubble-light: #826ee7;
   --logo-bubble-medium: #4e19a9;
   --logo-bubble-dark: #441192;
-  --logo-dark-green: #290478;
+  --logo-dark-burbble: #290478;
 
   --logo-main-gradient: linear-gradient(180deg, 
     var(--logo-bubble-light) 0%, 
     var(--logo-bubble-medium) 50%, 
-    var(--logo-dark-green) 100%
+    var(--logo-dark-burbble) 100%
   );
   
   --logo-bubble-gradient: linear-gradient(135deg, 
@@ -31,12 +31,12 @@
   --logo-bubble-light: #826ee7;
   --logo-bubble-medium: #4e19a9;
   --logo-bubble-dark: #119265;
-  --logo-dark-green: #290478;
+  --logo-dark-burbble: #290478;
 
   --logo-main-gradient: linear-gradient(180deg, 
     var(--logo-bubble-light) 0%, 
     var(--logo-bubble-medium) 50%, 
-    var(--logo-dark-green) 100%
+    var(--logo-dark-burbble) 100%
   );
   
   --logo-bubble-gradient: linear-gradient(135deg, 
@@ -61,7 +61,7 @@ img {
 }
 
 ::selection {
-  background: var( --logo-dark-green);
+  background: var( --logo-dark-burbble);
   color: white;  
 }
 /* RTL support for Arabic */
@@ -74,4 +74,24 @@ img {
 /* Arabic font */
 [dir="rtl"] * {
   font-family: 'Cairo', 'Tajawal', sans-serif;
+}
+/* Success */
+.custom-toast.toast-success {
+  background-color: #362e7d !important;
+  background-image: none !important;
+}
+
+/* Error */
+.toast-error {
+  background-color: #c62828 !important;
+}
+
+/* Warning */
+.toast-warning {
+  background-color: #f57f17 !important;
+}
+
+/* Info */
+.toast-info {
+  background-color: #1565c0 !important;
 }

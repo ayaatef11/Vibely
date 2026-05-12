@@ -9,6 +9,7 @@ import { UnFollowRequest } from '../../../Models/Follow/Requests/UnFollowRequest
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { FollowSerivceService } from '../../Services/follow-serivce.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-following-friends',
@@ -18,7 +19,8 @@ import { ProfileServiceService } from '../../Services/profile-service.service';
   styleUrl: './following-friends.component.css'
 })
 export class FollowingFriendsComponent {
-  constructor(private router:Router,private followService:FollowSerivceService,private authService:AuthenticationService,private profileService:ProfileServiceService){}
+  constructor(private router:Router,private followService:FollowSerivceService,private toastService:ToastrService,
+    private authService:AuthenticationService,private profileService:ProfileServiceService){}
   ngOnInit(){
   this.viewFollowing()
 }
@@ -29,6 +31,7 @@ currentUserId=this.authService.getUserId()??'1';
 viewProfile(profileId: string) {
   this.router.navigate(['/home/profile', profileId]);
 }
+
 requestFollow(id:string){
   const req:FollowRequest={
     sender:this.currentUserId,
@@ -36,6 +39,7 @@ requestFollow(id:string){
   };
 this.followService.requestFollow(req).subscribe();
 }
+
 unfollow(id:string){
 const  req: UnFollowRequest={
   sender:this.currentUserId,
@@ -43,13 +47,14 @@ const  req: UnFollowRequest={
 };
 this.followService.unfollow(req).subscribe();
 }
+
 viewFollowing(){
   // debugger
   const userId =this.authService.getUserId()??'1'
 
 this.profileService.getFollowing(userId).subscribe({
   next:(res:UserResponse[])=>this.FollowersUsers=res,
-  error:(err)=>console.error(err)
+  error:(err)=>this.toastService.error(err)
 })
 }
 }
