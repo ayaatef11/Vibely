@@ -1,7 +1,4 @@
-﻿using SocialMedia.Application.DTOs.Requests.Notifications;
-using SocialMedia.Application.DTOs.Responses.Notifications;
-
-namespace SocialMedia.Application.Abstractions;
+﻿namespace SocialMedia.Application.Abstractions;
 public interface INotificationsService
 {
     Task SendNotificationAsync(NotificationRequest request);

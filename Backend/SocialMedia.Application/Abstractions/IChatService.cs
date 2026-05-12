@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Requests.Chats;
-using SocialMedia.Application.DTOs.Responses.Chats;
-using SocialMedia.Core.Domain.Entities.Business.Chats;
-
-namespace SocialMedia.Application.Abstractions;
+﻿namespace SocialMedia.Application.Abstractions;
 public interface IChatService
 {
     Task<ChatResponse> CreateChatAsync(Guid currentUserId, Guid otherUserId);

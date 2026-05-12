@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using SocialMedia.Application.DTOs.Requests.Notifications;
 namespace SocialMedia.Application.Implementations;
 public class CommentService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  ICommentService
 { 
@@ -49,12 +48,12 @@ public class CommentService(AppdbContext _context,IMapper _mapper,INotifications
         var result = _mapper.Map<CommentResponse>(_comment);
         return result;
     }
-    public async ValueTask<int> DeleteComment(Guid id)
+    public async ValueTask DeleteComment(Guid id)
     {
         var comment = await _context.Comments.FindAsync(id);
-        if (comment == null) return -1;
+        if (comment == null) throw new Exception("Comment is not found");
         _context.Comments.Remove(comment);
-        return await _context.SaveChangesAsync();
+         await _context.SaveChangesAsync();
     }
     public async ValueTask<IEnumerable<CommentResponse>> GetComments(Guid postId)
     {
