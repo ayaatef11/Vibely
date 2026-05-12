@@ -85,13 +85,12 @@ public class AuthenticationService(UserManager<User> _userManager,IConfiguration
         };
     }
    
-    public async ValueTask<string> RequestForgotPasswordAsync(string email)
+    public async ValueTask RequestForgotPasswordAsync(string email)
     {
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
         if (user == null)
-            return "NotFound";
-
-        return await ForgotPassword.GenerateConfirmationCode(user, _emailService, _userManager);
+            throw new Exception("NotFound");
+         await ForgotPassword.GenerateConfirmationCode(user, _emailService, _userManager);
     }
 
     public async ValueTask<TokenResponse> ResetPasswordAsync(ForgotPasswordRequest request, int? timeOutInMinutes)

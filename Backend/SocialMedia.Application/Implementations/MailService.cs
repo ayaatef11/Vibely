@@ -1,15 +1,13 @@
 ﻿using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Configuration;
-using MimeKit;
-using static Org.BouncyCastle.Math.EC.ECCurve;
-//using System.Net.Mail;
+using MimeKit; 
 
 namespace SocialMedia.Application.Implementations;
 
 public class MailService(IConfiguration _configuration) : IMailService
 {
-    public async ValueTask<string> SendMailAsync(string email, string subject, string toMessage)
+    public async ValueTask SendMailAsync(string email, string subject, string toMessage)
     {
         try
         {
@@ -31,7 +29,7 @@ public class MailService(IConfiguration _configuration) : IMailService
 
             SecureSocketOptions sslOptions = SecureSocketOptions.StartTls;
             if (!int.TryParse(smtpOptions.Port, out int portNumber))
-                return "Invalid Port Number";
+                throw new Exception("Invalid Port Number");
 
             await client.ConnectAsync(smtpOptions.Server, portNumber, sslOptions);
 
@@ -45,11 +43,10 @@ public class MailService(IConfiguration _configuration) : IMailService
 
             if (!client.IsAuthenticated)
             {
-                return "Not authenticated";
+                throw new Exception( "Not authenticated");
             }
             var response = await client.SendAsync(message);
             await client.DisconnectAsync(true);
-            return "Successfully";
 
         }
         catch (Exception ex)

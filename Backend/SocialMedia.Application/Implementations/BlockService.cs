@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using SocialMedia.Core.Context;
-using SocialMedia.Core.Domain.DTOs.Requests.Block;
-
+using Microsoft.Extensions.Configuration; 
 namespace SocialMedia.Application.Implementations;
 public class BlockService : MainRepository<Block>, IBlockService
 {
@@ -14,7 +11,7 @@ public class BlockService : MainRepository<Block>, IBlockService
         this.config = config;
     }
 
-    public async ValueTask<string> BlockAsync(BlockRequest block)
+    public async ValueTask BlockAsync(BlockRequest block)
     {
         var foundBlock = await context.Blocks.SingleOrDefaultAsync
             (x => x.BlockerId == block.BlockerId && x.BlockedId == block.BlockedId);
@@ -22,11 +19,11 @@ public class BlockService : MainRepository<Block>, IBlockService
         var foundBlocker = await context.Users.SingleOrDefaultAsync(x => x.Id == block.BlockerId);
 
         if (foundBlocked == null || foundBlocker == null)
-            return "UserFF";
+            throw new Exception("UserFF");
         if (foundBlock != null)
-            return "UserAB";
+            throw new Exception("UserAB");
 
-        if (block.BlockerId == block.BlockedId) return "UserAA";
+        if (block.BlockerId == block.BlockedId) throw new Exception("UserAA");
 
 
         var _block = new Block()
@@ -37,23 +34,21 @@ public class BlockService : MainRepository<Block>, IBlockService
 
         await context.Blocks.AddAsync(_block);
         var blockOperation = await context.SaveChangesAsync();
-        return blockOperation > 0 ?
-            "Successfully" : "Invalid";
+        if( blockOperation <= 0) throw new Exception( "Invalid");
     }
 
-    public async ValueTask<string> UnBlockAsync(BlockRequest block)
+    public async ValueTask UnBlockAsync(BlockRequest block)
     {
         var blocked = await context.Blocks.
             SingleOrDefaultAsync(x => x.BlockedId == block.BlockedId && x.BlockerId == block.BlockerId);
 
         if (blocked == null)
-            return "UserNB";
+            throw new Exception("UserNB");
 
         context.Blocks.Remove(blocked);
         var unBlockOperation = await context.SaveChangesAsync();
 
-        return unBlockOperation > 0 ?
-              "Successfully" : "Invalid";
+        if( unBlockOperation <= 0 )throw new Exception( "Invalid");
     }
 
     public async ValueTask<IEnumerable<User>> GetBlockedUserAsync(Guid id)

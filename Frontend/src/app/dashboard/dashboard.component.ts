@@ -28,6 +28,7 @@ import { debug } from 'console';
 import { UserResponseWithStories } from '../../Models/Users/Responses/UserResponseWithStories';
 import { StoryResponse } from '../../Models/Story/Responses/StoryResponse';
 import { AddStoryCommentRequest } from '../../Models/Story/Requests/AddStoryCommentRequest';
+import { ProfileResponse } from '../../Models/Profiles/Responses/ProfileResponse';
 
 @Component({
   selector: 'app-dashboard',
@@ -58,7 +59,7 @@ export class DashboardComponent {
   selectedImagePreview: string | null = null;
   stories: StoryResponse[] = [];
   suggestedUsers: UserResponse[] = [];
-  friendRequests: UserResponse[] = [];
+  friendRequests: ProfileResponse[] = [];
   showRequests = false;
   trendingPosts: PostResponse[] = [];
   userId!: string
@@ -83,12 +84,12 @@ openStory(user: any, story: StoryResponse) {
 }
   //****************************** functions *************************************** */
   viewProfile(profileId: string) {
-    debugger
+    
     this.router.navigate(['/home/profile', profileId]);
   }
 
   goToPost(postId: string) {
-    this.router.navigate(['/post', postId]);
+    this.router.navigate(['/home/user/post', postId]);
   }
   
   loadTrendingPosts() {
@@ -102,23 +103,22 @@ openStory(user: any, story: StoryResponse) {
     });
   }
   /////******************************friend requests **********************************/
-  acceptRequest(req: UserResponse) {
+  acceptRequest(id: string) {
 
-    console.log(req)
     this.followService.acceptFollow({
-      reciever: this.authService.getUserId() ?? '1',
-      sender: req.id
+      reciever: this.authService.getProfileId() ?? '1',
+      sender: id
     }).subscribe(() => {
-      this.friendRequests = this.friendRequests.filter(r => r.id !== req.id);
+      this.friendRequests = this.friendRequests.filter(r => r.id !== id);
     });
   }
 
-  rejectRequest(req: UserResponse) {
+  rejectRequest(id: string) {
     this.followService.rejectFollow({
-      reciever: this.authService.getUserId() ?? '1',
-      sender: req.id
+      reciever: this.authService.getProfileId() ?? '1',
+      sender: id
     }).subscribe(() => {
-      this.friendRequests = this.friendRequests.filter(r => r.id !== req.id);
+      this.friendRequests = this.friendRequests.filter(r => r.id !== id);
     });
   }
 
@@ -130,7 +130,7 @@ openStory(user: any, story: StoryResponse) {
   loadFriendRequests() {
 
     this.followService.viewRequests(this.profileId).subscribe({
-      next: (res: UserResponse[]) => {
+      next: (res: ProfileResponse[]) => {
         this.friendRequests = res;
       },
       error: (err) => {

@@ -1,7 +1,4 @@
-﻿using SocialMedia.Application.DTOs.Responses.Users;
-using SocialMedia.Core.Domain.DTOs.Requests.Followers;
-
-namespace SocialMedia.Application.Abstractions;
+﻿namespace SocialMedia.Application.Abstractions;
 public interface IFollowerService
 {
     ValueTask<string> AcceptFollowAsync(FollowRequest follow);
@@ -12,7 +9,7 @@ public interface IFollowerService
     ValueTask<ProfileResponse> RejectFollowAsync(FollowRequest followr);
     ValueTask<ICollection<UserResponse>> GetFollowersAsync(Guid profileId);
     ValueTask<ICollection<UserResponseWithStories>> GetFollowingWithStoriesAsync(Guid userId);
-    ValueTask<ICollection<ProfileResponse>> FindPeople(Guid userId);
-    Task<List<UserResponse>> ViewRequests(Guid profileId);
+    ValueTask<ICollection<ProfileResponse>> FindPeople(Guid profileId);
+    Task<List<ProfileResponse>> ViewRequests(Guid profileId);
 }
 

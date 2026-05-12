@@ -24,8 +24,8 @@ public class AuthenticationController(IAuthenticationService _authenticationServ
     [HttpPost("Forgot-Password-Request")]
     public async Task<IActionResult> RequestForgotPassword(string email)
     { 
-        var result = await _authenticationService.RequestForgotPasswordAsync(email);
-        return Ok(result);
+        await _authenticationService.RequestForgotPasswordAsync(email);
+        return Ok();
     }
 
     [HttpPut("Forgot-Password-Reset")]

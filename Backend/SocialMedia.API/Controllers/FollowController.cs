@@ -41,10 +41,10 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
         return  Ok(result);
     }
     [HttpGet("find-people")]
-    public async Task<IActionResult> FindPeople(Guid userId)
+    public async Task<IActionResult> FindPeople(Guid profileId)
     {
 
-        var result = await _FollowerService.FindPeople(userId);
+        var result = await _FollowerService.FindPeople(profileId);
         return Ok(result);
     }
     [HttpGet("view")]

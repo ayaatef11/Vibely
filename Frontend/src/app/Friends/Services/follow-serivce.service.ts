@@ -41,8 +41,8 @@ export class FollowSerivceService {
     return this.http.get<UserResponse>(`${this.Url}/Get/${profileId}`)
   }
 
-  FindPeople(userId: string) {
-    return this.http.get<ProfileResponse[]>(`${this.Url}/find-people?userId=${userId}`)
+  FindPeople(profileId: string) {
+    return this.http.get<ProfileResponse[]>(`${this.Url}/find-people?profileId=${profileId}`)
     
   }
 
@@ -50,7 +50,7 @@ export class FollowSerivceService {
     return this.http.get<UserResponseWithStories[]>(`${this.Url}/Get-following/${id}`)
   }
 
-  viewRequests(profileId: string): Observable<UserResponse[]> {
-    return this.http.get<UserResponse[]>(`${this.Url}/view?profileId=${profileId}`)
+  viewRequests(profileId: string): Observable<ProfileResponse[]> {
+    return this.http.get<ProfileResponse[]>(`${this.Url}/view?profileId=${profileId}`)
   }
 }

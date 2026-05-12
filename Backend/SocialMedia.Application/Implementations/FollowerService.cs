@@ -58,14 +58,14 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
     var result = _mapper.Map<List<UserResponseWithStories>>(users);
         return result;
     }
-    public async ValueTask<ICollection<ProfileResponse>>FindPeople(Guid userId)
+    public async ValueTask<ICollection<ProfileResponse>>FindPeople(Guid profileId)
     {
         var followingIds = await _context.Follows
-        .Where(f => f.FollowerId == userId)
+        .Where(f => f.FollowerId == profileId)
         .Select(f => f.FollowingId)
         .ToListAsync();
          
-        var people = await _context.Profiles.Where(p => p.Id != userId && !followingIds.Contains(p.Id))
+        var people = await _context.Profiles.Where(p => p.Id != profileId && !followingIds.Contains(p.Id))
             .ToListAsync();
 
         return _mapper.Map<List<ProfileResponse>>(people);
@@ -174,9 +174,9 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
          if(sendFollowOperation <=0) throw new Exception( "FollowRequestFailed");
         return _mapper.Map<ProfileResponse>( receiver);
     }
-    public async Task<List<UserResponse>>ViewRequests(Guid profileId)
+    public async Task<List<ProfileResponse>>ViewRequests(Guid profileId)
     {
         var requests=await _context.Follows.Where(f=>f.FollowingId == profileId && f.FollowState==FollowState.Pending).Include(c=>c.Follower).Select(c=>c.Follower).ToListAsync();
-        return _mapper.Map<List<UserResponse>>(requests);   
+        return _mapper.Map<List<ProfileResponse>>(requests);   
     }
 }

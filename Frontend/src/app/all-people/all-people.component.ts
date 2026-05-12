@@ -40,7 +40,7 @@ currentProfileId=this.authService.getProfileId()??'1';
 
   loadPeople(): void {
     this.isLoading = true;
-    this.followService.FindPeople(this.currentUserId).subscribe({
+    this.followService.FindPeople(this.currentProfileId).subscribe({
         next: (data) => {
           this.users = data;
           data.forEach(u => this.followingStates[u.id] = 'idle');

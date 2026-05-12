@@ -9,50 +9,15 @@ public class BlocksController(IBlockService _BlockService) : ControllerBase
     [HttpPost("block")]
     public async Task<IActionResult> Block(BlockRequest block)
     {
-       var blockOperation = await _BlockService.BlockAsync(block);
-
-        if (blockOperation == "UserFF")
-            return BadRequest(new Result
-            {
-                Message = "User Is not found"
-            });
-        if (blockOperation == "UserAB")
-            return BadRequest(new Result
-            {
-                Message = "User Alreay Blocked"
-            });
-
-        if (blockOperation == "UserAA")
-            return BadRequest(new Result
-            {
-                Message = "User Can not block itself"
-            });
-
-
-        return blockOperation == "Successfully" ?
-            Ok(new Result
-            {
-                Message = "User Blocked Successfully"
-            })
-            : BadRequest(blockOperation);
+        await _BlockService.BlockAsync(block);
+        return Ok();
     }
 
     [HttpDelete("unblock")]
     public async Task<IActionResult> UnBlock(BlockRequest block)
     {
-        var unBlockOperation = await _BlockService.UnBlockAsync(block);
-        if (unBlockOperation == "UserNB")
-            return Ok(new Result
-            {
-                Message = "User Not Blocked"
-            });
-
-        return unBlockOperation == "Successfully" ?
-            Ok(new Result
-            {
-                Message = "User UnBlocked Successfully"
-            })
-            : BadRequest(unBlockOperation);
+         await _BlockService.UnBlockAsync(block);
+       return Ok();
     }
 
     [HttpGet("GetBlockedUsers/{BlockerId}")]

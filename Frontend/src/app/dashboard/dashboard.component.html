@@ -49,9 +49,9 @@
               </div>
 
               <div>
-                <button class="btn btn-sm  me-1" (click)="acceptRequest(req)"
+                <button class="btn btn-sm  me-1" (click)="acceptRequest(req.id)"
                   style="background-color:var(--logo-dark-green);color:white">Accept</button>
-                <button class="btn btn-sm btn-danger" (click)="rejectRequest(req)">Reject</button>
+                <button class="btn btn-sm btn-danger" (click)="rejectRequest(req.id)">Reject</button>
               </div>
 
             </div>

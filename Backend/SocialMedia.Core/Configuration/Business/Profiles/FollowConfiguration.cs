@@ -20,5 +20,7 @@ public class FollowConfiguration : IEntityTypeConfiguration<Follow>
           .HasForeignKey(x => x.FollowingId)
           .OnDelete(DeleteBehavior.Restrict)
           .IsRequired(false);
+        builder.Property(x => x.FollowState)
+            .HasConversion<string>();
     }
 }
