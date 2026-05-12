@@ -1,5 +1,3 @@
-
-
 .create-post-modal {
   max-width: 500px;
   margin: 0 auto;
@@ -11,7 +9,7 @@
 
 .modal-header-custom {
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #e4e6ea;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -35,7 +33,7 @@
 }
 
 .back-btn:hover {
-  background-color: #f0f2f5;
+  background-color: var(--bg-color);
 }
 
 .modal-title-custom {
@@ -65,7 +63,7 @@
 }
 
 .close-btn:hover {
-  background-color: #f0f2f5;
+  background-color: var(--bg-color);
 }
 
 .post-content {
@@ -96,7 +94,7 @@
 .privacy-dropdown {
   display: flex;
   align-items: center;
-  background: #e4e6ea;
+  background: var(--bg-color);
   border: none;
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
@@ -134,7 +132,7 @@
 }
 
 .media-upload-area {
-  border: 2px dashed #e4e6ea;
+  border: 2px dashed var(--border-color);
   border-radius: 8px;
   padding: 2rem;
   text-align: center;
@@ -145,7 +143,7 @@
 
 .media-upload-area:hover {
   border-color:var(--logo-bubble-dark);
-  background-color: #f7f9fc;
+  background-color: var(--bg-color);
 }
 
 .media-upload-area.dragover {
@@ -156,7 +154,7 @@
 .upload-icon {
   width: 50px;
   height: 50px;
-  background-color: #f0f2f5;
+  background-color: var(--bg-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -183,9 +181,9 @@
   gap: 1rem;
   margin-bottom: 1rem;
   padding: 0.75rem;
-  border: 1px solid #e4e6ea;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  background-color: #f8f9fa;
+  background-color: var(--bg-color);
 }
 
 .option-btn {
@@ -206,7 +204,7 @@
 }
 
 .option-btn:hover {
-  background-color: #e4e6ea;
+  background-color: var(--bg-color);
 }
 
 .option-btn i {
@@ -234,7 +232,7 @@
 }
 
 .btn-cancel {
-  background: #e4e6ea;
+  background: var(--bg-color);
   border: none;
   color: #1c1e21;
   padding: 0.75rem 1.5rem;
@@ -245,7 +243,7 @@
 }
 
 .btn-cancel:hover {
-  background-color: #d8dadf;
+  background-color: var(--bg-color);
 }
 
 .btn-post {
@@ -264,7 +262,7 @@
 }
 
 .btn-post:disabled {
-  background-color: #e4e6ea;
+  background-color: var(--bg-color);
   color: #bcc0c4;
   cursor: not-allowed;
 }

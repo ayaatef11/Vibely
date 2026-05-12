@@ -1,6 +1,6 @@
 .profile-header {
   padding: 1.5rem;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,7 +15,7 @@
 .cover-photo-section {
   position: relative;
   height: 160px;
-  background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+  background: linear-gradient(135deg, var(--bg-color) 0%, #f8f9fa 100%);
   display: flex;
   align-items: center;
   justify-content: center;
