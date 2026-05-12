@@ -1,0 +1,54 @@
+.notifications-container {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.notifications-header {
+  border-bottom: 1px solid var(--card-border);
+}
+
+.notifications-title {
+  color: var(--text-color);
+  font-weight: 700;
+}
+.mark-read-btn {
+  background: var(--logo-main-gradient);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.mark-read-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(78, 25, 169, 0.3);
+}
+.notifications-tabs {
+  border-bottom: 1px solid var(--card-border);
+}
+
+.notifications-tabs .nav-link {
+  color: var(--text-color);
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.notifications-tabs .nav-link:hover {
+  color: var(--logo-bubble-light);
+  background: transparent;
+}
+
+.notifications-tabs .nav-link.active {
+  color: var(--logo-bubble-light);
+  background: transparent;
+  border-bottom: 2px solid var(--logo-bubble-light);
+}

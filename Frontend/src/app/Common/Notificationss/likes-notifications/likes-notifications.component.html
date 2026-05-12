@@ -1,14 +1,31 @@
-   <div class="  px-3">
-        <div class="notification-item" *ngFor="let notification of notifications">
-            <div class="d-flex align-items-center">
-                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
-                    alt="Profile" class="profile-pic me-3">
-                <div class="flex-grow-1">
-                    <div class="notification-text">
-                        <strong>{{notification.senderName}}</strong> {{notification.message}}
-                    </div>
-                </div>
-                <img [src]="notification.senderProfilePicture" alt="Photo"class="notification-image ms-2">
-            </div>
-        </div>      
+<div class="px-3">
+
+  <div class="notification-item" *ngFor="let notification of notifications">
+
+    <div class="d-flex align-items-center">
+
+      <img
+        [src]="notification.senderProfilePicture || 'assets/default-avatar.png'"
+        alt="Profile"
+        class="profile-pic me-3"
+      >
+
+      <div class="flex-grow-1">
+        <div class="notification-text">
+          <strong>{{notification.senderName}}</strong>
+          {{notification.message}}
+        </div>
+      </div>
+
+      <img
+        *ngIf="notification.senderProfilePicture"
+        [src]="notification.senderProfilePicture"
+        alt="Photo"
+        class="notification-image ms-2"
+      >
+
     </div>
+
+  </div>
+
+</div>

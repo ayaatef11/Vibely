@@ -189,6 +189,14 @@
   "SETTINGS_PAGE": {
     "TITLE": "Settings",
     "SUBTITLE": "Manage your account and application preferences"
+  },
+  "NOTIFICATIONS": {
+    "TITLE": "Notifications",
+    "MARK_ALL_READ": "Mark all as read",
+    "ALL": "All",
+    "UNREAD": "Unread",
+    "COMMENTS": "Comments",
+    "LIKES": "Likes"
   }
 }
 

@@ -1,46 +1,68 @@
-.notification-item {
-  border-bottom: 1px solid #f0f0f0;
-  padding: 15px 0;
+.container-custom {
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  min-height: 100vh;
 }
+
+/* Notification item */
+.notification-item {
+  border-bottom: 1px solid var(--card-border);
+  padding: 15px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.notification-item:hover {
+  background-color: rgba(130, 110, 231, 0.08);
+}
+
 .notification-item:last-child {
   border-bottom: none;
 }
+
+/* Profile */
 .profile-pic {
   width: 48px;
   height: 48px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid var(--card-border);
+  box-shadow: 0 2px 6px var(--shadow-color);
 }
+
+/* Text */
 .notification-text {
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 2px;
+  line-height: 1.4;
 }
- 
+
+.notification-text strong {
+  color: var(--logo-bubble-light);
+}
+
+/* Time */
 .time-stamp {
-  color: #999;
-  font-size: 0.9rem;
+  color: #9ca3af;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  margin-left: 1rem;
 }
-.notification-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  object-fit: cover;
-}
- 
+
+/* Button */
 .mark-read-btn {
-  color: #007bff;
-  text-decoration: none;
+  color: var(--logo-bubble-light);
   font-size: 0.9rem;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
+
 .mark-read-btn:hover {
   text-decoration: underline;
 }
-.container-custom {
-  max-width: 600px;
-  margin: 0 auto;
-  background: white;
-  min-height: 100vh;
-}
+
 body {
-  background-color: #f8f9fa;
+  background-color: var(--bg-color);
 }

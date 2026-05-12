@@ -1,22 +1,65 @@
-<div class="">
-<div class="d-flex justify-content-between align-items-center p-3 border-bottom">
-  <h4 class="mb-0">Notifications</h4>
-  <button class="bg-success rounded" (click)="markAllAsRead()">Mark all as read</button>
-</div>
-<ul class="nav nav-tabs px-3 pt-3">
-  <li class="nav-item">
-    <a class="nav-link active text-success" routerLink="all" routerLinkActive="active"
-      [routerLinkActiveOptions]="{exact:true}">All</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-success" routerLink="unread" routerLinkActive="active">Unread</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-success" routerLink="comments" routerLinkActive="active">Comments</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link text-success" routerLink="likes" routerLinkActive="active">Likes</a>
-  </li>
-</ul>
-<router-outlet></router-outlet>
+<div class="notifications-container">
+
+  <div class="notifications-header d-flex justify-content-between align-items-center p-3">
+
+    <h4 class="mb-0 notifications-title">
+      {{ 'NOTIFICATIONS.TITLE' | translate }}
+    </h4>
+
+    <button
+      class="mark-read-btn"
+      (click)="markAllAsRead()"
+    >
+      {{ 'NOTIFICATIONS.MARK_ALL_READ' | translate }}
+    </button>
+
+  </div>
+
+  <ul class="nav nav-tabs notifications-tabs px-3 pt-3">
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        routerLink="all"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}"
+      >
+        {{ 'NOTIFICATIONS.ALL' | translate }}
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        routerLink="unread"
+        routerLinkActive="active"
+      >
+        {{ 'NOTIFICATIONS.UNREAD' | translate }}
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        routerLink="comments"
+        routerLinkActive="active"
+      >
+        {{ 'NOTIFICATIONS.COMMENTS' | translate }}
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        routerLink="likes"
+        routerLinkActive="active"
+      >
+        {{ 'NOTIFICATIONS.LIKES' | translate }}
+      </a>
+    </li>
+
+  </ul>
+
+  <router-outlet></router-outlet>
+
 </div>

@@ -1,16 +1,28 @@
-<div>
-    <div class="tab-content px-3">
-            <div class="notification-item bg-success" *ngFor="let notification of notifications">
-                <div class="d-flex align-items-center">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
-                        alt="Profile" class="profile-pic me-3">
-                    <div class="flex-grow-1">
-                        <div class="notification-text">
-                            <strong>{{notification.senderName}}</strong> {{notification.message}}
-                        </div>
-                    </div>
-                    <div class="time-stamp">{{ notification.createdAt | date: 'short' }}</div>
-                </div>
-            </div>
+<div class="tab-content px-3">
+
+  <div class="notification-item" *ngFor="let notification of notifications">
+
+    <div class="d-flex align-items-center">
+
+      <img
+        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+        alt="Profile"
+        class="profile-pic me-3"
+      >
+
+      <div class="flex-grow-1">
+        <div class="notification-text">
+          <strong>{{notification.senderName}}</strong>
+          {{notification.message}}
         </div>
+      </div>
+
+      <div class="time-stamp">
+        {{ notification.createdAt | date: 'short' }}
+      </div>
+
     </div>
+
+  </div>
+
+</div>
