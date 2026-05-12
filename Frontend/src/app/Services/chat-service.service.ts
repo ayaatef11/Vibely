@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../Environments/environment';
-import { ChatResponse } from '../../../Models/Chats/Responses/ChatResponse';
-import { MessageResponse } from '../../../Models/Chats/Responses/MessageResponse';
-import { AddMessageRequest } from '../../../Models/Chats/Requests/AddMessageRequest';
-import { EditMessageRequest } from '../../../Models/Chats/Requests/EditMessageRequest';
-import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
+import { environment } from '../../Environments/environment';
+import { AddMessageRequest } from '../../Models/Chats/Requests/AddMessageRequest';
+import { EditMessageRequest } from '../../Models/Chats/Requests/EditMessageRequest';
+import { ChatResponse } from '../../Models/Chats/Responses/ChatResponse';
+import { MessageResponse } from '../../Models/Chats/Responses/MessageResponse';
 
 @Injectable({
   providedIn: 'root'

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core'; 
-import { environment } from '../../../Environments/environment';
-import { LikeRequest } from '../../../Models/Reacts/Requests/LikeRequest';
-import { DislikeRequest } from '../../../Models/Reacts/Requests/DislikeRequest';
+import { environment } from '../../Environments/environment';
+import { DislikeRequest } from '../../Models/Reacts/Requests/DislikeRequest';
+import { LikeRequest } from '../../Models/Reacts/Requests/LikeRequest';
 
 @Injectable({
   providedIn: 'root'

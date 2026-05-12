@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LanguageServiceService } from '../../../dashboard/Services/language-service.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { LanguageServiceService } from '../../../Services/language-service.service';
 
 @Component({
   selector: 'app-preferences',

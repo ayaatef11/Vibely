@@ -3,19 +3,11 @@ import { Component, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../Common/sidebar/sidebar.component';
 import { Router, RouterModule } from '@angular/router';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { CommentServiceService } from '../Common/Services/comment-service.service';
-import { FollowSerivceService } from '../Friends/Services/follow-serivce.service';
-import { PostServiceService } from '../Post/Services/post-service.service';
-import { StoryServiceService } from './Services/story-service.service';
-import { AuthenticationService } from '../Auth/Services/authentication-service.service';
+import { animate, state, style, transition, trigger } from '@angular/animations'; 
 import { PostResponse } from '../../Models/Posts/Responses/PostResponse';
-import { LikesServiceService } from '../Common/Services/likes-service.service';
 import { DislikeRequest } from '../../Models/Reacts/Requests/DislikeRequest';
 import { LikeRequest } from '../../Models/Reacts/Requests/LikeRequest';
-import { SharePostServiceService } from '../Post/Services/share-post-service.service';
 import { AddCommentRequest } from '../../Models/Comments/Requests/AddCommentRequest';
-import { UserServiceService } from '../UserProfile/Services/user-service.service';
 import { FollowRequest } from '../../Models/Follow/Requests/FollowRequest';
 import { UserResponse } from '../../Models/Users/Responses/UserResponse';
 import { LikeCommentRequest } from '../../Models/Comments/Requests/LikeCommentRequest';
@@ -29,6 +21,14 @@ import { UserResponseWithStories } from '../../Models/Users/Responses/UserRespon
 import { StoryResponse } from '../../Models/Story/Responses/StoryResponse';
 import { AddStoryCommentRequest } from '../../Models/Story/Requests/AddStoryCommentRequest';
 import { ProfileResponse } from '../../Models/Profiles/Responses/ProfileResponse';
+import { UserServiceService } from '../Services/user-service.service';
+import { AuthenticationService } from '../Services/authentication-service.service';
+import { LikesServiceService } from '../Services/likes-service.service';
+import { PostServiceService } from '../Services/post-service.service';
+import { StoryServiceService } from '../Services/story-service.service';
+import { SharePostServiceService } from '../Services/share-post-service.service';
+import { CommentServiceService } from '../Services/comment-service.service';
+import { FollowSerivceService } from '../Services/follow-serivce.service';
 
 @Component({
   selector: 'app-dashboard',

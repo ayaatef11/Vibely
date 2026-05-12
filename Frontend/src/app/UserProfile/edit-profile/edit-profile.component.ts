@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
-import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
-import { ProfileServiceService } from '../Services/profile-service.service';
+import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse'; 
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { EditProfileRequest } from '../../../Models/Profiles/Requests/EditProfileRequest';
+import { AuthenticationService } from '../../Services/authentication-service.service';
+import { ProfileServiceService } from '../../Services/profile-service.service';
 
 @Component({
   selector: 'app-edit-profile',

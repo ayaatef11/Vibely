@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { LoginRequest } from '../../../../Models/Auth/Requests/LoginRequest';
-import { AuthenticationService } from '../../Services/authentication-service.service';
 import { TokenResponse } from '../../../../Models/Auth/Responses/TokenResponse';
 import { NgIf } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AuthenticationService } from '../../../Services/authentication-service.service';
 
 @Component({
   selector: 'app-login',

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
-import { environment } from '../../../Environments/environment';
-import { AddPostRequest } from '../../../Models/Posts/Requests/AddPostRequest';
-import { PostResponse } from '../../../Models/Posts/Responses/PostResponse';
-import { EditPostRequest } from '../../../Models/Posts/Requests/EditPostRequest';
+import { catchError, Observable, throwError } from 'rxjs'; 
+import { environment } from '../../Environments/environment';
+import { AddPostRequest } from '../../Models/Posts/Requests/AddPostRequest';
+import { EditPostRequest } from '../../Models/Posts/Requests/EditPostRequest';
+import { PostResponse } from '../../Models/Posts/Responses/PostResponse';
 
 @Injectable({
   providedIn: 'root'

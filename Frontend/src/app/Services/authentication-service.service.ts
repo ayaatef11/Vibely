@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../Environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { RegisterRequest } from '../../../Models/Auth/Requests/RegisterRequest';
 import { catchError, Observable, throwError, timeout } from 'rxjs';
-import { LoginRequest } from '../../../Models/Auth/Requests/LoginRequest';
-import { ForgetPasswordResetRequest } from '../../../Models/Auth/Requests/ForgetPasswordResetRequest';
-import { jwtDecode } from 'jwt-decode';
-import { ChangePasswordRequest } from '../../../Models/Auth/Requests/ChangePasswordRequest';
-import { SessionResponse } from '../../../Models/Auth/Responses/SessionResponse';
-import { TokenResponse } from '../../../Models/Auth/Responses/TokenResponse';
-import { Verify2FARequest } from '../../../Models/Auth/Requests/Verify2FARequest';
-import { EnableTwoFAResponse } from '../../../Models/Auth/Responses/EnableTwoFAResponse';
+import { jwtDecode } from 'jwt-decode'; 
+import { environment } from '../../Environments/environment';
+import { RegisterRequest } from '../../Models/Auth/Requests/RegisterRequest';
+import { TokenResponse } from '../../Models/Auth/Responses/TokenResponse';
+import { LoginRequest } from '../../Models/Auth/Requests/LoginRequest';
+import { ChangePasswordRequest } from '../../Models/Auth/Requests/ChangePasswordRequest';
+import { ForgetPasswordResetRequest } from '../../Models/Auth/Requests/ForgetPasswordResetRequest';
+import { SessionResponse } from '../../Models/Auth/Responses/SessionResponse';
+import { EnableTwoFAResponse } from '../../Models/Auth/Responses/EnableTwoFAResponse';
+import { Verify2FARequest } from '../../Models/Auth/Requests/Verify2FARequest';
 
 @Injectable({
   providedIn: 'root'

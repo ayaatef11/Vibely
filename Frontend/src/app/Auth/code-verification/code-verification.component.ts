@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '../Services/authentication-service.service';
 import { ForgetPasswordResetRequest } from '../../../Models/Auth/Requests/ForgetPasswordResetRequest';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthenticationService } from '../../Services/authentication-service.service';
 
 @Component({
   selector: 'app-code-verification',

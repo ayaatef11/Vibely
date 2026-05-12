@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { FriendsHeaderComponent } from "../friends-header/friends-header.component";
-import { UserResponse } from '../../../Models/Users/Responses/UserResponse';
-import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
-import { FollowSerivceService } from '../Services/follow-serivce.service';
-import { ProfileServiceService } from '../../UserProfile/Services/profile-service.service';
+import { UserResponse } from '../../../Models/Users/Responses/UserResponse'; 
 import { NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { AuthenticationService } from '../../Services/authentication-service.service';
+import { ProfileServiceService } from '../../Services/profile-service.service';
 
 @Component({
   selector: 'app-followedFriends',

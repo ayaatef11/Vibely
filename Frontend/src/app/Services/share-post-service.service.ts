@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../Environments/environment';
-import { StartSharePostRequest } from '../../../Models/Posts/Requests/StartSharePostRequest';
-import { RevokeSharePostRequest } from '../../../Models/Posts/Requests/RevokeSharePostRequest';
+import { environment } from '../../Environments/environment';
+import { RevokeSharePostRequest } from '../../Models/Posts/Requests/RevokeSharePostRequest';
+import { StartSharePostRequest } from '../../Models/Posts/Requests/StartSharePostRequest';
 
 @Injectable({
   providedIn: 'root'

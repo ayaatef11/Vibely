@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FriendsHeaderComponent } from '../friends-header/friends-header.component';
 import { UserResponse } from '../../../Models/Users/Responses/UserResponse';
-import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
 import { ProfileComponent } from '../../UserProfile/profile/profile.component';
-import { ProfileServiceService } from '../../UserProfile/Services/profile-service.service';
 import { NgFor, NgIf } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { FollowSerivceService } from '../Services/follow-serivce.service';
 import { FollowRequest } from '../../../Models/Follow/Requests/FollowRequest';
 import { UnFollowRequest } from '../../../Models/Follow/Requests/UnFollowRequest';
+import { AuthenticationService } from '../../Services/authentication-service.service';
+import { FollowSerivceService } from '../../Services/follow-serivce.service';
+import { ProfileServiceService } from '../../Services/profile-service.service';
 
 @Component({
   selector: 'app-following-friends',

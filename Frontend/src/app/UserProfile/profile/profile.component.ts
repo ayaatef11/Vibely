@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ProfileServiceService } from '../Services/profile-service.service';
-import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
 import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BlocksServiceService } from '../../Common/Services/blocks-service.service';
-import { ChatServiceService } from '../../Chatting/Services/chat-service.service';
+import { ChatServiceService } from '../../Services/chat-service.service';
+import { BlocksServiceService } from '../../Services/blocks-service.service';
+import { AuthenticationService } from '../../Services/authentication-service.service';
+import { ProfileServiceService } from '../../Services/profile-service.service';
 declare var bootstrap: any;
 
 @Component({
@@ -18,7 +18,8 @@ declare var bootstrap: any;
 })
 
 export class ProfileComponent {
-  constructor(private router: Router,private chatService:ChatServiceService,private blocksService:BlocksServiceService,private route:ActivatedRoute,private profileService: ProfileServiceService, private authService: AuthenticationService) { }
+  constructor(private router: Router,private chatService:ChatServiceService,private blocksService:BlocksServiceService,
+    private route:ActivatedRoute,private profileService: ProfileServiceService, private authService: AuthenticationService) { }
   
   ngOnInit(): void {
     this.loadProfile();

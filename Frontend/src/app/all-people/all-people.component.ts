@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { AuthenticationService } from '../Auth/Services/authentication-service.service';
-import { FollowSerivceService } from '../Friends/Services/follow-serivce.service';
+import { HttpClient } from '@angular/common/http'; 
 import { ProfileResponse } from '../../Models/Profiles/Responses/ProfileResponse';
 import { FollowRequest } from '../../Models/Follow/Requests/FollowRequest';
 import { CommonModule } from '@angular/common';
+import { AuthenticationService } from '../Services/authentication-service.service';
+import { FollowSerivceService } from '../Services/follow-serivce.service';
 
 interface UserProfile {
   id: string;

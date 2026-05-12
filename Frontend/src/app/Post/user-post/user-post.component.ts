@@ -1,14 +1,9 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { PostServiceService } from '../Services/post-service.service';
-import { DislikeRequest } from '../../../Models/Reacts/Requests/DislikeRequest';
-import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
-import { CommentServiceService } from '../../Common/Services/comment-service.service';
-import { SharePostServiceService } from '../Services/share-post-service.service';
+import { DislikeRequest } from '../../../Models/Reacts/Requests/DislikeRequest'; 
 import { Post } from '../../../DTOS/Post';
 import { PostResponse } from '../../../Models/Posts/Responses/PostResponse';
-import { LikesServiceService } from '../../Common/Services/likes-service.service';
 import { LikeRequest } from '../../../Models/Reacts/Requests/LikeRequest';
 import { AddCommentRequest } from '../../../Models/Comments/Requests/AddCommentRequest';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +11,12 @@ import { SavePostRequest } from '../../../Models/Posts/Requests/SavePostRequest'
 import { UnSavePostRequest } from '../../../Models/Posts/Requests/UnSavePostRequest';
 import { SidebarComponent } from '../../Common/sidebar/sidebar.component';
 import { EditPostRequest } from '../../../Models/Posts/Requests/EditPostRequest';
-import { SavedPostsServiceService } from '../Services/saved-posts-service.service';
+import { AuthenticationService } from '../../Services/authentication-service.service';
+import { CommentServiceService } from '../../Services/comment-service.service';
+import { LikesServiceService } from '../../Services/likes-service.service';
+import { PostServiceService } from '../../Services/post-service.service';
+import { SavedPostsServiceService } from '../../Services/saved-posts-service.service';
+import { SharePostServiceService } from '../../Services/share-post-service.service';
 
 @Component({
   selector: 'app-user-post',

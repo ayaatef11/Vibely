@@ -3,9 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { RegisterRequest } from '../../../../Models/Auth/Requests/RegisterRequest';
-import { AuthenticationService } from '../../Services/authentication-service.service';
 import { NgIf } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthenticationService } from '../../../Services/authentication-service.service';
 @Component({
   selector: 'app-signup',
   standalone: true,

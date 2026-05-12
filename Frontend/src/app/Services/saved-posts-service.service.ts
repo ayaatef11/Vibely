@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core'; 
 import { Observable } from 'rxjs';
-import { environment } from '../../../Environments/environment';
-import { SavePostRequest } from '../../../Models/Posts/Requests/SavePostRequest';
-import { PostResponse } from '../../../Models/Posts/Responses/PostResponse';
-import { UnSavePostRequest } from '../../../Models/Posts/Requests/UnSavePostRequest';
+import { environment } from '../../Environments/environment';
+import { SavePostRequest } from '../../Models/Posts/Requests/SavePostRequest';
+import { UnSavePostRequest } from '../../Models/Posts/Requests/UnSavePostRequest';
+import { PostResponse } from '../../Models/Posts/Responses/PostResponse';
 
 @Injectable({
   providedIn: 'root'

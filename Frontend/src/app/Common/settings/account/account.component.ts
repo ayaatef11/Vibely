@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../../../Auth/Services/authentication-service.service';
 import { ChangePasswordRequest } from '../../../../Models/Auth/Requests/ChangePasswordRequest';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthenticationService } from '../../../Services/authentication-service.service';
 
 @Component({
   selector: 'app-account',

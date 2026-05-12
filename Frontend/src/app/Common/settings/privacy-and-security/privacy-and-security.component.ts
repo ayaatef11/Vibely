@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthenticationService } from '../../../Auth/Services/authentication-service.service';
 import { SessionResponse } from '../../../../Models/Auth/Responses/SessionResponse';
 import { Verify2FARequest } from '../../../../Models/Auth/Requests/Verify2FARequest';
 import { NgIf } from '@angular/common';
 import { EnableTwoFAResponse } from '../../../../Models/Auth/Responses/EnableTwoFAResponse';
 import QRCode from 'qrcode';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthenticationService } from '../../../Services/authentication-service.service';
 @Component({
   selector: 'app-privacy-and-security',
   standalone: true,

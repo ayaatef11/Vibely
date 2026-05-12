@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../Environments/environment';
-import { EditProfileRequest } from '../../../Models/Profiles/Requests/EditProfileRequest';
-import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
-import { UserResponse } from '../../../Models/Users/Responses/UserResponse';
+import { environment } from '../../Environments/environment';
+import { EditProfileRequest } from '../../Models/Profiles/Requests/EditProfileRequest';
+import { ProfileResponse } from '../../Models/Profiles/Responses/ProfileResponse';
+import { UserResponse } from '../../Models/Users/Responses/UserResponse';
 
 @Injectable({
   providedIn: 'root'

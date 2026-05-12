@@ -4,8 +4,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import {HttpClient, provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi} from '@angular/common/http';
-// import {NgxSpinnerModule } from 'ngx-spinner';
-// import {ToastrModule } from 'ngx-toastr';
+import { provideToastr } from 'ngx-toastr';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {authenticationInterceptor} from '../Interceptors/Authentication/authentication.interceptor';
@@ -57,6 +56,7 @@ export const appConfig: ApplicationConfig = {
         }
       })
     ),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideToastr()
     ]
 };

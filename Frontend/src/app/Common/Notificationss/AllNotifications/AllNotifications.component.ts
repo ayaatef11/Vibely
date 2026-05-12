@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NotificationResponse } from '../../../../Models/Notifications/Responses/NotificationResponse';
 import { NotificationsServiceService } from '../Services/notifications-service.service';
-import { AuthenticationService } from '../../../Auth/Services/authentication-service.service';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { AuthenticationService } from '../../../Services/authentication-service.service';
 
 @Component({
   selector: 'app-allNotifications',

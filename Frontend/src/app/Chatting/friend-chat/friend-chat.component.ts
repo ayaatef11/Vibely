@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatServiceService } from '../Services/chat-service.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
-import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
 import { ChatResponse } from '../../../Models/Chats/Responses/ChatResponse';
 import { MessageResponse } from '../../../Models/Chats/Responses/MessageResponse';
 import { AddMessageRequest } from '../../../Models/Chats/Requests/AddMessageRequest';
 import { EditMessageRequest } from '../../../Models/Chats/Requests/EditMessageRequest';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../../Services/authentication-service.service';
+import { ChatServiceService } from '../../Services/chat-service.service';
 
 
 @Component({

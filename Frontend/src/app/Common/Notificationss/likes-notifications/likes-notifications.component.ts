@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from '../../../Auth/Services/authentication-service.service';
 import { NotificationsServiceService } from '../Services/notifications-service.service';
 import { NotificationResponse } from '../../../../Models/Notifications/Responses/NotificationResponse';
 import { CommonModule, NgFor } from '@angular/common';
+import { AuthenticationService } from '../../../Services/authentication-service.service';
 
 @Component({
   selector: 'app-likes-notifications',

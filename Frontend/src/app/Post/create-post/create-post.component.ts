@@ -1,8 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { AuthenticationService } from '../../Auth/Services/authentication-service.service';
-import { ProfileServiceService } from '../../UserProfile/Services/profile-service.service';
+import { FormsModule } from '@angular/forms'; 
 import { UserResponse } from '../../../Models/Users/Responses/UserResponse';
 import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
 import { profile } from 'console';
@@ -10,7 +8,9 @@ import { AddPostRequest } from '../../../Models/Posts/Requests/AddPostRequest';
 import { PostResponse } from '../../../Models/Posts/Responses/PostResponse';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
-import { PostServiceService } from '../Services/post-service.service';
+import { AuthenticationService } from '../../Services/authentication-service.service';
+import { PostServiceService } from '../../Services/post-service.service';
+import { ProfileServiceService } from '../../Services/profile-service.service';
 
 @Component({
   selector: 'app-create-post',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NotificationsServiceService } from '../Services/notifications-service.service';
-import { AuthenticationService } from '../../../Auth/Services/authentication-service.service';
 import { CommonModule } from '@angular/common';
+import { AuthenticationService } from '../../../Services/authentication-service.service';
 
 @Component({
   selector: 'app-notigications-header',
