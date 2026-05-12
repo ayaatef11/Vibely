@@ -3,30 +3,16 @@
   <h3>{{ 'RESET_PASSWORD.TITLE' | translate }}</h3>
 
   <input
-    type="text"
-    class="form-control mb-3"
-    [placeholder]="'RESET_PASSWORD.CODE_PLACEHOLDER' | translate"
-    [(ngModel)]="data.code"
-  >
+    type="text" class="form-control mb-3" [placeholder]="'RESET_PASSWORD.CODE_PLACEHOLDER' | translate"
+    [(ngModel)]="data.code">
 
-  <input
-    type="password"
-    class="form-control mb-2"
-    [placeholder]="'RESET_PASSWORD.NEW_PASSWORD_PLACEHOLDER' | translate"
-    [(ngModel)]="data.newPassword"
-  >
+  <input type="password" class="form-control mb-2"
+    [placeholder]="'RESET_PASSWORD.NEW_PASSWORD_PLACEHOLDER' | translate"  [(ngModel)]="data.newPassword">
 
-  <input
-    type="password"
-    class="form-control mb-3"
-    [placeholder]="'RESET_PASSWORD.CONFIRM_PASSWORD_PLACEHOLDER' | translate"
-    [(ngModel)]="confirmPassword"
-  >
+  <input  type="password"
+    class="form-control mb-3" [placeholder]="'RESET_PASSWORD.CONFIRM_PASSWORD_PLACEHOLDER' | translate"  [(ngModel)]="confirmPassword">
 
-  <button
-    class="btn btn-success w-100"
-    (click)="resetPassword()"
-  >
+  <button  class="btn button-style w-100"  (click)="resetPassword()">
     {{ 'RESET_PASSWORD.BUTTON' | translate }}
   </button>
 

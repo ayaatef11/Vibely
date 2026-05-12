@@ -10,9 +10,9 @@
     <input type="password" placeholder="{{ 'LOGIN.PASSWORD' | translate }}" name="password" [(ngModel)]="userData.password" class="form-control" required>
   </div>
 
-  <button class="btn btn-success  w-100" type="submit">{{ 'LOGIN.LOGIN' | translate }}</button>
+  <button class="btn button-style  w-100" type="submit">{{ 'LOGIN.LOGIN' | translate }}</button>
 <div class="text-end mt-2">
-  <a [routerLink]="['/forget-password']" class="text-success small">
+  <a [routerLink]="['/forget-password']" class="text-style small">
     {{ 'LOGIN.FORGETPASSWORD' | translate }}?
   </a>
 </div>

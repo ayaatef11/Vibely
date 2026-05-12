@@ -79,3 +79,11 @@
     opacity: 1;
   }
 }
+.button-style{
+  background-color: var(--logo-bubble-light);
+  color:white;
+}
+.text-style{
+    color: var(--logo-bubble-light);
+
+}
