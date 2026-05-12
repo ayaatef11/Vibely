@@ -16,15 +16,9 @@
 
         <div class="d-flex">
 
-          <!-- Notifications -->
-          <button class="btn btn-link btn-lg  me-2" [routerLink]="'/notifications'" routerLinkActive="active"
-            style="color:var(--logo-dark-green)">
-            <i class="fas fa-bell"></i>
-          </button>
-
           <!-- Friend Requests -->
           <button class="btn btn-link btn-lg   me-2 position-relative" (click)="toggleRequests()"
-            style="color:var(--logo-dark-green)">
+            style="color:var(--logo-dark-burbble)">
             <i class="fas fa-user-plus"></i>
             <span *ngIf="friendRequests.length > 0"
               class="badge bg-danger position-absolute top-0 start-100 translate-middle">
@@ -59,13 +53,13 @@
 
           <!-- Messages -->
           <button class="btn btn-link btn-lg  me-2" [routerLink]="'/home/chat/friend'" routerLinkActive="active"
-            style="color:var(--logo-dark-green)">
+            style="color:var(--logo-dark-burbble)">
             <i class="fas fa-envelope"></i>
           </button>
 
           <!-- Profile -->
           <button class="btn btn-link btn-lg " [routerLink]="['/home/profile', profileId]" routerLinkActive="active"
-            style="color:var(--logo-dark-green)">
+            style="color:var(--logo-dark-burbble)">
             <i class="fas fa-user-circle"></i>
           </button>
 
@@ -95,7 +89,7 @@
       <!-- Create Story Input (toggle) -->
       <div *ngIf="showCreateStory" class="create-story-box mt-2 p-2">
         <input [(ngModel)]="newStatus" placeholder="Write your story..." class="form-control mb-2">
-        <button class="btn btn-sm btn-success" (click)="createStory()">Post Story</button>
+        <button class="btn btn-sm button-color" (click)="createStory()">Post Story</button>
       </div>
       <!-- Story Viewer Modal -->
       <div class="story-viewer-overlay" *ngIf="activeStoryUser" (click)="activeStoryUser = null">

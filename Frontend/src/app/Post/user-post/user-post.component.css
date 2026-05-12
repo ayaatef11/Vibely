@@ -206,3 +206,9 @@
   width: 400px;
   border-radius: 10px;
 }
+.button-style{
+  background-color: var(--logo-bubble-dark);
+}
+.tt-style{
+  color: var(--logo-bubble-dark);
+}

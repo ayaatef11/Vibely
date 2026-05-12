@@ -29,7 +29,6 @@ export class SavedPostsComponent {
     this.savedPostService.getSavedPosts(this.userId).subscribe({
       next: (res: any) => {
         this.savedPosts = res;
-        this.toastService.success('Saved posts:', res);
       },
       error: (err) => {
         this.toastService.error('Error fetching saved posts', err);

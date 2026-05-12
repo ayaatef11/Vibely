@@ -16,12 +16,7 @@ public class SavePostController(ISavePostService _SavePostService) : ControllerB
     public async Task<IActionResult> Get(Guid userId)
     { 
         var posts = await _SavePostService.GetPosts(userId);
-        return posts.Any() ?
-            Ok(posts) :
-            NotFound(new Result
-            {
-                Message = "No Saved Posts Found For This User"
-            });
+        return Ok(posts);
     }
 
     [HttpDelete("UnSave")]

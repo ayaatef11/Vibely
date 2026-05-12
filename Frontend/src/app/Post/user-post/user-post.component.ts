@@ -58,13 +58,14 @@ export class UserPostComponent {
   }
 
   openEdit() {
+    this.isEditOpen = true;
+    this.post.showMenu = false;
     this.editData = {
       id: this.post.id,
       feelingState: this.post.feelingState,
       title: this.post.title,
       text: this.post.text
     };
-    this.isEditOpen = true;
 
   }
 
@@ -79,7 +80,6 @@ export class UserPostComponent {
   }
 
   deletePost() {
-
     this.postService.deletePost(this.post.id).subscribe(() => {
       this.router.navigate(['/home/profile', this.profileId])
     })
