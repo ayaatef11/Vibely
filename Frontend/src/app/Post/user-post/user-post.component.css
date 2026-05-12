@@ -208,6 +208,7 @@
 }
 .button-style{
   background-color: var(--logo-bubble-dark);
+  color:white;
 }
 .tt-style{
   color: var(--logo-bubble-dark);

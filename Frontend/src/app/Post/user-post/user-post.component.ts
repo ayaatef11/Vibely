@@ -192,6 +192,7 @@ export class UserPostComponent {
     }
     post.comments.push({ text: post.newCommentText })
     post.commentsCount++;
+    post.newCommentText=''
   }
 
   toggleLike(post: any) {
