@@ -1,57 +1,74 @@
-:root { 
-  
+:root {
+
   --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-text: #121212;
+
+  --button-bg: #4e19a9;
+  --button-hover: #290478;
+
+  --shadow-color: rgba(0, 0, 0, 0.08);
 
   --bg-color: #ffffff;
   --text-color: #121212;
-  --logo-bubble-very-light: #d5d3dc;  
+  --logo-bubble-very-light: #d5d3dc;
   --logo-bubble-light: #826ee7;
   --logo-bubble-medium: #4e19a9;
   --logo-bubble-dark: #441192;
   --logo-dark-burbble: #290478;
 
-  --logo-main-gradient: linear-gradient(180deg, 
-    var(--logo-bubble-light) 0%, 
-    var(--logo-bubble-medium) 50%, 
-    var(--logo-dark-burbble) 100%
-  );
-  
-  --logo-bubble-gradient: linear-gradient(135deg, 
-    var(--logo-bubble-light) 0%, 
-    var(--logo-bubble-medium) 100%
-  );
+  --logo-main-gradient: linear-gradient(180deg, var(--logo-bubble-light) 0%, var(--logo-bubble-medium) 50%,
+      var(--logo-dark-burbble) 100%);
+
+  --logo-bubble-gradient: linear-gradient(135deg,
+      var(--logo-bubble-light) 0%,
+      var(--logo-bubble-medium) 100%);
 }
+
 .dark-theme {
+--card-bg: #1e1e1e;
+  --card-border: #333333;
+
+  --input-bg: #2a2a2a;
+  --input-border: #444444;
+  --input-text: #ffffff;
+
+  --button-bg: #826ee7;
+  --button-hover: #6a56d6;
+
+  --shadow-color: rgba(0,0,0,0.4);
+
   --bg-color: #121212;
   --text-color: #ffffff;
-   --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
- 
-  --logo-bubble-very-light: #d5d3dc;  
+
+  --logo-bubble-very-light: #d5d3dc;
   --logo-bubble-light: #826ee7;
   --logo-bubble-medium: #4e19a9;
   --logo-bubble-dark: #119265;
   --logo-dark-burbble: #290478;
 
-  --logo-main-gradient: linear-gradient(180deg, 
-    var(--logo-bubble-light) 0%, 
-    var(--logo-bubble-medium) 50%, 
-    var(--logo-dark-burbble) 100%
-  );
-  
-  --logo-bubble-gradient: linear-gradient(135deg, 
-    var(--logo-bubble-light) 0%, 
-    var(--logo-bubble-medium) 100%
-  );
+  --logo-main-gradient: linear-gradient(180deg,
+      var(--logo-bubble-light) 0%,
+      var(--logo-bubble-medium) 50%,
+      var(--logo-dark-burbble) 100%);
+
+  --logo-bubble-gradient: linear-gradient(135deg,
+      var(--logo-bubble-light) 0%,
+      var(--logo-bubble-medium) 100%);
 }
 
 body {
   font-family: var(--font-main);
   background-color: var(--bg-color);
-  color: var( --text-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
-   height: 100%;
+  height: 100%;
 }
 
 img {
@@ -61,20 +78,39 @@ img {
 }
 
 ::selection {
-  background: var( --logo-dark-burbble);
-  color: white;  
+  background: var(--logo-dark-burbble);
+  color: white;
 }
+
 /* RTL support for Arabic */
-[dir="rtl"] .me-2 { margin-left: 0.5rem !important; margin-right: 0 !important; }
-[dir="rtl"] .me-3 { margin-left: 1rem !important;   margin-right: 0 !important; }
-[dir="rtl"] .ms-2 { margin-right: 0.5rem !important; margin-left: 0 !important; }
-[dir="rtl"] .float-end { float: left !important; }
-[dir="rtl"] .text-start { text-align: right !important; }
+[dir="rtl"] .me-2 {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+[dir="rtl"] .me-3 {
+  margin-left: 1rem !important;
+  margin-right: 0 !important;
+}
+
+[dir="rtl"] .ms-2 {
+  margin-right: 0.5rem !important;
+  margin-left: 0 !important;
+}
+
+[dir="rtl"] .float-end {
+  float: left !important;
+}
+
+[dir="rtl"] .text-start {
+  text-align: right !important;
+}
 
 /* Arabic font */
 [dir="rtl"] * {
   font-family: 'Cairo', 'Tajawal', sans-serif;
 }
+
 /* Success */
 .custom-toast.toast-success {
   background-color: #362e7d !important;

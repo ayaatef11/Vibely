@@ -7,9 +7,9 @@ namespace SocialMedia.API.Controllers;
 public class ProfileController(IProfileService _ProfileService) : ControllerBase
 {
     [HttpPut("edit")]
-    public async Task<IActionResult> Edit([FromForm] EditProfileRequest edit)
+    public async Task<IActionResult> Edit([FromForm] EditProfileRequest request)
     { 
-        var result = await _ProfileService.EditAsync(edit);
+        var result = await _ProfileService.EditAsync(request);
         return Ok(result);
     }
     [HttpGet("followers")]

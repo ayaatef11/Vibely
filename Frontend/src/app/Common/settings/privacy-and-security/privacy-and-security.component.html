@@ -2,17 +2,14 @@
 
     <div class="card-header">
         <h5 class="card-title mb-0">
-            <i class="fas fa-shield-alt me-2 text-success"></i>
+            <i class="fas fa-shield-alt me-2 section-icon"></i>
             {{ 'PRIVACY_SECURITY.TITLE' | translate }}
         </h5>
     </div>
 
     <div class="card-body">
-
         <div class="settings-item">
-
             <div class="d-flex justify-content-between align-items-center">
-
                 <div>
                     <h6 class="mb-1">
                         {{ 'PRIVACY_SECURITY.TWO_FACTOR' | translate }}
@@ -24,68 +21,42 @@
                 </div>
 
                 <div class="form-check form-switch">
-                    <input
-                        class="form-check-input"
-                        type="checkbox"
-                        [(ngModel)]="is2FAEnabled"
-                        (change)="toggle2FA()"
-                    >
+                    <input class="form-check-input" type="checkbox" [(ngModel)]="is2FAEnabled"  (change)="toggle2FA()" >
                 </div>
-
-            </div>
-
+         </div>
         </div>
 
         <div
-            class="modal d-block"
-            *ngIf="is2FAModalOpen"
-            style="background: rgba(0,0,0,0.5);"
-        >
+            class="modal d-block"   *ngIf="is2FAModalOpen" style="background: rgba(0,0,0,0.5);" >
 
             <div class="modal-dialog modal-dialog-centered">
-
                 <div class="modal-content">
-
                     <div class="modal-header">
-
                         <h5 class="modal-title">
                             {{ 'PRIVACY_SECURITY.SETUP_2FA' | translate }}
                         </h5>
 
                         <button
-                            class="btn-close"
-                            (click)="close2FAModal()"
-                        ></button>
+                            class="btn-close"  (click)="close2FAModal()" ></button>
 
                     </div>
 
                     <div class="modal-body text-center">
 
-                        <img
-                            *ngIf="qrImage"
-                            [src]="qrImage"
-                            class="img-fluid mb-3"
-                        />
+                        <img *ngIf="qrImage" [src]="qrImage" class="img-fluid mb-3" />
 
                         <p class="text-muted">
                             {{ 'PRIVACY_SECURITY.SCAN_QR' | translate }}
                         </p>
 
-                        <input
-                            type="text"
-                            class="form-control"
+                        <input type="text" class="form-control"
                             [placeholder]="'PRIVACY_SECURITY.CODE_PLACEHOLDER' | translate"
-                            [(ngModel)]="verificationCode"
-                        />
-
+                            [(ngModel)]="verificationCode"/>
                     </div>
 
                     <div class="modal-footer">
 
-                        <button
-                            class="btn btn-secondary"
-                            (click)="close2FAModal()"
-                        >
+                        <button class="btn btn-secondary" (click)="close2FAModal()">
                             {{ 'PRIVACY_SECURITY.CANCEL' | translate }}
                         </button>
 

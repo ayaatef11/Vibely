@@ -1,0 +1,33 @@
+.settings-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.settings-card .card-header {
+  background: transparent;
+  border-bottom: 1px solid var(--card-border);
+  padding: 1.5rem;
+}
+
+.settings-card .card-body {
+  padding: 1.5rem;
+}
+
+.settings-card .card-title {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.section-icon {
+  color: var(--logo-bubble-light);
+}
+
+.settings-card .form-label {
+  color: var(--text-color);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}

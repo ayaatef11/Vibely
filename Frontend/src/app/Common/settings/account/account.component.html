@@ -2,28 +2,18 @@
 
     <div class="card-header">
         <h5 class="card-title mb-0">
-            <i class="fas fa-key me-2 text-success"></i>
+            <i class="fas fa-key me-2  password-icon"></i>
             {{ 'CHANGE_PASSWORD.TITLE' | translate }}
         </h5>
     </div>
 
     <div class="card-body">
-
         <form>
-
             <div class="mb-3">
-
                 <label class="form-label">
                     {{ 'CHANGE_PASSWORD.CURRENT' | translate }}
                 </label>
-
-                <input
-                    type="password"
-                    class="form-control"
-                    name="oldPassword"
-                    [(ngModel)]="model.oldPassword"
-                >
-
+                <input type="password" class="form-control" name="oldPassword"  [(ngModel)]="model.oldPassword">
             </div>
 
             <div class="mb-3">
@@ -32,13 +22,7 @@
                     {{ 'CHANGE_PASSWORD.NEW' | translate }}
                 </label>
 
-                <input
-                    type="password"
-                    class="form-control"
-                    name="newPassword"
-                    [(ngModel)]="model.newPassword"
-                >
-
+                <input type="password" class="form-control" name="newPassword" [(ngModel)]="model.newPassword">
             </div>
 
             <div class="mb-3">
@@ -47,25 +31,13 @@
                     {{ 'CHANGE_PASSWORD.CONFIRM' | translate }}
                 </label>
 
-                <input
-                    type="password"
-                    class="form-control"
-                    name="confirmNewPassword"
-                    [(ngModel)]="model.confirmNewPassword"
-                >
+                <input type="password" class="form-control" name="confirmNewPassword"  [(ngModel)]="model.confirmNewPassword" >
 
             </div>
 
-            <button
-                type="submit"
-                class="btn btn-success"
-                (click)="changePassword()"
-            >
+            <button type="button" class="btn btn-success" (click)="changePassword()" >
                 {{ 'CHANGE_PASSWORD.BUTTON' | translate }}
             </button>
-
         </form>
-
     </div>
-
 </div>
