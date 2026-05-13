@@ -16,7 +16,7 @@ export class LanguageServiceService {
     this.translate.use(lang);
     localStorage.setItem('lang', lang);
 
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    // document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
   }
 

@@ -9,7 +9,7 @@
 .profile-header h2 {
   margin: 0;
   font-weight: 600;
-  color: #212529;
+  color: var(--text-color);
 }
 
 .cover-photo-section {
@@ -19,7 +19,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #6c757d;
+  color: var(--logo-bubble-medium);
   cursor: pointer;
   transition: background-color 0.3s ease;
   -webkit-transition: background-color 0.3s ease;
@@ -29,7 +29,7 @@
 }
 
 .cover-photo-section:hover {
-  background: linear-gradient(135deg, #dee2e6 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, var(--bg-color) 0%, #e9ecef 100%);
 }
 
 .cover-photo-section i {
@@ -51,7 +51,7 @@
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid white;
+  border: 4px solid var(--border-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   margin-bottom: 1rem;
 }
@@ -59,12 +59,13 @@
 
 .form-label {
   font-weight: 600;
-  color: #495057;
+  color: var(--text-color);
   margin-bottom: 0.5rem;
 }
 
 .form-control {
-  border: 1px solid #ced4da;
+  background-color:var(--input-border);
+  border: 1px solid var(--input-border);
   border-radius: 6px;
   padding: 0.75rem;
   font-size: 0.95rem;
@@ -72,10 +73,14 @@
 }
 
 .form-control:focus {
-  border-color: green;
+  border-color: var(--logo-bubble-medium);
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .form-floating > label {
   font-weight: 500;
+}
+.button-style{
+  background-color: var(--logo-bubble-medium);
+  color:white;
 }

@@ -3,13 +3,15 @@
   --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --card-bg: #ffffff;
   --card-border: #e5e7eb;
-  --input-bg: #ffffff;
-  --input-border: #d1d5db;
-  --input-text: #121212;
-
+  --input-bg: #2a2a2a;
   --button-bg: #4e19a9;
   --button-hover: #290478;
-
+  --border-color: #e9ecef;
+  /* was #333 — wrong for light mode */
+  --input-bg: #ffffff;
+  /* remove the duplicate --input-bg: #2a2a2a below it */
+  --input-border: #d1d5db;
+  --input-text: #121212;
   --shadow-color: rgba(0, 0, 0, 0.08);
 
   --bg-color: #ffffff;
@@ -29,17 +31,19 @@
 }
 
 .dark-theme {
---card-bg: #1e1e1e;
+  --card-bg: #1e1e1e;
   --card-border: #333333;
-
   --input-bg: #2a2a2a;
-  --input-border: #444444;
-  --input-text: #ffffff;
-
   --button-bg: #826ee7;
   --button-hover: #6a56d6;
 
-  --shadow-color: rgba(0,0,0,0.4);
+  --border-color: #333333;
+  /* was #e9ecef — wrong for dark mode */
+  --input-bg: #2a2a2a;
+  /* remove the duplicate --input-bg: #ffffff below it */
+  --input-border: #444444;
+  --input-text: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.4);
 
   --bg-color: #121212;
   --text-color: #ffffff;
@@ -49,7 +53,7 @@
   --logo-bubble-very-light: #d5d3dc;
   --logo-bubble-light: #826ee7;
   --logo-bubble-medium: #4e19a9;
-  --logo-bubble-dark: #119265;
+  --logo-bubble-dark: #441192;
   --logo-dark-burbble: #290478;
 
   --logo-main-gradient: linear-gradient(180deg,
@@ -83,7 +87,7 @@ img {
 }
 
 /* RTL support for Arabic */
-[dir="rtl"] .me-2 {
+/* [dir="rtl"] .me-2 {
   margin-left: 0.5rem !important;
   margin-right: 0 !important;
 }
@@ -96,38 +100,20 @@ img {
 [dir="rtl"] .ms-2 {
   margin-right: 0.5rem !important;
   margin-left: 0 !important;
-}
+} */
 
-[dir="rtl"] .float-end {
+/* [dir="rtl"] .float-end {
   float: left !important;
-}
+} */
 
-[dir="rtl"] .text-start {
+/* [dir="rtl"] .text-start {
   text-align: right !important;
-}
+} */
 
-/* Arabic font */
-[dir="rtl"] * {
-  font-family: 'Cairo', 'Tajawal', sans-serif;
-}
+
 
 /* Success */
 .custom-toast.toast-success {
   background-color: #362e7d !important;
   background-image: none !important;
-}
-
-/* Error */
-.toast-error {
-  background-color: #c62828 !important;
-}
-
-/* Warning */
-.toast-warning {
-  background-color: #f57f17 !important;
-}
-
-/* Info */
-.toast-info {
-  background-color: #1565c0 !important;
-}
+} 

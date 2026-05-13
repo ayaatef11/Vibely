@@ -14,6 +14,7 @@
   cursor: pointer;
 }
 .comments-section {
+  background-color: var(--border-color);
   padding-left: 10px;
   border-left: 2px solid var(--border-color);
 }
@@ -40,19 +41,21 @@
 .comment-username {
   font-size: 12px;
   display: block;
-  color: #333;
+  color: var(--logo-bubble-dark);
   margin-bottom: 2px;
 }
 
 .comment-text {
   font-size: 14px;
-  color: #444;
+  color: var(--text-color);
 }
+
 .share-box {
   background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 10px;
 }
+
 .share-overlay {
   position: fixed;
   top: 0;
@@ -142,12 +145,10 @@
   margin-bottom: 5px;
 }
 
-/* hover effects */
 .share-item:hover {
   transform: translateY(-3px);
 }
 
-/* colors */
 .whatsapp { color: #25D366; }
 .twitter { color: #1DA1F2; }
 .instagram { color: #E1306C; }
@@ -202,6 +203,7 @@
 
 .edit-modal {
   background: var(--bg-color);
+  color:var(--text-color);
   padding: 20px;
   width: 400px;
   border-radius: 10px;
@@ -212,4 +214,7 @@
 }
 .tt-style{
   color: var(--logo-bubble-dark);
+}
+.text-style{
+  color:var(--text-color)
 }

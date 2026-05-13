@@ -16,41 +16,58 @@
 
         <div class="d-flex">
 
-          <!-- Friend Requests -->
-          <button class="btn btn-link btn-lg   me-2 position-relative" (click)="toggleRequests()"
-            style="color:var(--logo-dark-burbble)">
-            <i class="fas fa-user-plus"></i>
-            <span *ngIf="friendRequests.length > 0"
-              class="badge bg-danger position-absolute top-0 start-100 translate-middle">
-              {{ friendRequests.length }}
-            </span>
-          </button>
+        <!-- Friend Requests Button -->
+<button class="btn btn-link btn-lg me-2 position-relative" (click)="toggleRequests()"
+  style="color:var(--logo-dark-burbble)">
+  <i class="fas fa-user-plus"></i>
+  <span *ngIf="friendRequests.length > 0"
+    class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">
+    {{ friendRequests.length }}
+  </span>
+</button>
 
-          <!-- Requests Dropdown -->
-          <div class="requests-dropdown" *ngIf="showRequests">
+<!-- Requests Side Panel -->
+<div class="requests-panel" *ngIf="showRequests" (click)="$event.stopPropagation()">
 
-            <div *ngIf="friendRequests.length === 0" class="p-3 text-muted">
-              No requests
-            </div>
+  <div class="requests-panel-header">
+    <h6 class="mb-0">Friend requests</h6>
+    <div class="d-flex align-items-center gap-2">
+      <span class="requests-count-badge">{{ friendRequests.length }}</span>
+      <button class="btn-close-panel" (click)="showRequests = false">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
 
-            <div *ngFor="let req of friendRequests"
-              class="request-item d-flex justify-content-between align-items-center">
+  <div class="requests-list">
 
-              <div class="d-flex align-items-center">
-                <img [src]="req.profileImage || 'https://picsum.photos/40'" class="rounded-circle me-2" width="35"
-                  height="35">
-                <span>{{ req.fullName }}</span>
-              </div>
+    <div *ngIf="friendRequests.length === 0" class="requests-empty">
+      <i class="fas fa-user-check mb-2" style="font-size:28px; opacity:0.3"></i>
+      <p class="mb-0">No pending requests</p>
+    </div>
 
-              <div>
-                <button class="btn btn-sm  me-1" (click)="acceptRequest(req.id)"
-                  style="background-color:var(--logo-dark-green);color:white">Accept</button>
-                <button class="btn btn-sm btn-danger" (click)="rejectRequest(req.id)">Reject</button>
-              </div>
+    <div *ngFor="let req of friendRequests" class="request-card">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img [src]="req.profileImage || 'https://picsum.photos/40'"
+          class="rounded-circle" width="42" height="42"
+          style="object-fit:cover; flex-shrink:0">
+        <div>
+          <p class="req-name mb-0">{{ req.fullName }}</p>
+          <p class="req-sub mb-0">Wants to connect</p>
+        </div>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn-req-accept flex-grow-1" (click)="acceptRequest(req.id)">
+          <i class="fas fa-check me-1"></i> Accept
+        </button>
+        <button class="btn-req-decline flex-grow-1" (click)="rejectRequest(req.id)">
+          Decline
+        </button>
+      </div>
+    </div>
 
-            </div>
-          </div>
-
+  </div>
+</div>
           <!-- Messages -->
           <button class="btn btn-link btn-lg  me-2" [routerLink]="'/home/chat/friend'" routerLinkActive="active"
             style="color:var(--logo-dark-burbble)">

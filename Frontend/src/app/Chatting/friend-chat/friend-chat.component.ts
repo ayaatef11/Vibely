@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, NgClass } from '@angular/common';
 import { ChatResponse } from '../../../Models/Chats/Responses/ChatResponse';
@@ -89,5 +89,16 @@ deleteMessage(message: MessageResponse) {
      message.content = res.content;
     });
 }
+openMenuId: string | null = null;
 
+toggleMenu(messageId: string, event: MouseEvent) {
+  event.stopPropagation();  
+  this.openMenuId = this.openMenuId === messageId ? null : messageId;
+}
+
+// Close menu when clicking anywhere else
+@HostListener('document:click')
+closeMenu() {
+  this.openMenuId = null;
+}
 }

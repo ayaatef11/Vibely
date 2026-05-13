@@ -22,10 +22,10 @@
 
         <!-- Dropdown Menu -->
         <div class="post-menu-dropdown" *ngIf="post.showMenu" (click)="$event.stopPropagation()">
-          <button class="post-menu-item" (click)="openEdit(); post.showMenu = false; $event.stopPropagation()">
+          <button class="post-menu-item text-style" (click)="openEdit(); post.showMenu = false; $event.stopPropagation()">
             <i class="fas fa-pen me-2 tt-style"></i> Edit Post
           </button>
-          <button class="post-menu-item" (click)="deletePost(); post.showMenu = false; $event.stopPropagation()">
+          <button class="post-menu-item text-style" (click)="deletePost(); post.showMenu = false; $event.stopPropagation()">
             <i class="fas fa-trash me-2 tt-style"></i> Delete Post
           </button>
         </div>
@@ -56,14 +56,14 @@
       <div class="d-flex justify-content-between align-items-center mb-2">
 
         <div>
-          <i class="bi fs-5 me-3" [class.bi-heart-fill]="post.isLiked" [class.bi-heart]="!post.isLiked"
+          <i class="bi fs-5 me-3" style="color:var(--text-color)" [class.bi-heart-fill]="post.isLiked" [class.bi-heart]="!post.isLiked"
             [style.color]="post.isLiked ? 'red' : 'gray'" (click)="toggleLike(post)">
           </i>
-          <i class="bi bi-chat fs-5 me-3" (click)="toggleCommentBox(post)"></i>
-          <i class="bi bi-send fs-5" (click)="toggleSharePost(post)"></i>
+          <i class="bi bi-chat fs-5 me-3"style="color:var(--text-color)" (click)="toggleCommentBox(post)"></i>
+          <i class="bi bi-send fs-5" style="color:var(--text-color)"  (click)="toggleSharePost(post)"></i>
         </div>
 
-        <i class="bi fs-5" [class.bi-bookmark]="!post.isSaved" [class.bi-bookmark-fill]="post.isSaved"
+        <i class="bi fs-5"  [class.bi-bookmark]="!post.isSaved" [class.bi-bookmark-fill]="post.isSaved"
           (click)="togglePost(post.id)"></i>
 
         <div *ngIf="post.shareLinkLoading">
@@ -106,16 +106,14 @@
         </div>
       </div>
 
-      <!-- LIKES -->
-      <p class="mb-1 fw-semibold">{{ post.reactsCount }} likes</p>
+      <p class="mb-1 fw-semibold" style="color:var(--text-color)" >{{ post.reactsCount }} likes</p>
 
-      <!-- CAPTION -->
-      <p class="mb-1">
-        <span class="fw-semibold">username</span>
+      <p class="mb-1" style="color:var(--text-color)" >
+        <span class="fw-semibold"style="color:var(--text-color)" >username</span>
         {{ post.text }}
       </p>
 
-      <a (click)="loadComments(post)" class="text-muted small" style="cursor:pointer">View all
+      <a (click)="loadComments(post)" class="text-muted small" style="cursor:pointer;color:var(--text-color)!important;" >View all
         {{ post.commentsCount }} comments</a>
 
       <div *ngIf="post.showComments" class="comments-section mt-3">
@@ -137,9 +135,6 @@
           [(ngModel)]="post.newCommentText">
         <button class="btn button-style btn-sm" (click)="addComment(post)">Post</button>
       </div>
-
     </div>
-
   </div>
-
 </div>
