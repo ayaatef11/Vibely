@@ -30,11 +30,12 @@ import { SharePostServiceService } from '../Services/share-post-service.service'
 import { CommentServiceService } from '../Services/comment-service.service';
 import { FollowSerivceService } from '../Services/follow-serivce.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, SidebarComponent, RouterModule, NgIf, NgFor, NgClass, SlicePipe],
+  imports: [FormsModule, SidebarComponent, RouterModule, NgIf, NgFor, NgClass, SlicePipe,TranslateModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
