@@ -138,7 +138,10 @@
     "PROFILE": "Profile",
     "NOTIFICATIONS": "Notifications",
     "SETTINGS": "Settings",
-    "NEW_POST": "New Post"
+    "NEW_POST": "New Post",
+    "SAVED_POSTS":"Saved Posts",
+    "SEARCH_PEOPLE":"Search for People",
+    "LOGOUT":"Logout"
   }, 
   "SETTINGS_NAV": {
     "PROFILE": "Profile",

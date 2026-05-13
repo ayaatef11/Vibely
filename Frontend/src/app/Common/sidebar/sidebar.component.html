@@ -23,11 +23,11 @@
 
           <a class="nav-link mb-2" routerLink="/home/saved-posts" routerLinkActive="active">
             <i class="fas fa-cog me-2"></i>
-            Saved Posts
+            {{ 'SIDEBAR.SAVED_POSTS' | translate }}
           </a>
           <a class="nav-link mb-2" routerLink="/home/find-people" routerLinkActive="active">
             <i class="fas fa-cog me-2"></i>
-            Search for people
+            {{ 'SIDEBAR.SEARCH_PEOPLE' | translate }}
           </a> 
           <a class="nav-link mb-2" [routerLink]="['/home/profile/',profileId]" routerLinkActive="active">
             <i class="fas fa-user me-2"></i>
@@ -46,7 +46,8 @@
 
           <a class="nav-link mb-2" (click)="logout()" routerLinkActive="active">
             <i class="fas fa-user me-2"></i>
-            Logout
+                        {{ 'SIDEBAR.LOGOUT' | translate }}
+
           </a>
         </nav>
 

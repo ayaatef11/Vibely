@@ -119,7 +119,10 @@
     "PROFILE": "الملف الشخصي",
     "NOTIFICATIONS": "الإشعارات",
     "SETTINGS": "الإعدادات",
-    "NEW_POST": "منشور جديد"
+    "NEW_POST": "منشور جديد",
+    "SAVED_POSTS":"المنشورات المحفوظة",
+    "SEARCH_PEOPLE":"البحث عن اصدقاء",
+    "LOGOUT":"تسجيل الخروج"
   },
   "SETTINGS_NAV": {
     "PROFILE": "الملف الشخصي",
