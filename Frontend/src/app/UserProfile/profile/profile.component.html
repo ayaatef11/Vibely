@@ -124,17 +124,27 @@
     <!-- POSTS -->
     <div class="tab-content">
         <div class="tab-pane fade show active">
-            <div class="photo-grid">
-                <div class="photo-item" *ngFor="let post of profile.posts">
 
-                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300&h=300&fit=crop"
-                        alt="Post" (click)="openPost(post.id)" style="cursor:pointer">
+         <div class="photo-grid">
+  <div class="photo-item" *ngFor="let post of profile.posts">
 
-                    <p class="small mt-1">
-                        {{ post.text }}
-                    </p>
-                </div>
-            </div>
+    <!-- Post has an image → show it -->
+    <ng-container *ngIf="getFirstImage(post.mediaUrls) as imgUrl">
+      <img [src]="imgUrl" alt="Post" (click)="openPost(post.id)">
+      <!-- image count badge (if more than 1) -->
+      <span class="multi-badge" *ngIf="getImageCount(post.mediaUrls) > 1">
+        <i class="fas fa-images"></i> {{ getImageCount(post.mediaUrls) }}
+      </span>
+    </ng-container>
+
+    <!-- Post has no image → show text placeholder -->
+    <div class="text-post-placeholder" *ngIf="!getFirstImage(post.mediaUrls)"
+      (click)="openPost(post.id)">
+      <p>{{ post.text | slice:0:80 }}</p>
+    </div>
+
+  </div>
+</div>  
         </div>
     </div>
 </div>

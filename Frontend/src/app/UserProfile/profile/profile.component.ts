@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatServiceService } from '../../Services/chat-service.service';
 import { BlocksServiceService } from '../../Services/blocks-service.service';
@@ -14,7 +14,7 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule, RouterModule, NgIf, NgFor,TranslateModule],
+  imports: [FormsModule, RouterModule, NgIf, NgFor,TranslateModule,CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -48,6 +48,30 @@ export class ProfileComponent {
       }
     });
   }
+
+  // Add this method to your component
+getFirstImage(mediaUrls: string | string[] | null | undefined): string | null {
+  if (!mediaUrls) return null;
+  try {
+    const urls: string[] = Array.isArray(mediaUrls)
+      ? mediaUrls
+      : JSON.parse(mediaUrls);
+    return urls.length > 0 ? urls[0] : null;
+  } catch {
+    return null;
+  }
+}
+getImageCount(mediaUrls: string | string[] | null | undefined): number {
+  if (!mediaUrls) return 0;
+  try {
+    const urls: string[] = Array.isArray(mediaUrls)
+      ? mediaUrls
+      : JSON.parse(mediaUrls);
+    return urls.length;
+  } catch {
+    return 0;
+  }
+}
 
   isWebsite(): number {
     return this.profile?.website ? 1 : 0;

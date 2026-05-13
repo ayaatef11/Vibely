@@ -134,6 +134,8 @@
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s ease;
+  position: relative;          /* needed for badge positioning */
+  background: var(--border-color);
 }
 
 .photo-item:hover {
@@ -146,6 +148,50 @@
   object-fit: cover;
 }
 
+/* ── Multiple images badge ───────────────────── */
+.multi-badge {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.55);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+
+/* ── Text-only post placeholder ─────────────── */
+.text-post-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.text-post-placeholder:hover {
+  background: var(--logo-bubble-very-light);
+}
+
+.text-post-placeholder p {
+  font-size: 0.75rem;
+  color: var(--text-color);
+  text-align: center;
+  margin: 0;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
 @media (max-width: 576px) {
   .profile-container {
     margin: 0;

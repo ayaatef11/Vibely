@@ -460,3 +460,100 @@
   background-color:var( --logo-dark-burbble);
   color:var(--logo-bubble-very-light);
 }
+.suggestions-card {
+  background: var(--card-bg);                          /* was hardcoded white */
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px var(--shadow-color);          /* was hardcoded rgba */
+}
+
+.suggestions-card h6 {
+  color: var(--text-color);
+}
+
+.suggestions-card span {
+  color: var(--text-color);
+}
+
+.trending-item {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background 0.2s;
+  border-radius: 8px;
+}
+
+.trending-item:hover {
+  background: var(--border-color);                     /* was var(--card-bg) — no visible change */
+}
+
+.trending-item strong {
+  color: var(--text-color);
+}
+
+.trending-item .small.text-muted {
+  color: var(--text-color) !important;
+  opacity: 0.55;
+}
+
+.comment-bubble {
+  background: var(--border-color);                     /* was var(--card-bg) — invisible in light */
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 300px;
+  display: inline-block;
+}
+
+.comment-username {
+  font-size: 12px;
+  display: block;
+  color: var(--text-color);                            /* was hardcoded #333 */
+  margin-bottom: 2px;
+}
+
+.comment-text {
+  font-size: 14px;
+  color: var(--text-color);                            /* was hardcoded #444 */
+  opacity: 0.85;
+}
+
+.share-link-box input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid var(--input-border);               /* was hardcoded #ddd */
+  border-radius: 8px;
+  background: var(--input-bg);
+  color: var(--input-text);
+}
+
+.share-header h6 {
+  color: var(--text-color);
+}
+
+.share-header button {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.post-menu-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  color: var(--text-color);                            /* was missing — invisible in dark */
+}
+
+.post-menu-item:hover {
+  background-color: var(--border-color);               /* was var(--card-bg) — no visible change */
+}

@@ -2,7 +2,6 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DislikeRequest } from '../../../Models/Reacts/Requests/DislikeRequest';
-import { Post } from '../../../DTOS/Post';
 import { PostResponse } from '../../../Models/Posts/Responses/PostResponse';
 import { LikeRequest } from '../../../Models/Reacts/Requests/LikeRequest';
 import { AddCommentRequest } from '../../../Models/Comments/Requests/AddCommentRequest';
@@ -29,39 +28,67 @@ import { ProfileServiceService } from '../../Services/profile-service.service';
 })
 export class UserPostComponent {
 
-  constructor(private router: Router, private route: ActivatedRoute, private toastService: ToastrService,
-    private savedPostService: SavedPostsServiceService, private profileService: ProfileServiceService,
-    private likeService: LikesServiceService, private authService: AuthenticationService,
-    private commentService: CommentServiceService, private shareService: SharePostServiceService, private postService: PostServiceService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastService: ToastrService,
+    private savedPostService: SavedPostsServiceService,
+    private profileService: ProfileServiceService,
+    private likeService: LikesServiceService,
+    private authService: AuthenticationService,
+    private commentService: CommentServiceService,
+    private shareService: SharePostServiceService,
+    private postService: PostServiceService
+  ) { }
+
   ngOnInit() {
     const postId = this.route.snapshot.paramMap.get('id');
-    if (postId) {
-      this.loadPost(postId);
-    }
+    if (postId) this.loadPost(postId);
   }
-  //********************************************VARIABLES******************************************* */
+
+  // ─── Variables ───────────────────────────────────────────────
   post!: PostResponse;
-  profileId = this.authService.getProfileId() ?? '1'
+  profileId = this.authService.getProfileId() ?? '1';
   isEditOpen = false;
+  selectedImage: string | null = null;
+
   editData: EditPostRequest = {
     id: '',
     title: '',
     text: ''
   };
 
+  // ─── Computed: parse mediaUrls JSON string → string[] ────────
+  get postMediaUrls(): string[] {
+    if (!this.post?.mediaUrls) return [];
+    if (Array.isArray(this.post.mediaUrls)) return this.post.mediaUrls;
+    try {
+      return JSON.parse(this.post.mediaUrls as string);
+    } catch {
+      return [];
+    }
+  }
 
+  // ─── Lightbox ────────────────────────────────────────────────
+  openImage(url: string) {
+    this.selectedImage = url;
+  }
 
-  //************************FUNCTIONS********************************************** */
+  closeImage() {
+    this.selectedImage = null;
+  }
 
+  // ─── Load Post ───────────────────────────────────────────────
   loadPost(postId: string) {
-    this.postService.getPost(postId, this.profileId).subscribe((res:PostResponse) => {
+    this.postService.getPost(postId, this.profileId).subscribe((res: PostResponse) => {
       this.post = res;
       this.profileService.viewProfile(res.profileId).subscribe((profile) => {
-        this.post.userName = profile.userName
-      })
+        this.post.userName = profile.userName;
+      });
     });
   }
 
+  // ─── Edit ────────────────────────────────────────────────────
   openEdit() {
     this.isEditOpen = true;
     this.post.showMenu = false;
@@ -70,12 +97,13 @@ export class UserPostComponent {
       title: this.post.title,
       text: this.post.text
     };
-
   }
 
   saveEdit() {
     this.postService.editPost(this.editData).subscribe((res: PostResponse) => {
-      this.post = res;
+      this.post.title = res.title;
+      this.post.text = res.text;
+      this.isEditOpen = false;
     });
   }
 
@@ -83,52 +111,43 @@ export class UserPostComponent {
     this.isEditOpen = false;
   }
 
+  // ─── Delete ──────────────────────────────────────────────────
   deletePost() {
     this.postService.deletePost(this.post.id).subscribe(() => {
-      this.router.navigate(['/home/profile', this.profileId])
-    })
+      this.router.navigate(['/home/profile', this.profileId]);
+    });
   }
 
   togglePostMenu() {
     this.post.showMenu = !this.post.showMenu;
   }
 
+  // ─── Save / Unsave ───────────────────────────────────────────
   togglePost(postId: string) {
-    const userId = this.authService.getUserId() ?? '1'
+    const userId = this.authService.getUserId() ?? '1';
     this.post.isSaved = !this.post.isSaved;
 
     if (!this.post.isSaved) {
-      let req: UnSavePostRequest = {
-        userId: userId,
-        postId: postId
-      }
+      const req: UnSavePostRequest = { userId, postId };
       this.savedPostService.unSavePost(req).subscribe({
         next: (res: any) => {
-          if (res.message == "Successfully") {
-            this.post.isSaved = false;
-          }
+          if (res.message === 'Successfully') this.post.isSaved = false;
         }
-      })
+      });
     } else {
-      let req: SavePostRequest = {
-        userId: userId,
-        postId: postId
-      }
+      const req: SavePostRequest = { userId, postId };
       this.savedPostService.savePost(req).subscribe({
         next: (res: any) => {
-          if (res.message == "Post saved successfully") {
-            this.post.isSaved = true;
-          }
+          if (res.message === 'Post saved successfully') this.post.isSaved = true;
         }
-      })
+      });
     }
   }
 
+  // ─── Share ───────────────────────────────────────────────────
   toggleSharePost(post: any) {
-    // debugger
     post.showShareBox = true;
     post.shareLinkLoading = true;
-
     this.shareService.startSharePost({
       postId: post.id,
       profileId: this.authService.getProfileId() ?? ''
@@ -136,7 +155,6 @@ export class UserPostComponent {
       next: (res: any) => {
         post.shareLink = res;
         post.shareLinkLoading = false;
-        console.log(post.shareLink);
       },
       error: () => {
         post.shareLink = 'Error generating link';
@@ -147,79 +165,66 @@ export class UserPostComponent {
 
   copyToClipboard(link: string) {
     navigator.clipboard.writeText(link);
-    this.toastService.success("Link copied!");
+    this.toastService.success('Link copied!');
   }
 
   shareToWhatsApp(link: string) {
-    const url = `https://wa.me/?text=${encodeURIComponent(link)}`;
-    window.open(url, '_blank');
+    window.open(`https://wa.me/?text=${encodeURIComponent(link)}`, '_blank');
   }
 
   shareToTwitter(link: string) {
-    const text = "Check this post";
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(link)}`;
-    window.open(url, '_blank');
+    const text = 'Check this post';
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(link)}`,
+      '_blank'
+    );
   }
 
+  // ─── Comments ────────────────────────────────────────────────
   loadComments(post: any) {
-    // debugger
-    if (post.showComments) {
-      post.showComments = false
-      return;
-    }
+    if (post.showComments) { post.showComments = false; return; }
     this.commentService.getComment(post.id).subscribe({
-      next: (res: any) => {
-        post.comments = res
-        post.showComments = true
-      },
-      error: (err) => {
-        this.toastService.error(err)
-      }
+      next: (res: any) => { post.comments = res; post.showComments = true; },
+      error: (err) => this.toastService.error(err)
     });
   }
 
   toggleCommentBox(post: any) {
     post.showCommentBox = !post.showCommentBox;
-
   }
 
   addComment(post: any) {
-    // debugger
     const req: AddCommentRequest = {
       text: post.newCommentText,
       postId: post.id,
       profileId: this.authService.getProfileId() ?? '1'
-    }
+    };
     this.commentService.addComment(req).subscribe();
-    if (!post.comments) {
-      post.comments = [];
-    }
-    post.comments.push({ text: post.newCommentText })
+    if (!post.comments) post.comments = [];
+    post.comments.push({ text: post.newCommentText });
     post.commentsCount++;
-    post.newCommentText = ''
+    post.newCommentText = '';
   }
 
+  // ─── Like / Dislike ──────────────────────────────────────────
   toggleLike(post: any) {
-    // debugger
     if (post.isLiked) {
       const disReq: DislikeRequest = {
         postId: post.id,
         profileId: this.authService.getProfileId() ?? '1'
-      }
-      this.likeService.dislikePost(disReq).subscribe()
+      };
+      this.likeService.dislikePost(disReq).subscribe();
       post.isLiked = false;
       post.reactsCount--;
-    }
-    else {
+    } else {
       const likeReq: LikeRequest = {
         postId: post.id,
         profileId: this.authService.getProfileId() ?? '1',
         react: 1
-      }
-      this.likeService.likePost(likeReq).subscribe()
-      post.isLiked = true
+      };
+      this.likeService.likePost(likeReq).subscribe();
+      post.isLiked = true;
       post.reactsCount++;
     }
   }
-
 }

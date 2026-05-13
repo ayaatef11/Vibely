@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserResponse } from '../../../Models/Users/Responses/UserResponse';
@@ -17,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-create-post',
   standalone: true,
-  imports: [RouterModule, NgIf, FormsModule,TranslateModule],
+  imports: [RouterModule, NgIf, FormsModule,TranslateModule,NgFor],
   templateUrl: './create-post.component.html',
   styleUrl: './create-post.component.css'
 })
@@ -35,10 +35,10 @@ export class CreatePostComponent {
     title: '',
     text: '',
     ProfileId: this.authService.getProfileId() ?? '1',
-    media: null
+    media: []
   };
   profileId: string = this.authService.getProfileId() ?? '1';
-  newPostImagePreview: any;
+newPostImagePreviews: string[] = [];
   currentUser!: ProfileResponse;
   //****************************************functions**************************************************** */
 
@@ -62,22 +62,26 @@ export class CreatePostComponent {
     });
   }
 
-  onImageSelected(event: any) {
-    const file = event.target.files[0];
-    if (!file) return;
-    this.post.media = file;
+ onImageSelected(event: any) {
+  const files: FileList = event.target.files;
+  if (!files || files.length === 0) return;
+
+  this.post.media = this.post.media ?? [];
+
+  Array.from(files).forEach(file => {
+    this.post.media!.push(file);
 
     const reader = new FileReader();
-    reader.onload = (e: any) => this.newPostImagePreview = e.target.result;
+    reader.onload = (e: any) => this.newPostImagePreviews.push(e.target.result);
     reader.readAsDataURL(file);
-  }
+  });
+}
 
-  removeImage() {
-    this.newPostImagePreview = null;
-    this.post.media = null;
-  }
+  removeImage(index: number) {
+  this.newPostImagePreviews.splice(index, 1);
+  this.post.media?.splice(index, 1);
+}
 
-  updateCharCount() { }
   closeModal() {
     // Reset all fields
     this.post = {
@@ -85,8 +89,8 @@ export class CreatePostComponent {
       title: '',
       text: '',
       ProfileId: this.authService.getProfileId() ?? '1',
-      media: null
+      media: []
     };
-    this.post.media = null;
+  this.newPostImagePreviews = [];
   }
 }

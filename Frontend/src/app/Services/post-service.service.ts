@@ -14,20 +14,18 @@ export class PostServiceService {
 
   constructor(private http: HttpClient) { }
 
-  addPost(data: AddPostRequest): Observable<PostResponse> {
-    let params = new HttpParams()
-      .set('FeelingState', data.feelingState)
-      .set('Title', data.title)
-      .set('Text', data.text)
-      .set('ProfileId', data.ProfileId);
-
+  addPost(post: AddPostRequest): Observable<PostResponse> {
     const formData = new FormData();
+  formData.append('ProfileId', post.ProfileId);
+  formData.append('title', post.title);
+  formData.append('text', post.text);
+  formData.append('feelingState', post.feelingState.toString());
 
-    // data.mediaFiles.forEach(file => {
-    //   formData.append('Media', file);
-    // });
-
-    return this.http.post<PostResponse>(`${this.Url}/add`, formData, { params });
+  // Append each file with the same key "media"
+  if (post.media && post.media.length > 0) {
+    post.media.forEach(file => formData.append('media', file));
+  }
+    return this.http.post<PostResponse>(`${this.Url}/add`, formData);
   }
 
   editPost(data: EditPostRequest): Observable<PostResponse> {

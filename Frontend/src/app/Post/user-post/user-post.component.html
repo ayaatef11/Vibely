@@ -1,6 +1,4 @@
-
 <div class="status-feed">
-
   <div class="card mb-3 post-card border-0 shadow-sm">
 
     <!-- HEADER -->
@@ -14,18 +12,19 @@
         <small class="text-muted">{{ post.createdAt | date:'mediumDate' }}</small>
       </div>
 
-      <!-- THREE DOT MENU BUTTON (moved inside header) -->
+      <!-- THREE DOT MENU -->
       <div class="position-relative">
         <button class="btn btn-link text-muted p-0" (click)="togglePostMenu()">
           <i class="fas fa-ellipsis-h"></i>
         </button>
 
-        <!-- Dropdown Menu -->
         <div class="post-menu-dropdown" *ngIf="post.showMenu" (click)="$event.stopPropagation()">
-          <button class="post-menu-item text-style" (click)="openEdit(); post.showMenu = false; $event.stopPropagation()">
+          <button class="post-menu-item text-style"
+            (click)="openEdit(); post.showMenu = false; $event.stopPropagation()">
             <i class="fas fa-pen me-2 tt-style"></i> Edit Post
           </button>
-          <button class="post-menu-item text-style" (click)="deletePost(); post.showMenu = false; $event.stopPropagation()">
+          <button class="post-menu-item text-style"
+            (click)="deletePost(); post.showMenu = false; $event.stopPropagation()">
             <i class="fas fa-trash me-2 tt-style"></i> Delete Post
           </button>
         </div>
@@ -33,12 +32,13 @@
 
     </div>
 
-    <!-- EDIT MODAL (moved outside dropdown, at card level) -->
+    <!-- EDIT MODAL -->
     <div class="edit-overlay" *ngIf="isEditOpen">
       <div class="edit-modal">
         <h5>Edit Post</h5>
         <input type="text" class="form-control mb-2" placeholder="Title" [(ngModel)]="editData.title">
-        <textarea class="form-control mb-2" rows="3" placeholder="What's on your mind?" [(ngModel)]="editData.text"></textarea>
+        <textarea class="form-control mb-2" rows="3" placeholder="What's on your mind?"
+          [(ngModel)]="editData.text"></textarea>
         <div class="d-flex justify-content-end gap-2">
           <button class="btn btn-secondary" (click)="closeEdit()">Cancel</button>
           <button class="btn button-style" (click)="saveEdit()">Save</button>
@@ -46,8 +46,30 @@
       </div>
     </div>
 
-    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800" class="img-fluid post-image"
-      alt="post">
+    <!-- POST IMAGES GRID -->
+    <div class="post-images-grid" *ngIf="postMediaUrls.length > 0">
+      <div [ngClass]="{
+        'grid-1': postMediaUrls.length === 1,
+        'grid-2': postMediaUrls.length === 2,
+        'grid-3': postMediaUrls.length === 3,
+        'grid-4': postMediaUrls.length >= 4
+      }">
+        <img
+          *ngFor="let url of postMediaUrls"
+          [src]="url"
+          class="post-grid-img"
+          alt="Post image"
+          (click)="openImage(url)">
+      </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox-overlay" *ngIf="selectedImage" (click)="closeImage()">
+      <img [src]="selectedImage" class="lightbox-img" (click)="$event.stopPropagation()">
+      <button class="lightbox-close" (click)="closeImage()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
 
     <!-- ACTIONS -->
     <div class="card-body py-2">
@@ -55,20 +77,31 @@
       <div class="d-flex justify-content-between align-items-center mb-2">
 
         <div>
-          <i class="bi fs-5 me-3" style="color:var(--text-color)" [class.bi-heart-fill]="post.isLiked" [class.bi-heart]="!post.isLiked"
-            [style.color]="post.isLiked ? 'red' : 'gray'" (click)="toggleLike(post)">
+          <i class="bi fs-5 me-3"
+            style="color:var(--text-color)"
+            [class.bi-heart-fill]="post.isLiked"
+            [class.bi-heart]="!post.isLiked"
+            [style.color]="post.isLiked ? 'red' : 'gray'"
+            (click)="toggleLike(post)">
           </i>
-          <i class="bi bi-chat fs-5 me-3"style="color:var(--text-color)" (click)="toggleCommentBox(post)"></i>
-          <i class="bi bi-send fs-5" style="color:var(--text-color)"  (click)="toggleSharePost(post)"></i>
+          <i class="bi bi-chat fs-5 me-3" style="color:var(--text-color)"
+            (click)="toggleCommentBox(post)"></i>
+          <i class="bi bi-send fs-5" style="color:var(--text-color)"
+            (click)="toggleSharePost(post)"></i>
         </div>
 
-        <i class="bi fs-5"  [class.bi-bookmark]="!post.isSaved" [class.bi-bookmark-fill]="post.isSaved"
-          (click)="togglePost(post.id)" style="color:var(--text-color)"></i>
+        <i class="bi fs-5"
+          [class.bi-bookmark]="!post.isSaved"
+          [class.bi-bookmark-fill]="post.isSaved"
+          (click)="togglePost(post.id)"
+          style="color:var(--text-color)">
+        </i>
 
         <div *ngIf="post.shareLinkLoading">
           Generating link...
         </div>
 
+        <!-- SHARE MODAL -->
         <div class="share-overlay" *ngIf="post.showShareBox">
           <div class="share-modal">
 
@@ -79,42 +112,42 @@
 
             <div class="share-link-box">
               <input type="text" [value]="post.shareLink" readonly>
-              <button (click)="copyToClipboard(post.shareLink)"  >Copy</button>
+              <button (click)="copyToClipboard(post.shareLink)">Copy</button>
             </div>
 
             <div class="share-options">
-
               <div class="share-item whatsapp" (click)="shareToWhatsApp(post.shareLink)">
                 <i class="fab fa-whatsapp"></i>
                 <span>WhatsApp</span>
               </div>
-
               <div class="share-item twitter" (click)="shareToTwitter(post.shareLink)">
                 <i class="fab fa-twitter"></i>
                 <span>Twitter</span>
               </div>
-
               <div class="share-item instagram" (click)="copyToClipboard(post.shareLink)">
                 <i class="fab fa-instagram"></i>
                 <span>Instagram</span>
               </div>
-
             </div>
 
           </div>
         </div>
+
       </div>
 
-      <p class="mb-1 fw-semibold" style="color:var(--text-color)" >{{ post.reactsCount }} likes</p>
+      <p class="mb-1 fw-semibold" style="color:var(--text-color)">{{ post.reactsCount }} likes</p>
 
-      <p class="mb-1" style="color:var(--text-color)" >
-        <span class="fw-semibold"style="color:var(--text-color)" >username</span>
+      <p class="mb-1" style="color:var(--text-color)">
+        <span class="fw-semibold" style="color:var(--text-color)">{{ post.userName }}</span>
         {{ post.text }}
       </p>
 
-      <a (click)="loadComments(post)" class="text-muted small" style="cursor:pointer;color:var(--text-color)!important;" >View all
-        {{ post.commentsCount }} comments</a>
+      <a (click)="loadComments(post)" class="text-muted small"
+        style="cursor:pointer;color:var(--text-color)!important;">
+        View all {{ post.commentsCount }} comments
+      </a>
 
+      <!-- COMMENTS -->
       <div *ngIf="post.showComments" class="comments-section mt-3">
         <div *ngFor="let comment of post.comments" class="comment-box d-flex mb-2">
           <img src="https://picsum.photos/40/40?random=2" class="comment-avatar me-2">
@@ -127,6 +160,7 @@
         </div>
       </div>
 
+      <!-- COMMENT INPUT -->
       <div *ngIf="post.showCommentBox" class="mt-2 d-flex align-items-center">
         <img src="https://picsum.photos/40/40?random=2" class="user-avatar me-2"
           style="width:35px;height:35px;border-radius:50%">
@@ -134,6 +168,7 @@
           [(ngModel)]="post.newCommentText">
         <button class="btn button-style btn-sm" (click)="addComment(post)">Post</button>
       </div>
+
     </div>
   </div>
 </div>
