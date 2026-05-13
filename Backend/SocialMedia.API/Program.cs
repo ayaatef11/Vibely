@@ -48,6 +48,9 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.Configure<CloudinarySettings>(
+    builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.AddScoped<PhotoHelper>();
 
 builder.Services.AddScoped<INotificationsService , NotificationsService>();
 

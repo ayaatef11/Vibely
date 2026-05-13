@@ -112,8 +112,7 @@
 
         <!-- FILE INPUT -->
         <input
-            type="file"
-            #fileInput
+            type="file" #fileInput
             accept="image/*,video/*"
             style="display: none;"
             (change)="onImageSelected($event)">
@@ -124,53 +123,28 @@
             <button class="option-btn photo" (click)="fileInput.click()">
 
                 <i class="fas fa-images"></i>
-
-                <span>
-                    {{ 'CREATE_POST.PHOTO_VIDEO' | translate }}
-                </span>
-
+                <span> {{ 'CREATE_POST.PHOTO_VIDEO' | translate }} </span>
             </button>
 
             <button class="option-btn tag">
-
                 <i class="fas fa-user-tag"></i>
-
-                <span>
-                    {{ 'CREATE_POST.TAG_PEOPLE' | translate }}
-                </span>
-
+                <span> {{ 'CREATE_POST.TAG_PEOPLE' | translate }} </span>
             </button>
-
             <button class="option-btn feeling">
-
                 <i class="fas fa-smile"></i>
-
-                <span>
-                    {{ 'CREATE_POST.FEELING_ACTIVITY' | translate }}
-                </span>
-
+                <span> {{ 'CREATE_POST.FEELING_ACTIVITY' | translate }}  </span>
             </button>
-
         </div>
 
         <!-- ACTIONS -->
         <div class="post-actions">
-
             <button class="btn-cancel" (click)="closeModal()">
                 {{ 'COMMON.CANCEL' | translate }}
             </button>
 
-            <button
-                class="btn-post"
-                [disabled]="!post.text.trim()"
-                (click)="addPost()">
-
+            <button class="btn-post" [disabled]="!post.text.trim()" (click)="addPost()">
                 {{ 'COMMON.POST' | translate }}
-
             </button>
-
         </div>
-
     </div>
-
 </div>

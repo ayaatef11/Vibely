@@ -4,14 +4,14 @@ using SocialMedia.Application.Helpers;
 
 namespace SocialMedia.Application.Implementations;
 public class PostService(AppdbContext _context, IMapper _mapper,INotificationsService _notificationService,
-    IProfileService _profileService, IMainRepository<Post> _PostRepository) : IPostService
+    IProfileService _profileService, PhotoHelper _photoHelper, IMainRepository<Post> _PostRepository) : IPostService
 {
     public async ValueTask<PostResponse> AddPost(CreatePostRequest postRequest)
     {
         var user=await _context.Users.FirstOrDefaultAsync(c=>c.ProfileId==postRequest.ProfileId);
         if( user is null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User not found");
         }
 
         var post = new Post()
@@ -27,7 +27,7 @@ public class PostService(AppdbContext _context, IMapper _mapper,INotificationsSe
             ProfileId = postRequest.ProfileId,
             MediaUrls = (postRequest.Media != null && postRequest.Media.Any())
     ? System.Text.Json.JsonSerializer.Serialize(
-        await Task.WhenAll(postRequest.Media.Select(m => PhotoHelper.Upload_photo(m)))): null       
+        await Task.WhenAll(postRequest.Media.Select(m => _photoHelper.UploadPhotoAsync(m)))): null       
         };
 
         var addPostOperation = await _PostRepository.CreateAsync(post);
@@ -83,7 +83,7 @@ public class PostService(AppdbContext _context, IMapper _mapper,INotificationsSe
         var trendingPosts=await _context.Posts.Select(p => new 
         {
             Post=p,
-            Score=(p.ReactsCount +p.CommentsCount +p.ShareCount) / EF.Functions.DateDiffHour(p.CreatedAt,DateTime.UtcNow)+1
+            Score=(p.ReactsCount +p.CommentsCount +p.ShareCount) /( EF.Functions.DateDiffHour(p.CreatedAt,DateTime.UtcNow)+1)
         })
             .OrderByDescending(x => x.Score)
             .Take(10)

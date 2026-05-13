@@ -1,7 +1,7 @@
 <div class="saved-container">
 
   <h2 class="page-title">Saved Posts</h2>
- 
+
   <!-- Posts -->
   <div class="posts-wrapper" *ngIf="savedPosts?.length; else emptyState">
 
@@ -9,13 +9,16 @@
       <div class="post-header" (click)="goToPost(post.id)">
         <div class="avatar"></div>
         <div>
-          <h6 class="mb-0">{{ post.userName || 'User' }}</h6>
+          <h6 class="mb-0">{{ post.userName }}</h6>
           <small class="text-muted">Saved post</small>
         </div>
       </div>
 
       <div class="post-body">
         <p>{{ post.text }}</p>
+        <div class="post-media" *ngIf="getMediaUrls(post).length">
+          <img *ngFor="let url of getMediaUrls(post)" [src]="url" alt="Post image" class="post-image" />
+        </div>
       </div>
     </div>
 

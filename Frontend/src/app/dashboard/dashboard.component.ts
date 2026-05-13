@@ -407,7 +407,6 @@ export class DashboardComponent {
         });
       },
       error: (err) => {
-        this.toastService.error(err)
       }
     })
   }

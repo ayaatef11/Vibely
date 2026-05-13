@@ -8,43 +8,43 @@ public partial class PostController(IPostService _PostService) : ControllerBase
     [HttpPost("add")]
     public async Task<IActionResult> Add(CreatePostRequest post)
     {
-       var result=await _PostService.AddPost(post);
+        var result = await _PostService.AddPost(post);
         return Ok(result);
     }
 
     [HttpPut("edit")]
     public async Task<IActionResult> Update(UpdatePostRequest post)
     {
-        var result=await _PostService.EditPost(post);
-        return  Ok(result);
+        var result = await _PostService.EditPost(post);
+        return Ok(result);
     }
 
     [HttpGet("user/{profileId}")]
     public async Task<IActionResult> GetPostsForUser(Guid profileId)
-    { 
+    {
         var result = await _PostService.GetUserPostsAsync(profileId);
 
-        return result != null ? Ok(result) :NotFound(new Result{Message = "No Posts Found for this User"});
+        return Ok(result);
     }
     [HttpGet("{postId}/{profileId}")]
-    public async Task<IActionResult> GetPost(Guid postId,Guid profileId)
+    public async Task<IActionResult> GetPost(Guid postId, Guid profileId)
     {
-        var result = await _PostService.GetPost(postId,profileId);
+        var result = await _PostService.GetPost(postId, profileId);
 
-        return result != null ? Ok(result) : NotFound(new Result { Message = "No Posts Found for this User" });
+        return Ok(result);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-       await  _PostService.DeletePost(id);
-       return  Ok(new Result { Message = "Post Deleted Suceessfully"}) ;
+        await _PostService.DeletePost(id);
+        return Ok(new Result { Message = "Post Deleted Suceessfully" });
     }
     [HttpGet("get-all")]
     public async Task<IActionResult> GetAllPosts(Guid profileId)
     {
-        var posts =await _PostService.GetAllPosts(profileId);
-        return Ok(posts) ;
+        var posts = await _PostService.GetAllPosts(profileId);
+        return Ok(posts);
     }
 
     [HttpGet("search-posts")]
@@ -57,19 +57,19 @@ public partial class PostController(IPostService _PostService) : ControllerBase
     [HttpGet("trending-posts")]
     public async Task<IActionResult> GetTrendingPosts()
     {
-        var posts=await _PostService.GetTrendingPosts();
+        var posts = await _PostService.GetTrendingPosts();
         return Ok(posts);
     }
 
     [HttpGet("shares-count")]
-    public async Task<IActionResult>GetSharesCount(Guid postId)
+    public async Task<IActionResult> GetSharesCount(Guid postId)
     {
-        var result=await _PostService.GetSharesCount(postId);
+        var result = await _PostService.GetSharesCount(postId);
         return Ok(result);
     }
 
     [HttpGet("likes-count")]
-    public async Task<IActionResult>GetLikesCount(Guid postId)
+    public async Task<IActionResult> GetLikesCount(Guid postId)
     {
         var result = await _PostService.GetLikesCount(postId);
         return Ok(result);
@@ -77,7 +77,7 @@ public partial class PostController(IPostService _PostService) : ControllerBase
     [HttpGet("hide-post")]
     public async Task<IActionResult> HidePost(Guid postId)
     {
-         await _PostService.HidePost(postId);
+        await _PostService.HidePost(postId);
         return Ok();
     }
 }

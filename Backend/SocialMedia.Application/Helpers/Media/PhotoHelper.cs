@@ -1,13 +1,47 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace SocialMedia.Application.Helpers.Media;
-public static class PhotoHelper
+
+public class PhotoHelper
 {
-    public static async Task<string> Upload_photo(IFormFile photo)
+    private readonly Cloudinary _cloudinary;
+
+    public PhotoHelper(IOptions<CloudinarySettings> config)
     {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory() + photo.FileName);
-        using var stream = new FileStream(filePath, FileMode.Create);
-        await photo.CopyToAsync(stream);
-        return filePath;
+        var settings = config.Value;
+        var account = new Account(settings.CloudName, settings.ApiKey, settings.ApiSecret);
+        _cloudinary = new Cloudinary(account);
+        _cloudinary.Api.Secure = true; 
+    }
+
+    public async Task<string> UploadPhotoAsync(IFormFile photo)
+    {
+        if (photo.Length <= 0)
+            throw new ArgumentException("File is empty.");
+
+        await using var stream = photo.OpenReadStream();
+
+        var uploadParams = new ImageUploadParams
+        {
+            File = new FileDescription(photo.FileName, stream),
+            Folder = "social-media/posts",           
+            Transformation = new Transformation().Quality("auto").FetchFormat("auto")        
+        };
+
+        var result = await _cloudinary.UploadAsync(uploadParams);
+
+        if (result.Error is not null)
+            throw new Exception($"Cloudinary upload failed: {result.Error.Message}");
+
+        return result.SecureUrl.ToString();
+    }
+
+    public async Task DeletePhotoAsync(string publicId)
+    {
+        var deleteParams = new DeletionParams(publicId);
+        await _cloudinary.DestroyAsync(deleteParams);
     }
 }

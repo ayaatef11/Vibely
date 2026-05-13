@@ -29,11 +29,23 @@ export class SavedPostsComponent {
 
  
 //*******************************functions******************************************** */
-
+// Add this helper in your component
+getMediaUrls(post: PostResponse): string[] {
+  if (!post.mediaUrls) return [];
+  if (Array.isArray(post.mediaUrls)) return post.mediaUrls;
+  try {
+    return JSON.parse(post.mediaUrls);
+  } catch {
+    return [];
+  }
+}
 getSavedPosts() {
   this.savedPostService.getSavedPosts(this.userId).subscribe({
     next: (res: any) => {
       this.savedPosts = res;
+
+      
+
       const requests = this.savedPosts.map(post =>
         this.profileService.viewProfile(post.profileId)
       );

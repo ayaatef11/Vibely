@@ -4,26 +4,26 @@ using SocialMedia.Application.Helpers;
 namespace SocialMedia.Application.Implementations;
 public class FollowerService(AppdbContext _context,IMapper _mapper,INotificationsService _notificationService) :  IFollowerService
 { 
-    public async ValueTask<string> AcceptFollowAsync(FollowRequest follow)
+    public async ValueTask<string> AcceptFollowAsync(FollowRequest request)
     {
-        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
+        var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.Sender);
         if (sender == null)
-            throw new Exception( "Sender Not Found");
+            throw new NotFoundException( "Sender Not Found");
 
-        var reciever = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
+        var reciever = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.Reciever);
         if (reciever == null)
-            throw new Exception("Reciever Not Found");
+            throw new NotFoundException("Reciever Not Found");
 
-        var _follow = await _context.Follows.SingleOrDefaultAsync
-            (x => x.FollowerId == follow.Sender && x.FollowingId == follow.Reciever);
+        var follow = await _context.Follows.SingleOrDefaultAsync
+            (x => x.FollowerId == request.Sender && x.FollowingId == request.Reciever);
 
-        if (_follow == null)
-            throw new Exception("Follow Found");
+        if (follow == null)
+            throw new BadRequestException("Follow Found");
 
-        if (_follow.FollowState == FollowState.Accepted)
-            throw new Exception("Follow Already Accepted");
+        if (follow.FollowState == FollowState.Accepted)
+            throw new BadRequestException("Follow Already Accepted");
 
-        _follow.FollowState = FollowState.Accepted;
+        follow.FollowState = FollowState.Accepted;
         sender.FollowingCount++;
         reciever.FollowerCount++;
         var acceptOperation = await _context.SaveChangesAsync();
@@ -75,20 +75,20 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
     {
         var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Sender);
         if (sender == null)
-            throw new Exception( "SenderNotFound");
+            throw new NotFoundException( "Sender Not Found");
 
         var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == follow.Reciever);
         if (receiver == null)
-            throw new Exception("RecieverNotFound");
+            throw new NotFoundException("Reciever Not Found");
 
         var existedFollow = await _context.Follows.SingleOrDefaultAsync(x => x.FollowerId == follow.Sender && x.FollowingId == follow.Reciever);
         if (existedFollow == null)
-            throw new Exception("FollowNot Found");
+            throw new NotFoundException("Follow Not Found");
 
         _context.Follows.Remove(existedFollow);
         var rejectOperation = await _context.SaveChangesAsync();
 
-        if( rejectOperation <= 0 ) throw new Exception("Invalid");
+        if( rejectOperation <= 0 ) throw new BadRequestException("Invalid");
         return _mapper.Map<ProfileResponse>(receiver);
     }
 
@@ -96,16 +96,16 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
     {
         var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.Sender);
         if (sender == null)
-            throw new Exception( "Sender Not Found");
+            throw new NotFoundException( "Sender Not Found");
 
         var receiver = await _context.Profiles.FirstOrDefaultAsync(x => x.Id == request.Reciever);
         if (receiver == null)
-            throw new Exception( "Reciever Not Found");
+            throw new NotFoundException( "Reciever Not Found");
 
         var existedFollow = await _context.Follows
             .AnyAsync(x => x.FollowerId == request.Sender && x.FollowingId == request.Reciever);
 
-        if (existedFollow) throw new Exception( "User Already Following");
+        if (existedFollow) throw new BadRequestException( "User Already Following");
 
         var follow = new Follow()
         {
@@ -117,7 +117,7 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
         await _context.Follows.AddAsync(follow);
         var sendFollowOperation = await _context.SaveChangesAsync();
 
-        if( sendFollowOperation <= 0) throw new Exception("FollowRequestFailed");
+        if( sendFollowOperation <= 0) throw new BadRequestException("FollowRequestFailed");
         var notificationRequest = new NotificationRequest()
         {
             RecipientId = receiver.Id,
@@ -135,15 +135,15 @@ public class FollowerService(AppdbContext _context,IMapper _mapper,INotification
     {
         var sender = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.Sender);
         if (sender == null)
-            throw new Exception( "Sender Not Found");
+            throw new NotFoundException( "Sender Not Found");
 
         var receiver = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.Reciever);
         if (receiver == null)
-            throw new Exception( "RecieverN Found");
+            throw new NotFoundException("Reciever Not Found");
 
         var existedFollow = await _context.Follows.SingleOrDefaultAsync(x => x.FollowerId == request.Sender && x.FollowingId == request.Reciever);
         if (existedFollow == null)
-            throw new Exception( "Follow Not Found");
+            throw new NotFoundException( "Follow Not Found");
 
         _context.Follows.Remove(existedFollow);
         sender.FollowingCount--;
