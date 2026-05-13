@@ -43,8 +43,7 @@ export class UserPostComponent {
   editData: EditPostRequest = {
     id: '',
     title: '',
-    text: '',
-    feelingState: 0
+    text: ''
   };
 
 
@@ -62,7 +61,6 @@ export class UserPostComponent {
     this.post.showMenu = false;
     this.editData = {
       id: this.post.id,
-      feelingState: this.post.feelingState,
       title: this.post.title,
       text: this.post.text
     };

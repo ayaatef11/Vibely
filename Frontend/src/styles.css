@@ -86,31 +86,6 @@ img {
   color: white;
 }
 
-/* RTL support for Arabic */
-/* [dir="rtl"] .me-2 {
-  margin-left: 0.5rem !important;
-  margin-right: 0 !important;
-}
-
-[dir="rtl"] .me-3 {
-  margin-left: 1rem !important;
-  margin-right: 0 !important;
-}
-
-[dir="rtl"] .ms-2 {
-  margin-right: 0.5rem !important;
-  margin-left: 0 !important;
-} */
-
-/* [dir="rtl"] .float-end {
-  float: left !important;
-} */
-
-/* [dir="rtl"] .text-start {
-  text-align: right !important;
-} */
-
-
 
 /* Success */
 .custom-toast.toast-success {

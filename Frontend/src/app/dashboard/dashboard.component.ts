@@ -336,7 +336,6 @@ export class DashboardComponent {
   editPost(post: any) {
     const req: EditPostRequest = {
       id: post.id,
-      feelingState: post.feelingState,
       title: post.title,
       text: post.text
     }

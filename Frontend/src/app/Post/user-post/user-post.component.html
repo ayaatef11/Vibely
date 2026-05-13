@@ -39,7 +39,6 @@
         <h5>Edit Post</h5>
         <input type="text" class="form-control mb-2" placeholder="Title" [(ngModel)]="editData.title">
         <textarea class="form-control mb-2" rows="3" placeholder="What's on your mind?" [(ngModel)]="editData.text"></textarea>
-        <input type="number" class="form-control mb-3" placeholder="Feeling" [(ngModel)]="editData.feelingState">
         <div class="d-flex justify-content-end gap-2">
           <button class="btn btn-secondary" (click)="closeEdit()">Cancel</button>
           <button class="btn button-style" (click)="saveEdit()">Save</button>
@@ -64,7 +63,7 @@
         </div>
 
         <i class="bi fs-5"  [class.bi-bookmark]="!post.isSaved" [class.bi-bookmark-fill]="post.isSaved"
-          (click)="togglePost(post.id)"></i>
+          (click)="togglePost(post.id)" style="color:var(--text-color)"></i>
 
         <div *ngIf="post.shareLinkLoading">
           Generating link...

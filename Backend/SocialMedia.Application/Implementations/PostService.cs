@@ -61,7 +61,6 @@ public class PostService(AppdbContext _context, IMapper _mapper,INotificationsSe
 
         post.Text = postRequest.Text;
         post.Title = postRequest.Title;
-        post.FeelingState = postRequest.FeelingState;
         await _PostRepository.UpdateAsync(post, postRequest.Id);
         return _mapper.Map<PostResponse>(post);
     }

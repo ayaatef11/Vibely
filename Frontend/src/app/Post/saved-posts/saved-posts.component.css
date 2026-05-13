@@ -8,12 +8,12 @@
 .page-title {
   font-weight: bold;
   margin-bottom: 20px;
-  color: #333;
+  color: var(--text-color); /* was #333 */
 }
 
 /* Tabs */
 .custom-tabs {
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid var(--border-color); /* was #eee */
 }
 
 .custom-tabs .nav-link {
@@ -36,10 +36,11 @@
 }
 
 .post-card {
-  background: #fff;
+  background: var(--card-bg);         /* was #fff */
+  border: 1px solid var(--card-border); /* add border for dark mode visibility */
   border-radius: 12px;
   padding: 15px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 10px var(--shadow-color); /* was rgba(0,0,0,0.08) */
   transition: 0.2s;
 }
 
@@ -57,13 +58,13 @@
 .avatar {
   width: 40px;
   height: 40px;
-  background: #ddd;
+  background: var(--card-border); /* was #ddd */
   border-radius: 50%;
 }
 
 .post-body p {
   margin: 0;
-  color: #444;
+  color: var(--text-color); /* was #444 */
   line-height: 1.5;
 }
 
@@ -71,7 +72,8 @@
 .empty-box {
   text-align: center;
   padding: 40px;
-  color: #888;
-  background: #fafafa;
+  color: var(--text-color); /* was #888 */
+  background: var(--card-bg); /* was #fafafa */
+  border: 1px solid var(--card-border);
   border-radius: 10px;
 }

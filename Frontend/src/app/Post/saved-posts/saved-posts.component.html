@@ -6,7 +6,7 @@
   <div class="posts-wrapper" *ngIf="savedPosts?.length; else emptyState">
 
     <div class="post-card" *ngFor="let post of savedPosts">
-      <div class="post-header">
+      <div class="post-header" (click)="goToPost(post.id)">
         <div class="avatar"></div>
         <div>
           <h6 class="mb-0">{{ post.userName || 'User' }}</h6>
