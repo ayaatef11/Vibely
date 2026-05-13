@@ -18,18 +18,21 @@ import { PostServiceService } from '../../Services/post-service.service';
 import { SavedPostsServiceService } from '../../Services/saved-posts-service.service';
 import { SharePostServiceService } from '../../Services/share-post-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { ProfileServiceService } from '../../Services/profile-service.service';
 
 @Component({
   selector: 'app-user-post',
   standalone: true,
-  imports: [RouterModule, FormsModule, SidebarComponent, NgFor, NgIf,CommonModule],
+  imports: [RouterModule, FormsModule, SidebarComponent, NgFor, NgIf, CommonModule],
   templateUrl: './user-post.component.html',
   styleUrl: './user-post.component.css'
 })
 export class UserPostComponent {
 
   constructor(private router: Router, private route: ActivatedRoute, private toastService: ToastrService,
-    private savedPostService: SavedPostsServiceService, private likeService: LikesServiceService, private authService: AuthenticationService, private commentService: CommentServiceService, private shareService: SharePostServiceService, private postService: PostServiceService) { }
+    private savedPostService: SavedPostsServiceService, private profileService: ProfileServiceService,
+    private likeService: LikesServiceService, private authService: AuthenticationService,
+    private commentService: CommentServiceService, private shareService: SharePostServiceService, private postService: PostServiceService) { }
   ngOnInit() {
     const postId = this.route.snapshot.paramMap.get('id');
     if (postId) {
@@ -51,8 +54,11 @@ export class UserPostComponent {
   //************************FUNCTIONS********************************************** */
 
   loadPost(postId: string) {
-    this.postService.getPost(postId,this.profileId).subscribe(res => {
+    this.postService.getPost(postId, this.profileId).subscribe((res:PostResponse) => {
       this.post = res;
+      this.profileService.viewProfile(res.profileId).subscribe((profile) => {
+        this.post.userName = profile.userName
+      })
     });
   }
 
@@ -190,7 +196,7 @@ export class UserPostComponent {
     }
     post.comments.push({ text: post.newCommentText })
     post.commentsCount++;
-    post.newCommentText=''
+    post.newCommentText = ''
   }
 
   toggleLike(post: any) {

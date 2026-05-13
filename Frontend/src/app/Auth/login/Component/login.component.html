@@ -2,12 +2,14 @@
   <h1 class="mb-4">{{ 'LOGIN.LOGIN' | translate }}</h1>
   <div class="mb-4">
     <label class="form-label">{{ 'LOGIN.USER_NAME' | translate }}</label>
-    <input type="text" placeholder="{{ 'LOGIN.USER_NAME' | translate }}" name="userName" [(ngModel)]="userData.userName" class="form-control" required>
+    <input type="text" placeholder="{{ 'LOGIN.USER_NAME' | translate }}" name="userName" [(ngModel)]="userData.userName" 
+    class="form-control" required minlength="3">
   </div>
 
   <div class="mb-4">
     <label class="form-label">{{ 'LOGIN.PASSWORD' | translate }}</label>
-    <input type="password" placeholder="{{ 'LOGIN.PASSWORD' | translate }}" name="password" [(ngModel)]="userData.password" class="form-control" required>
+    <input type="password" placeholder="{{ 'LOGIN.PASSWORD' | translate }}" name="password" [(ngModel)]="userData.password" 
+    class="form-control" required minlength="6">
   </div>
 
   <button class="btn button-style  w-100" type="submit">{{ 'LOGIN.LOGIN' | translate }}</button>

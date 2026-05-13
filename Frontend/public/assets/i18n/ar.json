@@ -5,7 +5,7 @@
     "VIEW_COMMENTS": "عرض كل التعليقات",
     "SHARE": "مشاركة المنشور",
     "NO_TRENDING": "لا توجد منشورات رائجة",
-        "SEARCH": "بحث",
+    "SEARCH": "بحث",
     "FRIEND_REQUESTS": "طلبات الصداقة",
     "NO_PENDING_REQUESTS": "لا توجد طلبات حالياً",
     "WANTS_TO_CONNECT": "يريد التواصل معك",
@@ -29,15 +29,14 @@
     "POST": "نشر",
     "SUGGESTED_FOR_YOU": "مقترح لك",
     "FOLLOW": "متابعة",
-            "UNFOLLOW": "الغاء المتابعة",
-
+    "UNFOLLOW": "الغاء المتابعة",
     "REQUESTED": "تم الطلب",
     "TRENDING": "الأكثر تداولاً",
     "NO_TRENDING_POSTS": "لا توجد منشورات رائجة",
     "LIKES": "إعجاب",
-  "FOLLOWING":"اتابع"  ,
-  "FOLLOWERS":"يتابعونك",
-  "FOLLOWINGS":"تتابعهم"
+    "FOLLOWING": "اتابع",
+    "FOLLOWERS": "يتابعونك",
+    "FOLLOWINGS": "تتابعهم"
   },
   "CREATE_POST": {
     "TITLE": "إنشاء منشور",
@@ -136,9 +135,9 @@
     "NOTIFICATIONS": "الإشعارات",
     "SETTINGS": "الإعدادات",
     "NEW_POST": "منشور جديد",
-    "SAVED_POSTS":"المنشورات المحفوظة",
-    "SEARCH_PEOPLE":"البحث عن اصدقاء",
-    "LOGOUT":"تسجيل الخروج"
+    "SAVED_POSTS": "المنشورات المحفوظة",
+    "SEARCH_PEOPLE": "البحث عن اصدقاء",
+    "LOGOUT": "تسجيل الخروج"
   },
   "SETTINGS_NAV": {
     "PROFILE": "الملف الشخصي",
@@ -156,7 +155,6 @@
     "COUNTRY": "الدولة",
     "SELECT_COUNTRY": "اختر الدولة",
     "SAVE": "حفظ",
-
     "COUNTRIES": {
       "USA": "الولايات المتحدة",
       "CANADA": "كندا",
@@ -165,25 +163,17 @@
   },
   "PRIVACY_SECURITY": {
     "TITLE": "إعدادات الأمان",
-
     "TWO_FACTOR": "المصادقة الثنائية",
     "TWO_FACTOR_DESC": "أضف طبقة حماية إضافية إلى حسابك",
-
     "SETUP_2FA": "إعداد المصادقة الثنائية",
-
     "SCAN_QR": "قم بمسح رمز QR باستخدام Google Authenticator ثم أدخل الرمز بالأسفل",
-
     "CODE_PLACEHOLDER": "أدخل الرمز المكون من 6 أرقام",
-
     "CANCEL": "إلغاء",
     "VERIFY": "تحقق",
-
     "LOGIN_NOTIFICATIONS": "إشعارات تسجيل الدخول",
     "LOGIN_NOTIFICATIONS_DESC": "احصل على إشعار عند تسجيل الدخول إلى حسابك",
-
     "SESSION_TIMEOUT": "مهلة الجلسة",
     "SESSION_TIMEOUT_DESC": "تسجيل الخروج تلقائيًا بعد فترة من عدم النشاط",
-
     "TIMEOUT_15": "15 دقيقة",
     "TIMEOUT_30": "30 دقيقة",
     "TIMEOUT_60": "ساعة واحدة",
@@ -210,7 +200,6 @@
     "TITLE": "الإعدادات",
     "SUBTITLE": "إدارة حسابك وتفضيلات التطبيق"
   },
-  
   "NOTIFICATIONS": {
     "TITLE": "الإشعارات",
     "MARK_ALL_READ": "تحديد الكل كمقروء",
@@ -222,11 +211,10 @@
   "COMMON": {
     "CLOSE": "إغلاق",
     "DOWNLOAD": "تحميل",
-        "SAVE": "حفظ",
-        "CANCEL": "إلغاء",
+    "SAVE": "حفظ",
+    "CANCEL": "إلغاء",
     "POST": "نشر"
   },
-
   "PROFILE": {
     "EDIT_PROFILE": "تعديل الملف الشخصي",
     "POSTS": "المنشورات",
@@ -236,7 +224,7 @@
     "BLOCK": "حظر",
     "UNBLOCK": "إلغاء الحظر",
     "SAVED": "المحفوظات"
-  } ,
+  },
   "EDIT_PROFILE": {
     "TITLE": "تعديل الملف الشخصي",
     "COVER_PHOTO": "صورة الغلاف",
@@ -248,13 +236,4 @@
     "LOCATION": "الموقع",
     "WEBSITE": "الموقع الإلكتروني"
   }
-
 }
-
-
-
-
-
-
-
-
