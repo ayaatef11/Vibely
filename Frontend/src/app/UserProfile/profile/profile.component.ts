@@ -8,12 +8,13 @@ import { BlocksServiceService } from '../../Services/blocks-service.service';
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateModule } from '@ngx-translate/core';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [FormsModule, RouterModule, NgIf, NgFor],
+  imports: [FormsModule, RouterModule, NgIf, NgFor,TranslateModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })

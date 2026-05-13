@@ -6,11 +6,12 @@ import { EditProfileRequest } from '../../../Models/Profiles/Requests/EditProfil
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule,TranslateModule],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })

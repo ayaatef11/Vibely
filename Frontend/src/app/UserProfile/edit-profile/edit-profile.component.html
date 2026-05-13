@@ -1,54 +1,151 @@
 <div class="container">
+
+    <!-- HEADER -->
     <div class="profile-header">
-        <h2>Edit Profile</h2>
-        <button type="button" class="btn button-style btn-save" (click)="editProfile()">Save</button>
+
+        <h2>
+            {{ 'EDIT_PROFILE.TITLE' | translate }}
+        </h2>
+
+        <button
+            type="button"
+            class="btn button-style btn-save"
+            (click)="editProfile()">
+
+            {{ 'COMMON.SAVE' | translate }}
+
+        </button>
+
     </div>
 
+    <!-- COVER PHOTO -->
     <div class="cover-photo-section" onclick="handleCoverPhotoClick()">
+
         <div class="text-center">
+
             <i class="fas fa-camera"></i>
-            <div>Cover Photo</div>
+
+            <div>
+                {{ 'EDIT_PROFILE.COVER_PHOTO' | translate }}
+            </div>
+
         </div>
+
     </div>
 
+    <!-- FORM -->
     <div class="profile-form">
+
+        <!-- PROFILE PICTURE -->
         <div class="profile-picture-section">
+
             <div class="mb-3">
-                <label class="form-label">Profile Picture</label>
+
+                <label class="form-label">
+                    {{ 'EDIT_PROFILE.PROFILE_PICTURE' | translate }}
+                </label>
+
             </div>
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
-                alt="Profile Picture" class="profile-picture" id="profilePicture">
+
+            <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+                alt="Profile Picture"
+                class="profile-picture"
+                id="profilePicture">
+
             <br>
-            <button type="button" class="btn button-style btn-change" onclick="handleProfilePictureClick()">
-                Change
+
+            <button
+                type="button"
+                class="btn button-style btn-change"
+                onclick="handleProfilePictureClick()">
+
+                {{ 'EDIT_PROFILE.CHANGE' | translate }}
+
             </button>
+
         </div>
 
+        <!-- FORM -->
         <form>
+
+            <!-- NAME -->
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" name="fullName" [(ngModel)]="user.fullName">
+
+                <label for="name" class="form-label">
+                    {{ 'EDIT_PROFILE.NAME' | translate }}
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="fullName"
+                    [(ngModel)]="user.fullName">
+
             </div>
 
+            <!-- USERNAME -->
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" name="username"  [(ngModel)]="user.userName">
+
+                <label for="username" class="form-label">
+                    {{ 'EDIT_PROFILE.USERNAME' | translate }}
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="username"
+                    [(ngModel)]="user.userName">
+
             </div>
 
+            <!-- BIO -->
             <div class="mb-3">
-                <label for="bio" class="form-label">Bio</label>
-                <input type="text" class="form-control" name="bio" [(ngModel)]="user.bio">
+
+                <label for="bio" class="form-label">
+                    {{ 'EDIT_PROFILE.BIO' | translate }}
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="bio"
+                    [(ngModel)]="user.bio">
+
             </div>
 
+            <!-- LOCATION -->
             <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" class="form-control" name="location" [(ngModel)]="user.location">
+
+                <label for="location" class="form-label">
+                    {{ 'EDIT_PROFILE.LOCATION' | translate }}
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="location"
+                    [(ngModel)]="user.location">
+
             </div>
 
+            <!-- WEBSITE -->
             <div class="mb-4">
-                <label for="website" class="form-label">Website</label>
-                <input type="text" class="form-control" name="website" [(ngModel)]="user.website">
+
+                <label for="website" class="form-label">
+                    {{ 'EDIT_PROFILE.WEBSITE' | translate }}
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="website"
+                    [(ngModel)]="user.website">
+
             </div>
+
         </form>
+
     </div>
+
 </div>

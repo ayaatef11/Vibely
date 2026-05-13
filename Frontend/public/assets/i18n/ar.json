@@ -204,6 +204,33 @@
     "UNREAD": "غير المقروءة",
     "COMMENTS": "التعليقات",
     "LIKES": "الإعجابات"
+  },
+  "COMMON": {
+    "CLOSE": "إغلاق",
+    "DOWNLOAD": "تحميل",
+        "SAVE": "حفظ"
+  },
+
+  "PROFILE": {
+    "EDIT_PROFILE": "تعديل الملف الشخصي",
+    "POSTS": "المنشورات",
+    "FOLLOWERS": "المتابعين",
+    "FOLLOWING": "يتابع",
+    "MESSAGE": "مراسلة",
+    "BLOCK": "حظر",
+    "UNBLOCK": "إلغاء الحظر",
+    "SAVED": "المحفوظات"
+  } ,
+  "EDIT_PROFILE": {
+    "TITLE": "تعديل الملف الشخصي",
+    "COVER_PHOTO": "صورة الغلاف",
+    "PROFILE_PICTURE": "الصورة الشخصية",
+    "CHANGE": "تغيير",
+    "NAME": "الاسم",
+    "USERNAME": "اسم المستخدم",
+    "BIO": "نبذة",
+    "LOCATION": "الموقع",
+    "WEBSITE": "الموقع الإلكتروني"
   }
 }
 

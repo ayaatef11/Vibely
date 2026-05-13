@@ -222,7 +222,36 @@
     "UNREAD": "Unread",
     "COMMENTS": "Comments",
     "LIKES": "Likes"
+  },
+
+  "COMMON": {
+    "CLOSE": "Close",
+    "DOWNLOAD": "Download",
+        "SAVE": "Save"
+  },
+
+  "PROFILE": {
+    "EDIT_PROFILE": "Edit Profile",
+    "POSTS": "Posts",
+    "FOLLOWERS": "Followers",
+    "FOLLOWING": "Following",
+    "MESSAGE": "Message",
+    "BLOCK": "Block",
+    "UNBLOCK": "Unblock",
+    "SAVED": "Saved"
+  },
+  "EDIT_PROFILE": {
+    "TITLE": "Edit Profile",
+    "COVER_PHOTO": "Cover Photo",
+    "PROFILE_PICTURE": "Profile Picture",
+    "CHANGE": "Change",
+    "NAME": "Name",
+    "USERNAME": "Username",
+    "BIO": "Bio",
+    "LOCATION": "Location",
+    "WEBSITE": "Website"
   }
+
 }
 
 
