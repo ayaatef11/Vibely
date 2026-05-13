@@ -32,8 +32,10 @@
     "REQUESTED": "Requested",
     "TRENDING": "Trending",
     "NO_TRENDING_POSTS": "No trending posts",
-    "LIKES": "likes"
-  
+    "LIKES": "likes",
+  "FOLLOWING":"Following",
+   "FOLLOWERS":"Followers",
+  "FOLLOWINGS":"Followings"
   },
   "CREATE_POST": {
     "TITLE": "Create Post",

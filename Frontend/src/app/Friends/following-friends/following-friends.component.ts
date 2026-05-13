@@ -10,11 +10,12 @@ import { AuthenticationService } from '../../Services/authentication-service.ser
 import { FollowSerivceService } from '../../Services/follow-serivce.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-following-friends',
   standalone: true,
-  imports: [FriendsHeaderComponent,NgFor,NgIf,RouterModule],
+  imports: [FriendsHeaderComponent,NgFor,NgIf,RouterModule,TranslateModule],
   templateUrl: './following-friends.component.html',
   styleUrl: './following-friends.component.css'
 })

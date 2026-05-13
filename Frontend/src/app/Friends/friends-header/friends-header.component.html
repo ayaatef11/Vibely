@@ -5,10 +5,10 @@
   <!-- Navigation Tabs -->
   <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/friends/followers']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Followers</a>
+      <a class="nav-link" [routerLink]="['/friends/followers']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ 'HOME.FOLLOWERS' | translate }}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" [routerLink]="['/friends/following']" routerLinkActive="active">Following</a>
+      <a class="nav-link" [routerLink]="['/friends/following']" routerLinkActive="active">{{ 'HOME.FOLLOWINGS' | translate }}</a>
     </li>
   </ul>
 

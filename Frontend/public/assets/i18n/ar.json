@@ -32,8 +32,10 @@
     "REQUESTED": "تم الطلب",
     "TRENDING": "الأكثر تداولاً",
     "NO_TRENDING_POSTS": "لا توجد منشورات رائجة",
-    "LIKES": "إعجاب"
-  
+    "LIKES": "إعجاب",
+  "FOLLOWING":"اتابع"  ,
+  "FOLLOWERS":"يتابعونك",
+  "FOLLOWINGS":"تتابعهم"
   },
   "CREATE_POST": {
     "TITLE": "إنشاء منشور",

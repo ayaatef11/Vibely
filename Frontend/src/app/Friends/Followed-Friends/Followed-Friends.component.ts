@@ -6,11 +6,12 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../Services/authentication-service.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-followedFriends',
   standalone: true,
-  imports: [FriendsHeaderComponent,NgFor,NgIf,RouterModule],
+  imports: [FriendsHeaderComponent,NgFor,NgIf,RouterModule,TranslateModule],
   templateUrl: './Followed-Friends.component.html',
   styleUrl: './Followed-Friends.component.css'
 })
