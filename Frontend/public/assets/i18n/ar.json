@@ -42,7 +42,19 @@
     "PLACEHOLDER": "ماذا يدور في ذهنك؟",
     "ADD_PHOTO": "أضف صوراً أو مقاطع فيديو",
     "CANCEL": "إلغاء",
-    "POST_BTN": "نشر"
+    "POST_BTN": "نشر",
+    "HAPPY": "سعيد",
+    "SAD": "حزين",
+    "EXCITED": "متحمس",
+    "ANGRY": "غاضب",
+    "NEUTRAL": "محايد",
+    "POST_TITLE": "العنوان",
+    "WHATS_ON_YOUR_MIND": "بم تفكر؟",
+    "ADD_MEDIA": "إضافة صور/فيديوهات",
+    "DRAG_DROP": "أو اسحب وأفلت",
+    "PHOTO_VIDEO": "صورة/فيديو",
+    "TAG_PEOPLE": "الإشارة للأشخاص",
+    "FEELING_ACTIVITY": "المشاعر/النشاط"
   },
   "SETTINGS": {
     "LANGUAGE": "اللغة"
@@ -208,7 +220,9 @@
   "COMMON": {
     "CLOSE": "إغلاق",
     "DOWNLOAD": "تحميل",
-        "SAVE": "حفظ"
+        "SAVE": "حفظ",
+        "CANCEL": "إلغاء",
+    "POST": "نشر"
   },
 
   "PROFILE": {
@@ -232,6 +246,7 @@
     "LOCATION": "الموقع",
     "WEBSITE": "الموقع الإلكتروني"
   }
+
 }
 
 

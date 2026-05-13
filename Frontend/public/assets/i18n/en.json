@@ -42,7 +42,19 @@
     "PLACEHOLDER": "What's on your mind?",
     "ADD_PHOTO": "Add photos/videos",
     "CANCEL": "Cancel",
-    "POST_BTN": "Post"
+    "POST_BTN": "Post",
+    "HAPPY": "Happy",
+    "SAD": "Sad",
+    "EXCITED": "Excited",
+    "ANGRY": "Angry",
+    "NEUTRAL": "Neutral",
+    "POST_TITLE": "Title",
+    "WHATS_ON_YOUR_MIND": "What's on your mind?",
+    "ADD_MEDIA": "Add photos/videos",
+    "DRAG_DROP": "or drag and drop",
+    "PHOTO_VIDEO": "Photo/video",
+    "TAG_PEOPLE": "Tag people",
+    "FEELING_ACTIVITY": "Feeling/activity"
   },
   "SETTINGS": {
     "LANGUAGE": "Language"
@@ -170,14 +182,10 @@
   },
   "PRIVACY_SECURITY": {
     "TITLE": "Security Settings",
-
     "TWO_FACTOR": "Two-Factor Authentication",
     "TWO_FACTOR_DESC": "Add an extra layer of security to your account",
-
     "SETUP_2FA": "Setup Two-Factor Authentication",
-
     "SCAN_QR": "Scan QR code using Google Authenticator then enter the code below",
-
     "CODE_PLACEHOLDER": "Enter 6-digit code",
 
     "CANCEL": "Cancel",
@@ -227,7 +235,9 @@
   "COMMON": {
     "CLOSE": "Close",
     "DOWNLOAD": "Download",
-        "SAVE": "Save"
+        "SAVE": "Save",
+         "CANCEL": "Cancel",
+    "POST": "Post"
   },
 
   "PROFILE": {
@@ -251,6 +261,7 @@
     "LOCATION": "Location",
     "WEBSITE": "Website"
   }
+
 
 }
 

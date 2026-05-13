@@ -12,11 +12,12 @@ import { AuthenticationService } from '../../Services/authentication-service.ser
 import { PostServiceService } from '../../Services/post-service.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-post',
   standalone: true,
-  imports: [RouterModule, NgIf, FormsModule],
+  imports: [RouterModule, NgIf, FormsModule,TranslateModule],
   templateUrl: './create-post.component.html',
   styleUrl: './create-post.component.css'
 })
