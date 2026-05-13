@@ -4,7 +4,7 @@
         <div class="tab-pane fade show active">
             <div>
                 <div class="user-item" data-name="cameron williamson" data-handle="cameronwilliamson"
-                    *ngFor="let user of followedUsers" (click)="viewProfile(user.profileId)">
+                    *ngFor="let user of followedUsers" (click)="viewProfile(user.id)">
                     <div class="d-flex align-items-center">
                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=face"
                             alt="Cameron Williamson" class="profile-pic me-3">
@@ -12,7 +12,22 @@
                             <div class="username">{{user.fullName}}</div>
                             <div class="handle">{{user.location}}</div>
                         </div>
-                        <button class="btn btn-primary btn-follow" (click)="$event.stopPropagation()"> {{ 'HOME.FOLLOW' | translate }}
+      <!-- Not following yet -->
+<button *ngIf="!user.isFollowed && !user.isRequested" class="btn btn-primary btn-follow"
+  (click)="follow(user); $event.stopPropagation()">
+  {{ 'HOME.FOLLOW' | translate }}
+</button>
+
+<!-- Request sent, waiting -->
+<button *ngIf="user.isRequested" class="btn btn-secondary btn-follow" disabled>
+  {{ 'HOME.REQUESTED' | translate }}
+</button>
+
+<!-- Already following -->
+<button *ngIf="user.isFollowed"
+  class="btn btn-outline-danger btn-follow"
+  (click)="unfollow(user); $event.stopPropagation()">
+  {{ 'HOME.UNFOLLOW' | translate }}
 </button>
                     </div>
                 </div>

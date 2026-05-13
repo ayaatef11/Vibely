@@ -11,6 +11,7 @@ import { FollowSerivceService } from '../../Services/follow-serivce.service';
 import { ProfileServiceService } from '../../Services/profile-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateModule } from '@ngx-translate/core';
+import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
 
 @Component({
   selector: 'app-following-friends',
@@ -26,7 +27,7 @@ export class FollowingFriendsComponent {
   this.viewFollowing()
 }
 //*************************VARIABLES************************************** */
-FollowersUsers!:UserResponse[]
+FollowersUsers!:ProfileResponse[]
 currentUserId=this.authService.getUserId()??'1';
 currentProfileId=this.authService.getProfileId()??'1';
 //*****************************FUNCTIONS****************************************** */
@@ -53,7 +54,7 @@ this.followService.unfollow(req).subscribe();
 viewFollowing(){
   // debugger
 this.profileService.getFollowing(this.currentProfileId).subscribe({
-  next:(res:UserResponse[])=>this.FollowersUsers=res,
+  next:(res:ProfileResponse[])=>this.FollowersUsers=res,
   error:(err)=>this.toastService.error(err)
 })
 }

@@ -1,11 +1,4 @@
-﻿using SocialMedia.Application.DTOs.Responses.Posts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SocialMedia.Core.Domain.DTOs.Responses;
+﻿namespace SocialMedia.Core.Domain.DTOs.Responses;
 public class ProfileResponse
 {
     public Guid Id {  get; set; }
@@ -23,5 +16,7 @@ public class ProfileResponse
     public byte[]? BackgroundImage { get; set; }
     public string? ProfileImageContentType { get; set; }
     public string? BackgroundImageContentType { get; set; }
+    public bool IsFollowed {  set; get; }=false;
+    public bool IsRequested { set; get; } = false;
     public List<PostResponse> Posts { get; set; }
 }

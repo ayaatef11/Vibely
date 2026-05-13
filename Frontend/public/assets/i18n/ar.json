@@ -29,6 +29,8 @@
     "POST": "نشر",
     "SUGGESTED_FOR_YOU": "مقترح لك",
     "FOLLOW": "متابعة",
+            "UNFOLLOW": "الغاء المتابعة",
+
     "REQUESTED": "تم الطلب",
     "TRENDING": "الأكثر تداولاً",
     "NO_TRENDING_POSTS": "لا توجد منشورات رائجة",

@@ -11,12 +11,12 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-edit-profile',
   standalone: true,
-  imports: [RouterModule, FormsModule,TranslateModule],
+  imports: [RouterModule, FormsModule, TranslateModule],
   templateUrl: './edit-profile.component.html',
   styleUrl: './edit-profile.component.css'
 })
 export class EditProfileComponent {
-  constructor(private router: Router, private authService: AuthenticationService, private toastService:ToastrService,
+  constructor(private router: Router, private authService: AuthenticationService, private toastService: ToastrService,
     private profileService: ProfileServiceService) { }
   ngOnInit() {
     this.loadProfile()
@@ -38,6 +38,8 @@ export class EditProfileComponent {
     userId: '',
     profileImageContentType: ' ',
     backgroundImageContentType: ' ',
+    isFollowed: false,
+    isRequested:false,
     posts: []
   };
   userId = this.authService.getUserId() ?? ''

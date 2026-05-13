@@ -10,6 +10,12 @@ public class ProfileService(AppdbContext _context,IMapper _mapper) :  IProfileSe
             .Select(u => u.Follower).ToListAsync();
 
         var result = _mapper.Map<List<ProfileResponse>>(users);
+        foreach(var user in result)
+        {
+            user.IsFollowed=await _context.Follows.AnyAsync(u=>u.FollowingId == user.Id && u.FollowerId==profileId && u.FollowState==FollowState.Accepted);
+            user.IsRequested = await _context.Follows.AnyAsync(u => u.FollowingId == user.Id && u.FollowerId == profileId && u.FollowState == FollowState.Pending);
+
+        }
         return result;
     }
     public async Task<IEnumerable<ProfileResponse>> GetFollowing(Guid profileId)

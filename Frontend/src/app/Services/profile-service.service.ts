@@ -4,6 +4,7 @@ import { environment } from '../../Environments/environment';
 import { EditProfileRequest } from '../../Models/Profiles/Requests/EditProfileRequest';
 import { ProfileResponse } from '../../Models/Profiles/Responses/ProfileResponse';
 import { UserResponse } from '../../Models/Users/Responses/UserResponse';
+import { Profiler } from 'inspector';
 
 @Injectable({
   providedIn: 'root'
@@ -29,18 +30,17 @@ if (!data.profileImage || data.profileImage.length === 0) {
 if (!data.backgroundImage || data.backgroundImage.length === 0) {
   formData.append('BackgroundImage', new Blob());
 }
-
   return this.http.put<ProfileResponse>(`${this.Url}/edit`, formData);
   }
 
   getFollowers(profileId: string) {
     var params = new HttpParams().set('profileId', profileId);
-    return this.http.get<UserResponse[]>(`${this.Url}/followers`, { params })
+    return this.http.get<ProfileResponse[]>(`${this.Url}/followers`, { params })
   }
 
   getFollowing(profileId: string) {
     var params = new HttpParams().set('profileId', profileId);
-    return this.http.get<UserResponse[]>(`${this.Url}/following`, { params })
+    return this.http.get<ProfileResponse[]>(`${this.Url}/following`, { params })
   }
 
   viewProfile(profileId: string) {

@@ -7,6 +7,10 @@ import { AuthenticationService } from '../../Services/authentication-service.ser
 import { ProfileServiceService } from '../../Services/profile-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateModule } from '@ngx-translate/core';
+import { FollowSerivceService } from '../../Services/follow-serivce.service';
+import { FollowRequest } from '../../../Models/Follow/Requests/FollowRequest';
+import { ProfileResponse } from '../../../Models/Profiles/Responses/ProfileResponse';
+import { UnFollowRequest } from '../../../Models/Follow/Requests/UnFollowRequest';
 
 @Component({
   selector: 'app-followedFriends',
@@ -17,24 +21,52 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class FollowedFriendsComponent {
   constructor(private router:Router,private authService: AuthenticationService,
-    private profileService:ProfileServiceService,private toastService:ToastrService){}
+    private profileService:ProfileServiceService,private toastService:ToastrService,private followService:FollowSerivceService){}
 ngOnInit(){
   this.viewFollowed()
 }
 //*******************************VARIABLES********************************************************* */
-followedUsers!:UserResponse[]
+followedUsers!:ProfileResponse[]
 currentProfileId=this.authService.getProfileId()??'1';
 //*******************************FUNCTIONS********************************************** */
 viewProfile(profileId: string) {
   this.router.navigate(['/home/profile', profileId]);
 }
+
 viewFollowed(){
-  // debugger
 
 this.profileService.getFollowers(this.currentProfileId).subscribe({
-  next:(res:UserResponse[])=>this.followedUsers=res,
+  next:(res:ProfileResponse[])=>this.followedUsers=res,
   error:(err)=>this.toastService.error(err)
 })
 }
+
+follow(user: ProfileResponse) {
+  const req: FollowRequest = {
+    sender: this.currentProfileId,
+    reciever: user.id
+  };
+  this.followService.requestFollow(req).subscribe({
+    next: () => {
+      user.isRequested = true;   
+    },
+    error: (err) => this.toastService.error(err)
+  });
+}
+
+unfollow(user: ProfileResponse) {
+  const req: UnFollowRequest = {
+    sender: this.currentProfileId,
+    reciever: user.id
+  };
+  this.followService.unfollow(req).subscribe({
+    next: () => {
+      user.isFollowed = false;    
+      user.isRequested = false;
+    },
+    error: (err) => this.toastService.error(err)
+  });
+}
+
 
 }

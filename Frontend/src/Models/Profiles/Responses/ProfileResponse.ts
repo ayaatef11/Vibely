@@ -15,5 +15,7 @@ export interface ProfileResponse {
     backgroundImage: string
     profileImageContentType: string
     backgroundImageContentType: string
+    isFollowed:boolean
+    isRequested: boolean
     posts:PostResponse[]
 }
