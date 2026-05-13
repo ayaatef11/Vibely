@@ -2,13 +2,10 @@
 public interface IChatService
 {
     Task<ChatResponse> CreateChatAsync(Guid currentUserId, Guid otherUserId);
-
     Task<List<ChatResponse>> GetChatsAsync(Guid currentUserId);
-
+    Task<List<ChatResponse>> SearchChat(string chatName, Guid currentUserId);
     Task<List<MessageResponse>> GetMessagesAsync(Guid chatId, Guid currentUserId);
-
     Task<MessageResponse> SendMessageAsync(AddMessageRequest request);
-
     Task<MessageResponse> EditMessageAsync(Guid MessageId, EditMessageRequest request);
     Task<MessageResponse> DeleteMessageAsync(Guid messageId, Guid currentUserId);
 }

@@ -17,7 +17,12 @@ public class ChatController(IChatService _chatService) : ControllerBase
         var result = await _chatService.GetChatsAsync(currentUserId);
         return Ok(result);
     }
-
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchForChat(string chatName,Guid currentUserId)
+    {
+        var result = await _chatService.SearchChat(chatName,currentUserId);
+        return Ok(result);
+    }
     [HttpGet("messages")]
     public async Task<IActionResult> GetMessagesAsync(Guid chatId, Guid userId)
     {

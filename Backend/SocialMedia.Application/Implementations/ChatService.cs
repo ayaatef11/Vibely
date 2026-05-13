@@ -59,7 +59,27 @@ public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsSer
             };
        }).ToList();
     }
+    public async Task<List<ChatResponse>>SearchChat(string chatName, Guid currentUserId) {
+        var chats = await _context.Chats
+                  .Include(x => x.Messages)
+                  .Include(x => x.Participants)
+                  .Where(x => x.Participants.Any(p => p.UserId == currentUserId) &&x.Name.Contains(chatName))
+                  .OrderByDescending(x => x.Messages.Select(m => (DateTime?)m.SentAt).Max())
+                  .ToListAsync();
 
+        return chats.Select(chat => {
+            var LastMessage = (chat.Messages != null && chat.Messages.Any()) ? chat.Messages.OrderByDescending(x => x.SentAt).First() : null;
+            return new ChatResponse
+            {
+                Id = chat.Id,
+                LastMessage = LastMessage?.Content,
+                Name = chat.Name,
+                LastMessageDate = LastMessage?.SentAt,
+                Participants = _mapper.Map<List<ChatParticipantResponse>>(chat.Participants),
+                ParticipantId = chat.Participants.FirstOrDefault(u => u.UserId != currentUserId)?.UserId ?? currentUserId,
+            };
+        }).ToList();
+    }
     public async Task<List<MessageResponse>> GetMessagesAsync(Guid chatId, Guid currentUserId)
     {
         var isParticipant = await _context.ChatParticipants.AnyAsync(x =>x.ChatId == chatId&& x.UserId == currentUserId);

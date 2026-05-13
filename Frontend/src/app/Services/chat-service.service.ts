@@ -23,6 +23,9 @@ public messages$ = new Subject<MessageResponse>();
 getChats(currentuserId:string):Observable<ChatResponse[]>{
   return this.http.get<ChatResponse[]>(`${this.Url}?currentUserId=${currentuserId}`)
 }
+searchChats(chatName:string,currentuserId:string):Observable<ChatResponse[]>{
+  return this.http.get<ChatResponse[]>(`${this.Url}/search?chatName=${chatName}&currentUserId=${currentuserId}`)
+}
 
 getMessages(chatId:string,currentUserId:string):Observable<MessageResponse[]>{
   return this.http.get<MessageResponse[]>(`${this.Url}/messages?chatId=${chatId}&userId=${currentUserId}`)

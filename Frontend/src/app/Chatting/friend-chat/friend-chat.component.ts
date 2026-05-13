@@ -25,14 +25,7 @@ export class FriendChatComponent {
     const token = this.authService.getToken() ?? '1';
     await this.chatService.startConnection(token);
 
-    this.chatService.getChats(this.currentUserId).subscribe((res) => {
-      this.chats = res;
-      const chatId=this.route.snapshot.paramMap.get('chatId')
-      if(chatId){
-        const found=this.chats.find(c=>c.id==chatId);
-        if(found)this.selectChat(found)
-      }
-    })
+    this.getChats();
 
      this.chatService.messages$.subscribe(message => {
       this.messages.push(message);
@@ -46,8 +39,29 @@ export class FriendChatComponent {
   selectedChat!: ChatResponse;
   newMessage = '';
   currentUserId = this.authService.getUserId() ?? '1'
-
+searchInput!:string;
   //****************************FUNCTIONS************************************** */  
+  getChats(){
+ this.chatService.getChats(this.currentUserId).subscribe((res) => {
+      this.chats = res;
+      const chatId=this.route.snapshot.paramMap.get('chatId')
+      if(chatId){
+        const found=this.chats.find(c=>c.id==chatId);
+        if(found)this.selectChat(found)
+      }
+    })
+  }
+ 
+  searchChats(){
+  const chatName = this.searchInput ?? '';
+   if (!chatName.trim()) {
+    this.getChats();
+    return;
+  }
+  this.chatService.searchChats(chatName, this.currentUserId).subscribe((res) => {
+    this.chats = res;  // update the list
+  });
+}
   selectChat(chat: ChatResponse) {
     // debugger
     this.selectedChat = chat;
