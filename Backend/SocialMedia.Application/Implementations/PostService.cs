@@ -118,16 +118,18 @@ public class PostService(AppdbContext _context, IMapper _mapper,INotificationsSe
         var result = _mapper.Map<List<PostResponse>>(finalPosts);
         return result;
     }
-    public async ValueTask<PostResponse>GetPost(Guid postId)
+    public async ValueTask<PostResponse>GetPost(Guid postId,Guid ProfileId)
     {
         var post=await _context.Posts.FirstOrDefaultAsync(x => x.Id == postId);
-        return _mapper.Map<PostResponse>(post);
+        var result = _mapper.Map<PostResponse>(post);
+        var postLike = await _context.PostLike.FirstOrDefaultAsync(c => c.ProfileId == ProfileId && c.PostId == postId);
+        if(postLike !=null)result.IsLiked = true;
+        return result;
     }
-    public async ValueTask<IEnumerable<PostResponseWithComments>> GetAllPosts(Guid userId)
+    public async ValueTask<IEnumerable<PostResponseWithComments>> GetAllPosts(Guid profileId)
     {
-        var profileId=await _context.Users.Where(c => c.Id == userId).Select(c=>c.ProfileId).FirstOrDefaultAsync();
         var posts = await _context.Follows
-        .Where(f => f.FollowerId == userId)
+        .Where(f => f.FollowerId == profileId)
         .SelectMany(f => f.Following.Posts).Include(c=>c.Comments)
         .ToListAsync();
        

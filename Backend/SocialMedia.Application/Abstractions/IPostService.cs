@@ -6,8 +6,8 @@ public interface IPostService
     ValueTask DeletePost(Guid id);
     ValueTask<IEnumerable<PostResponse>> GetUserPostsAsync(Guid id);
     ValueTask<List<PostResponse>?> SearchForPost(string keyword);
-    ValueTask<IEnumerable<PostResponseWithComments>> GetAllPosts(Guid userId);
-    ValueTask<PostResponse> GetPost(Guid postId);
+    ValueTask<IEnumerable<PostResponseWithComments>> GetAllPosts(Guid profileId);
+    ValueTask<PostResponse> GetPost(Guid postId,Guid ProfileId);
     ValueTask<IEnumerable<PostResponse>> GetTrendingPosts();
     ValueTask<long> GetSharesCount(Guid postId);
     ValueTask<long> GetLikesCount(Guid postId);

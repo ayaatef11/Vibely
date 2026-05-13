@@ -26,10 +26,10 @@ public partial class PostController(IPostService _PostService) : ControllerBase
 
         return result != null ? Ok(result) :NotFound(new Result{Message = "No Posts Found for this User"});
     }
-    [HttpGet("{postId}")]
-    public async Task<IActionResult> GetPost(Guid postId)
+    [HttpGet("{postId}/{profileId}")]
+    public async Task<IActionResult> GetPost(Guid postId,Guid profileId)
     {
-        var result = await _PostService.GetPost(postId);
+        var result = await _PostService.GetPost(postId,profileId);
 
         return result != null ? Ok(result) : NotFound(new Result { Message = "No Posts Found for this User" });
     }
@@ -41,9 +41,9 @@ public partial class PostController(IPostService _PostService) : ControllerBase
        return  Ok(new Result { Message = "Post Deleted Suceessfully"}) ;
     }
     [HttpGet("get-all")]
-    public async Task<IActionResult> GetAllPosts(Guid userId)
+    public async Task<IActionResult> GetAllPosts(Guid profileId)
     {
-        var posts =await _PostService.GetAllPosts(userId);
+        var posts =await _PostService.GetAllPosts(profileId);
         return Ok(posts) ;
     }
 

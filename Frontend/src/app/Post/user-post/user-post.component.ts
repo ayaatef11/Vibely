@@ -52,7 +52,7 @@ export class UserPostComponent {
   //************************FUNCTIONS********************************************** */
 
   loadPost(postId: string) {
-    this.postService.getPost(postId).subscribe(res => {
+    this.postService.getPost(postId,this.profileId).subscribe(res => {
       this.post = res;
     });
   }

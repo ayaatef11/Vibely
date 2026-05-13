@@ -39,16 +39,16 @@ export class PostServiceService {
     return this.http.get<PostResponse[]>(`${this.Url}/user`, { params });
   }
 
-  getPost(postId: string): Observable<PostResponse> {
-    return this.http.get<PostResponse>(`${this.Url}/${postId}`)
+  getPost(postId: string,profileId:string): Observable<PostResponse> {
+    return this.http.get<PostResponse>(`${this.Url}/${postId}/${profileId}`)
   }
 
   deletePost(id: string) {
     return this.http.delete(`${this.Url}/${id}`);
   }
 
-  getAllPosts(userId: string): Observable<PostResponse[]> {
-    let params = new HttpParams().set('userId', userId)
+  getAllPosts(profileId: string): Observable<PostResponse[]> {
+    let params = new HttpParams().set('profileId', profileId)
     return this.http.get<PostResponse[]>(`${this.Url}/get-all`, { params });
   }
 

@@ -386,7 +386,7 @@ export class DashboardComponent {
     // debugger
     this.userId = this.authService.getUserId() ?? '1'
     this.profileId = this.authService.getProfileId() ?? '1'
-    this.postService.getAllPosts(this.userId).subscribe({
+    this.postService.getAllPosts(this.profileId).subscribe({
       next: (res: PostResponse[]) => {
         console.log(res)
         this.posts = res.map((post: any) => {
