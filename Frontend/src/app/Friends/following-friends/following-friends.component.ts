@@ -28,6 +28,7 @@ export class FollowingFriendsComponent {
 //*************************VARIABLES************************************** */
 FollowersUsers!:UserResponse[]
 currentUserId=this.authService.getUserId()??'1';
+currentProfileId=this.authService.getProfileId()??'1';
 //*****************************FUNCTIONS****************************************** */
 viewProfile(profileId: string) {
   this.router.navigate(['/home/profile', profileId]);
@@ -51,9 +52,7 @@ this.followService.unfollow(req).subscribe();
 
 viewFollowing(){
   // debugger
-  const userId =this.authService.getUserId()??'1'
-
-this.profileService.getFollowing(userId).subscribe({
+this.profileService.getFollowing(this.currentProfileId).subscribe({
   next:(res:UserResponse[])=>this.FollowersUsers=res,
   error:(err)=>this.toastService.error(err)
 })

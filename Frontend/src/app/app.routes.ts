@@ -43,6 +43,8 @@ export const routes: Routes = [
       { path: 'user/post/:id', title: 'Post', component: UserPostComponent },
       { path: 'chat/friend', component: FriendChatComponent },
       { path: 'chat/friend/:chatId', component: FriendChatComponent },
+      { path: 'friends/followers', title: 'Followers', component: FollowedFriendsComponent },
+      { path: 'friends/following', title: 'Following', component: FollowingFriendsComponent },
 
       {
         path: 'notifications', title: 'Notifications', component: NotificationsHeaderComponent,
@@ -60,8 +62,6 @@ export const routes: Routes = [
 
     ]
   },
-  { path: 'friends/followers', title: 'Followers', component: FollowedFriendsComponent },
-  { path: 'friends/following', title: 'Following', component: FollowingFriendsComponent },
 
 
   {

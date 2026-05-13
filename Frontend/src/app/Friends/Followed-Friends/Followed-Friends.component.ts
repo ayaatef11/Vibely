@@ -23,16 +23,15 @@ ngOnInit(){
 }
 //*******************************VARIABLES********************************************************* */
 followedUsers!:UserResponse[]
-
+currentProfileId=this.authService.getProfileId()??'1';
 //*******************************FUNCTIONS********************************************** */
 viewProfile(profileId: string) {
   this.router.navigate(['/home/profile', profileId]);
 }
 viewFollowed(){
   // debugger
-  const userId =this.authService.getUserId()??'1'
 
-this.profileService.getFollowers(userId).subscribe({
+this.profileService.getFollowers(this.currentProfileId).subscribe({
   next:(res:UserResponse[])=>this.followedUsers=res,
   error:(err)=>this.toastService.error(err)
 })

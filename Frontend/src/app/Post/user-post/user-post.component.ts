@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DislikeRequest } from '../../../Models/Reacts/Requests/DislikeRequest';
@@ -22,7 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-post',
   standalone: true,
-  imports: [RouterModule, FormsModule, SidebarComponent, NgFor, NgIf],
+  imports: [RouterModule, FormsModule, SidebarComponent, NgFor, NgIf,CommonModule],
   templateUrl: './user-post.component.html',
   styleUrl: './user-post.component.css'
 })

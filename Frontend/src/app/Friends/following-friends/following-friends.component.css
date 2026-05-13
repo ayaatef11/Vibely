@@ -1,7 +1,7 @@
 .container-custom {
   max-width: 600px;
   margin: 0 auto;
-  background: white;
+  background: var(--bg-color);        /* was: white ❌ */
   min-height: 100vh;
 }
 
@@ -14,7 +14,7 @@
 
 .user-item {
   padding: 16px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-color);  /* was: #f0f0f0 ❌ */
 }
 
 .user-item:last-child {
@@ -23,17 +23,19 @@
 
 .username {
   font-weight: 600;
-  color: #333;
+  color: var(--text-color);           /* was: #333 ❌ */
   margin-bottom: 2px;
 }
 
 .handle {
-  color: #666;
+  color: var(--text-color);           /* was: #666 ❌ */
   font-size: 0.9rem;
+  opacity: 0.6;
 }
 
 .btn-follow {
-  background-color: #4285f4;
+  background-color: var(--button-bg); /* was: #4285f4 ❌ */
+  color: white;
   border: none;
   border-radius: 20px;
   padding: 8px 20px;
@@ -41,9 +43,13 @@
   font-weight: 500;
 }
 
+.btn-follow:hover {
+  background-color: var(--button-hover);
+}
+
 .btn-following {
-  background-color: #f1f3f4;
-  color: #5f6368;
+  background-color: var(--card-border);  /* was: #f1f3f4 ❌ */
+  color: var(--text-color);              /* was: #5f6368 ❌ */
   border: none;
   border-radius: 20px;
   padding: 8px 16px;
@@ -52,7 +58,7 @@
 }
 
 .btn-follower {
-  background-color: #4285f4;
+  background-color: var(--button-bg);   /* was: #4285f4 ❌ */
   color: white;
   border: none;
   border-radius: 20px;
@@ -62,8 +68,8 @@
 }
 
 .follows-you {
-  color: #666;
+  color: var(--text-color);             /* was: #666 ❌ */
   font-size: 0.8rem;
   margin-top: 2px;
+  opacity: 0.6;
 }
-

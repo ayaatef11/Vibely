@@ -13,15 +13,15 @@ public class ProfileController(IProfileService _ProfileService) : ControllerBase
         return Ok(result);
     }
     [HttpGet("followers")]
-    public async Task<IActionResult>GetFollowers(Guid userId)
+    public async Task<IActionResult>GetFollowers(Guid profileId)
     {
-        var result =await _ProfileService.GetFollowers(userId);
+        var result =await _ProfileService.GetFollowers(profileId);
         return Ok(result);
     }
     [HttpGet("following")]
-    public async Task<IActionResult>GetFollowing(Guid userId)
+    public async Task<IActionResult>GetFollowing(Guid profileId)
     {
-        var result= await _ProfileService.GetFollowing(userId);
+        var result= await _ProfileService.GetFollowing(profileId);
         return Ok(result);
     }
     [HttpGet("view")]

@@ -1,10 +1,10 @@
 ﻿namespace SocialMedia.Application.Abstractions;
 public interface IProfileService 
 {
-    Task<IEnumerable<UserResponse>> GetFollowers(Guid userId);
-    Task<IEnumerable<UserResponse>> GetFollowing(Guid userId);
-    Task<ProfileResponse> ViewProfile(Guid userId);
+    Task<IEnumerable<ProfileResponse>> GetFollowers(Guid profileId);
+    Task<IEnumerable<ProfileResponse>> GetFollowing(Guid profileId);
+    Task<ProfileResponse> ViewProfile(Guid profileId);
     ValueTask<ProfileResponse?> EditAsync(EditProfileRequest profile);
-    public Task updatePostsCount(Guid userId, bool blus);
+    public Task updatePostsCount(Guid profileId, bool blus);
 
 }

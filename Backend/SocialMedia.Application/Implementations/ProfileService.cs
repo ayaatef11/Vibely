@@ -4,22 +4,20 @@ using Microsoft.EntityFrameworkCore;
 namespace SocialMedia.Application.Implementations;
 public class ProfileService(AppdbContext _context,IMapper _mapper) :  IProfileService
 {
-   public async Task<IEnumerable<UserResponse>>? GetFollowers(Guid userId)
+   public async Task<IEnumerable<ProfileResponse>> GetFollowers(Guid profileId)
     {
-        var users=await _context.Follows.Include(u=>u.Follower).Where(u=>u.FollowingId==userId)
+        var users=await _context.Follows.Include(u=>u.Follower).Where(u=>u.FollowingId== profileId)
             .Select(u => u.Follower).ToListAsync();
-        if (users == null) return null;
 
-        var result = _mapper.Map<List<UserResponse>>(users);
+        var result = _mapper.Map<List<ProfileResponse>>(users);
         return result;
     }
-    public async Task<IEnumerable<UserResponse>> GetFollowing(Guid userId)
+    public async Task<IEnumerable<ProfileResponse>> GetFollowing(Guid profileId)
     {
-        var users = await _context.Follows.Include(u => u.Following).Where(u => u.FollowerId == userId)
+        var users = await _context.Follows.Include(u => u.Following).Where(u => u.FollowerId == profileId)
             .Select(u => u.Following).ToListAsync();
-        if (users == null ||users.Count()==0) return null;
 
-        var result = _mapper.Map<List<UserResponse>>(users);
+        var result = _mapper.Map<List<ProfileResponse>>(users);
         return result;
     }
     public async Task<ProfileResponse> ViewProfile(Guid profileId)

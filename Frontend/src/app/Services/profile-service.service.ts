@@ -33,13 +33,13 @@ if (!data.backgroundImage || data.backgroundImage.length === 0) {
   return this.http.put<ProfileResponse>(`${this.Url}/edit`, formData);
   }
 
-  getFollowers(userId: string) {
-    var params = new HttpParams().set('userId', userId);
+  getFollowers(profileId: string) {
+    var params = new HttpParams().set('profileId', profileId);
     return this.http.get<UserResponse[]>(`${this.Url}/followers`, { params })
   }
 
-  getFollowing(userId: string) {
-    var params = new HttpParams().set('userId', userId);
+  getFollowing(profileId: string) {
+    var params = new HttpParams().set('profileId', profileId);
     return this.http.get<UserResponse[]>(`${this.Url}/following`, { params })
   }
 
