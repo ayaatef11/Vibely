@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Application.Helpers;
 
 namespace SocialMedia.Application.Implementations;
 public class ProfileService(AppdbContext _context,IMapper _mapper) :  IProfileService
@@ -29,53 +30,38 @@ public class ProfileService(AppdbContext _context,IMapper _mapper) :  IProfileSe
     public async Task<ProfileResponse> ViewProfile(Guid profileId)
     {
         var profile=await _context.Profiles.Include(u=>u.Posts).FirstOrDefaultAsync(u=>u.Id==profileId);
-        if (profile == null) return null;
+        if (profile == null)
+            throw new NotFoundException("Profile is not found");
         var result =_mapper.Map<ProfileResponse>(profile); 
         return result;
     }
-    public async ValueTask<ProfileResponse?> EditAsync(EditProfileRequest request)
+    public async ValueTask<ProfileResponse> EditAsync(EditProfileRequest request)
     {
-        var profile = await _context.Profiles.
-            FirstOrDefaultAsync(x => x.UserId == request.UserId);
+        var profile = await _context.Profiles.FirstOrDefaultAsync(x => x.UserId == request.UserId);
 
         if (profile == null)
-            return null ;
+            throw new NotFoundException("Profile is not found");
 
         profile.Bio = request.Bio;
         profile.Website = request.Website;
         profile.Location = request.Location;
         profile.FullName = request.FullName;
-        profile.UserName = request.UserName;
+        profile.UserName = request.UserName; 
 
-        if (request.ProfileImage != null)
-        {
-            using var profileMemoryStream = new MemoryStream();
-            await request.ProfileImage.CopyToAsync(profileMemoryStream);
-            profile.ProfileImageContentType = request.ProfileImage.ContentType;
-            profile.ProfileImage = profileMemoryStream.ToArray().ToString();
-        }
-
-        if (request.BackgroundImage != null)
-        {
-            using var backgroundMemoryStream = new MemoryStream();
-            await request.BackgroundImage.CopyToAsync(backgroundMemoryStream);
-            profile.BackgroundImageContentType = request.BackgroundImage.ContentType;
-            profile.BackgroundImage = backgroundMemoryStream.ToArray().ToString();
-
-        }
-        var user = await _context.Users
-            .FirstOrDefaultAsync(x => x.Id == request.UserId);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.UserId);
+        if (user is null)
+            throw new NotFoundException("User is not found");
         user.Location = request.Location;
         user.FullName = request.FullName;
         user.UserName = request.UserName;
 
-        var editOperation = await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         return _mapper.Map<ProfileResponse>(profile);
     }
     public async Task updatePostsCount(Guid profileId,bool blus)
     {
         var profile = await _context.Profiles.FirstAsync(u => u.Id == profileId);
-        if (profile == null) throw new Exception("user is not found");
+        if (profile == null) throw new NotFoundException("user is not found");
         if(blus)profile.PostCount++;
         else profile.PostCount--;
         await _context.SaveChangesAsync();

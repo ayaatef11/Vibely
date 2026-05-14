@@ -24,7 +24,6 @@ public class CommentService(AppdbContext _context,IMapper _mapper,INotifications
         var profile=await _context.Profiles.Where(c=>c.Id== commentRequest.ProfileId).FirstAsync();
         var result = _mapper.Map<CommentResponse>(comment);
         result.UserName=profile.UserName;
-        result.ProfileImage=profile.ProfileImage;
         var notificationRequest = new NotificationRequest()
         {
             RecipientId = post.Id,

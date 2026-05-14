@@ -11,12 +11,6 @@ public class UserProfile : BaseEntity<Guid>
     public string UserName { set; get; } = string.Empty;
     public string? Website { set; get; } = string.Empty;
     public string? Location { set; get; } = string.Empty;
-
-    // images
-    public string? ProfileImage { get; set; }
-    public string? BackgroundImage { get; set; }
-    public string? ProfileImageContentType { get; set; }
-    public string? BackgroundImageContentType { get; set; }
     public Guid UserId { set; get; }
     public User User { set; get; }
     public ICollection<Notification> Senders { set; get; } = new List<Notification>();

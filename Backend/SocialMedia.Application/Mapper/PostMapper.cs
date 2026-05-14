@@ -1,16 +1,5 @@
 ﻿using AutoMapper;
-using SocialMedia.Core.Domain.Entities.Business.Profiles;
-using SocialMedia.Application.DTOs.Responses.Posts;
-using SocialMedia.Application.DTOs.Responses;
-using SocialMedia.Application.DTOs.Responses.Users;
-using SocialMedia.Core.Domain.Entities.Business.Chats;
-using SocialMedia.Application.DTOs.Responses.Chats;
-using SocialMedia.Application.DTOs.Requests.Chats;
-using SocialMedia.Infrastructure.Domain.Entities.Business.Stories;
-using SocialMedia.Application.DTOs.Responses.Stories;
-using SocialMedia.Application.DTOs.Requests.Stories;
-using SocialMedia.Core.Domain.Entities.Business.Stories;
-using SocialMedia.Application.DTOs.Responses.Notifications;
+
 namespace SocialMedia.API.Mapper;
 public class PostMapper : Profile
 {
@@ -19,15 +8,13 @@ public class PostMapper : Profile
         CreateMap<Post, PostResponse>();
         CreateMap<Post, PostResponseWithComments>();
         CreateMap<Comment, CommentResponse>()
-            .ForMember(dest=>dest.ProfileImage,opt=>opt.MapFrom(src=>src.Profile.ProfileImage))
             .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Profile.UserName));
         ;
         CreateMap<Follow, FollowResponse>();
         CreateMap<User, UserResponse>();
         CreateMap<UserProfile, ProfileResponse>();
         CreateMap<User, UserResponseWithStories>()
-            .ForMember(dest => dest.Stories, opt => opt.MapFrom(src => src.Profile.Stories))
-            .ForMember(dest=>dest.ProfileImage,opt=>opt.MapFrom(src=>src.Profile.ProfileImage));
+            .ForMember(dest => dest.Stories, opt => opt.MapFrom(src => src.Profile.Stories));
         CreateMap<AddMessageRequest, Message>();
         CreateMap<Message, MessageResponse>();
         CreateMap<Chat, ChatResponse>();

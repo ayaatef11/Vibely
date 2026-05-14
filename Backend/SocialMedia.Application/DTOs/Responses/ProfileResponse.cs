@@ -11,11 +11,6 @@ public class ProfileResponse
     public string? Website { set; get; } = string.Empty;
     public string? Location { set; get; } = string.Empty;
     public Guid UserId { set; get; }
-
-    public byte[]? ProfileImage { get; set; }
-    public byte[]? BackgroundImage { get; set; }
-    public string? ProfileImageContentType { get; set; }
-    public string? BackgroundImageContentType { get; set; }
     public bool IsFollowed {  set; get; }=false;
     public bool IsRequested { set; get; } = false;
     public List<PostResponse> Posts { get; set; }

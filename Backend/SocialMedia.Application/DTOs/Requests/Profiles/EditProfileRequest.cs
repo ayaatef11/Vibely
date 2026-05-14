@@ -8,7 +8,5 @@ public class EditProfileRequest
     public string? Website { set; get; } = string.Empty;
     public string FullName { set; get; } = string.Empty;
     public string UserName { set; get; } = string.Empty;
-    public string? Location { set; get; } = string.Empty;
-    public IFormFile? ProfileImage { set; get; }
-    public IFormFile? BackgroundImage { set; get; }
+    public string? Location { set; get; } = string.Empty; 
 }
