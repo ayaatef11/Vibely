@@ -16,29 +16,34 @@ public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsSer
         {
             return _mapper.Map<ChatResponse>(existingChat);
         }
-        var currentUser =await  _context.Users.FirstAsync(u=>u.Id== currentUserId);
-        var otherUser = await _context.Users.FirstAsync(u => u.Id == otherUserId);
+        var currentUser =await  _context.Users.FirstOrDefaultAsync(u=>u.Id== currentUserId);
+        if (currentUser == null)
+            throw new NotFoundException("Current user is not found");
+        var otherUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == otherUserId);
+        if (otherUser == null)
+            throw new NotFoundException("Other user is not found");
+
         var chat = new Chat
         {
             Id = Guid.NewGuid(),
             CreatedAt = DateTime.UtcNow,
             IsGroup = false,
+            AdminName=currentUser.FullName,
             Name=otherUser.FullName
         };
 
         chat.Participants.Add(new ChatParticipant{UserId = currentUserId,Name=currentUser.FullName});
-
         chat.Participants.Add(new ChatParticipant{UserId = otherUserId,Name=otherUser.FullName});
-
         _context.Chats.Add(chat);
 
         await _context.SaveChangesAsync();
-
-        return _mapper.Map<ChatResponse>(chat);
+        var result = _mapper.Map<ChatResponse>(chat);
+        return result;
     }
 
     public async Task<List<ChatResponse>> GetChatsAsync(Guid currentUserId)
     {
+        var user=await _context.Users.FirstOrDefaultAsync(u=>u.Id==currentUserId);
         var chats = await _context.Chats
             .Include(x => x.Messages)
             .Include(x => x.Participants)
@@ -52,7 +57,7 @@ public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsSer
             {
                 Id = chat.Id,
                 LastMessage = LastMessage?.Content,
-                Name = chat.Name,
+                Name = (user.FullName!=chat.AdminName) ?chat.AdminName : chat.Name,
                 LastMessageDate = LastMessage?.SentAt,
                 Participants=_mapper.Map<List<ChatParticipantResponse>>( chat.Participants),
                 ParticipantId=chat.Participants.FirstOrDefault(u=>u.UserId !=currentUserId)?.UserId ?? currentUserId,

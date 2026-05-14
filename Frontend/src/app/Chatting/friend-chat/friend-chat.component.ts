@@ -18,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './friend-chat.component.html',
   styleUrl: './friend-chat.component.css'
 })
-export class FriendChatComponent {
+export class FriendChatComponent implements OnInit{
   constructor(private chatService: ChatServiceService, private toastService:ToastrService,private route:ActivatedRoute,private authService: AuthenticationService) { }
 
   async ngOnInit(): Promise<void> {
@@ -29,8 +29,9 @@ export class FriendChatComponent {
 
      this.chatService.messages$.subscribe(message => {
       this.messages.push(message);
-      this.selectedChat.lastMessage = message.content
-
+  if (this.selectedChat) {
+    this.selectedChat.lastMessage = message.content;
+  }
     });
   }
   //**************************VARIABLES******************************** */
@@ -71,7 +72,7 @@ searchInput!:string;
   }
 
   sendMessage() {
-    // debugger
+    debugger
     if (!this.newMessage.trim()) return;
     const req: AddMessageRequest = {
       chatId: this.selectedChat.id,

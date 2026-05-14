@@ -3,6 +3,7 @@ public class Chat:BaseEntity<Guid>
 {
     public bool IsGroup { get; set; }
     public string Name { get; set; }
+    public string AdminName {  get; set; }
     public DateTime CreatedAt { get; set; }
 
     public ICollection<ChatParticipant> Participants { get; set; } = new List<ChatParticipant>();
