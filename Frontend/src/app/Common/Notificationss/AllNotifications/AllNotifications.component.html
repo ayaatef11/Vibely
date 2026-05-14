@@ -4,26 +4,18 @@
     No notifications yet.
   </p>
 
-  <div
-    *ngFor="let n of notifications"
-    class="notification-item d-flex align-items-center p-3 border-bottom"
-    [class.bg-unread]="!n.isRead" (click)="markAsRead(n)" style="cursor: pointer" >
-    <!-- Sender avatar -->
-    <img
-      [src]="n.senderProfilePicture || 'assets/default-avatar.png'"
-      [alt]="n.senderName" class="profile-pic me-3"  />
-
+  <div *ngFor="let notification of notifications" class="notification-item d-flex align-items-center p-3 border-bottom"
+    [class.bg-unread]="!notification.isRead" (click)="markAsRead(notification)" style="cursor: pointer">
+ 
     <div class="flex-grow-1">
       <div class="notification-text">
-        <strong>{{ n.senderName }}</strong> {{ n.message }}
+        <strong>{{ notification.senderName }}</strong> {{ notification.message }}
       </div>
-      <small class="text-muted">{{ n.createdAt | date: 'short' }}</small>
+      <small class="text-muted">{{ notification.createdAt | date: 'short' }}</small>
     </div>
 
     <!-- Unread dot -->
-    <span
-      *ngIf="!n.isRead"  class="unread-dot ms-2"
-      style="width: 10px; height: 10px; padding: 0" ></span>
+    <span *ngIf="!notification.isRead" class="unread-dot ms-2" style="width: 10px; height: 10px; padding: 0"></span>
   </div>
 
 </div>

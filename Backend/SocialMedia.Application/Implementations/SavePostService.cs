@@ -7,7 +7,7 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
     public async ValueTask<IEnumerable<PostResponse>> GetPosts(Guid userId)
     {
         var posts = await _context.Posts
-          .Where(x => x.IsSaved == true && x.SaverIds != null)
+          .Where(x => x.SaverIds != null)
           .ToListAsync();
 
         var postFiltered=posts.Where(x =>
@@ -34,9 +34,7 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
         if (!saverIds.Contains(savePost.UserId))
             saverIds.Add(savePost.UserId);
 
-        post.SaverIds = JsonHelper.ConvertToString(saverIds);
-        post.IsSaved = true;
-       
+        post.SaverIds = JsonHelper.ConvertToString(saverIds);       
 
          _context.Posts.Update(post);
         var saveOperation = await _context.SaveChangesAsync();
@@ -58,9 +56,6 @@ public class SavePostService (AppdbContext _context,IMapper _mapper) :ISavePostS
         saverIds.Remove(savePost.UserId);
 
         post.SaverIds = JsonHelper.ConvertToString(saverIds);
-
-        if (saverIds.Count == 0)
-            post.IsSaved = false;
 
         _context.Posts.Update(post);
         var deleteOperation = await _context.SaveChangesAsync();

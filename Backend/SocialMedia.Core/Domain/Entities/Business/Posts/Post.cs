@@ -14,7 +14,6 @@ public sealed class Post : BaseEntity<Guid>
     public string? MediaUrls {  set; get; }
     public bool IsHidden {  set; get; } = false;
     public string? SaverIds {  set; get; }
-    public bool IsSaved { set; get; } = false;
     public bool IsReel { set; get; } = false;
     public Guid ProfileId { set; get; }
     public UserProfile Profile { set; get; }

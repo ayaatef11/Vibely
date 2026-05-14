@@ -7,7 +7,9 @@
 
     <div class="post-card" *ngFor="let post of savedPosts">
       <div class="post-header" (click)="goToPost(post.id)">
-        <div class="avatar"></div>
+<div class="letter-avatar me-2">
+        {{ post.userName?.charAt(0)?.toUpperCase() }}
+      </div>
         <div>
           <h6 class="mb-0">{{ post.userName }}</h6>
           <small class="text-muted">Saved post</small>

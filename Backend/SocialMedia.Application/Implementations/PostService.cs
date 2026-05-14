@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SocialMedia.Application.Helpers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SocialMedia.Application.Implementations;
 public class PostService(AppdbContext _context, IMapper _mapper,INotificationsService _notificationService,
@@ -74,7 +75,7 @@ public class PostService(AppdbContext _context, IMapper _mapper,INotificationsSe
     public async ValueTask<List<PostResponse>?>SearchForPost(string keyword)
     {
         var posts=await _context.Posts.Where(x => x.Title.Contains( keyword) ||(x.Text!=null && x.Text.Contains(keyword))).ToListAsync();
-        var result = _mapper.Map<List<PostResponse>?>(posts) ;
+        var result = _mapper.Map<List<PostResponse>?>(posts);
         return result;
     }
 
@@ -119,14 +120,24 @@ public class PostService(AppdbContext _context, IMapper _mapper,INotificationsSe
     }
     public async ValueTask<PostResponse>GetPost(Guid postId,Guid ProfileId)
     {
+        var profile =await  _context.Profiles.FirstOrDefaultAsync(c => c.Id == ProfileId);
+        if (profile is null)
+            throw new NotFoundException("Profile is not found");
+
         var post=await _context.Posts.FirstOrDefaultAsync(x => x.Id == postId);
+        if (post is null)
+            throw new NotFoundException("Post is not found");
         var result = _mapper.Map<PostResponse>(post);
         var postLike = await _context.PostLike.FirstOrDefaultAsync(c => c.ProfileId == ProfileId && c.PostId == postId);
         if(postLike !=null)result.IsLiked = true;
+        if (post.SaverIds != null && post.SaverIds.Contains(profile.UserId.ToString())) result.IsSaved = true;
         return result;
     }
     public async ValueTask<IEnumerable<PostResponseWithComments>> GetAllPosts(Guid profileId)
     {
+        var profile =await _context.Profiles.FirstOrDefaultAsync(u => u.Id == profileId);
+        if (profile is null)
+            throw new NotFoundException("profile is not found");
         var posts = await _context.Follows
         .Where(f => f.FollowerId == profileId)
         .SelectMany(f => f.Following.Posts).Include(c=>c.Comments)
@@ -137,6 +148,8 @@ public class PostService(AppdbContext _context, IMapper _mapper,INotificationsSe
         {
             post.IsLiked = await _context.PostLike
                 .AnyAsync(l => l.PostId == post.Id && l.ProfileId == profileId);
+            if (post.SaverIds != null && post.SaverIds.Contains(profile.UserId.ToString())) post.IsSaved = true;
+
         }
 
         return result;

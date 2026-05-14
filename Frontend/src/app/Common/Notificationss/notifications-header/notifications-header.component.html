@@ -6,10 +6,7 @@
       {{ 'NOTIFICATIONS.TITLE' | translate }}
     </h4>
 
-    <button
-      class="mark-read-btn"
-      (click)="markAllAsRead()"
-    >
+    <button class="mark-read-btn" (click)="markAllAsRead()" >
       {{ 'NOTIFICATIONS.MARK_ALL_READ' | translate }}
     </button>
 
@@ -18,42 +15,25 @@
   <ul class="nav nav-tabs notifications-tabs px-3 pt-3">
 
     <li class="nav-item">
-      <a
-        class="nav-link"
-        routerLink="all"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact:true}"
-      >
+      <a class="nav-link" routerLink="all" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
         {{ 'NOTIFICATIONS.ALL' | translate }}
       </a>
     </li>
 
     <li class="nav-item">
-      <a
-        class="nav-link"
-        routerLink="unread"
-        routerLinkActive="active"
-      >
+      <a class="nav-link" routerLink="unread" routerLinkActive="active">
         {{ 'NOTIFICATIONS.UNREAD' | translate }}
       </a>
     </li>
 
     <li class="nav-item">
-      <a
-        class="nav-link"
-        routerLink="comments"
-        routerLinkActive="active"
-      >
+      <a class="nav-link" routerLink="comments" routerLinkActive="active">
         {{ 'NOTIFICATIONS.COMMENTS' | translate }}
       </a>
     </li>
 
     <li class="nav-item">
-      <a
-        class="nav-link"
-        routerLink="likes"
-        routerLinkActive="active"
-      >
+      <a class="nav-link" routerLink="likes" routerLinkActive="active">
         {{ 'NOTIFICATIONS.LIKES' | translate }}
       </a>
     </li>

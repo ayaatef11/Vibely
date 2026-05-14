@@ -48,3 +48,26 @@
 .bg-unread {
   background-color: rgba(130, 110, 231, 0.12);
 }
+/* ── Base letter avatar ──────────────────────── */
+.letter-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--logo-bubble-gradient);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+/* ── Small variant for comments ─────────────── */
+.letter-avatar-sm {
+  width: 32px;
+  height: 32px;
+  font-size: 0.8rem;
+}
