@@ -12,9 +12,9 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
         return Ok(result);
     }
     [HttpPost("add")]
-    public async Task<IActionResult> Add(UploadStoryRequest story)//add signalr
+    public async Task<IActionResult> Add(UploadStoryRequest request)
     {       
-        var result = await _StoryService.UploadAsync(story);
+        var result = await _StoryService.UploadAsync(request);
         return Ok(result);
     }
 
@@ -40,9 +40,9 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
     }
 
     [HttpPost("add-comment")]
-    public async Task<IActionResult> CommentToStory(AddStoryCommentRequest comment)
+    public async Task<IActionResult> CommentToStory(AddStoryCommentRequest request)
     {
-        var result= await _StoryService.CommentToStory(comment);
+        var result= await _StoryService.CommentToStory(request);
         return Ok(result);
     }
 
@@ -54,9 +54,9 @@ public class StoryController(IStoryService _StoryService) : ControllerBase
     }
 
     [HttpDelete("delete")]
-    public async Task<IActionResult> Delete(DeleteStoryRequest story)
+    public async Task<IActionResult> Delete(DeleteStoryRequest request)
     { 
-       await _StoryService.DeleteAsync(story);
+       await _StoryService.DeleteAsync(request);
         return Ok();
     }
 

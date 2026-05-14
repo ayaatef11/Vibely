@@ -33,10 +33,9 @@ export class StoryServiceService {
     return this.http.post<StoryCommentResponse>(`${this.Url}/add-comment`, data)
   }
 
-  addStory(text: string, userId: string) :Observable<StoryResponse>{
-    return this.http.post<StoryResponse>(`${this.Url}/add?Text=${text}&ProfileId=${userId}`,{})
-  }
-
+  addStory(formData: FormData): Observable<StoryResponse> {
+  return this.http.post<StoryResponse>(`${this.Url}/add`, formData);
+}
   getUserStories(profileId: string) {
     return this.http.get(`${this.Url}/user/${profileId}`)
   }

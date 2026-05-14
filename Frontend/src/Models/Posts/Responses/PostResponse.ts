@@ -18,7 +18,7 @@ export interface PostResponse{
     profileId:string
     comments:CommentResponse[] 
     showComments:boolean
-    userName:string
+    userName?:string
     showCommentBox:boolean
     newCommentText:string
     showShareBox:boolean

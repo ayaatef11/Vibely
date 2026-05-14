@@ -26,8 +26,8 @@ public class CommentService(AppdbContext _context,IMapper _mapper,INotifications
         result.UserName=profile.UserName;
         var notificationRequest = new NotificationRequest()
         {
-            RecipientId = post.Id,
-            SenderId = profile.UserId,
+            RecipientId = post.ProfileId,
+            SenderId = profile.Id,
             Type = NotificationType.Comment,
             Message = $"{profile.FullName} commented on your post",
             ReferenceId = post.Id

@@ -4,6 +4,8 @@ export interface StoryResponse {
     image?: File[]
     video?: File[]
     imageContentType?: string
+    userName:string
+    isSeen:boolean
     videoContentType?: string
     profileId: string
     createdAt: Date

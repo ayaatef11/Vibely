@@ -33,15 +33,15 @@ public class CommentLikeService(AppdbContext _context,IMapper _mapper,INotificat
     {
         var post = await _context.Posts.SingleOrDefaultAsync(x => x.Id == request.PostId);
         if (post == null)
-            throw new NotFoundException( "Post Not Found Or Invalid Post ID");
+            throw new NotFoundException("Post Not Found Or Invalid Post ID");
 
         var profile = await _context.Profiles.SingleOrDefaultAsync(x => x.Id == request.ProfileId);
         if (profile == null)
-            throw new NotFoundException( "User Not Found Or Invalid User ID");
+            throw new NotFoundException("Profile Not Found Or Invalid User ID");
 
         var comment = await _context.Comments.SingleOrDefaultAsync(x => x.Id == request.CommentId);
         if (comment == null)
-            throw new NotFoundException( "Comment Not Found Or Invalid Comment ID");
+            throw new NotFoundException("Comment Not Found Or Invalid Comment ID");
 
         var commentLike = new CommentLikes()
         {
@@ -56,10 +56,10 @@ public class CommentLikeService(AppdbContext _context,IMapper _mapper,INotificat
         var likeOperation = await _context.SaveChangesAsync();
         var notificationRequest = new NotificationRequest()
         {
-            RecipientId = profile.UserId,
-            SenderId = profile.Id,
+            RecipientId = comment.ProfileId,
+            SenderId = request.ProfileId,
             Type = NotificationType.Like,
-            Message = $"{profile.FullName} liked your post",
+            Message = $"{profile.FullName} liked your comment",
             ReferenceId = post.Id
         };
         await _notificationService.SendNotificationAsync(notificationRequest);

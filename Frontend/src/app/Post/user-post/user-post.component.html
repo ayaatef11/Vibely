@@ -91,16 +91,11 @@
             (click)="toggleSharePost(post)"></i>
         </div>
 
-        <i class="bi fs-5"
-          [class.bi-bookmark]="!post.isSaved"
-          [class.bi-bookmark-fill]="post.isSaved"
-          (click)="togglePost(post.id)"
-          style="color:var(--text-color)">
+        <i class="bi fs-5" [class.bi-bookmark]="!post.isSaved"
+          [class.bi-bookmark-fill]="post.isSaved" (click)="togglePost(post.id)" style="color:var(--text-color)">
         </i>
 
-        <div *ngIf="post.shareLinkLoading">
-          Generating link...
-        </div>
+        <div *ngIf="post.shareLinkLoading">Generating link... </div>
 
         <!-- SHARE MODAL -->
         <div class="share-overlay" *ngIf="post.showShareBox">
@@ -130,12 +125,9 @@
                 <span>Instagram</span>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
-
       <p class="mb-1 fw-semibold" style="color:var(--text-color)">{{ post.reactsCount }} likes</p>
 
       <p class="mb-1" style="color:var(--text-color)">

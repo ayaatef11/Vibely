@@ -1,4 +1,4 @@
-import { NgFor, NgIf, NgClass, SlicePipe } from '@angular/common';
+import { NgFor, NgIf, NgClass, SlicePipe, CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../Common/sidebar/sidebar.component';
@@ -35,7 +35,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [FormsModule, SidebarComponent, RouterModule, NgIf, NgFor, NgClass, SlicePipe,TranslateModule],
+  imports: [FormsModule, SidebarComponent, RouterModule, NgIf, NgFor, NgClass, SlicePipe,TranslateModule,CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -57,8 +57,7 @@ export class DashboardComponent {
   isOpen = false;
   users: any[] = [];
   newStatus = '';
-  selectedImage: File | null = null;
-  selectedImagePreview: string | null = null;
+  selectedImage: string | null = null;
   stories: StoryResponse[] = [];
   suggestedUsers: UserResponse[] = [];
   friendRequests: ProfileResponse[] = [];
@@ -97,6 +96,49 @@ export class DashboardComponent {
       }
     });
   }
+  // new story upload properties
+storyFile: File | null = null;
+storyPreviewUrl: string | null = null;
+storyFileType: 'image' | 'video' | null = null;
+storyEmojis = ['❤️', '😂', '😮', '😢', '🔥', '👏'];
+
+onStoryFileSelected(event: any) {
+  const file: File = event.target.files[0];
+  if (!file) return;
+  this.storyFile = file;
+  this.storyFileType = file.type.startsWith('video') ? 'video' : 'image';
+  const reader = new FileReader();
+  reader.onload = (e: any) => this.storyPreviewUrl = e.target.result;
+  reader.readAsDataURL(file);
+}
+
+// replace existing createStory() with:
+createStory() {
+  const formData = new FormData();
+  if (this.newStatus) formData.append('Text', this.newStatus);
+  if (this.storyFile) {
+    const key = this.storyFileType === 'video' ? 'Video' : 'Image';
+    formData.append(key, this.storyFile);
+  }
+  formData.append('ProfileId', this.profileId);
+
+  this.storyService.addStory(formData).subscribe({
+    next: () => {
+      this.loadStories();
+      this.newStatus = '';
+      this.storyFile = null;
+      this.storyPreviewUrl = null;
+      this.storyFileType = null;
+      this.showCreateStory = false;
+    }
+  });
+}
+
+// update reactToStory to accept emoji
+reactToStory(storyId: string, emoji: string = '❤️') {
+  this.storyService.addReact(this.userId, storyId).subscribe();
+  if (this.activeStoryUser) this.activeStoryUser.isLiked = true;
+}
   /////******************************friend requests **********************************/
   acceptRequest(id: string) {
 
@@ -123,7 +165,6 @@ export class DashboardComponent {
   }
 
   loadFriendRequests() {
-
     this.followService.viewRequests(this.profileId).subscribe({
       next: (res: ProfileResponse[]) => {
         this.friendRequests = res;
@@ -141,6 +182,7 @@ export class DashboardComponent {
       sender: myId,
       reciever: user.id
     };
+    
     if (!user.isRequested) {
       this.followService.requestFollow(data).subscribe({
         next: () => {
@@ -247,6 +289,7 @@ export class DashboardComponent {
   }
 
   likeComment(comment: CommentResponse, post: PostResponse) {
+    // debugger
     const req: LikeCommentRequest = {
       profileId: this.profileId,
       postId: post.id,
@@ -295,6 +338,25 @@ export class DashboardComponent {
     });
   }
   ///**************************************post **************** */
+
+// ── Add these methods ─────────────────────────
+getMediaUrls(mediaUrls: string | string[] | null | undefined): string[] {
+  if (!mediaUrls) return [];
+  if (Array.isArray(mediaUrls)) return mediaUrls;
+  try {
+    return JSON.parse(mediaUrls);
+  } catch {
+    return [];
+  }
+}
+
+openImage(url: string) {
+  this.selectedImage = url;
+}
+
+closeImage() {
+  this.selectedImage = null;
+}
   togglePostMenu(post: any) {
     this.posts.forEach((p: any) => {
       if (p.id !== post.id) p.showMenu = false;
@@ -371,27 +433,15 @@ export class DashboardComponent {
   }
 
   loadPosts() {
-    // debugger
+    debugger
     this.userId = this.authService.getUserId() ?? '1'
     this.profileId = this.authService.getProfileId() ?? '1'
     this.postService.getAllPosts(this.profileId).subscribe({
       next: (res: PostResponse[]) => {
-        console.log(res)
-        this.posts = res.map((post: any) => {
-          let images = [];
-          try {
-            images = JSON.parse(post.mediaUrls);
-          } catch {
-            images = [];
-          }
-
-          return {
-            ...post 
-          };
-        });
+        this.posts =res;
       },
       error: (err) => {}
-    })
+    });
   }
 
   onSearch() {
@@ -415,6 +465,9 @@ export class DashboardComponent {
     if (this.isOpen) {
       this.isOpen = false;
     }
+    if (this.selectedImage) {
+    this.selectedImage = null;
+  }
   }
   //***********************stories************************************** */
   loadStories() {
@@ -434,9 +487,7 @@ export class DashboardComponent {
     });
   }
 
-  reactToStory(storyId: string) {
-    this.storyService.addReact(this.userId, storyId).subscribe();
-  }
+  
 
   addStoryComment(storyId: string) {
 
@@ -450,16 +501,6 @@ export class DashboardComponent {
       next: () => {
         console.log('Comment added');
         this.storyComment = '';
-      }
-    });
-  }
-
-  createStory() {
-    this.storyService.addStory(this.newStatus, this.profileId).subscribe({
-      next: () => {
-        console.log('Story added');
-        this.loadStories();
-        this.newStatus = '';
       }
     });
   }

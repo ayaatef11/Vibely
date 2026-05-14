@@ -46,7 +46,9 @@
   flex-shrink: 0;
 }
 .bg-unread {
-  background-color: rgba(130, 110, 231, 0.12);
+  background-color: var(--card-border);
+  border-left: 4px solid #c10dfd;
+  transition: all 0.3s ease;
 }
 /* ── Base letter avatar ──────────────────────── */
 .letter-avatar {

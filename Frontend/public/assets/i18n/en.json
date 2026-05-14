@@ -5,10 +5,14 @@
     "VIEW_COMMENTS": "View all comments",
     "SHARE": "Share Post",
     "NO_TRENDING": "No trending posts",
-        "SEARCH": "Search",
+    "SEARCH": "Search",
+    "VIEW": "View ",
+    "UPLOAD_PHOTO_VIDEO": "upload a photo or video",
     "FRIEND_REQUESTS": "Friend requests",
     "NO_PENDING_REQUESTS": "No pending requests",
+    "CREATE_STORY": "upload story",
     "WANTS_TO_CONNECT": "Wants to connect",
+    "YOUR_STORY": "Your story",
     "ACCEPT": "Accept",
     "DECLINE": "Decline",
     "WRITE_STORY": "Write your story...",
@@ -33,9 +37,9 @@
     "TRENDING": "Trending",
     "NO_TRENDING_POSTS": "No trending posts",
     "LIKES": "likes",
-  "FOLLOWING":"Following",
-   "FOLLOWERS":"Followers",
-  "FOLLOWINGS":"Followings"
+    "FOLLOWING": "Following",
+    "FOLLOWERS": "Followers",
+    "FOLLOWINGS": "Followings"
   },
   "CREATE_POST": {
     "TITLE": "Create Post",
@@ -61,63 +65,45 @@
   },
   "SIGNUP": {
     "TITLE": "Sign Up",
-
     "NAME": "Name",
     "NAME_PLACEHOLDER": "Name",
-
     "EMAIL": "Email",
     "EMAIL_PLACEHOLDER": "Email",
-
     "USERNAME": "User Name",
     "USERNAME_PLACEHOLDER": "Username",
-
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Password",
-
     "CONFIRM_PASSWORD": "Confirm Password",
     "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
-
     "LOCATION": "Location",
     "LOCATION_PLACEHOLDER": "Location",
-
     "BUTTON": "Sign Up",
-
     "OR": "or",
-
     "GOOGLE": "Continue with Google",
-
     "HAVE_ACCOUNT": "Do you have an account?",
-
     "SIGNIN": "Sign In",
-
     "ERRORS": {
       "NAME_REQUIRED": "Name is required",
       "NAME_MIN": "Name must be at least 3 characters",
-
       "EMAIL_REQUIRED": "Email is required",
       "EMAIL_INVALID": "Please enter a valid email",
-
       "USERNAME_REQUIRED": "Username is required",
       "USERNAME_MIN": "Username must be at least 3 characters",
-
       "PASSWORD_REQUIRED": "Password is required",
       "PASSWORD_MIN": "Password must be at least 6 characters",
-
       "CONFIRM_REQUIRED": "Please confirm your password",
-
       "PASSWORD_NOT_MATCH": "Passwords do not match",
-
       "LOCATION_MIN": "Location must be at least 3 characters"
     }
   },
-  "LOGIN":{
-    "LOGIN":"Log In",
-    "USER_NAME":" User Name",
-"PASSWORD":"Password",
-"FORGETPASSWORD":"ForgetPassword",
-"TWO_FA_APP":"Two-Factor Authentication",
-"AUTH_APP_DIGITS":"Enter the 6-digit code from your authenticator app",
-"VERIFY":"Verify"
+  "LOGIN": {
+    "LOGIN": "Log In",
+    "USER_NAME": " User Name",
+    "PASSWORD": "Password",
+    "FORGETPASSWORD": "ForgetPassword",
+    "TWO_FA_APP": "Two-Factor Authentication",
+    "AUTH_APP_DIGITS": "Enter the 6-digit code from your authenticator app",
+    "VERIFY": "Verify"
   },
   "FORGOT_PASSWORD": {
     "TITLE": "Forgot Password",
@@ -131,10 +117,10 @@
     "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
     "BUTTON": "Reset Password"
   },
-   "NOT_FOUND": {
+  "NOT_FOUND": {
     "MESSAGE": "Oops! The page you're looking for doesn't exist.",
     "BACK_HOME": "Back to Home"
-  }, 
+  },
   "SEARCH": {
     "PLACEHOLDER": "Search",
     "CANCEL": "Cancel",
@@ -143,7 +129,6 @@
     "POSTS": "Posts",
     "TAGS": "Tags"
   },
-  
   "SIDEBAR": {
     "HOME": "Home",
     "SEARCH": "Search",
@@ -153,10 +138,10 @@
     "NOTIFICATIONS": "Notifications",
     "SETTINGS": "Settings",
     "NEW_POST": "New Post",
-    "SAVED_POSTS":"Saved Posts",
-    "SEARCH_PEOPLE":"Search for People",
-    "LOGOUT":"Logout"
-  }, 
+    "SAVED_POSTS": "Saved Posts",
+    "SEARCH_PEOPLE": "Search for People",
+    "LOGOUT": "Logout"
+  },
   "SETTINGS_NAV": {
     "PROFILE": "Profile",
     "ACCOUNT": "Account",
@@ -173,7 +158,6 @@
     "COUNTRY": "Country",
     "SELECT_COUNTRY": "Select Country",
     "SAVE": "Save",
-
     "COUNTRIES": {
       "USA": "United States",
       "CANADA": "Canada",
@@ -187,16 +171,12 @@
     "SETUP_2FA": "Setup Two-Factor Authentication",
     "SCAN_QR": "Scan QR code using Google Authenticator then enter the code below",
     "CODE_PLACEHOLDER": "Enter 6-digit code",
-
     "CANCEL": "Cancel",
     "VERIFY": "Verify",
-
     "LOGIN_NOTIFICATIONS": "Login Notifications",
     "LOGIN_NOTIFICATIONS_DESC": "Get notified when someone logs into your account",
-
     "SESSION_TIMEOUT": "Session Timeout",
     "SESSION_TIMEOUT_DESC": "Automatically log out after inactivity",
-
     "TIMEOUT_15": "15 minutes",
     "TIMEOUT_30": "30 minutes",
     "TIMEOUT_60": "1 hour",
@@ -231,15 +211,13 @@
     "COMMENTS": "Comments",
     "LIKES": "Likes"
   },
-
   "COMMON": {
     "CLOSE": "Close",
     "DOWNLOAD": "Download",
-        "SAVE": "Save",
-         "CANCEL": "Cancel",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
     "POST": "Post"
   },
-
   "PROFILE": {
     "EDIT_PROFILE": "Edit Profile",
     "POSTS": "Posts",
@@ -261,15 +239,4 @@
     "LOCATION": "Location",
     "WEBSITE": "Website"
   }
-
-
 }
-
-
-
-
-
-
-
-
-

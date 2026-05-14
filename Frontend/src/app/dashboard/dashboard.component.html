@@ -84,25 +84,131 @@
         </div>
       </div>
 
-      <!-- Stories -->
-      <div class="d-flex mb-4 overflow-auto">
+      <!-- Stories Row -->
+      <div class="stories-row d-flex mb-4">
 
-        <div class="text-center me-3" *ngFor="let story of stories" (click)="viewStory(story)">
-          <div class="story-circle">
-
+        <!-- Add / Your Story -->
+        <div class="story-item text-center me-3" (click)="showCreateStory = true">
+          <div class="story-ring add-btn">
+            <div class="story-inner">
+              <i class="fas fa-plus" style="color: var(--logo-dark-burbble); font-size:20px;"></i>
+            </div>
           </div>
-          <!-- <div class="story-username">{{ user.username }}</div> -->
+          <div class="story-label">{{ 'HOME.YOUR_STORY' | translate }}</div>
+        </div>
+
+        <!-- Friends' stories -->
+        <div class="story-item text-center me-3" *ngFor="let story of stories" (click)="viewStory(story)">
+          <div class="story-ring" [class.seen]="story.isSeen">
+            <div class="story-inner">{{ story.userName?.charAt(0)?.toUpperCase() }}</div>
+          </div>
+          <div class="story-label">{{ story.userName }}</div>
         </div>
 
       </div>
-      <!-- Add Story Button -->
-      <div class="text-center me-3" (click)="showCreateStory = !showCreateStory" style="color: var(--text-color);">
-        <div class="story-circle add-story" style="color: var(--text-color);">
-          <div class="story-placeholder">
-            <i class="fas fa-plus" style="color: var(--text-color);"></i>
+
+      <!-- ── Create Story Modal ── -->
+      <div class="story-modal-overlay" *ngIf="showCreateStory" (click)="showCreateStory = false">
+        <div class="story-modal-card" (click)="$event.stopPropagation()">
+
+          <div class="story-modal-header">
+            <h6 class="mb-0">{{ 'HOME.CREATE_STORY' | translate }}</h6>
+            <button class="btn-close-panel" (click)="showCreateStory = false"><i class="fas fa-times"></i></button>
           </div>
+
+          <!-- Upload zone -->
+          <div class="story-upload-zone" (click)="storyFileInput.click()">
+            <i class="fas fa-camera" style="font-size:28px; opacity:0.5;"></i>
+            <p class="mb-0 mt-2 small">{{ 'HOME.UPLOAD_PHOTO_VIDEO' | translate }}</p>
+            <input #storyFileInput type="file" accept="image/*,video/*" style="display:none"
+              (change)="onStoryFileSelected($event)">
+          </div>
+
+          <!-- Preview -->
+          <div *ngIf="storyPreviewUrl" class="story-preview-wrap mt-2">
+            <img *ngIf="storyFileType === 'image'" [src]="storyPreviewUrl" class="story-preview-img">
+            <video *ngIf="storyFileType === 'video'" [src]="storyPreviewUrl" class="story-preview-img" controls></video>
+          </div>
+
+          <input [(ngModel)]="newStatus" [placeholder]="'HOME.WRITE_STORY' | translate" class="form-control mb-3">
+
+          <button class="btn button-color w-100" (click)="createStory()">
+            {{ 'HOME.POST_STORY' | translate }}
+          </button>
+
         </div>
       </div>
+
+      <!-- ── Story Viewer Modal ── -->
+      <div class="story-viewer-overlay" *ngIf="activeStoryUser" (click)="activeStoryUser = null">
+        <div class="story-viewer-card" (click)="$event.stopPropagation()">
+
+          <!-- Progress bars -->
+          <div class="story-progress-row">
+            <div class="story-progress-seg" *ngFor="let s of stories">
+              <div class="story-progress-fill" [class.active]="s.id === activeStoryUser.id"></div>
+            </div>
+          </div>
+
+          <!-- Header -->
+          <div class="story-viewer-header">
+            <div class="letter-avatar letter-avatar-sm me-2">
+              {{ activeStoryUser.userName?.charAt(0)?.toUpperCase() }}
+            </div>
+            <div>
+              <strong class="story-viewer-name">{{ activeStoryUser.userName }}</strong>
+              <span class="story-viewer-time">{{ activeStoryUser.createdAt | date:'shortTime' }}</span>
+            </div>
+            <button class="btn btn-link ms-auto story-close-btn" (click)="activeStoryUser = null">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <!-- Media / Text content -->
+          <div class="story-content-area">
+            <img *ngIf="activeStoryUser.imageUrl" [src]="activeStoryUser.imageUrl" class="story-full-img">
+            <video *ngIf="activeStoryUser.videoUrl" [src]="activeStoryUser.videoUrl" class="story-full-img" autoplay
+              muted loop></video>
+            <p *ngIf="activeStoryUser.text" class="story-text-overlay">{{ activeStoryUser.text }}</p>
+          </div>
+
+          <!-- Emoji reactions -->
+          <div class="story-emojis">
+            <button *ngFor="let emoji of storyEmojis" class="emoji-reaction-btn"
+              (click)="reactToStory(activeStoryUser.id, emoji)">{{ emoji }}</button>
+          </div>
+
+          <!-- Reactions + Actions row -->
+          <div class="story-actions-row">
+            <button class="story-action-btn" [class.liked]="activeStoryUser.isLiked"
+              (click)="reactToStory(activeStoryUser.id, '❤️')">
+              <i class="fa-heart" [class.fas]="activeStoryUser.isLiked" [class.far]="!activeStoryUser.isLiked"></i>
+              {{ 'HOME.REACT' | translate }}
+            </button>
+
+            <button class="story-action-btn" *ngIf="activeStoryUser.profileId === profileId"
+              (click)="loadViewers(activeStoryUser.id)">
+              <i class="fas fa-eye"></i> {{ 'HOME.VIEW_VIEWERS' | translate }}
+            </button>
+
+            <button class="story-action-btn text-danger" *ngIf="activeStoryUser.profileId === profileId"
+              (click)="deleteStory(activeStoryUser); activeStoryUser = null">
+              <i class="fas fa-trash"></i> {{ 'HOME.DELETE_STORY' | translate }}
+            </button>
+          </div>
+
+          <!-- Comment row -->
+          <div class="story-comment-row">
+            <input [(ngModel)]="storyComment" [placeholder]="'HOME.SEND_MESSAGE' | translate"
+              class="story-comment-input">
+            <button class="story-send-btn" (click)="addStoryComment(activeStoryUser.id)">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    
 
       <!-- Create Story Input (toggle) -->
       <div *ngIf="showCreateStory" class="create-story-box mt-2 p-2">
@@ -169,15 +275,16 @@
           <!-- Post Header -->
           <div class="post-header d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
-<div class="letter-avatar me-2">
-        {{ post.userName.charAt(0).toUpperCase() }}
-      </div>
+              <div class="letter-avatar me-2">
+                {{ post.userName?.charAt(0)?.toUpperCase() }}
+              </div>
               <strong>{{ post.userName }}</strong>
             </div>
 
             <!-- Three Dots Button -->
             <div class="position-relative">
-              <button class="btn btn-link text-muted p-0" (click)="togglePostMenu(post); $event.stopPropagation()">
+              <button class="btn btn-link p-0" style="color:var(--text-color);"
+                (click)="togglePostMenu(post); $event.stopPropagation()">
                 <i class="fas fa-ellipsis-h"></i>
               </button>
 
@@ -204,8 +311,24 @@
           </div>
 
           <!-- Post Image -->
-          <img [src]="post.mediaUrls" alt="Post" class="post-image">
-
+          <div class="post-images-grid" *ngIf="getMediaUrls(post.mediaUrls).length > 0">
+            <div [ngClass]="{
+    'grid-1': getMediaUrls(post.mediaUrls).length === 1,
+    'grid-2': getMediaUrls(post.mediaUrls).length === 2,
+    'grid-3': getMediaUrls(post.mediaUrls).length === 3,
+    'grid-4': getMediaUrls(post.mediaUrls).length >= 4
+  }">
+              <img *ngFor="let url of getMediaUrls(post.mediaUrls)" [src]="url" class="post-grid-img" alt="Post image"
+                (click)="openImage(url)">
+            </div>
+          </div>
+          <!-- LIGHTBOX -->
+          <div class="lightbox-overlay" *ngIf="selectedImage" (click)="closeImage()">
+            <img [src]="selectedImage" class="lightbox-img" (click)="$event.stopPropagation()">
+            <button class="lightbox-close" (click)="closeImage()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
           <!-- Post Actions -->
           <div class="post-actions">
             <button class="btn" (click)="toggleLike(post)">
@@ -213,10 +336,10 @@
                 [style.color]="post.isLiked ? 'red' : 'gray'">
               </i>
             </button>
-            <button class="btn" (click)="toggleCommentBox(post)">
+            <button class="btn" (click)="toggleCommentBox(post)" style="color:var(--text-color)">
               <i class="far fa-comment"></i>
             </button>
-            <button class="btn" (click)="toggleSharePost(post)">
+            <button class="btn" (click)="toggleSharePost(post)" style="color:var(--text-color)">
               <i class="far fa-share-square"></i>
             </button>
             <span class="float-end text-muted">{{ post.reactsCount }}</span>
@@ -232,12 +355,15 @@
             <div class="share-modal">
 
               <div class="share-header">
-                <h6>{{ 'HOME.SHARE_POST' | translate }}</h6> <button (click)="post.showShareBox = false">✖</button>
+                <h6>{{ 'HOME.SHARE_POST' | translate }}</h6> <button (click)="post.showShareBox = false"
+                  style="color:var(--text-color)">✖</button>
               </div>
 
               <div class="share-link-box">
                 <input type="text" [value]="post.shareLink" readonly>
-                <button (click)="copyToClipboard(post.shareLink)"> {{ 'HOME.COPY' | translate }}
+                <button (click)="copyToClipboard(post.shareLink)"
+                  style="color: var(--text-color);background-color: var(--logo-bubble-medium);"> {{ 'HOME.COPY' |
+                  translate }}
                 </button>
               </div>
 
@@ -263,17 +389,17 @@
           <div class="px-3 pb-3">
             <p class="mb-1"><strong>{{ post.userName }}</strong> {{ post.text }}</p>
 
-            <a (click)="loadComments(post)" class="text-muted small" style="cursor: pointer;">
-              View all {{ post.commentsCount }}
-              {{ 'HOME.COMMENTS' | translate }}
+            <a (click)="loadComments(post)" class=" small" style="cursor: pointer; color:var(--text-color);">
+              {{'HOME.VIEW' | translate }} {{ post.commentsCount }} {{ 'HOME.COMMENTS' | translate }}
             </a>
 
             <!-- Comments List -->
             <div *ngIf="post.showComments" class="comments-section mt-3">
 
               <div *ngFor="let comment of post.comments" class="comment-box d-flex mb-2">
-                <img src="https://picsum.photos/40" class="comment-avatar me-2" alt="User">
-
+                <div class="letter-avatar letter-avatar-sm me-2">
+                  {{ comment.userName?.charAt(0)?.toUpperCase() }}
+                </div>
                 <div class="comment-content w-100">
                   <div class="comment-bubble">
                     <strong class="comment-username">{{ comment.userName }}</strong>
@@ -312,8 +438,9 @@
 
           <!-- Add Comment Box -->
           <div *ngIf="post.showCommentBox" class="mt-2 d-flex align-items-center px-3 pb-3">
-            <img src="https://picsum.photos/40" class="user-avatar me-2"
-              style="width: 35px; height: 35px; border-radius: 50%;" alt="User">
+            <div class="letter-avatar letter-avatar-sm me-2">
+              {{ currentUserName?.charAt(0)?.toUpperCase() }}
+            </div>
             <input type="text" class="form-control me-2" [placeholder]="'HOME.WRITE_COMMENT' | translate"
               [(ngModel)]="post.newCommentText">
             <button class="btn  btn-sm" (click)="addComment(post)" style="color:var(--logo-dark-green)">{{ 'HOME.POST' |
