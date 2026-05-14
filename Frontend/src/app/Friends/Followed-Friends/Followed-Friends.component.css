@@ -1,7 +1,7 @@
 .container-custom {
     max-width: 600px;
     margin: 0 auto;
-    background: var(--bg-color);      /* was: white ❌ */
+    background: var(--bg-color);     
     min-height: 100vh;
 }
 
@@ -14,7 +14,7 @@
 
 .user-item {
     padding: 16px 0;
-    border-bottom: 1px solid var(--border-color);  /* was: #f0f0f0 ❌ */
+    border-bottom: 1px solid var(--border-color);  
 }
 
 .user-item:last-child {
@@ -23,18 +23,18 @@
 
 .username {
     font-weight: 600;
-    color: var(--text-color);         /* was: #333 ❌ */
+    color: var(--text-color);        
     margin-bottom: 2px;
 }
 
 .handle {
-    color: var(--text-color);         /* was: #666 ❌ */
+    color: var(--text-color);         
     font-size: 0.9rem;
-    opacity: 0.6;                     /* softens it like #666 did in light mode */
+    opacity: 0.6;                     
 }
 
 .btn-follow {
-    background-color: var(--button-bg);   /* was: #4285f4 ❌ */
+    background-color: var(--button-bg);    
     color: white;
     border: none;
     border-radius: 20px;
@@ -48,8 +48,8 @@
 }
 
 .btn-following {
-    background-color: var(--card-border);  /* was: #f1f3f4 ❌ */
-    color: var(--text-color);              /* was: #5f6368 ❌ */
+    background-color: var(--card-border);   
+    color: var(--text-color);             
     border: none;
     border-radius: 20px;
     padding: 8px 16px;
@@ -58,7 +58,7 @@
 }
 
 .btn-follower {
-    background-color: var(--button-bg);   /* was: #4285f4 ❌ */
+    background-color: var(--button-bg);    
     color: white;
     border: none;
     border-radius: 20px;
@@ -68,8 +68,31 @@
 }
 
 .follows-you {
-    color: var(--text-color);             /* was: #666 ❌ */
+    color: var(--text-color);             
     font-size: 0.8rem;
     margin-top: 2px;
     opacity: 0.6;
+}
+/* ── Base letter avatar ──────────────────────── */
+.letter-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--logo-bubble-gradient);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+/* ── Small variant for comments ─────────────── */
+.letter-avatar-sm {
+  width: 32px;
+  height: 32px;
+  font-size: 0.8rem;
 }

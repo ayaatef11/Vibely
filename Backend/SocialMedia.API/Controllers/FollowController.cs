@@ -21,8 +21,8 @@ public class FollowController(IFollowerService _FollowerService) : ControllerBas
     [HttpPut("accept")]
     public async Task<IActionResult> Accept(FollowRequest follow)
     { 
-        var result = await _FollowerService.AcceptFollowAsync(follow);
-        return  Ok(result);
+        await _FollowerService.AcceptFollowAsync(follow);
+        return  Ok();
     }
 
     [HttpPut("reject")]

@@ -1,7 +1,7 @@
 ﻿namespace SocialMedia.Application.Abstractions;
 public interface IFollowerService
 {
-    ValueTask<string> AcceptFollowAsync(FollowRequest follow);
+    ValueTask AcceptFollowAsync(FollowRequest follow);
 
     ValueTask<ProfileResponse> UnFollowAsync(FollowRequest follow);
     ValueTask<ProfileResponse> RequestFollowAsync(FollowRequest follow);

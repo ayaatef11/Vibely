@@ -6,8 +6,9 @@
             (click)="viewProfile(user.id)">
             <div class="user-item" data-name="kristin watson" data-handle="kristinwatson">
                 <div class="d-flex align-items-center">
-                    <img src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=120&h=120&fit=crop&crop=face"
-                        alt="Kristin Watson" class="profile-pic me-3">
+                    <div class="letter-avatar me-2">
+        {{ user.userName?.charAt(0)?.toUpperCase() }}
+      </div>
                     <div class="flex-grow-1">
                         <div class="username">{{user.fullName}}</div>
                         <div class="handle">{{user.location}}</div>

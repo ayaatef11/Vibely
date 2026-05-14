@@ -5,42 +5,12 @@
         </button>
     </div>
 
-    <!-- PROFILE IMAGE MODAL -->
-    <div class="modal fade"  id="profilePictureModal"  tabindex="-1"  aria-labelledby="profilePictureModalLabel" aria-hidden="true">
 
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="profilePictureModalLabel">
-                        {{ profile.fullName }}
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    </button>
-                </div>
-
-                <div class="modal-body text-center">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face"
-                        alt="Profile"  class="img-fluid" (click)="openModal()">
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">
-                        {{ 'COMMON.CLOSE' | translate }}
-                    </button>
-
-                    <button type="button" class="btn btn-primary"  onclick="downloadImage()">
-                        <i class="fas fa-download"></i>
-                        {{ 'COMMON.DOWNLOAD' | translate }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- PROFILE INFO -->
     <div class="profile-info">
-<div class="letter-avatar me-2">
-        {{ profile.userName?.charAt(0)?.toUpperCase() }}
-      </div>
+        <div class="letter-avatar me-2">
+            {{ profile.userName?.charAt(0)?.toUpperCase() }}
+        </div>
         <div class="profile-header">
             <h1 class="profile-name">
                 {{ profile.fullName }}
@@ -83,7 +53,7 @@
         </button>
 
         <button class="stat" [routerLink]="['/home/friends/following']">
-            <span class="stat-number"> {{ profile.followingCount }}  </span>
+            <span class="stat-number"> {{ profile.followingCount }} </span>
             <span class="stat-label"> {{ 'PROFILE.FOLLOWING' | translate }} </span>
         </button>
 
@@ -95,7 +65,7 @@
             </button>
 
             <!-- NOT BLOCKED -->
-            <button *ngIf="!isBlocked" class="btn btn-danger"  (click)="blockUser()">
+            <button *ngIf="!isBlocked" class="btn btn-danger" (click)="blockUser()">
                 {{ 'PROFILE.BLOCK' | translate }}
             </button>
 
@@ -116,7 +86,7 @@
             </li>
 
             <li class="nav-item">
-                <button class="nav-link"  type="button" [routerLink]="['/home/saved-posts']">
+                <button class="nav-link" type="button" [routerLink]="['/home/saved-posts']">
                     {{ 'PROFILE.SAVED' | translate }}
                 </button>
             </li>
@@ -127,26 +97,26 @@
     <div class="tab-content">
         <div class="tab-pane fade show active">
 
-         <div class="photo-grid">
-  <div class="photo-item" *ngFor="let post of profile.posts">
+            <div class="photo-grid">
+                <div class="photo-item" *ngFor="let post of profile.posts">
 
-    <!-- Post has an image → show it -->
-    <ng-container *ngIf="getFirstImage(post.mediaUrls) as imgUrl">
-      <img [src]="imgUrl" alt="Post" (click)="openPost(post.id)">
-      <!-- image count badge (if more than 1) -->
-      <span class="multi-badge" *ngIf="getImageCount(post.mediaUrls) > 1">
-        <i class="fas fa-images"></i> {{ getImageCount(post.mediaUrls) }}
-      </span>
-    </ng-container>
+                    <!-- Post has an image → show it -->
+                    <ng-container *ngIf="getFirstImage(post.mediaUrls) as imgUrl">
+                        <img [src]="imgUrl" alt="Post" (click)="openPost(post.id)">
+                        <!-- image count badge (if more than 1) -->
+                        <span class="multi-badge" *ngIf="getImageCount(post.mediaUrls) > 1">
+                            <i class="fas fa-images"></i> {{ getImageCount(post.mediaUrls) }}
+                        </span>
+                    </ng-container>
 
-    <!-- Post has no image → show text placeholder -->
-    <div class="text-post-placeholder" *ngIf="!getFirstImage(post.mediaUrls)"
-      (click)="openPost(post.id)">
-      <p>{{ post.text | slice:0:80 }}</p>
-    </div>
+                    <!-- Post has no image → show text placeholder -->
+                    <div class="text-post-placeholder" *ngIf="!getFirstImage(post.mediaUrls)"
+                        (click)="openPost(post.id)">
+                        <p>{{ post.text | slice:0:80 }}</p>
+                    </div>
 
-  </div>
-</div>  
+                </div>
+            </div>
         </div>
     </div>
 </div>
