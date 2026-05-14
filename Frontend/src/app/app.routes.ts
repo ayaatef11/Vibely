@@ -18,7 +18,6 @@ import { SettingsComponent } from './Common/settings/settings.component';
 import { AccountComponent } from './Common/settings/account/account.component';
 import { PrivacyAndSecurityComponent } from './Common/settings/privacy-and-security/privacy-and-security.component';
 import { PreferencesComponent } from './Common/settings/preferences/preferences.component';
-import { SettingsProfileComponent } from './Common/settings/settings-profile/settings-profile.component';
 import { NotificationsHeaderComponent } from './Common/Notificationss/notifications-header/notifications-header.component';
 import { SidebarComponent } from './Common/sidebar/sidebar.component';
 import { CodeVerificationComponent } from './Auth/code-verification/code-verification.component';
@@ -70,9 +69,8 @@ export const routes: Routes = [
       { path: '', redirectTo: 'account', pathMatch: 'full' },
       { path: 'account', component: AccountComponent },
       { path: 'privacy', component: PrivacyAndSecurityComponent },
-      { path: 'preferences', component: PreferencesComponent },
-      { path: 'profile', component: SettingsProfileComponent }
-    ]
+      { path: 'preferences', component: PreferencesComponent }
+     ]
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'not-found', component: NotFoundComponent },

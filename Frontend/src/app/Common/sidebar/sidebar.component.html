@@ -1,10 +1,7 @@
 <div class="container-fluid">
   <div class="row">
-
     <div class="col-lg-3 col-md-4">
-
       <div class="sidebar p-3">
-
         <div class="logo d-flex align-items-center mb-4">
           <img src="logo3.png" alt="Logo">
           <span class="ms-2 fw-bold">ibely</span>
@@ -28,7 +25,7 @@
           <a class="nav-link mb-2" routerLink="/home/find-people" routerLinkActive="active">
             <i class="fas fa-cog me-2"></i>
             {{ 'SIDEBAR.SEARCH_PEOPLE' | translate }}
-          </a> 
+          </a>
           <a class="nav-link mb-2" [routerLink]="['/home/profile/',profileId]" routerLinkActive="active">
             <i class="fas fa-user me-2"></i>
             {{ 'SIDEBAR.PROFILE' | translate }}
@@ -44,9 +41,9 @@
             {{ 'SIDEBAR.SETTINGS' | translate }}
           </a>
 
-          <a class="nav-link mb-2" (click)="logout()" routerLinkActive="active">
+          <a class="nav-link mb-2" (click)="logout()" routerLinkActive="active" style="cursor: pointer;">
             <i class="fas fa-user me-2"></i>
-                        {{ 'SIDEBAR.LOGOUT' | translate }}
+            {{ 'SIDEBAR.LOGOUT' | translate }}
 
           </a>
         </nav>
