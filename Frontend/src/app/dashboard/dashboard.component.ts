@@ -78,11 +78,7 @@ export class DashboardComponent {
   selectedStory: any;
   showCreateStory = false;
   activeStoryUser: any = null;
-  openStory(user: any, story: StoryResponse) {
-    this.selectedUser = user;
-    this.selectedStory = story;
-    this.viewStory(story);
-  }
+ 
   //****************************** functions *************************************** */
   viewProfile(profileId: string) {
     this.router.navigate(['/home/profile', profileId]);
@@ -98,7 +94,6 @@ export class DashboardComponent {
         this.trendingPosts = res;
       },
       error: (err) => {
-        this.toastService.error(err);
       }
     });
   }
@@ -134,7 +129,6 @@ export class DashboardComponent {
         this.friendRequests = res;
       },
       error: (err) => {
-        this.toastService.error(err);
       }
     });
   }
@@ -172,7 +166,6 @@ export class DashboardComponent {
         // console.log(this.suggestedUsers)
       },
       error: (err) => {
-        this.toastService.error(err);
       }
     });
   }
@@ -228,7 +221,6 @@ export class DashboardComponent {
         post.showComments = true
       },
       error: (err) => {
-        this.toastService.error(err)
       }
     });
   }
@@ -303,16 +295,13 @@ export class DashboardComponent {
     });
   }
   ///**************************************post **************** */
-  // Toggle menu open/close
   togglePostMenu(post: any) {
-    // Close all other open menus first
     this.posts.forEach((p: any) => {
       if (p.id !== post.id) p.showMenu = false;
     });
     post.showMenu = !post.showMenu;
   }
 
-  // Close menu when clicking anywhere outside
   @HostListener('document:click')
   onDocumentClick() {
     this.posts.forEach((p: any) => p.showMenu = false);
@@ -397,17 +386,11 @@ export class DashboardComponent {
           }
 
           return {
-            ...post,
-            // imageUrl: images.length ? images[0] : null,
-            // comments: [],
-            // showComments: false,
-            // showCommentBox: false,
-            // showShareBox: false
+            ...post 
           };
         });
       },
-      error: (err) => {
-      }
+      error: (err) => {}
     })
   }
 
@@ -422,7 +405,6 @@ export class DashboardComponent {
         this.posts = res;
       },
       error: (err) => {
-        this.toastService.error(err);
       }
     });
   }
@@ -441,13 +423,11 @@ export class DashboardComponent {
         this.stories = res;
       },
       error: (err) => {
-        this.toastService.error(err);
       }
     });
   }
 
   viewStory(story: StoryResponse): void {
-
     this.activeStoryUser = story;
     this.storyService.viewStory(this.userId, story.id).subscribe((res: StoryResponse) => {
       // res.hasUnviewedStatus=false;
@@ -503,5 +483,9 @@ export class DashboardComponent {
   loadViewers(storyId: string) {
     this.storyService.getViewers(this.userId, storyId).subscribe();
   }
-
+ openStory(user: any, story: StoryResponse) {
+    this.selectedUser = user;
+    this.selectedStory = story;
+    this.viewStory(story);
+  }
 }

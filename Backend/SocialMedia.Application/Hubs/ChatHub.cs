@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using SocialMedia.Application.DTOs.Requests.Chats;
-using SocialMedia.Application.DTOs.Responses.Chats;
-using SocialMedia.Core.Domain.Entities.Business.Chats;
-using System.Security.Claims;
 
 namespace SocialMedia.Core.Hubs;
 [Authorize]

@@ -104,13 +104,13 @@
 }
 
 .sent-message {
-  background-color: var(--logo-bubble-light);
-  color: #000;
+  background-color: var(--logo-bubble-dark);
+  color: var(--text-color);
   border-bottom-right-radius: 4px;
 }
 
 .received-message {
-  background-color: var(--logo-bubble-very-light);
+  background-color: var(--logo-bubble-light);
   color: var(--text-color);
   border-bottom-left-radius: 4px;
 }

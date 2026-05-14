@@ -208,3 +208,27 @@
     gap: 0.5rem;
   }
 }
+
+/* ── Base letter avatar ──────────────────────── */
+.letter-avatar {
+  width: 142px;
+  height: 142px;
+  border-radius: 50%;
+  background: var(--logo-bubble-gradient);
+  color: #ffffff;
+  font-size: 6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+/* ── Small variant for comments ─────────────── */
+.letter-avatar-sm {
+  width: 100px;
+  height: 100px;
+  font-size: 0.8rem;
+}

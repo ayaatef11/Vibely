@@ -38,7 +38,9 @@
     </div>
     <!-- PROFILE INFO -->
     <div class="profile-info">
-        <img src="profile.jpg" alt="Profile" class="profile-picture">
+<div class="letter-avatar me-2">
+        {{ profile.userName?.charAt(0)?.toUpperCase() }}
+      </div>
         <div class="profile-header">
             <h1 class="profile-name">
                 {{ profile.fullName }}

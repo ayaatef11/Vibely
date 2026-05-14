@@ -12,62 +12,70 @@ import { MessageResponse } from '../../Models/Chats/Responses/MessageResponse';
   providedIn: 'root'
 })
 export class ChatServiceService {
-  constructor(private http:HttpClient){}
+  constructor(private http: HttpClient) { }
 
-//*********************VARIABLES************************** */
-private Url=environment.apiUrl+'Chat'
-private hubConnection!: signalR.HubConnection;
-public messages$ = new Subject<MessageResponse>();
+  //*********************VARIABLES************************** */
+  private Url = environment.apiUrl + 'Chat'
+  private hubConnection!: signalR.HubConnection;
+  public messages$ = new Subject<MessageResponse>();
 
   //**************************FUNCTIONS************************** */
-getChats(currentuserId:string):Observable<ChatResponse[]>{
-  return this.http.get<ChatResponse[]>(`${this.Url}?currentUserId=${currentuserId}`)
-}
-searchChats(chatName:string,currentuserId:string):Observable<ChatResponse[]>{
-  return this.http.get<ChatResponse[]>(`${this.Url}/search?chatName=${chatName}&currentUserId=${currentuserId}`)
-}
+  getChats(currentuserId: string): Observable<ChatResponse[]> {
+    return this.http.get<ChatResponse[]>(`${this.Url}?currentUserId=${currentuserId}`)
+  }
 
-getMessages(chatId:string,currentUserId:string):Observable<MessageResponse[]>{
-  return this.http.get<MessageResponse[]>(`${this.Url}/messages?chatId=${chatId}&userId=${currentUserId}`)
-}
+  searchChats(chatName: string, currentuserId: string): Observable<ChatResponse[]> {
+    return this.http.get<ChatResponse[]>(`${this.Url}/search?chatName=${chatName}&currentUserId=${currentuserId}`)
+  }
 
-createChat(currentUserId:string,otherUserId:string):Observable<ChatResponse>{
-  return this.http.post<ChatResponse>(`${this.Url}/${currentUserId}/${otherUserId}`,{})
-}
- 
-editMessage(messageId:string,request:EditMessageRequest):Observable<MessageResponse>{
-  return this.http.put<MessageResponse>(`${this.Url}/edit-message?messageId=${messageId}`,request)
-}
-deleteMessage(messageId:string,currentUserId:string):Observable<MessageResponse>{
-  return this.http.delete<MessageResponse>(`${this.Url}/${messageId}?currentUserId=${currentUserId}`)
-}
+  getMessages(chatId: string, currentUserId: string): Observable<MessageResponse[]> {
+    return this.http.get<MessageResponse[]>(`${this.Url}/messages?chatId=${chatId}&userId=${currentUserId}`)
+  }
 
-//******************HUB********************************* */
-async startConnection(token: string):Promise<void> {
-// debugger
+  createChat(currentUserId: string, otherUserId: string): Observable<ChatResponse> {
+    return this.http.post<ChatResponse>(`${this.Url}/${currentUserId}/${otherUserId}`, {})
+  }
+
+  editMessage(messageId: string, request: EditMessageRequest): Observable<MessageResponse> {
+    return this.http.put<MessageResponse>(`${this.Url}/edit-message?messageId=${messageId}`, request)
+  }
+  deleteMessage(messageId: string, currentUserId: string): Observable<MessageResponse> {
+    return this.http.delete<MessageResponse>(`${this.Url}/${messageId}?currentUserId=${currentUserId}`)
+  }
+
+  //******************HUB********************************* */
+  async startConnection(token: string): Promise<void> {
+    // debugger
     this.hubConnection = new signalR.HubConnectionBuilder().withUrl(`${environment.hubUrl}chatHub`, {
-        accessTokenFactory: () => token
-      })
+      accessTokenFactory: () => token
+    })
       .withAutomaticReconnect()
       .build();
 
     await this.hubConnection.start()
       .then(() => {
         console.log('SignalR Connected');
+        this.receiveMessage();
       })
-      .catch(err => console.log(err));
-    this.receiveMessage();
+      .catch((err) => {
+        console.error('SignalR connection failed:', err);
+        throw err;
+      });
 
   }
 
-  sendMessage(request:AddMessageRequest):Promise<MessageResponse> {
-    return this.hubConnection.invoke<MessageResponse>('SendMessage',request);
+  sendMessage(request: AddMessageRequest): Promise<MessageResponse> {
+    if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
+    console.error('Cannot send — SignalR not connected. State:', this.hubConnection.state);
+    return Promise.reject('SignalR not connected');
+  }
+    return this.hubConnection.invoke<MessageResponse>('SendMessage', request);
   }
 
   receiveMessage() {
 
-    this.hubConnection.on('ReceiveMessage',(data: MessageResponse) => {
-        this.messages$.next(data);
-      });
+    this.hubConnection.on('ReceiveMessage', (data: MessageResponse) => {
+      this.messages$.next(data);
+    });
   }
 }

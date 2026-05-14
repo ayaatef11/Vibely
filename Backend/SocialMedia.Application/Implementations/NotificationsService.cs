@@ -29,7 +29,7 @@ public class NotificationsService(AppdbContext _context, IMapper _mapper, IHubCo
             Id = notification.Id,
             SenderId = request.SenderId,
             SenderName = sender?.FullName ?? string.Empty,
-            SenderProfilePicture = sender?.ProfileImage ?? string.Empty,
+            SenderProfilePicture = string.Empty,
             Type = request.Type.ToString(),
             Message = request.Message,
             ReferenceId = request.ReferenceId,

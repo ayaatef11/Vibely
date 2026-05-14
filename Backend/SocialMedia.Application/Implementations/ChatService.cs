@@ -119,8 +119,8 @@ public class ChatService(AppdbContext _context,IMapper _mapper,INotificationsSer
         await _context.SaveChangesAsync();
         var notificationRequest = new NotificationRequest()
         {
-            RecipientId = request.ReceiverId,
-            SenderId = request.SenderId,
+            RecipientId = receiver.ProfileId,
+            SenderId = sender.ProfileId,
             Type = NotificationType.NewMessage,
             Message = $"{sender.FullName} sent you a message",
             ReferenceId = request.ChatId
